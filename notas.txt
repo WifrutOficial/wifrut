@@ -1,0 +1,39 @@
+
+
+inicio proyecto forntend react con vite 
+armado de carpetas front y back 
+
+
+--inicio vite  npm create vite@latest (npm run dev)
+--npm i 
+--inicio backend con node.js  npm init -y (node)
+--npm install express  (express)
+--dotev npm install dotenv
+--nodemon npm install -g nodemon 
+--npm install bcrypt (bcrypt)
+--npm install bcryptjs (bcryptjs)
+--npm install cookie-parser (cookie)
+--npm install jsonwebtoken (jsonwebtoken)
+--npm install cors (cors)
+--npm install mongosb (base de datos)
+--npm install mongoose (libreria)
+-- npm install axios (axios)
+--npm install  react-router-dom 
+
+
+
+---desarrollo front registro y backend 
+---configuracion de base de datos de mongo atlas.
+
+--npm install react-icons (iconos)
+
+---configuracion  login backend 
+
+
+
+
+
+
+
+
+

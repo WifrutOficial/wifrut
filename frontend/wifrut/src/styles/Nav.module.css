@@ -1,0 +1,146 @@
+.container {
+  background-image: url("../../fondo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.containerLinks {
+  background-color: rgb(255, 183, 59);
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  align-items: center;
+}
+
+.containerLinks2 {
+  display: flex;
+  gap: 10px;
+}
+
+.a {
+  color: #000000;
+  text-decoration: none;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn {
+  color: #ffffff;
+  font-size: 14px;
+  background-color: #00ad3a;
+  border: none;
+  width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: inset 3px 3px 25px -5px rgba(0, 0, 0, 0.747);
+}
+
+.search {
+  position: relative;
+  padding-bottom: 20px;
+  margin-left: 20px;
+  margin-top: 90px;
+}
+
+.searchBtn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-115%);
+}
+
+.search input {
+  background: none;
+  border: none;
+  width: 250px;
+  height: 30px;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  background-color: #d4d4d42c;
+  border: 1px solid #d4d4d46b;
+  color: #ffffff;
+  padding-left: 30px;
+}
+
+.search input::placeholder {
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+}
+
+.containerLinks2 {
+  display: flex;
+}
+
+.btnMenu,
+.btnClose {
+  display: none;
+}
+
+.btnCerrarSesion{
+  color: #ffffff;
+  font-size: 13px;
+  background-color: #00ad3a;
+  border: none;
+  width: 110px;
+  padding: 2px 3px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: inset 3px 3px 25px -5px rgba(0, 0, 0, 0.747);
+}
+
+/* Estilos para pantallas menores a 768px */
+@media (max-width: 768px) {
+  .btnMenu {
+    display: block;
+    cursor: pointer;
+    color: #ffffff;
+    width: 25px;
+    height: 25px;
+  }
+
+  .containerLinks2 {
+    gap: 20px;
+    background-color: rgb(255, 183, 59);
+    flex-direction: column;
+    padding-top: 90px;
+    align-items: center;
+    z-index: 1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 220px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .containerLinks2.open {
+    transform: translateX(0);
+  }
+
+  .btnClose {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 184px;
+    cursor: pointer;
+  }
+  .search {
+    margin-left: 1cqb;
+    margin-top: 40px;
+  }
+
+  .searchBtn {
+    left: 8px;
+    top: 50%;
+    transform: translateY(-110%);
+  }
+  .search input {
+    width: 220px;
+    height: 25px;
+  }
+}

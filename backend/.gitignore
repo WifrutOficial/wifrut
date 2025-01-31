@@ -1,0 +1,30 @@
+
+node_modules/
+
+
+.env
+.env.production
+
+
+dist/
+build/
+
+
+npm-debug.log
+yarn-error.log
+*.log
+
+
+.cache/
+tmp/
+
+
+*.db
+
+
+.vscode/
+.idea/
+
+
+.DS_Store  # macOS
+Thumbs.db  # Windows

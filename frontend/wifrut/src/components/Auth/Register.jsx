@@ -1,0 +1,155 @@
+import { IoIosEye, IoMdEyeOff } from "react-icons/io";
+import style from "../../styles/Register.module.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+function Register() {
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [onClick, setOnClick] = useState(false);
+  const [registerData, setRegisterData] = useState({
+    nombre: "",
+    email: "",
+    userName: "",
+    password: "",
+    confirmpassword: "",
+    tipoUsuario: "",
+  });
+
+  // Manejar cambios en los inputs
+  const handleChange = (name, value) => {
+    setRegisterData({
+      ...registerData,
+      [name]: value,
+    });
+  };
+
+  //manejar envio de formulario al back y validaciones
+  const formHandle = async (e) => {
+    e.preventDefault();
+    let newErrors = {};
+    try {
+      //validacion campos vacios
+      if (
+        !registerData.nombre ||
+        !registerData.email ||
+        !registerData.userName ||
+        !registerData.password ||
+        !registerData.confirmpassword ||
+        !registerData.tipoUsuario
+      ) {
+        newErrors.general = "Error, todos los campos son obligatorios";
+      }
+
+      if (registerData.password !== registerData.confirmpassword) {
+        newErrors.password = "Error, las contraseñas deben coincidir";
+      }
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+      }
+
+      setErrors({});
+
+      //Enviar datos al backend
+      const response = await axios.post(
+        "http://localhost:3000/api/register",
+        registerData
+      );
+      alert("formulario enviado correctamente");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <>
+      <div className={style.container}>
+        <img src="" alt="logo" />
+        <div className={style.containerRegister}>
+          <p className={style.title}>Crear Cuenta</p>
+          <form className={style.containerForm} onSubmit={formHandle}>
+            <input
+              type="text"
+              placeholder="Nombre y Apellido"
+              value={registerData.nombre}
+              onChange={(e) => handleChange("nombre", e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Correo electronico"
+              value={registerData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Nombre de usuario"
+              value={registerData.userName}
+              onChange={(e) => handleChange("userName", e.target.value)}
+            />
+            <div className={style.passwordContainer}>
+              <input
+                type={onClick ? "text" : "password"}
+                placeholder="Contraseña"
+                value={registerData.password}
+                onChange={(e) => handleChange("password", e.target.value)}
+              />
+              <IoIosEye className={style.btnEye1} />
+              <IoMdEyeOff
+                className={onClick ? style.openClose : style.btnEye1}
+                onClick={() => setOnClick(!onClick)}
+              />
+            </div>
+            <div className={style.passwordContainer}>
+              <input
+                type={onClick ? "text" : "password"}
+                placeholder="Repetir contraseña"
+                value={registerData.confirmpassword}
+                onChange={(e) =>
+                  handleChange("confirmpassword", e.target.value)
+                }
+              />
+              <IoIosEye className={style.btnEye2} />
+              <IoMdEyeOff
+                className={onClick ? style.openClose : style.btnEye1}
+                onClick={() => setOnClick(!onClick)}
+              />
+            </div>
+            {errors.password && (
+              <span className={style.errorText}>{errors.password}</span>
+            )}
+
+            <select
+              className={style.select}
+              value={registerData.tipoUsuario}
+              onChange={(e) => handleChange("tipoUsuario", e.target.value)}
+            >
+              <option value="">Seleccionar tipo de usuario</option>
+              <option value="mayorista">Mayorista</option>
+              <option value="minorista">Minorista</option>
+            </select>
+            <button type="submit" className={style.registerBtn}>
+              {" "}
+              Registrarse
+            </button>
+            {errors.general && (
+              <span className={style.errorText}>{errors.general}</span>
+            )}
+          </form>
+          <p className={style.login}>
+            ¿Ya tienes una cuenta?{" "}
+            <span>
+              {" "}
+              <button onClick={() => navigate("/login")}>Iniciar Sesion</button>
+            </span>
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Register;
