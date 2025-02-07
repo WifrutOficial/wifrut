@@ -25,13 +25,18 @@ function Products() {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
         }
       );
 
       alert(response.data.message);
     } catch (error) {
-      console.error("Error al subir el archivo", error);
-      alert("Error al subir el archivo");
+      console.error("Error al subir el archivo", error.response || error);
+      alert(
+        error.response
+          ? error.response.data.message
+          : "Error al subir el archivo"
+      );
     }
   };
 

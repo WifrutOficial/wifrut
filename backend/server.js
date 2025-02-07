@@ -6,6 +6,7 @@ import  adminRoutes  from "./routes/adminRoutes.js";
 import mayoristaRoutes from "./routes/mayoristaRoutes.js"
 import minoristaRoutes from "./routes/minoristaRoutes.js"
 import productsRoutes from "./routes/productsRoutes.js"
+import orderRoutes from "./routes/orderRoutes.js"
 import cookieParser from "cookie-parser"
 import { connectDB } from "./database/db.js";
 
@@ -40,6 +41,7 @@ app.use("/api/admin", adminRoutes)
 app.use("api/mayorista", mayoristaRoutes)
 app.use("/api/minorista",minoristaRoutes)
 app.use("/api/products", productsRoutes)
+app.use("/api/order" , orderRoutes)
 
 //servidor
 const PORT = process.env.PORT || 3000;

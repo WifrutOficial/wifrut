@@ -4,6 +4,7 @@ import { createAccessToken } from "../token/token.js";
 //controlador para guardar en la BD y validar en el back en registro.
 export const postRegister = async (req, res) => {
     try {
+      console.log("ESSTOS SON LOS DATOS DEL BACKEN",req.body)
         const { nombre, email, password , userName, tipoUsuario} = req.body;
     
         if (!nombre || !email || !password ||!userName ||!tipoUsuario) {
@@ -17,7 +18,7 @@ export const postRegister = async (req, res) => {
         }
     
     
-        const register = new Register({ nombre, email, password , userName, tipoUsuario});
+        const register = new Register({ nombre, email, password , userName, tipoUsuario,  estadoCuenta: tipoUsuario === "mayorista" ? "pendiente" : "aprobado",});
  
         await register.save();
     
@@ -53,7 +54,8 @@ export const postLogin = async (req, res) => {
     // Crear el token de verificación usando la función `createAccessToken`
     const payload = {
       userId: user._id,
-      tipoUsuario: user.tipoUsuario,  // Agrega tipoUsuario al payload
+      tipoUsuario: user.tipoUsuario,
+      estadoCuenta: user.estadoCuenta, 
     };
     
     console.log("Payload que se enviará al token:", payload);  // Agrega un log para verificar el payload
@@ -78,6 +80,7 @@ export const postLogin = async (req, res) => {
         email: user.email,
         userName: user.userName,
         tipoUsuario: user.tipoUsuario,
+        estadoCuenta: user.estadoCuenta,
       },
     });
   } catch (error) {

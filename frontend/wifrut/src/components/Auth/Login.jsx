@@ -3,11 +3,11 @@ import style from "../../styles/Register.module.css";
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../context/AuthContext"; // Importar el contexto
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Acceder a las funciones del contexto
+  const { login } = useAuth();
   const [errors, setErrors] = useState({});
   const [onClick, setOnClick] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -35,19 +35,29 @@ function Login() {
     }
 
     try {
-      const user = await login(loginData.email, loginData.password);  // ✅ Llama `login` del contexto
-
-      // Redirigir según el tipo de usuario
+      const user = await login(loginData.email, loginData.password); //  `login` del contexto
+      console.log("Usuario después del login:", user); // 🛑 Verifica que `estadoCuenta` llega bien
+      // Redirigir según el tipo de usuario y estadoCuenta
       if (user.tipoUsuario === "admin") {
         navigate("/admin");
-      } else if (user.tipoUsuario === "mayorista") {
+      } else if (
+        user.tipoUsuario === "mayorista" &&
+        user.estadoCuenta === "aprobado"
+      ) {
         navigate("/mayorista");
+      } else if (
+        user.tipoUsuario === "mayorista" &&
+        user.estadoCuenta === "pendiente"
+      ) {
+        navigate("/esperando-aprobacion"); // Redirige correctamente
       } else {
         navigate("/minorista");
       }
-
     } catch (error) {
-      console.error("Error en el login:", error.response?.data || error.message);
+      console.error(
+        "Error en el login:",
+        error.response?.data || error.message
+      );
       setErrors({
         general: error.response?.data?.msg || "Error en el servidor",
       });

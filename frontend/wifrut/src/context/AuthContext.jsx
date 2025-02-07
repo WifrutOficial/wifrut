@@ -38,12 +38,14 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
-
+  
+      const userData = response.data.user;
+      console.log("Usuario autenticado:", userData); // 🛑 Verifica qué datos llegan
+  
       setIsAuthenticated(true);
-      setUser(response.data.user);
- 
-
-      return response.data.user; // Retorna el usuario logueado
+      setUser(userData);
+  
+      return userData; // Retorna el usuario logueado para usar en Login.js
     } catch (error) {
       throw error.response?.data?.msg || "Error en el servidor";
     }

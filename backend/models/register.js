@@ -45,6 +45,11 @@ const registerModel = new mongoose.Schema(
       enum: ["mayorista", "minorista", "admin"],
       required: true,
     },
+    estadoCuenta: {
+      type: String,
+      enum: ["pendiente", "aprobado", "rechazado"],
+      default: "pendiente",
+    },
   },
   {
     timestamps: true,

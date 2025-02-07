@@ -1,14 +1,19 @@
 import { useAuth } from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRouter({ allowedRoles }) {
+function ProtectedRouter({ allowedRoles = [] }) { // Agregamos un valor por defecto
   const { isAuthenticated, user } = useAuth();
 
-  // Si no está autenticado, lo redirige al login
+  // 1️⃣ Si no está autenticado, redirige al login
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
-  // Si no tiene el rol permitido, lo redirige a inicio
-  if (allowedRoles && !allowedRoles.includes(user?.tipoUsuario)) {
+  // 2️⃣ Si es mayorista con cuenta pendiente, redirige a "/esperando-aprobacion"
+  if (user?.tipoUsuario === "mayorista" && user?.estadoCuenta === "pendiente") {
+    return <Navigate to="/esperando-aprobacion" replace />;
+  }
+
+  // 3️⃣ Si no tiene el rol permitido, lo redirige a "/"
+  if (allowedRoles.length > 0 && !allowedRoles.includes(user?.tipoUsuario)) {
     return <Navigate to="/" replace />;
   }
 
@@ -16,3 +21,4 @@ function ProtectedRouter({ allowedRoles }) {
 }
 
 export default ProtectedRouter;
+

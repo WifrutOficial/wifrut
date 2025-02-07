@@ -24,6 +24,13 @@ const productSchema = new mongoose.Schema({
   descripcion:{
     type:String,
     trim:true,
+  },
+  tipoVenta: {
+    type: String,
+    required: true,
+    enum: ['unidad', 'litro', 'kilo'], 
+    trim: true,
+
   }
 });
 

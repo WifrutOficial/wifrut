@@ -1,8 +1,11 @@
 import React from 'react'
+import Home from "../Home"
 
 function Minorista() {
   return (
-    <div>este es el panel minorista </div>
+    <div>
+    <Home></Home>
+    </div>
   )
 }
 

@@ -11,27 +11,43 @@ import ProtectedRouter from "./components/PrivateRoute";
 import Cart from "./components/Cart/Cart";
 import Products from "./components/Products/Products";
 import PanelAdmin from "./components/Home/panels/PanelAdmin";
+import EsperandoAprobacion from "./components/Home/panels/EsperandoAprobacion";
+import { CartProvider } from "./context/CartContext";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
+    <CartProvider>
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
-        <Route path="/productos" element={<Products />} />
-        <Route path="/admin" element={<PanelAdmin />} />
+       
 
-        <Route element={<ProtectedRouter allowedRoles={["admin"]} />}></Route>
+        <Route element={<ProtectedRouter allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<PanelAdmin />} />
+          <Route path="/productos" element={<Products />} />
+        </Route>
 
+        {/* Ruta protegida para usuarios pendientes */}
+        <Route
+          element={<ProtectedRouter allowedRoles={["esperando-aprovacion"]} />}
+        >
+          <Route
+            path="/esperando-aprobacion"
+            element={<EsperandoAprobacion />}
+          />
+        </Route>
         <Route element={<ProtectedRouter allowedRoles={["mayorista"]} />}>
           <Route path="/mayorista" element={<Mayorista />} />
         </Route>
 
         <Route element={<ProtectedRouter allowedRoles={["minorista"]} />}>
           <Route path="/minorista" element={<Minorista />} />
+          <Route path="/cart" element={<Cart></Cart>} ></Route>
         </Route>
       </Routes>
     </Router>
+    </CartProvider>
   </AuthProvider>
 );

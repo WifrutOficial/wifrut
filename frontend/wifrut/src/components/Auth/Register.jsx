@@ -59,9 +59,19 @@ function Register() {
         registerData
       );
       alert("formulario enviado correctamente");
-      navigate("/login");
+
+     if(registerData.tipoUsuario === "mayorista"){
+      navigate("/esperando-aprovacion")
+     }else{
+      navigate("/login")
+     }
     } catch (error) {
+       if (error.response) {
+     
+      setErrors({ general: error.response.data.message });
+    } else {
       console.log(error);
+    }
     }
   };
 

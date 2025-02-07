@@ -32,7 +32,7 @@ function Nav() {
             Categorías
             <BiCategory />
           </a>
-          <a className={style.a} onClick={() => navigate("/carrito")}>
+          <a className={style.a} onClick={() => navigate("/cart")}>
             Mi Carrito
             <FaShoppingCart />
           </a>
