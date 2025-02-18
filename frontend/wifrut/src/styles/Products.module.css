@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.container {
+ margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1100px;
+}
+
+.title {
+  text-align: center;
+  color: #535353;
+  text-transform: uppercase;
+  font-size: 55px;
+  margin-bottom: 40px;
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.cartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #d9d9d9;
+  width: 260px;
+  height: 381px;
+  border-radius: 11px;
+  padding: 5px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.41);
+}
+
+.priceUnit {
+  background-color: #ffb83b;
+  width: 100%;
+  text-align: center;
+  color: #535353;
+}
+
+.description {
+  color: #535353;
+}
+
+.quantitySelection {
+  font-size: 13px;
+}
+
+.quantityContainer span {
+  color: black;
+}
+
+.quantityContainer button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.total {
+  background-color: #ffb83b;
+  padding: 0 5px;
+  border-radius: 33px;
+  color: #535353;
+}
+
+.addCart {
+  background-color: #b90003;
+  color: #d9d9d9;
+  border: none;
+  width: 197px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.containerseeMoreBtn {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+.seeMoreBtn {
+  border: none;
+  background-color: #b90003;
+  height: 30px;
+  width: 130px;
+  border-radius: 33px;
+  font-size: 15px;
+  font-family: "Poppins", serif;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Estilos para pantallas menores a 768px */
+@media (max-width: 768px) {
+  .title {
+    font-size: 30px;
+  }
+
+  .container {
+    flex-wrap: wrap;
+  }
+
+  .cartContainer {
+    width: 155px;
+    height: 315px;
+  }
+
+  .img {
+    width: 140px;
+  }
+
+  .addCart {
+    width: 130px;
+    font-size: 15px;
+  }
+  .seeMoreBtn {
+    height: 30px;
+    width: 140px;
+    font-size: 12px;
+    font-family: "Poppins", serif;
+    color: #ffffff;
+  }
+}

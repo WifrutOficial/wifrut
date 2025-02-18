@@ -16,8 +16,8 @@ const registerModel = new mongoose.Schema(
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, "El email no es válido"],
     },
-    userName: {
-      type: String,
+    phone: {
+      type: Number,
       required: true,
       unique: true,
       trim: true,

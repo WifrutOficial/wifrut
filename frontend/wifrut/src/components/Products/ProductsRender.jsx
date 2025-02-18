@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
+import style from "../../styles/Products.module.css";
+import { useSearch } from "../../context/SearchContext";
 
 function ProductsRender() {
   const [products, setProducts] = useState([]);
   const { isAuthenticated } = useAuth();
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
+  const { searchQuery } = useSearch();
+  const [visibleCount, setVisibleCount] = useState(8);
 
   //obtencion de productos de bd
   useEffect(() => {
@@ -56,42 +60,69 @@ function ProductsRender() {
     addToCart(product, cantidad);
     alert("Producto agregado al carrito");
   };
+  
+  //funcion para filtrar productos segun la busqueda
+  const filteredProducts = searchQuery
+  ? products.filter((product) =>
+    (product.descripcion?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.nombre?.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+: products;
+     // Obtener los productos visibles
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
 
   return (
     <>
-      <div>
-        {products.map(({ _id, nombre, precio, descripcion, tipoVenta }) => (
-          <div key={_id}>
-            <p>
+      <h2 className={style.title}>Nuestros Productos</h2>
+      <div className={style.container}>
+        {visibleProducts.map(({ _id, nombre, precio, descripcion, tipoVenta }) => (
+          <div key={_id} className={style.cartContainer}>
+            <img className={style.img} src="../../../producto.png" alt="img" />
+            <p className={style.priceUnit}>
               Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
             </p>
-            <p>Nombre: {nombre}</p>
-            <p>Descripción: {descripcion}</p>
+            <p className={style.description}>{descripcion || nombre }</p>
 
-            <p>Selecciona la cantidad:</p>
+            <p className={style.quantitySelection}>Selecciona la cantidad:</p>
+            <div className={style.quantityContainer}>
+              <button
+                onClick={() =>
+                  handleQuantityChange(_id, tipoVenta, "decrement")
+                }
+              >
+                -
+              </button>
+              <span>
+                {" "}
+                {quantities[_id] || 0} {tipoVenta === "kg" ? "kg" : "unidades"}{" "}
+              </span>
+              <button
+                onClick={() =>
+                  handleQuantityChange(_id, tipoVenta, "increment")
+                }
+              >
+                +
+              </button>
+            </div>
+
+            <p className={style.total}>
+              Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+            </p>
+
             <button
-              onClick={() => handleQuantityChange(_id, tipoVenta, "decrement")}
+              className={style.addCart}
+              onClick={() => handleAddToCart({ _id, nombre, precio })}
             >
-              -
-            </button>
-            <span>
-              {" "}
-              {quantities[_id] || 0} {tipoVenta === "kg" ? "kg" : "unidades"}{" "}
-            </span>
-            <button
-              onClick={() => handleQuantityChange(_id, tipoVenta, "increment")}
-            >
-              +
-            </button>
-
-            <p>Total: ${((quantities[_id] || 0) * precio).toFixed(2)}</p>
-
-            <button onClick={() => handleAddToCart({ _id, nombre, precio })}>
               Añadir a carrito
             </button>
           </div>
         ))}
+     
       </div>
+      <div className={style.containerseeMoreBtn}>
+          <button   onClick={() => setVisibleCount((prev) => prev + 8)}   className={style.seeMoreBtn}>Ver más</button>
+      </div>
+       
     </>
   );
 }

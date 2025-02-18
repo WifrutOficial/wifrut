@@ -1,5 +1,6 @@
 import React from "react";
 import { useCart } from "../../context/CartContext";
+import style from "../../styles/Cart.module.css"
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart, checkout } = useCart();

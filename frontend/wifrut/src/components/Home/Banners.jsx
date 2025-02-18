@@ -1,8 +1,14 @@
 import React from 'react'
+import style from "../../styles/Banner.module.css"
 
 function Banners() {
   return (
-    <div>Banners</div>
+   <>
+   
+   <div className={style.banner}>
+<p>ESPACIO PUBLICITARIO</p>
+   </div>
+   </>
   )
 }
 

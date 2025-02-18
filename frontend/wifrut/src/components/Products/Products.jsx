@@ -26,17 +26,21 @@ function Products() {
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
-        }
+          timeout: 30000 
+        },
+        
       );
 
       alert(response.data.message);
     } catch (error) {
-      console.error("Error al subir el archivo", error.response || error);
-      alert(
-        error.response
-          ? error.response.data.message
-          : "Error al subir el archivo"
-      );
+      console.error("Error al subir el archivo", error);
+      if (error.response) {
+        alert(`Error del servidor: ${error.response.data.message}`);
+      } else if (error.request) {
+        alert("No se pudo conectar al servidor. Verifica la conexión");
+      } else {
+        alert("Error al procesar la solicitud");
+      }
     }
   };
 

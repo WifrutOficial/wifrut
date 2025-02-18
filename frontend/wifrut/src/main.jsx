@@ -13,10 +13,12 @@ import Products from "./components/Products/Products";
 import PanelAdmin from "./components/Home/panels/PanelAdmin";
 import EsperandoAprobacion from "./components/Home/panels/EsperandoAprobacion";
 import { CartProvider } from "./context/CartContext";
+import { SearchProvider } from "./context/SearchContext";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <CartProvider>
+    <SearchProvider>
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -48,6 +50,7 @@ createRoot(document.getElementById("root")).render(
         </Route>
       </Routes>
     </Router>
+    </SearchProvider>
     </CartProvider>
   </AuthProvider>
 );

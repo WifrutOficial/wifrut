@@ -11,7 +11,7 @@ function Register() {
   const [registerData, setRegisterData] = useState({
     nombre: "",
     email: "",
-    userName: "",
+    phone: "",
     password: "",
     confirmpassword: "",
     tipoUsuario: "",
@@ -34,7 +34,7 @@ function Register() {
       if (
         !registerData.nombre ||
         !registerData.email ||
-        !registerData.userName ||
+        !registerData.phone ||
         !registerData.password ||
         !registerData.confirmpassword ||
         !registerData.tipoUsuario
@@ -95,10 +95,10 @@ function Register() {
               onChange={(e) => handleChange("email", e.target.value)}
             />
             <input
-              type="text"
-              placeholder="Nombre de usuario"
-              value={registerData.userName}
-              onChange={(e) => handleChange("userName", e.target.value)}
+              type="number"
+              placeholder="Telefono"
+              value={registerData.phone}
+              onChange={(e) => handleChange("phone", e.target.value)}
             />
             <div className={style.passwordContainer}>
               <input
