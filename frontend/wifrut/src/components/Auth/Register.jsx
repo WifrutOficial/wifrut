@@ -60,25 +60,20 @@ function Register() {
       );
       alert("formulario enviado correctamente");
 
-     if(registerData.tipoUsuario === "mayorista"){
-      navigate("/esperando-aprovacion")
-     }else{
-      navigate("/login")
-     }
+      navigate("/login");
     } catch (error) {
-       if (error.response) {
-     
-      setErrors({ general: error.response.data.message });
-    } else {
-      console.log(error);
-    }
+      if (error.response) {
+        setErrors({ general: error.response.data.message });
+      } else {
+        console.log(error);
+      }
     }
   };
 
   return (
     <>
       <div className={style.container}>
-        <img src="" alt="logo" />
+        <img className={style.logo} src="../../../logo.png" alt="logo" />
         <div className={style.containerRegister}>
           <p className={style.title}>Crear Cuenta</p>
           <form className={style.containerForm} onSubmit={formHandle}>

@@ -8,27 +8,43 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [tipoVenta, setTipoVenta] = useState("");
   const { user } = useAuth();
 
   // Agregar productos al carrito
   const addToCart = (product, quantity = 1) => {
+    console.log('Producto a agregar al carrito:', product);
+    console.log('Tipo de venta:', product.tipoVenta);
     setCart((prev) => {
       const existingProduct = prev.find((item) => item._id === product._id);
       if (existingProduct) {
         return prev.map((item) =>
           item._id === product._id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: item.quantity + quantity ,  tipoVenta: product.tipoVenta }
             : item
         );
       } else {
-        return [...prev, { ...product, quantity }];
+        return [
+          ...prev,
+          { 
+            ...product, 
+            quantity, 
+            tipoVenta: product.tipoVenta, 
+            precio: Number(product.precio), 
+            precioConDescuento: isNaN(Number(product.precioConDescuento)) ? null : Number(product.precioConDescuento),
+          },
+        ];
       }
     });
   };
 
   // Eliminar productos del carrito
   const removeFromCart = (productId) => {
+  const isConfirmed = window.confirm("¿Seguro desea eliminar el producto?");
+  if (isConfirmed) {
     setCart((prevCart) => prevCart.filter((item) => item._id !== productId));
+  }
+   
   };
 
   // Vaciar carrito
@@ -50,10 +66,11 @@ export const CartProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/order/create", // Asegúrate de que el endpoint es correcto
+        "http://localhost:3000/api/order/create", 
         {
+          userId: user._id,
           items: cart,
-          total: cart.reduce((acc, item) => acc + item.precio * item.quantity, 0),
+          total: cart.reduce((acc, item) => acc + (item.precioConDescuento ?? item.precio) * item.quantity, 0),
         },
         {
           withCredentials: true,
@@ -62,7 +79,7 @@ export const CartProvider = ({ children }) => {
 
       if (response.status === 201) {
         alert("Pedido realizado con éxito.");
-        clearCart(); // Vacía el carrito después de un pedido exitoso
+        clearCart(); 
       }
     } catch (error) {
       console.error("Error al procesar el pedido:",error.response ? error.response.data : error);
@@ -70,9 +87,34 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Calcular cantidad total de productos
+  const getTotalProductos = () => {
+    return cart.reduce((acc, { quantity }) => acc + quantity, 0);
+  };
+
+  // Calcular el total general
+  const getTotal = () => {
+    return cart.reduce((acc, { quantity, precio, precioConDescuento }) => {
+      const precioFinal = !isNaN(precioConDescuento) && precioConDescuento !== null 
+        ? Number(precioConDescuento) 
+        : Number(precio);
+      const cantidad = !isNaN(quantity) ? quantity : 0;
+      return acc + cantidad * precioFinal;
+    }, 0);
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, checkout }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        checkout,
+        getTotalProductos,
+        getTotal,
+        tipoVenta, setTipoVenta
+      }}
     >
       {children}
     </CartContext.Provider>

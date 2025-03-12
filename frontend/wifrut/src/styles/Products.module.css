@@ -1,23 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-.container {
- margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-width: 1100px;
+:root {
+  --main-red: #B90003;
+  --secondary-yellow: #FFB83B;
+  --dark-gray: #535353;
+  --light-gray: #d9d9d9;
 }
 
-.title {
+/* Mejora en el título */
+.titleOfertas {
+  color: #ffffff;
+  font-size: 45px;
   text-align: center;
-  color: #535353;
-  text-transform: uppercase;
-  font-size: 55px;
-  margin-bottom: 40px;
-  font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
+  font-weight: 400;
+}
+
+.descuento {
+  background-image: url("/fondoDescuento.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.685);
+}
+
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 10px;
 }
 
 .cartContainer {
@@ -25,7 +38,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #d9d9d9;
+  background-color: var(--light-gray);
   width: 260px;
   height: 381px;
   border-radius: 11px;
@@ -34,22 +47,10 @@
 }
 
 .priceUnit {
-  background-color: #ffb83b;
+  background-color: var(--secondary-yellow);
   width: 100%;
   text-align: center;
-  color: #535353;
-}
-
-.description {
-  color: #535353;
-}
-
-.quantitySelection {
-  font-size: 13px;
-}
-
-.quantityContainer span {
-  color: black;
+  color: var(--dark-gray);
 }
 
 .quantityContainer button {
@@ -59,49 +60,28 @@
   cursor: pointer;
 }
 
-.total {
-  background-color: #ffb83b;
-  padding: 0 5px;
-  border-radius: 33px;
-  color: #535353;
+.quantityContainer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .addCart {
-  background-color: #b90003;
-  color: #d9d9d9;
+  background-color: var(--main-red);
+  color: var(--light-gray);
   border: none;
   width: 197px;
   font-size: 15px;
   border-radius: 6px;
   cursor: pointer;
 }
-.containerseeMoreBtn {
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-}
-.seeMoreBtn {
-  border: none;
-  background-color: #b90003;
-  height: 30px;
-  width: 130px;
-  border-radius: 33px;
-  font-size: 15px;
-  font-family: "Poppins", serif;
-  color: #ffffff;
-  cursor: pointer;
+
+.addCart:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* Estilos para pantallas menores a 768px */
+/* Responsivo */
 @media (max-width: 768px) {
-  .title {
-    font-size: 30px;
-  }
-
-  .container {
-    flex-wrap: wrap;
-  }
-
   .cartContainer {
     width: 155px;
     height: 315px;
@@ -115,11 +95,10 @@
     width: 130px;
     font-size: 15px;
   }
+
   .seeMoreBtn {
     height: 30px;
     width: 140px;
     font-size: 12px;
-    font-family: "Poppins", serif;
-    color: #ffffff;
   }
 }

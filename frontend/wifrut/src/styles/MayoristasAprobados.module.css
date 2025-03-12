@@ -1,0 +1,48 @@
+.container {
+  height: 455px;
+  width: 600px;
+  color: #000000;
+  backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: 15px;
+  background-color: #d4d4d415;
+  border: 1px solid #d4d4d46b;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container h2 {
+  color: #fff;
+  font-weight: 200;
+  text-align: center;
+  padding: 15px 0px;
+}
+
+.solicitudesList {
+  list-style: none;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.solicitudInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 10px;
+  background-color: #ffb83b;
+  border-radius: 13px;
+}
+
+.solicitudInfo p {
+  font-size: 13px;
+  color:#535353 ;
+}
+
+strong{
+    color: #000000;
+    font-weight: 500;
+}

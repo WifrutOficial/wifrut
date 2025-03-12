@@ -38,7 +38,7 @@ app.use(cookieParser())
 //rutas
 app.use("/api", authRoutes);
 app.use("/api/admin", adminRoutes)
-app.use("api/mayorista", mayoristaRoutes)
+app.use("/api/mayorista", mayoristaRoutes)
 app.use("/api/minorista",minoristaRoutes)
 app.use("/api/products", productsRoutes)
 app.use("/api/order" , orderRoutes)

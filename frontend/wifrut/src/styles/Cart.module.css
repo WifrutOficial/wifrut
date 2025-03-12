@@ -1,0 +1,156 @@
+.container {
+  background-image: url("../../public//fondo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.title {
+  color: #ffff;
+  font-weight: 400;
+  text-align: center;
+  padding: 40px 0;
+}
+.containerCart {
+  background-color: #d4d4d415;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  max-width: 800px;
+  margin: auto;
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 20px;
+  align-items: center;
+  padding: 40px;
+
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.cart li {
+  display: flex;
+  gap: 30px;
+  color: #ffff;
+  font-size: 12px;
+  font-weight: 200;
+  width: 100%;
+  align-items: center;
+}
+
+.cart li p {
+  flex: 1;
+  text-align: start;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 40px;
+  color: #ffff;
+}
+
+hr {
+  margin: 0 40px;
+}
+
+.envio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  color: #ffff;
+}
+
+.inputEnvio {
+  display: flex;
+  gap: 20px;
+}
+
+.inputEnvio input {
+  background: none;
+  border: none;
+  border-bottom: 1px dotted #fff;
+  color: #fff;
+}
+
+.btnEnvio {
+  border-radius: 13px;
+  padding: 5px 10px;
+  background: none;
+  background-color: #00ad3a;
+  border: none;
+  color: #ffff;
+  box-shadow: inset 0 4px 4px #00000050;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.fullTotal {
+  color: #ffff;
+  font-size: 32px;
+  text-align: end;
+  padding: 0 40px;
+}
+
+.titlePago {
+  color: #ffff;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.containerPago {
+  display: flex;
+  color: #fff;
+  padding-left: 40px;
+  gap: 40px;
+}
+
+.containerPagoInput {
+  display: flex;
+  padding: 20px 0;
+  gap: 20px;
+}
+
+
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+  gap: 20px;
+}
+.btnContainer button {
+  background: none;
+  border: none;
+  background-color: #00ad3a;
+  padding: 5px 10px;
+  border-radius: 13px;
+  color: #ffff;
+  box-shadow: inset 0 4px 4px #00000050;
+  width: 300px;
+}
+
+.btnDelete {
+  background: none;
+  border: none;
+  color: #ffff;
+}
+
+.cantidades p {
+  background-color: #b90003;
+  border-radius: 13px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100px;
+}

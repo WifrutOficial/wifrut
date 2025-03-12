@@ -9,6 +9,8 @@
 }
 .container2 {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   gap: 20px;
 }
 
@@ -29,6 +31,9 @@
   width: 100%;
   z-index: 1000;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -40,7 +45,6 @@
 .containerLinks2 {
   display: flex;
   gap: 20px;
-  font-weight: bold;
 }
 .titleLog {
   position: absolute;
@@ -104,6 +108,7 @@
 
 .containerLinks2 {
   display: flex;
+  font-weight: 600;
 }
 
 .btnMenu,
@@ -126,8 +131,10 @@
   padding-right: 20px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 10px;
   width: fit-content;
+  cursor: pointer;
 }
 
 .search .cart {
@@ -139,10 +146,10 @@
 .searchBtn {
   position: absolute;
   left: 8px;
-  top: 7px;
+  top: 15px;
   width: 15px;
   height: 15px;
-
+ 
 }
 
 .cartContainer {
@@ -161,13 +168,13 @@
   align-items: center;
   border-radius: 50%;
   background-color: red;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
 }
 
 .CartNumber p {
   color: #ffffff;
-  font-size: 7px;
+  font-size: 10px;
 }
 
 .totalNumber {
@@ -201,11 +208,9 @@
 
   .containerLinks2 {
     gap: 20px;
-    background-color: #ffffff;
-    border: 1px solid #99ad00;
     flex-direction: column;
-    padding-top: 90px;
     align-items: center;
+    padding-top: 90px;
     z-index: 1000000;
     position: fixed;
     left: 0;
@@ -214,7 +219,10 @@
     width: 220px;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+    background-color: #ffffff;
+ 
   }
+
   .containerLog {
     background-color: #99ad00;
     z-index: 100000;
@@ -237,18 +245,14 @@
     transform: translateX(0);
   }
 
+
+
   .btnClose {
     display: block;
     position: absolute;
     top: 15px;
     left: 184px;
     cursor: pointer;
-  }
-
-  .container2 {
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
   }
 
   .search {
@@ -276,7 +280,7 @@
   }
 
   .a {
-    border-bottom: 1px solid #99ad00;
+    border-bottom: 1px solid black;
     width: 100%;
   }
 
@@ -288,4 +292,7 @@
     background-color: #99ad00;
     width: 220px;
   }
+
+
+
 }

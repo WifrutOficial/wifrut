@@ -5,9 +5,9 @@ import { createAccessToken } from "../token/token.js";
 export const postRegister = async (req, res) => {
     try {
       console.log("ESSTOS SON LOS DATOS DEL BACKEN",req.body)
-        const { nombre, email, password , userName, tipoUsuario} = req.body;
+        const { nombre, email,phone, password , tipoUsuario} = req.body;
     
-        if (!nombre || !email || !password ||!userName ||!tipoUsuario) {
+        if (!nombre || !email ||!phone|| !password ||!tipoUsuario) {
           return res.status(400).json({ msg: "Todos los campos son obligatorios." });
         }
     
@@ -18,11 +18,15 @@ export const postRegister = async (req, res) => {
         }
     
     
-        const register = new Register({ nombre, email, password , userName, tipoUsuario,  estadoCuenta: tipoUsuario === "mayorista" ? "pendiente" : "aprobado",});
+        const register = new Register({ nombre, email,phone, password ,  tipoUsuario,  estadoCuenta: tipoUsuario === "mayorista" ? "pendiente" : "aprobado",});
  
         await register.save();
     
-        res.status(201).json({ msg: "Registro exitoso" });
+        res.status(201).json({
+          msg: "Registro exitoso",
+          tipoUsuario: register.tipoUsuario,
+          estadoCuenta: register.estadoCuenta,  // Asegúrate de incluir el estadoCuenta aquí
+        });
       } catch (error) {
         // Manejar errores de validación (por ejemplo, la contraseña no cumple con los requisitos)
         if (error.name === "ValidationError") {
@@ -48,7 +52,8 @@ export const postLogin = async (req, res) => {
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ msg: "Credenciales incorrectas" });
+      console.log("Contraseña incorrecta"); // 🛑 Asegúrate de que esto aparece en la terminal del backend
+    return res.status(401).json({ msg: "Contraseña incorrecta" }); // ✅ IMPORTANTE: Enviar respuesta JSON
     }
 
     // Crear el token de verificación usando la función `createAccessToken`

@@ -1,12 +1,12 @@
-import React from 'react'
-import Home from "../Home"
+import React from "react";
+import Home from "../Home";
 
 function Minorista() {
   return (
     <div>
-    <Home></Home>
+      <Home></Home>
     </div>
-  )
+  );
 }
 
-export default Minorista
+export default Minorista;

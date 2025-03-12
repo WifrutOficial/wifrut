@@ -1,24 +1,33 @@
 import { useAuth } from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRouter({ allowedRoles = [] }) { // Agregamos un valor por defecto
+function ProtectedRouter({ allowedRoles = [] }) {
   const { isAuthenticated, user } = useAuth();
 
-  // 1️⃣ Si no está autenticado, redirige al login
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  console.log("ProtectedRouter ejecutándose...");
+  console.log("Auth status:", { isAuthenticated, user });
 
-  // 2️⃣ Si es mayorista con cuenta pendiente, redirige a "/esperando-aprobacion"
-  if (user?.tipoUsuario === "mayorista" && user?.estadoCuenta === "pendiente") {
+  if (!isAuthenticated) {
+    console.log("❌ Usuario no autenticado → Redirigiendo a /login");
+    return <Navigate to="/login" replace />;
+  }
+
+  if (
+    user?.tipoUsuario === "mayorista" &&
+    user?.estadoCuenta === "pendiente" &&
+    window.location.pathname !== "/esperando-aprobacion"
+  ) {
+    console.log("✅ Usuario pendiente → Redirigiendo una sola vez");
     return <Navigate to="/esperando-aprobacion" replace />;
   }
 
-  // 3️⃣ Si no tiene el rol permitido, lo redirige a "/"
   if (allowedRoles.length > 0 && !allowedRoles.includes(user?.tipoUsuario)) {
+    console.log("❌ Usuario sin rol permitido → Redirigiendo a /");
     return <Navigate to="/" replace />;
   }
 
+  console.log("✅ Renderizando Outlet...");
   return <Outlet />;
 }
-
 export default ProtectedRouter;
 

@@ -1,41 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
-import style from "../../styles/Cart.module.css"
+import style from "../../styles/Cart.module.css";
+import { IoTrashOutline } from "react-icons/io5";
 
 export default function Cart() {
-  const { cart, removeFromCart, clearCart, checkout } = useCart();
+  const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
+  const [direccion, setDireccion] = useState("");
+  const [metodoPago, setMetodoPago] = useState("");
+
+  const total = getTotal();
+  const costoEnvio = 2800;
+  const totalFinal = total + costoEnvio;
+
+  const handlePagoChange = (metodo) => setMetodoPago(metodo);
+
+  const handleCheckout = () => {
+    if (!direccion.trim()) {
+      console.warn("Por favor ingresa una dirección de envío.");
+      return;
+    }
+    if (!metodoPago) {
+      console.warn("Por favor selecciona un método de pago.");
+      return;
+    }
+    checkout();
+  };
 
   return (
-    <div>
-      <h2>Carrito de Compras</h2>
+    <div className={style.container}>
+      <h2 className={style.title}>Carrito de Compras</h2>
       {cart.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
-        <ul>
-          {cart.map(({ _id, nombre, precio, quantity }) => (
-            <li key={_id}>
-              <p>{nombre}</p>
-              <p>Cantidad: {quantity}</p>
-              <p>Total: ${quantity * precio}</p>
-              <button onClick={() => removeFromCart(_id)}>Eliminar</button>
-            </li>
-          ))}
-        </ul>
-      )}
-      {cart.length > 0 && (
-        <>
-          <button
-            onClick={() => {
-              if (window.confirm("¿Estás seguro de vaciar el carrito?")) {
-                clearCart();
+        <div className={style.containerCart}>
+          <ul className={style.cart}>
+            {cart.map(
+              ({
+                _id,
+                nombre,
+                precio,
+                quantity,
+                precioConDescuento,
+                tipoVenta,
+              }) => {
+                const precioFinal = precioConDescuento ?? precio;
+                const tipoVentaText = tipoVenta || "No especificado";
+
+                return (
+                  <li key={_id} className={style.cartItem}>
+                    <p>{nombre}</p>
+                    <div className={style.cantidades}>
+                      {" "}
+                      <p>
+                        {quantity} {tipoVenta === "kg" ? "kg" : "U"}
+                      </p>
+                    </div>
+                    <p>Total: ${quantity * precioFinal}</p>
+                    <button
+                      onClick={() => removeFromCart(_id)}
+                      aria-label={`Eliminar ${nombre} del carrito`}
+                      className={style.btnDelete}
+                    >
+                      <IoTrashOutline />
+                    </button>
+                  </li>
+                );
               }
-            }}
+            )}
+          </ul>
+          <hr />
+          <div className={style.total}>
+            <p>Total: ${total.toFixed(2)}</p>
+          </div>
+          <div className={style.envio}>
+            <div className={style.inputEnvio}>
+              <p>Dirección de envío:</p>
+              <input
+                type="text"
+                placeholder="Escribe tu dirección"
+                value={direccion}
+                onChange={(e) => setDireccion(e.target.value)}
+              />
+            </div>
+            <p>Costo de envío: ${costoEnvio}</p>
+          </div>
+          <p className={style.fullTotal}>
+            Total Final: ${totalFinal.toFixed(2)}
+          </p>
+          <div>
+            <p className={style.titlePago}>Método de pago</p>
+            <div className={style.containerPago}>
+              {["Efectivo", "Mercado Pago"].map((metodo) => (
+                <label key={metodo} className={style.containerPagoInput}>
+                  {metodo}
+                  <input
+                    type="radio"
+                    name="metodoPago"
+                    checked={metodoPago === metodo}
+                    onChange={() => handlePagoChange(metodo)}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+          {cart.length > 0 && (
+        <div className={style.btnContainer}>
+          <button
+            onClick={() =>
+              window.confirm("¿Estás seguro de vaciar el carrito?") &&
+              clearCart()
+            }
           >
             Vaciar Carrito
           </button>
-          <button onClick={checkout}>Realizar Pedido</button>
-        </>
+          <button onClick={handleCheckout}>Realizar Pedido</button>
+        </div>
       )}
+        </div>
+      )}
+    
     </div>
   );
 }

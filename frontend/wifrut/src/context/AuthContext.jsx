@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/login", { withCredentials: true });
-      if (response.data.user) {
+      if (response.data?.user) {
         setIsAuthenticated(true);
         setUser(response.data.user);
       } else {
@@ -33,20 +33,22 @@ export const AuthProvider = ({ children }) => {
   // FUNCIÓN LOGIN
   const login = async (email, password) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/login",
+      const response = await axios.post("http://localhost:3000/api/login",
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true ,  headers: { "Content-Type": "application/json" }}
+       
       );
-  
-      const userData = response.data.user;
-      console.log("Usuario autenticado:", userData); // 🛑 Verifica qué datos llegan
-  
-      setIsAuthenticated(true);
-      setUser(userData);
-  
-      return userData; // Retorna el usuario logueado para usar en Login.js
+
+      if (response.data?.user) {
+        console.log("Usuario autenticado:", response.data.user);
+        setIsAuthenticated(true);
+        setUser(response.data.user);
+        return response.data.user;
+      } else {
+        throw new Error("Usuario no recibido en la respuesta.");
+      }
     } catch (error) {
+      console.error("Error en login:", error.response?.data || error.message);
       throw error.response?.data?.msg || "Error en el servidor";
     }
   };

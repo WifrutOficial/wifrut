@@ -24,49 +24,43 @@ function Login() {
 
   const formHandle = async (e) => {
     e.preventDefault();
-    let newErrors = {};
+  setErrors({}); // Limpiar errores previos
 
-    if (!loginData.email || !loginData.password) {
-      newErrors.general = "Error, todos los campos son obligatorios";
-    }
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+  if (!loginData.email || !loginData.password) {
+    setErrors({ general: "Error, todos los campos son obligatorios" });
+    return;
+  }
 
-    try {
-      const user = await login(loginData.email, loginData.password); //  `login` del contexto
-      console.log("Usuario después del login:", user); // 🛑 Verifica que `estadoCuenta` llega bien
-      // Redirigir según el tipo de usuario y estadoCuenta
-      if (user.tipoUsuario === "admin") {
-        navigate("/admin");
-      } else if (
-        user.tipoUsuario === "mayorista" &&
-        user.estadoCuenta === "aprobado"
-      ) {
-        navigate("/mayorista");
-      } else if (
-        user.tipoUsuario === "mayorista" &&
-        user.estadoCuenta === "pendiente"
-      ) {
-        navigate("/esperando-aprobacion"); // Redirige correctamente
-      } else {
-        navigate("/minorista");
-      }
-    } catch (error) {
-      console.error(
-        "Error en el login:",
-        error.response?.data || error.message
-      );
-      setErrors({
-        general: error.response?.data?.msg || "Error en el servidor",
-      });
+  try {
+    const user = await login(loginData.email, loginData.password);
+    console.log("Usuario después del login:", user);
+
+    // Redirigir según el tipo de usuario y estadoCuenta
+    if (user.tipoUsuario === "admin") {
+      navigate("/admin");
+    } else if (user.tipoUsuario === "mayorista" && user.estadoCuenta === "aprobado") {
+      navigate("/mayorista");
+    } else if (user.tipoUsuario === "mayorista" && user.estadoCuenta === "pendiente") {
+      navigate("/esperando-aprobacion");
+    } else {
+      navigate("/minorista");
     }
+  } catch (error) {
+    console.error("Error completo:", error);
+    
+    if (error.response?.data?.message) {
+      setErrors({ general: error.response.data.message });
+    } else {
+      setErrors({ general: "Usuario o Contraseña incorrectas, por favor intente de nuevo" });
+    }
+  }
   };
 
   return (
     <div className={style.container}>
+        <img className={style.logo} src="../../../logo.png" alt="logo" />
       <div className={style.containerRegister}>
+      
         <p className={style.title}>Iniciar Sesion</p>
         <form className={style.containerForm} onSubmit={formHandle}>
           <input
