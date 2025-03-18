@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "frontend/wifrut/package.json", 
+        "use": "@vercel/static-build",  
+        "config": {
+          "distDir": "frontend/wifrut/dist"  
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",  
+        "dest": "frontend/wifrut/dist/$1"  
+      }
+    ]
+  }
+  
