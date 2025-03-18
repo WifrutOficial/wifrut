@@ -5,12 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'frontend/wifrut/dist', // Asegúrate de que los archivos generados se guarden en el directorio correcto
+    outDir: 'dist', // Directorio de salida para la build
     rollupOptions: {
-      input: './frontend/wifrut/index.html', // El punto de entrada de la aplicación
+      input: 'frontend/index.html', // Aquí es donde debes poner la ruta correcta a tu index.html
     }
-  },
-  server: {
-    // En producción no es necesario el proxy
   }
 });
