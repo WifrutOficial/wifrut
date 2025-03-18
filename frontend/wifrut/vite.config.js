@@ -5,9 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: '/index.html',
-    }
-  }
+    outDir: 'dist',  // Asegúrate de que la carpeta de salida sea 'dist'
+  },
+  base: './',        // Configura base para rutas relativas cuando se despliegue
 });
