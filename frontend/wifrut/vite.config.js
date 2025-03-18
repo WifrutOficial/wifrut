@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     rollupOptions: {
-      input: 'wifrut/index.html',
+      input: '/index.html',
     }
   }
 });
