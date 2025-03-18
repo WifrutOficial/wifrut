@@ -8,6 +8,31 @@
   align-items: center;
   justify-content: center;
   gap: 40px;
+  color: #ffff;
+}
+
+.inicialContainer {
+  min-width: 700px;
+  height: 455px;
+  border-radius: 13px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.inicialContainer svg {
+  width: 100px;
+  height: 100px;
+  color: #ffff;
+  z-index: 1;
 }
 
 .logo {
@@ -50,15 +75,29 @@
   position: relative;
 }
 
+h2 {
+  color: #ffff;
+}
+
 .title {
-  color: #000000;
+  color: #ffff;
   font-size: 20px;
 }
 
 .nav button {
   border: none;
   background: none;
-  color: #000000;
+  color: #ffff;
   font-size: 15px;
   cursor: pointer;
+}
+
+.nav button:hover {
+  background-color: #ffb83b;
+  padding: 5px;
+  width: 100%;
+}
+
+.nav button:active {
+  background: #b90003;
 }

@@ -7,6 +7,7 @@ import mayoristaRoutes from "./routes/mayoristaRoutes.js"
 import minoristaRoutes from "./routes/minoristaRoutes.js"
 import productsRoutes from "./routes/productsRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
+import  whatsAppRoutes from "./routes/whatsAppRoutes.js"
 import cookieParser from "cookie-parser"
 import { connectDB } from "./database/db.js";
 
@@ -29,6 +30,7 @@ app.use(
 
 //middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // ejecucuion de la conexion a la base de datos
 connectDB();
 
@@ -42,6 +44,7 @@ app.use("/api/mayorista", mayoristaRoutes)
 app.use("/api/minorista",minoristaRoutes)
 app.use("/api/products", productsRoutes)
 app.use("/api/order" , orderRoutes)
+app.use("/api/whatsapp", whatsAppRoutes )
 
 //servidor
 const PORT = process.env.PORT || 3000;

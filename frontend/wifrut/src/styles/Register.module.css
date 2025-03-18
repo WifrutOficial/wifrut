@@ -19,11 +19,17 @@
   width: clamp(270px, 30%, 1000px);
   position: relative;
   gap: 15px;
-  padding-top: 10px;
+
+  padding-top: 30px;
 
 }
 
-.logo{width: 70px; height: 70px;}
+.logo {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  top: 25px;
+}
 
 .containerRegister::before {
   content: "";
@@ -43,14 +49,12 @@
   color: #ffffff;
   font-size: 35px;
   text-align: center;
-
 }
 .containerForm {
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 15px;
-  
 }
 .containerForm input {
   background: none;

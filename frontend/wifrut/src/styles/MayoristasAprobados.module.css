@@ -7,11 +7,12 @@
   border-radius: 15px;
   background-color: #d4d4d415;
   border: 1px solid #d4d4d46b;
-
-  display: flex;
+ display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
+
 
 .container h2 {
   color: #fff;
@@ -26,23 +27,24 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  height: 400px;
+  overflow-y: auto;
+}
+.solicitudItem {
+  display: flex;
+  font-size: 12px;
+  background-color: #FFB83B;
+  border-radius: 13px;
+  padding: 5px;
+}
+.solicitudInfo1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .solicitudInfo {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding-left: 10px;
-  background-color: #ffb83b;
-  border-radius: 13px;
-}
-
-.solicitudInfo p {
-  font-size: 13px;
-  color:#535353 ;
-}
-
-strong{
-    color: #000000;
-    font-weight: 500;
+  flex: 1;
 }

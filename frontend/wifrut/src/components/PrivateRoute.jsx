@@ -1,8 +1,9 @@
 import { useAuth } from "../context/AuthContext";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function ProtectedRouter({ allowedRoles = [] }) {
   const { isAuthenticated, user } = useAuth();
+  const location = useLocation();
 
   console.log("ProtectedRouter ejecutándose...");
   console.log("Auth status:", { isAuthenticated, user });
@@ -15,9 +16,10 @@ function ProtectedRouter({ allowedRoles = [] }) {
   if (
     user?.tipoUsuario === "mayorista" &&
     user?.estadoCuenta === "pendiente" &&
-    window.location.pathname !== "/esperando-aprobacion"
+    location.pathname !== "/esperando-aprobacion" &&
+    location.pathname !== "/paginadeespera" // 🔥 Evitamos un bucle
   ) {
-    console.log("✅ Usuario pendiente → Redirigiendo una sola vez");
+    console.log("✅ Usuario pendiente → Redirigiendo a /esperando-aprobacion");
     return <Navigate to="/esperando-aprobacion" replace />;
   }
 
@@ -29,5 +31,5 @@ function ProtectedRouter({ allowedRoles = [] }) {
   console.log("✅ Renderizando Outlet...");
   return <Outlet />;
 }
-export default ProtectedRouter;
 
+export default ProtectedRouter;

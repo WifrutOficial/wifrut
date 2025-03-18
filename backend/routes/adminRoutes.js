@@ -1,23 +1,37 @@
 import { Router } from "express";
-import { aprobarMayorista } from "../controllers/adminController.js";
+import { cambiarEstadoAprobado } from "../controllers/adminController.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
 import { authRequired } from "../middlewares/authRequired.js";
-import { adminRouter } from "../controllers/adminController.js";
 import { obtenerSolicitudesMayoristas } from "../controllers/adminController.js";
+import { getMayoristasAprobados } from "../controllers/adminController.js";
+import { obtenerDatosMayorista } from "../controllers/adminController.js";
 
 const router = Router();
 
-router.post("/admin", authRequired, isAdmin, adminRouter); //esta no esta haciendo nada ahora
+// Ruta para aprobar
+router.put("/aprobar-mayorista/:id", authRequired, isAdmin, cambiarEstadoAprobado);
 
-// Ruta para aprobar/rechazar mayoristas
-router.put("/aprobar-mayorista/:id", authRequired, isAdmin, aprobarMayorista);
+//ruta para obtener mayoristas SOLO LOS APROBADOS
+router.get(
+  "/mayoristas-aprobados",
+  authRequired,
+  isAdmin,
+  getMayoristasAprobados
+);
 
-// Ruta para obtener las solicitudes pendientes de mayoristas
+// Ruta para obtener las SOLICITUDES PENDIENTES de mayoristas
 router.get(
   "/solicitudes-mayoristas",
   authRequired,
   isAdmin,
   obtenerSolicitudesMayoristas
+);
+
+router.get(
+  "/obtener-datos-mayorista",
+  authRequired,
+  isAdmin,
+  obtenerDatosMayorista
 );
 
 export default router;

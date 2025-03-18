@@ -29,20 +29,30 @@ function EsperandoAprobacion() {
           "http://localhost:3000/api/mayorista/obtener-datos-mayorista",
           { withCredentials: true }
         );
-        console.log("Respuesta del backend de la data:", response.data);
-
+  
+        console.log("🔍 Respuesta del backend:", response.data);
+  
         if (response.data.data) {
-          // Si ya existen datos, redirigir a la página de espera
-          navigate("/paginadeespera");
+          // Verificar si el ID del usuario en los datos coincide con el autenticado
+          const usuarioActual = response.data.data.userId;
+          const usuarioAutenticado = authStatus.user.id; // Ajusta esto según cómo obtienes el usuario autenticado en el frontend
+  
+          console.log("✅ ID en base de datos:", usuarioActual);
+          console.log("✅ ID usuario autenticado:", usuarioAutenticado);
+  
+          if (usuarioActual === usuarioAutenticado) {
+            navigate("/paginadeespera");
+          }
         }
       } catch (error) {
-        console.error("Error al verificar datos:", error);
+        console.error("⚠️ Error al verificar datos:", error);
       }
     };
-
+  
     verificarDatos();
   }, [navigate]);
-
+  
+  
  // Manejar el envío del formulario
   const formHandle = async (e) => {
     e.preventDefault();

@@ -1,33 +1,65 @@
 import React, { useState, useEffect } from "react";
-import style from "../../../../styles/MayoristasAprobados.module.css"
+import style from "../../../../styles/MayoristasAprobados.module.css";
+import axios from "axios";
 
 function MayoristasAprobados() {
-  const [mayoristas, setMayoristas] = useState([]);
-
+  const [mayoristasAprobados, setMayoristasAprobados] = useState([]);
   useEffect(() => {
-    // Recuperar de localStorage cuando el componente se monte
-    const aprobadosGuardados = JSON.parse(localStorage.getItem("mayoristasAprobados")) || [];
-    setMayoristas(aprobadosGuardados);
+    const fetchMayoristasAprobados = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/admin/mayoristas-aprobados",
+          { withCredentials: true }
+        );
+        setMayoristasAprobados(response.data);
+      } catch (error) {
+        console.error("Error al obtener mayoristas aprobados", error);
+      }
+    };
+    fetchMayoristasAprobados();
   }, []);
 
   return (
     <div className={style.container}>
-      <h2>Lista de Clientes Mayoristas</h2>
-      {mayoristas.length === 0 ? (
-        <p>No hay mayoristas aprobados</p>
-      ) : (
-        <ul className={style.solicitudesList}>
-          {mayoristas.map((mayorista) => (
-            <li key={mayorista._id} className={style.solicitudItem}>
-              <div className={style.solicitudInfo}>
-                <p><strong>Nombre:</strong> {mayorista.nombre}</p>
-                <p><strong>CUIL:</strong> {mayorista.cuil}</p>
-                <p><strong>Email:</strong> {mayorista.email}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className={style.navContent}>
+        <h2>Mayoristas Aprobados</h2>
+        {mayoristasAprobados.length === 0 ? (
+          <p style={{ color: "#fff" }}>No hay mayoristas aprobados</p>
+        ) : (
+          <ul className={style.solicitudesList}>
+            {mayoristasAprobados.map((mayorista) => (
+              <li key={mayorista._id} className={style.solicitudItem}>
+                <div className={style.solicitudInfo1}>
+                  <p>
+                    <strong>Nombre:</strong> {mayorista.userId.nombre}
+                  </p>
+                  <p>
+                    <strong>CUIL:</strong> {mayorista.cuil || "No especificado"}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {mayorista.userId.email}
+                  </p>
+                  <p>
+                    <strong>Años de Actividad:</strong>{" "}
+                    {mayorista.aniosActividad}
+                  </p>
+                </div>
+                <div className={style.solicitudInfo}>
+                  <p>
+                    <strong>Telefono:</strong> {mayorista.userId.phone}
+                  </p>
+                  <p>
+                    <strong>Provincia:</strong> {mayorista.provincia}
+                  </p>
+                  <p>
+                    <strong>Localidad:</strong> {mayorista.localidad}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

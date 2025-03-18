@@ -40,7 +40,8 @@ createRoot(document.getElementById("root")).render(
                 path="/esperando-aprobacion"
                 element={<EsperandoAprobacion />}
               />
-              <Route path="/paginadeespera" element={<PaginaDeEspera></PaginaDeEspera>}></Route>
+              <Route path="/paginadeespera" element={<PaginaDeEspera />} />
+            
             </Route>
             <Route element={<ProtectedRouter allowedRoles={["mayorista"]} />}>
               <Route path="/mayorista" element={<Mayorista />} />

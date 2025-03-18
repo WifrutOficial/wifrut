@@ -16,14 +16,14 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (!direccion.trim()) {
-      console.warn("Por favor ingresa una dirección de envío.");
+      alert("Por favor ingresa una dirección de envío.");
       return;
     }
     if (!metodoPago) {
-      console.warn("Por favor selecciona un método de pago.");
+     alert("Por favor selecciona un método de pago.");
       return;
     }
-    checkout();
+    checkout(direccion, metodoPago);
   };
 
   return (
@@ -44,7 +44,7 @@ export default function Cart() {
                 tipoVenta,
               }) => {
                 const precioFinal = precioConDescuento ?? precio;
-                const tipoVentaText = tipoVenta || "No especificado";
+              
 
                 return (
                   <li key={_id} className={style.cartItem}>

@@ -22,6 +22,15 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  direccion: {
+    type: String,
+    required: true,  
+  },
+  metodoPago: {
+    type: String,
+    enum: ["Efectivo", "Mercado Pago"],  
+    required: true, 
+  },
   status: {
     type: String,
     enum: ["pendiente", "procesando", "enviado", "entregado"],

@@ -29,37 +29,48 @@ function Register() {
   const formHandle = async (e) => {
     e.preventDefault();
     let newErrors = {};
+  
+    // Validación de campos vacíos
+    if (
+      !registerData.nombre ||
+      !registerData.email ||
+      !registerData.phone ||
+      !registerData.password ||
+      !registerData.confirmpassword ||
+      !registerData.tipoUsuario
+    ) {
+      newErrors.general = "Error, todos los campos son obligatorios";
+    }
+  
+    // Validación de que las contraseñas coincidan
+    if (registerData.password !== registerData.confirmpassword) {
+      newErrors.password = "Error, las contraseñas deben coincidir";
+    }
+  
+    // Validación de longitud mínima de la contraseña
+    if (registerData.password && registerData.password.length < 8) {
+      newErrors.password = "La contraseña debe tener al menos 8 caracteres";
+    }
+  
+    // Validación de contraseña con al menos una letra mayúscula
+    if (registerData.password && !/[A-Z]/.test(registerData.password)) {
+      newErrors.password = "La contraseña debe contener al menos una letra mayúscula";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    setErrors({});
+  
+    // Enviar los datos al backend
     try {
-      //validacion campos vacios
-      if (
-        !registerData.nombre ||
-        !registerData.email ||
-        !registerData.phone ||
-        !registerData.password ||
-        !registerData.confirmpassword ||
-        !registerData.tipoUsuario
-      ) {
-        newErrors.general = "Error, todos los campos son obligatorios";
-      }
-
-      if (registerData.password !== registerData.confirmpassword) {
-        newErrors.password = "Error, las contraseñas deben coincidir";
-      }
-
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
-
-      setErrors({});
-
-      //Enviar datos al backend
       const response = await axios.post(
         "http://localhost:3000/api/register",
         registerData
       );
-      alert("formulario enviado correctamente");
-
+      alert("Formulario enviado correctamente");
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -69,6 +80,7 @@ function Register() {
       }
     }
   };
+  
 
   return (
     <>

@@ -11,10 +11,10 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-descuento: {
+  descuento: {
     type: Number,
     trim: true,
-    default: null, 
+    default: null,
   },
   precioConDescuento: Number,
   categoria: {
@@ -22,22 +22,21 @@ descuento: {
     required: true,
     trim: true,
   },
-  stock:{
-    type:Number,
-    required:true,
-    trim:true,
+  stock: {
+    type: Number,
+    required: true,
+    trim: true,
   },
-  descripcion:{
-    type:String,
-    trim:true,
+  descripcion: {
+    type: String,
+    trim: true,
   },
   tipoVenta: {
     type: String,
     required: true,
-    enum: ['unidad', 'litro', 'kilo'], 
+    enum: ["unidad", "litro", "kilo"],
     trim: true,
-
-  }
+  },
 });
 
 export const Product = mongoose.model("Product", productSchema);

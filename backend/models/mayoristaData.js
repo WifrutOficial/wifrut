@@ -8,7 +8,7 @@ const mayoristaDataSchema = new mongoose.Schema(
    
     },
     cuil: {
-      type: String,
+      type:Number,
       required: true,
       unique: true,
       trim: true,

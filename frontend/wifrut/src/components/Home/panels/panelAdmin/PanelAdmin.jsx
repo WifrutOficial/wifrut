@@ -5,6 +5,8 @@ import { useState } from "react";
 import Products from "./Products";
 import PanelMayorista from "./PanelMayorista";
 import MayoristasAprobados from "./MayoristasAprobados";
+import { PiArrowBendDownLeftThin } from "react-icons/pi";
+import BuscarPedidos from "./BuscarPedidos";
 
 function PanelAdmin() {
   const navigate = useNavigate();
@@ -26,12 +28,20 @@ function PanelAdmin() {
         <button onClick={() => setActiveComponent(<MayoristasAprobados></MayoristasAprobados>)}>
           Lista Clientes Mayoristas
         </button>
+        <button onClick={() => setActiveComponent(<BuscarPedidos></BuscarPedidos>)}>
+          Buscar pedidos
+        </button>
         </div>
       
       </div>
 
       <div>
-      {activeComponent || <p>Selecciona una opción</p>}
+      {activeComponent || (
+        <div className={style.inicialContainer}>
+          <p>Selecciona una opción del panel </p>
+          <PiArrowBendDownLeftThin />
+        </div>
+      )}
       </div>
     </div>
   );
