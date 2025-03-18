@@ -5,9 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist', // Directorio de salida para la build
+    outDir: 'dist', 
     rollupOptions: {
-      input: 'frontend/index.html', // Aquí es donde debes poner la ruta correcta a tu index.html
-    }
+      input: 'frontend/wifrut/index.html', 
   }
 });
