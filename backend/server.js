@@ -21,7 +21,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? process.env.FRONTEND_URL_PROD
+        ? process.env.VITE_FRONTEND_URL_PROD
         : process.env.FRONTEND_URL_DEV,
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
