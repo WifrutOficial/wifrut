@@ -10,6 +10,9 @@ import orderRoutes from "./routes/orderRoutes.js"
 import  whatsAppRoutes from "./routes/whatsAppRoutes.js"
 import cookieParser from "cookie-parser"
 import { connectDB } from "./database/db.js";
+import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js"
+
+
 
 // Configuración de dotenv para acceder a las variables de entorno
 dotenv.config();
@@ -45,6 +48,9 @@ app.use("/api/minorista",minoristaRoutes)
 app.use("/api/products", productsRoutes)
 app.use("/api/order" , orderRoutes)
 app.use("/api/whatsapp", whatsAppRoutes )
+app.use("/api/mercadopago",mercadoPagoRoutes)
+
+
 
 //servidor
 const PORT = process.env.PORT || 3000;

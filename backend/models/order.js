@@ -36,6 +36,14 @@ const orderSchema = new mongoose.Schema({
     enum: ["pendiente", "procesando", "enviado", "entregado"],
     default: "pendiente",
   },
+  paymentStatus: {  // Nuevo campo para el estado del pago
+    type: String,
+    enum: ["aprobado", "pendiente", "fallido"],
+    default: "pendiente",
+  },
+  preferenceId: {  // Nuevo campo para el ID de la preferencia de pago de Mercado Pago
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

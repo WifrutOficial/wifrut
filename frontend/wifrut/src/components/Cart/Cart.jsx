@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
-import { IoTrashOutline } from "react-icons/io5";
+import { IoTrashOutline } from "react-icons/io5";     
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Asegúrate de tener axios importado
+import { FaArrowLeft } from "react-icons/fa";
+
 
 export default function Cart() {
+  const navigate = useNavigate();
   const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
@@ -14,59 +19,86 @@ export default function Cart() {
 
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    console.log("Dirección de envío:", direccion); // Verifica la dirección
+    console.log("Método de pago:", metodoPago); // Verifica el método de pago
+  
     if (!direccion.trim()) {
       alert("Por favor ingresa una dirección de envío.");
       return;
     }
     if (!metodoPago) {
-     alert("Por favor selecciona un método de pago.");
+      alert("Por favor selecciona un método de pago.");
       return;
     }
-    checkout(direccion, metodoPago);
+  
+    try {
+      const response = await checkout(direccion, metodoPago);
+      console.log("Respuesta del checkout:", response);
+  
+      if (response && response.status === 201) {
+        alert("Pedido realizado con éxito.");
+        clearCart();
+  
+        if (metodoPago === "Mercado Pago") {
+          createMercadoPagoPreference(response.data.orderId);
+        }
+      } else {
+        alert("Hubo un error al procesar tu pedido. Inténtalo nuevamente.");
+      }
+    } catch (error) {
+      console.error("Error en el checkout:", error);
+      alert("Hubo un error al procesar tu pedido. Inténtalo nuevamente.");
+    }
   };
+  
+
+  const createMercadoPagoPreference = async (orderId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/mercadopago/preference", 
+        { orderId }
+      );
+  
+      // Log para ver la respuesta completa de Mercado Pago
+      console.log("Respuesta de Mercado Pago:", response.data);
+  
+      if (response.data.sandbox_init_point) {
+        window.location.href = response.data.sandbox_init_point;
+      } else {
+        alert("Hubo un error al generar la preferencia de pago. Inténtalo nuevamente.");
+      }
+    } catch (error) {
+      console.error("Error al crear la preferencia de pago:", error);
+      alert("Hubo un error al procesar el pago. Inténtalo nuevamente.");
+    }
+  };
+  
 
   return (
     <div className={style.container}>
+      <FaArrowLeft className={style.arrow} onClick={() => navigate("/")} />
       <h2 className={style.title}>Carrito de Compras</h2>
       {cart.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
         <div className={style.containerCart}>
           <ul className={style.cart}>
-            {cart.map(
-              ({
-                _id,
-                nombre,
-                precio,
-                quantity,
-                precioConDescuento,
-                tipoVenta,
-              }) => {
-                const precioFinal = precioConDescuento ?? precio;
-              
-
-                return (
-                  <li key={_id} className={style.cartItem}>
-                    <p>{nombre}</p>
-                    <div className={style.cantidades}>
-                      {" "}
-                      <p>
-                        {quantity} {tipoVenta === "kg" ? "kg" : "U"}
-                      </p>
-                    </div>
-                    <p>Total: ${quantity * precioFinal}</p>
-                    <button
-                      onClick={() => removeFromCart(_id)}
-                      aria-label={`Eliminar ${nombre} del carrito`}
-                      className={style.btnDelete}
-                    >
-                      <IoTrashOutline />
-                    </button>
-                  </li>
-                );
-              }
-            )}
+            {cart.map(({ _id, nombre, precio, quantity, precioConDescuento, tipoVenta }) => {
+              const precioFinal = precioConDescuento ?? precio;
+              return (
+                <li key={_id} className={style.cartItem}>
+                  <p>{nombre}</p>
+                  <div className={style.cantidades}>
+                    <p>{quantity} {tipoVenta === "kg" ? "kg" : "U"}</p>
+                  </div>
+                  <p>Total: ${quantity * precioFinal}</p>
+                  <button onClick={() => removeFromCart(_id)} aria-label={`Eliminar ${nombre} del carrito`} className={style.btnDelete}>
+                    <IoTrashOutline />
+                  </button>
+                </li>
+              );
+            })}
           </ul>
           <hr />
           <div className={style.total}>
@@ -84,9 +116,7 @@ export default function Cart() {
             </div>
             <p>Costo de envío: ${costoEnvio}</p>
           </div>
-          <p className={style.fullTotal}>
-            Total Final: ${totalFinal.toFixed(2)}
-          </p>
+          <p className={style.fullTotal}>Total Final: ${totalFinal.toFixed(2)}</p>
           <div>
             <p className={style.titlePago}>Método de pago</p>
             <div className={style.containerPago}>
@@ -104,21 +134,15 @@ export default function Cart() {
             </div>
           </div>
           {cart.length > 0 && (
-        <div className={style.btnContainer}>
-          <button
-            onClick={() =>
-              window.confirm("¿Estás seguro de vaciar el carrito?") &&
-              clearCart()
-            }
-          >
-            Vaciar Carrito
-          </button>
-          <button onClick={handleCheckout}>Realizar Pedido</button>
+            <div className={style.btnContainer}>
+              <button onClick={() => window.confirm("¿Estás seguro de vaciar el carrito?") && clearCart()}>
+                Vaciar Carrito
+              </button>
+              <button onClick={handleCheckout}>Realizar Pedido</button>
+            </div>
+          )}
         </div>
       )}
-        </div>
-      )}
-    
     </div>
   );
 }

@@ -73,7 +73,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         "http://localhost:3000/api/order/create",
         {
-          userId: user._id, 
+          userId: user._id,
           items: cart.map(item => ({
             productId: item._id,
             nombre: item.nombre,
@@ -85,7 +85,7 @@ export const CartProvider = ({ children }) => {
               acc + (item.precioConDescuento ?? item.precio) * item.quantity,
             0
           ),
-          direccion, 
+          direccion,
           metodoPago,
         },
         {
@@ -94,12 +94,11 @@ export const CartProvider = ({ children }) => {
       );
   
       if (response.status === 201) {
-        alert("Pedido realizado con éxito.");
-        clearCart();
+        return response; // Asegúrate de devolver la respuesta aquí.
       }
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
-      alert("Hubo un error al procesar tu pedido. Inténtalo nuevamente.");
+      throw error; // Propaga el error para que sea capturado en el componente.
     }
   };
   

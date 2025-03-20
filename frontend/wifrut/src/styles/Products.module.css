@@ -221,7 +221,7 @@
 
   .cartContainer {
     width: 155px;
-    height: 315px;
+  
   }
 
   .img {
@@ -271,5 +271,9 @@
     transform: rotate(90deg);
     width: 15px;
     height: 15px;
+  }
+
+  .titleOfertas{
+    font-size: 40px;
   }
 }

@@ -1,15 +1,17 @@
 .container {
-  background-image: url("../../public//fondo.png");
+  background-image: url("../../fondo.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 .title {
   color: #ffff;
   font-weight: 400;
   text-align: center;
-  padding: 40px 0;
+  padding: 20px 0;
 }
 .containerCart {
   background-color: #d4d4d415;
@@ -119,8 +121,6 @@ hr {
   gap: 20px;
 }
 
-
-
 .btnContainer {
   display: flex;
   justify-content: center;
@@ -153,4 +153,36 @@ hr {
   align-items: center;
   text-align: center;
   width: 100px;
+}
+.container .arrow {
+  width: 20px;
+  height: 20px;
+  color: #ffff;
+  margin-left: 20px;
+  margin-top: 49px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .fullTotal {
+    font-size: 30px;
+  }
+
+  .btnContainer button {
+    width: 150px;
+  }
+  .cart {
+    padding: 25px;
+  }
+  .envio {
+    padding: 20px 20px;
+  }
+
+  .inputEnvio p {
+    font-size: 12px;
+  }
+
+  .envio p {
+    font-size: 12px;
+  }
 }
