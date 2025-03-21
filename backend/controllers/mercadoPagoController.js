@@ -24,7 +24,8 @@ export const createOrderAndPreference = async (req, res) => {
 
     // Crear los items de la preferencia de Mercado Pago
     const items = order.items.map((item) => ({
-      title: item.nombre,
+      id: item.nombre,
+      id: item.nombre,
       quantity: item.cantidad,
       unit_price: item.precio,
       currency_id: "ARS",
