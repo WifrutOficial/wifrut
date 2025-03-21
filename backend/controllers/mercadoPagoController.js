@@ -1,6 +1,12 @@
-import mercadopago from "mercadopago";
+import mercadopago from 'mercadopago';
 import { Order } from "../models/order.js";
 import mongoose from "mongoose";
+
+// Configurar Mercado Pago con el token de acceso
+mercadopago.configure({
+  access_token: 'TU_ACCESS_TOKEN',
+});
+
 
 export const createOrderAndPreference = async (req, res) => {
   const { orderId } = req.body;
@@ -30,9 +36,6 @@ export const createOrderAndPreference = async (req, res) => {
       currency_id: "ARS",
     }));
 
-    // Configurar Mercado Pago con el token de acceso
-    mercadopago.configurations.setAccessToken("YOUR_ACCESS_TOKEN");
-
     // Crear la preferencia de pago
     const preference = {
       items,
@@ -61,6 +64,3 @@ export const createOrderAndPreference = async (req, res) => {
     res.status(500).json({ message: "Error al procesar el pago" });
   }
 };
-
-
-
