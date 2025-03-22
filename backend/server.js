@@ -51,9 +51,14 @@ app.use("/api/whatsapp", whatsAppRoutes )
 app.use("/api/mercadopago",mercadoPagoRoutes)
 
 
-
 //servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  // Solo en desarrollo local, inicia el servidor.
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Exporta la aplicación para Vercel en producción.
+export default app;
