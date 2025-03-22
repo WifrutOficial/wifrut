@@ -12,7 +12,10 @@ export const AuthProvider = ({ children }) => {
   // Verificacion de token en las cookies
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/login `, { withCredentials: true });
+      console.log(`${import.meta.env.VITE_API_URL}/api/login`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/login`, { withCredentials: true });
+     
+
       if (response.data?.user) {
         setIsAuthenticated(true);
         setUser(response.data.user);

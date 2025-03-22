@@ -60,5 +60,8 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
+
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 // Exporta la aplicación para Vercel en producción.
 export default app;
