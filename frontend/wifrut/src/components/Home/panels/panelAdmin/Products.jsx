@@ -28,7 +28,7 @@ function Products() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/products/${type}/upload`, 
+       `${API_URL}/api/products/${type}/upload`, 
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

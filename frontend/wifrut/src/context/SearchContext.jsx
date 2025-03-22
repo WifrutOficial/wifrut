@@ -1,17 +1,14 @@
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext } from "react";
 
 
 const SearchContext = createContext();
 
 
 export const SearchProvider = ({ children }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+ // const [searchQuery, setSearchQuery] = useState("");
 
-  //analizar esta funcion si sirve o no!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  const updateSearchQuery = (query) => {
-    setSearchQuery(query);
-  };
+
 
   return (
     <SearchContext.Provider value={{ searchQuery, updateSearchQuery }}>

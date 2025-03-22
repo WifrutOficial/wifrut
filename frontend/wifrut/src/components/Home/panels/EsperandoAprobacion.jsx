@@ -26,7 +26,7 @@ function EsperandoAprobacion() {
     const verificarDatos = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/mayorista/obtener-datos-mayorista",
+           `${API_URL}/api/mayorista/obtener-datos-mayorista `,
           { withCredentials: true }
         );
   
@@ -59,7 +59,7 @@ function EsperandoAprobacion() {
     console.log("Datos enviados:", mayoristaData);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/mayorista/guardar-datos-mayorista",
+        `${API_URL}/api/mayorista/guardar-datos-mayorista`,
         mayoristaData,
         { withCredentials: true }
       );

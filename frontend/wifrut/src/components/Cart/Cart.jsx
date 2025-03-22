@@ -20,8 +20,6 @@ export default function Cart() {
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
   const handleCheckout = async () => {
-    console.log("Dirección de envío:", direccion); // Verifica la dirección
-    console.log("Método de pago:", metodoPago); // Verifica el método de pago
   
     if (!direccion.trim()) {
       alert("Por favor ingresa una dirección de envío.");
@@ -40,8 +38,15 @@ export default function Cart() {
         alert("Pedido realizado con éxito.");
         clearCart();
   
+        // Extraer el orderId correctamente
+        const orderId = response.data.order?._id;  
+        if (!orderId) {
+          console.error("Error: orderId no encontrado en la respuesta del checkout.");
+          return;
+        }
+  
         if (metodoPago === "Mercado Pago") {
-          createMercadoPagoPreference(response.data.orderId);
+          createMercadoPagoPreference(orderId);
         }
       } else {
         alert("Hubo un error al procesar tu pedido. Inténtalo nuevamente.");
@@ -52,19 +57,23 @@ export default function Cart() {
     }
   };
   
-
   const createMercadoPagoPreference = async (orderId) => {
+    if (!orderId) {
+      console.error("El orderId es inválido o no se ha proporcionado.");
+      return;
+    }
+    console.log("orderId que se está enviando:", orderId);
+
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/mercadopago/preference", 
+        `${API_URL}/api/mercadopago/preference`, 
         { orderId }
       );
   
-      // Log para ver la respuesta completa de Mercado Pago
       console.log("Respuesta de Mercado Pago:", response.data);
   
-      if (response.data.sandbox_init_point) {
-        window.location.href = response.data.sandbox_init_point;
+      if (response.data.init_point) {
+        window.location.href = response.data.init_point; // Redirige al pago
       } else {
         alert("Hubo un error al generar la preferencia de pago. Inténtalo nuevamente.");
       }
@@ -73,6 +82,7 @@ export default function Cart() {
       alert("Hubo un error al procesar el pago. Inténtalo nuevamente.");
     }
   };
+  
   
 
   return (

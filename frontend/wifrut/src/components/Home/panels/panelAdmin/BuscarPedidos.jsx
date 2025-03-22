@@ -11,7 +11,7 @@ function BuscarPedidos() {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/whatsapp/ordersByDate?date=${date}`
+         `${API_URL}/api/whatsapp/ordersByDate?date=${date}`
       );
       setOrders(response.data);
     } catch (error) {

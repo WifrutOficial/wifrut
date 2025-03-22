@@ -181,7 +181,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("../../public/fondo.png");
+  background-image: url("../../fondo.png");
   background-position: center;
   background-repeat: no-repeat;
   background-clip: cover;
@@ -275,5 +275,15 @@
 
   .titleOfertas{
     font-size: 40px;
+  }
+
+  .quantitySelection{
+   
+    text-align: center;
+  }
+
+  .total{
+    text-align: center;
+    font-size:14px ;
   }
 }

@@ -10,7 +10,7 @@ function PanelMayorista() {
     const fetchSolicitudes = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/obtener-datos-mayorista",
+         `${API_URL}/api/admin/obtener-datos-mayorista`,
           { withCredentials: true }
         );
         
@@ -30,7 +30,7 @@ function PanelMayorista() {
   const handleAprobar = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/admin/aprobar-mayorista/${id}`,
+        `${API_URL}/api/admin/aprobar-mayorista/${id}`,
         {},
         { withCredentials: true }
       );

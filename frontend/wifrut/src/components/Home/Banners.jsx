@@ -6,7 +6,7 @@ const Banners = () => {
 
   const images = [
   
- '../../../public/publicidad1.png',
+ '../../../publicidad1.png',
  '../../../publicidad1.png',
  '../../../publicidad3.png',
   ];

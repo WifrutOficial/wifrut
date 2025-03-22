@@ -8,7 +8,7 @@ function MayoristasAprobados() {
     const fetchMayoristasAprobados = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/mayoristas-aprobados",
+            `${API_URL}/api/admin/mayoristas-aprobados`,
           { withCredentials: true }
         );
         setMayoristasAprobados(response.data);

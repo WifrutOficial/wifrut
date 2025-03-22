@@ -67,7 +67,7 @@ function Register() {
     // Enviar los datos al backend
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        `${API_URL}/api/register`,
         registerData
       );
       alert("Formulario enviado correctamente");

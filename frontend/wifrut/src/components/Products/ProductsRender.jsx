@@ -22,7 +22,7 @@ function ProductsRender() {
     const getProductsBD = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/products/productos"
+          `${API_URL}/api/products/productos`
         );
         setProducts(response.data);
       } catch (error) {

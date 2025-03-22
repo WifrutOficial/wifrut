@@ -1,11 +1,6 @@
-import mercadopago from "mercadopago";
+import { MercadoPagoConfig, Preference } from "mercadopago";
 import { Order } from "../models/order.js";
 import mongoose from "mongoose";
-
-// Configurar Mercado Pago con el token de acceso
-mercadopago.configure({
-  access_token: 'TU_ACCESS_TOKEN',
-});
 
 
 export const createOrderAndPreference = async (req, res) => {
@@ -14,12 +9,10 @@ export const createOrderAndPreference = async (req, res) => {
   console.log("orderId recibido:", orderId);
 
   try {
-    // Validar que orderId sea un ObjectId válido
     if (!mongoose.Types.ObjectId.isValid(orderId)) {
       return res.status(400).json({ error: "ID de orden no válido" });
     }
 
-    // Buscar la orden en la base de datos
     const order = await Order.findById(orderId)
       .populate("items.productId")
       .populate("userId");
@@ -28,63 +21,29 @@ export const createOrderAndPreference = async (req, res) => {
       return res.status(404).json({ error: "Orden no encontrada" });
     }
 
-    // Crear los items de la preferencia de Mercado Pago
     const items = order.items.map((item) => ({
-      id: item.nombre,
+      id: item.productId._id, 
       id: item.nombre,
       quantity: item.cantidad,
       unit_price: item.precio,
       currency_id: "ARS",
     }));
+    const idempotencyKey = orderId; 
+    const client = new MercadoPagoConfig({
+      accessToken:
+        "APP_USR-8199887439890075-031921-26cd2269d40b72749f9cbd3d2491290f-2338185913",
+      options: { timeout: 5000, idempotencyKey },
+    });
 
-    // Configurar Mercado Pago con el token de acceso
-    mercadopago.configurations.setAccessToken("YOUR_ACCESS_TOKEN");
+    const preference = new Preference(client);
 
-    // Crear la preferencia de pago
-    // const preference = {
-    //   items,
-    //   payer: {
-    //     name: order.userId.name,
-    //     email: order.userId.email,
-    //   },
-    //   back_urls: {
-    //     success: "https://www.mercadopago.com.ar/success",
-    //     failure: "https://www.mercadopago.com.ar/failure",
-    //     pending: "https://www.mercadopago.com.ar/pending",
-    //   },
-    //   auto_return: "approved",
-    // };
+    const createdPreference = await preference.create({
+      body: {
+        items,
+      },
+    });
 
-    // Step 4: Create the request object
-    // const priceQuantity = items?.reduce((acc, item) => {
-    //   acc + item.unit_price;
-    // }, 0);
-
-    // const body = {
-    //   transaction_amount: priceQuantity,
-    //   description: order.userId.name,
-    //   payment_method_id: '<PAYMENT_METHOD_ID>',
-    //   payer: {
-    //     email: '<EMAIL>'
-    //   },
-    // };
-
-    // // Step 5: Create request options object - Optional
-    // const requestOptions = {
-    //   idempotencyKey: '<IDEMPOTENCY_KEY>',
-    // };
-
-    // // Step 6: Make the request
-    // payment.create({ body, requestOptions }).then(console.log).catch(console.log);
-
-    // const response = await mercadopago.preferences.create(preference);
-
-    // Guarda el id de la preferencia en la orden
-    // order.preferenceId = response.body.id;
-    // await order.save();
-
-    // Enviar la URL de pago al frontend
-    // res.json({ sandbox_init_point: response.body.sandbox_init_point });
+    res.json({ orderId: order._id, init_point: createdPreference.init_point });
   } catch (error) {
     console.error("Error al crear la preferencia de pago:", error);
     res.status(500).json({ message: "Error al procesar el pago" });
