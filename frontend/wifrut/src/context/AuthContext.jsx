@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   // Verificacion de token en las cookies
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/login `, { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/login `, { withCredentials: true });
       if (response.data?.user) {
         setIsAuthenticated(true);
         setUser(response.data.user);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   // FUNCIÓN LOGIN
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_URL}/api/login`,
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`,
         { email, password },
         { withCredentials: true ,  headers: { "Content-Type": "application/json" }}
        
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   //FUNCIÓN LOGOUT
   const logout = async () => {
     try {
-      await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/logout`, {}, { withCredentials: true });
       setIsAuthenticated(false);
       setUser(null);
     } catch (error) {

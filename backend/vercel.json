@@ -14,8 +14,7 @@
   ],
   "projectSettings": {
     "framework": "nodejs",
-    "buildCommand": "npm run build", 
-      "NODE_ENV": "production"
-    }
+    "buildCommand": "npm run build",
+    "NODE_ENV": "production"
+  }
 }
-

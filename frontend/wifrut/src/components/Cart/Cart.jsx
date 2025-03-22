@@ -66,7 +66,7 @@ export default function Cart() {
 
     try {
       const response = await axios.post(
-        `${API_URL}/api/mercadopago/preference`, 
+        `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`, 
         { orderId }
       );
   

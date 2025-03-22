@@ -71,7 +71,7 @@ export const CartProvider = ({ children }) => {
   
     try {
       const response = await axios.post(
-        `${API_URL}/api/order/create`,
+        `${import.meta.env.VITE_API_URL}/api/order/create`,
         {
           userId: user._id,
           items: cart.map(item => ({

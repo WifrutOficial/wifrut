@@ -67,7 +67,7 @@ function Register() {
     // Enviar los datos al backend
     try {
       const response = await axios.post(
-        `${API_URL}/api/register`,
+        `${import.meta.env.VITE_API_URL}/api/register`,
         registerData
       );
       alert("Formulario enviado correctamente");
