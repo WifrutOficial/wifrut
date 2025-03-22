@@ -2,19 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "wifrut/backend/package.json",
+      "src": "server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/wifrut/backend/$1"
+      "src": "/(.*)",
+      "dest": "/"
     }
-  ],
-  "projectSettings": {
-    "framework": "nodejs",
-    "buildCommand": "npm run build",
-    "NODE_ENV": "production"
-  }
+  ]
+ 
 }
