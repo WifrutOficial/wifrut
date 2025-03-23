@@ -16,6 +16,7 @@ import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
 dotenv.config();
 
 const app = express();
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // Configuración de CORS
 app.use(
