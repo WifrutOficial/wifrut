@@ -52,5 +52,13 @@ app.use("/api/mercadopago", mercadoPagoRoutes);
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
+
+const PORT = process.env.PORT || 3000; 
+
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
+
 // Exporta la aplicación para ser utilizada en Vercel
 export default app;

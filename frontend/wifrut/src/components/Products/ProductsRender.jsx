@@ -21,7 +21,7 @@ function ProductsRender() {
   useEffect(() => {
     const getProductsBD = async () => {
       try {
-        console.log("API URL:", import.meta.env.VITE_API_URL);
+        console.log("API URL PRODUCTOSSS:", import.meta.env.VITE_API_URL);
 
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/products/productos`
