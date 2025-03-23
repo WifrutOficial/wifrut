@@ -22,10 +22,10 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? process.env.VITE_FRONTEND_URL_PROD  // URL de tu frontend en producción
-        : process.env.FRONTEND_URL_DEV,      // URL de tu frontend en desarrollo
+        ? process.env.FRONTEND_URL_PROD  
+        : process.env.FRONTEND_URL_DEV,    
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Necesario si se usan cookies o encabezados de autorización
+    credentials: true, 
   })
 );
 
