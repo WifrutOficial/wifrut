@@ -7,9 +7,10 @@ export const connectDB = async ()=>{
         const mongoURI = process.env.NODE_ENV === "production"
         ? process.env.MONGO_URI
         : process.env.MONGO_URI_DEV
+        console.log('Conectando a MongoDB...');
         await mongoose.connect(mongoURI,{
           
-            serverSelectionTimeoutMS: 5000,
+            serverSelectionTimeoutMS: 10000,
         })
         console.log(`Conectado a la base de datos en modo ${process.env.NODE_ENV}`)
         
