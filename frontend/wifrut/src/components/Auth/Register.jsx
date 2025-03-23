@@ -29,7 +29,7 @@ function Register() {
   const formHandle = async (e) => {
     e.preventDefault();
     let newErrors = {};
-  
+
     // Validación de campos vacíos
     if (
       !registerData.nombre ||
@@ -41,31 +41,33 @@ function Register() {
     ) {
       newErrors.general = "Error, todos los campos son obligatorios";
     }
-  
+
     // Validación de que las contraseñas coincidan
     if (registerData.password !== registerData.confirmpassword) {
       newErrors.password = "Error, las contraseñas deben coincidir";
     }
-  
+
     // Validación de longitud mínima de la contraseña
     if (registerData.password && registerData.password.length < 8) {
       newErrors.password = "La contraseña debe tener al menos 8 caracteres";
     }
-  
+
     // Validación de contraseña con al menos una letra mayúscula
     if (registerData.password && !/[A-Z]/.test(registerData.password)) {
-      newErrors.password = "La contraseña debe contener al menos una letra mayúscula";
+      newErrors.password =
+        "La contraseña debe contener al menos una letra mayúscula";
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-  
+
     setErrors({});
-  
+
     // Enviar los datos al backend
     try {
+   
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/register`,
         registerData
@@ -80,7 +82,6 @@ function Register() {
       }
     }
   };
-  
 
   return (
     <>
