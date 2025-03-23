@@ -1,8 +1,10 @@
 {
     "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "https://tu-backend.vercel.app/api/$1"
-        }
-    ]
-}
+      {
+        "source": "/api/(.*)",
+        "destination": "https://tu-backend.vercel.app/api/$1"
+      }
+    ],
+    "relatedProjects": ["prj_123"]
+  }
+  
