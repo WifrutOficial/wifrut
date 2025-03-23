@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   // Verificacion de token en las cookies
   const checkAuthStatus = async () => {
     try {
-      console.log(`${import.meta.env.VITE_API_URL}/api/login`);
+      console.log("API URL:", import.meta.env.VITE_API_URL);
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/login`, { withCredentials: true });
      
 
