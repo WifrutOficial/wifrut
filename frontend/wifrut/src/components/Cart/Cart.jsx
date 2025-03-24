@@ -124,7 +124,7 @@ export default function Cart() {
                 onChange={(e) => setDireccion(e.target.value)}
               />
             </div>
-            <p>Costo de envío: ${costoEnvio}</p>
+            <p>Costo: ${costoEnvio}</p>
           </div>
           <p className={style.fullTotal}>Total Final: ${totalFinal.toFixed(2)}</p>
           <div>

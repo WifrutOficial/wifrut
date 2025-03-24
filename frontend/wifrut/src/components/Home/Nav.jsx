@@ -12,7 +12,7 @@ function Nav() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
-  const { searchQuery, updateSearchQuery } = useSearch();
+  const { searchQuery, setSearchQuery } = useSearch();
   const [isFixed, setIsFixed] = useState(false);
   const { cart } = useCart(); 
   // Calcular la cantidad total de productos
@@ -42,7 +42,7 @@ function Nav() {
   };
 
   const handleSearchChange = (e) => {
-    updateSearchQuery(e.target.value); 
+    setSearchQuery(e.target.value); 
   };
 
   return (
