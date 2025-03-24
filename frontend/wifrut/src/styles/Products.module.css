@@ -221,8 +221,7 @@
   }
 
   .cartContainer {
-    width: 220px;
-  
+    width: 200px;
   }
 
   .img {
@@ -274,17 +273,16 @@
     height: 15px;
   }
 
-  .titleOfertas{
+  .titleOfertas {
     font-size: 40px;
   }
 
-  .quantitySelection{
-   
+  .quantitySelection {
     text-align: center;
   }
 
-  .total{
+  .total {
     text-align: center;
-    font-size:14px ;
+    font-size: 14px;
   }
 }
