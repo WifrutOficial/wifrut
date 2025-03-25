@@ -47,5 +47,15 @@
 
   .textInfo{
     font-size: 10px;
+    text-align: center;
   }
   
+
+  @media (max-width: 768px) {
+
+    .containerInfo{
+      width: 360px;
+
+  
+    }
+  }

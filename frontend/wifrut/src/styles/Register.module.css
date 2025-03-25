@@ -19,12 +19,12 @@
   top: 25px;
 }
  .arrow {
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   color: #ffffffbd;
-  position: relative;
-  top: -100px;
- right: 180px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
   cursor: pointer;
 }
 
@@ -55,7 +55,7 @@
   border-radius: 15px;
   position: relative;
   padding-top: 30px;
-  gap: 30px;
+  gap: 20px;
   padding:  20px 20px 0 20px;
 
 }

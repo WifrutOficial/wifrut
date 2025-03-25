@@ -18,17 +18,18 @@
   backdrop-filter: blur(20px);
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
-  max-width: 800px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .cart {
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin: 0 20px;
   gap: 20px;
   align-items: center;
-  padding: 40px;
+  padding: 30px;
 
   max-height: 300px;
   overflow-y: auto;
@@ -124,7 +125,7 @@ hr {
 .btnContainer {
   display: flex;
   justify-content: center;
-  padding: 30px 0;
+  padding: 30px 10px;
   gap: 20px;
 }
 .btnContainer button {
@@ -155,16 +156,28 @@ hr {
   width: 100px;
 }
 .container .arrow {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   color: #ffffffbd;
 
+  margin-left: 10px;
+  margin-top: 8px;
   cursor: pointer;
 }
 
+.customAlert {
+  background-color: #d4d4d415;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  color: #fff;
+}
 
-
-
+.customIcon {
+  font-size: 10px;
+  background-color: #b90003;
+  text-align: center;
+}
 
 @media (max-width: 768px) {
   .fullTotal {
@@ -189,7 +202,12 @@ hr {
     font-size: 12px;
   }
 
-  .container{
+  .container {
     padding: 12px;
+  }
+
+  .container .arrow {
+    width: 30px;
+    height: 30px;
   }
 }

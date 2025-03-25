@@ -2,7 +2,7 @@ import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import style from "../../styles/Register.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { IoIosArrowDropleft } from "react-icons/io";
 import axios from "axios";
 
 function Register() {
@@ -68,7 +68,6 @@ function Register() {
 
     // Enviar los datos al backend
     try {
-   
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/register`,
         registerData
@@ -87,10 +86,14 @@ function Register() {
   return (
     <>
       <div className={style.container}>
-         <FaArrowLeft className={style.arrow} onClick={() => navigate("/")} />
         <img className={style.logo} src="../../../logo.png" alt="logo" />
         <div className={style.containerRegister}>
+      
           <p className={style.title}>Crear Cuenta</p>
+          <IoIosArrowDropleft
+            className={style.arrow}
+            onClick={() => navigate("/")}
+          />
           <form className={style.containerForm} onSubmit={formHandle}>
             <input
               type="text"

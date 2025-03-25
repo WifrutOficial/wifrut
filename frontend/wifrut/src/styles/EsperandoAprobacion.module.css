@@ -25,12 +25,13 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  height: 300px;
 }
 
 .containerForm {
   width: 420px;
-  height: 425px;
+  height: 600px;
   border-radius: 13px;
   padding: 20px;
   display: flex;
@@ -59,8 +60,9 @@
   color: #fff;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: #d9d9d949;
-  padding: 5px;
-  border-radius: 13px;
+  padding: 8px;
+  border-radius: 15px;
+  height: 35px;
 }
 
 .formContainer button {
@@ -73,4 +75,30 @@
   margin: auto;
   border-radius: 13px;
   box-shadow: inset 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+ 
+}
+
+
+select{
+  background: none;
+  height: 35px;
+  color: #fff;
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: #d9d9d949;
+}
+
+select option{
+  background-color: #00ad3a;
+
+
+}
+
+@media (max-width: 768px) {
+
+  .containerForm{
+    width: 380px;
+
+  }
 }

@@ -6,6 +6,7 @@ import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
 import { BiSolidRightArrow } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 function ProductsRender() {
   const [products, setProducts] = useState([]);
@@ -52,19 +53,46 @@ function ProductsRender() {
 
   const handleAddToCart = (product) => {
     if (!isAuthenticated) {
-      alert("Debes iniciar sesión para comprar.");
+      Swal.fire({
+        title: "¡Error!",
+        text: "Debes iniciar sesión para comprar.",
+        icon: "warning",
+        confirmButtonColor: "#B90003",
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIconErr,
+        },
+      });
       return;
     }
     const cantidad = quantities[product._id] || 0;
     if (cantidad === 0) {
-      alert("Debes seleccionar una cantidad.");
+      Swal.fire({
+        title: "¡Error!",
+        text: "Debes seleccionar una cantidad.",
+        icon: "warning",
+        confirmButtonColor: "#B90003",
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIconErr,
+        },
+      });
       return;
     }
     addToCart(
       { ...product, tipoVenta: product.tipoVenta || "Unidad" },
       cantidad
     );
-    alert("Producto agregado al carrito");
+
+    Swal.fire({
+      text: "Producto agregado al carrito",
+      icon: "success",
+      confirmButtonColor: "#004718",
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIconSuc,
+      },
+    });
   };
 
   const handleCategoryClick = (category) => {

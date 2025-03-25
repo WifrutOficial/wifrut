@@ -4,7 +4,8 @@ import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";     
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
-import { FaArrowLeft } from "react-icons/fa";
+import { IoIosArrowDropleft } from "react-icons/io";
+import Swal from "sweetalert2";
 
 
 export default function Cart() {
@@ -22,11 +23,31 @@ export default function Cart() {
   const handleCheckout = async () => {
   
     if (!direccion.trim()) {
-      alert("Por favor ingresa una dirección de envío.");
+      Swal.fire({
+        title: "¡Error!",
+        text: "Por favor ingresa una dirección de envío.",
+        icon: "warning",
+        confirmButtonColor: "#B90003",
+        customClass: {
+          popup: style.customAlert, 
+          icon: style.customIcon 
+        }
+      
+      });
       return;
     }
     if (!metodoPago) {
-      alert("Por favor selecciona un método de pago.");
+      Swal.fire({
+        title: "¡Error!",
+        text: "Por favor seleccione un metodo de pago.",
+        icon: "warning",
+        confirmButtonColor: "#B90003",
+        customClass: {
+          popup: style.customAlert, 
+          icon: style.customIcon 
+        }
+      
+      });
       return;
     }
   
@@ -87,12 +108,13 @@ export default function Cart() {
 
   return (
     <div className={style.container}>
-      <FaArrowLeft className={style.arrow} onClick={() => navigate("/")} />
+     
       <h2 className={style.title}>Carrito de Compras</h2>
       {cart.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
         <div className={style.containerCart}>
+           <IoIosArrowDropleft className={style.arrow} onClick={() => navigate("/")} />
           <ul className={style.cart}>
             {cart.map(({ _id, nombre, precio, quantity, precioConDescuento, tipoVenta }) => {
               const precioFinal = precioConDescuento ?? precio;

@@ -215,6 +215,30 @@
   border-radius: 13px;
 }
 
+.customAlert {
+  background-color: #d4d4d415;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  color: #fff;
+}
+
+.customIconSuc {
+  font-size: 10px;
+  background-color: #004718;
+  text-align: center;
+
+
+}
+.customIconErr {
+  font-size: 10px;
+  background-color: #b90003;
+  text-align: center;
+
+
+
+}
+
 
 @media (max-width: 768px) {
   .title {
