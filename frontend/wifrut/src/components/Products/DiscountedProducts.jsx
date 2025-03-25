@@ -19,9 +19,9 @@ function DiscountedProducts({ products, quantities, handleQuantityChange, handle
     <div className={style.descuento}>
 
       <div className={style.container2}>
-        {products.map(({ _id, nombre, descuento, descripcion, tipoVenta, precioConDescuento }) => (
+        {products.map(({ _id, nombre, descuento, descripcion, tipoVenta, precioConDescuento, imagen }) => (
           <div key={_id} className={style.cartContainer}>
-            <img className={style.img} src="../../../producto.png" alt="img" />
+            <img className={style.img} src={`/${imagen}`} alt="img" />
             <p className={style.priceUnit}>
               Precio con descuento: ${precioConDescuento || 0}
             </p>
