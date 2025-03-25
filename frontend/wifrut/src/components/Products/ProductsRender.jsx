@@ -23,7 +23,8 @@ function ProductsRender() {
         console.log("API URL PRODUCTOSSS:", import.meta.env.VITE_API_URL);
 
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/products/productos`
+          `${import.meta.env.VITE_API_URL}/api/products/productos`,
+          { withCredentials: true } // 🔥 Agregar esto para que envíe las cookies
         );
         setProducts(response.data);
       } catch (error) {
@@ -188,7 +189,6 @@ function ProductsRender() {
             return (
               <div key={_id} className={style.cartContainer}>
                 <img className={style.img} src={`/${imagen}`} alt="img" />
-                <p>Imagen nombre: {imagen}</p>
                 <p className={style.priceUnit}>
                   Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
                 </p>
