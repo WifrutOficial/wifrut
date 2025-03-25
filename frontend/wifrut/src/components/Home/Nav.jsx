@@ -74,9 +74,6 @@ function Nav() {
             <IoMdClose onClick={toggleMenu} className={style.btnClose} />
             <a className={style.a}  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} >Inicio</a>
             <a className={style.a}  onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}  >Ofertas</a>
-            <a className={style.a} onClick={() => navigate("/cart")}>
-              Envios y Zonas
-            </a>
           </div>
         </div>
 

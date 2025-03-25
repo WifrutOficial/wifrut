@@ -3,7 +3,7 @@ import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";     
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Asegúrate de tener axios importado
+import axios from "axios"; 
 import { FaArrowLeft } from "react-icons/fa";
 
 

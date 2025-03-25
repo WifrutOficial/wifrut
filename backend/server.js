@@ -11,9 +11,12 @@ import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
+import path from "path"
+import { fileURLToPath } from 'url';
 
 // Configuración de dotenv para acceder a las variables de entorno
 dotenv.config();
+
 
 const app = express();
 console.log('NODE_ENV:', process.env.NODE_ENV);
@@ -33,6 +36,13 @@ app.use(
 // Middleware para el manejo de JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Obtener el directorio del archivo actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use( express.static(path.resolve(__dirname, '../frontend/wifrut/public')));
+
+
 
 // Conexión a la base de datos
 connectDB();

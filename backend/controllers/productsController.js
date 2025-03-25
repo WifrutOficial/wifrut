@@ -2,6 +2,8 @@ import XLSX from "xlsx";
 import { Product } from "../models/products.js";
 import { WholesaleProduct } from "../models/productsMayorista.js";
 
+
+
 //MINORISTA
 export const uploadExcel = async (req, res) => {
   try {

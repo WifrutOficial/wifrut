@@ -2,6 +2,7 @@ import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import style from "../../styles/Register.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 
 function Register() {
@@ -86,6 +87,7 @@ function Register() {
   return (
     <>
       <div className={style.container}>
+         <FaArrowLeft className={style.arrow} onClick={() => navigate("/")} />
         <img className={style.logo} src="../../../logo.png" alt="logo" />
         <div className={style.containerRegister}>
           <p className={style.title}>Crear Cuenta</p>

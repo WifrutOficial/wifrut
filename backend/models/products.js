@@ -37,6 +37,10 @@ const productSchema = new mongoose.Schema({
     enum: ["unidad", "litro", "kilo"],
     trim: true,
   },
+  imagen:{
+    type: String,
+    trim : true
+  }
 });
 
 export const Product = mongoose.model("Product", productSchema);

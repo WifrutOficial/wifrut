@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import style from "../../styles/Register.module.css";
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-
+import { FaArrowLeft } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 
 function Login() {
@@ -76,6 +76,7 @@ function Login() {
 
   return (
     <div className={style.container}>
+      <FaArrowLeft className={style.arrow} onClick={() => navigate("/")} />
       <img className={style.logo} src="../../../logo.png" alt="logo" />
       <div className={style.containerRegister}>
         <p className={style.title}>Iniciar Sesion</p>

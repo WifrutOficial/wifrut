@@ -15,8 +15,7 @@ function ProductsRender() {
   const { searchQuery } = useSearch();
   const [visibleCount, setVisibleCount] = useState(9);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [openCategory, setOpenCategory] = useState(""); 
- 
+  const [openCategory, setOpenCategory] = useState("");
 
   useEffect(() => {
     const getProductsBD = async () => {
@@ -156,7 +155,7 @@ function ProductsRender() {
           </button>
           {openCategory === "Frutas" && (
             <div className={style.subCategoryContainer}>
-               <BiSolidRightArrow className={style.arrow} />
+              <BiSolidRightArrow className={style.arrow} />
               {[
                 "Frutas y Citricos",
                 "Frutas de carozo y pepita",
@@ -185,51 +184,52 @@ function ProductsRender() {
       </h2>
       <div className={style.container}>
         {productsWithoutDiscount.map(
-          ({ _id, nombre, precio, descripcion, tipoVenta }) => (
-            <div key={_id} className={style.cartContainer}>
-              <img
-                className={style.img}
-                src="../../../producto.png"
-                alt="img"
-              />
-              <p className={style.priceUnit}>
-                Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
-              </p>
-              <p className={style.description}>{descripcion || nombre}</p>
-              <p className={style.quantitySelection}>Selecciona la cantidad:</p>
-              <div className={style.quantityContainer}>
+          ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => {
+            return (
+              <div key={_id} className={style.cartContainer}>
+                <img className={style.img} src={`/${imagen}`} alt="img" />
+                <p>Imagen nombre: {imagen}</p>
+                <p className={style.priceUnit}>
+                  Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
+                </p>
+                <p className={style.description}>{descripcion || nombre}</p>
+                <p className={style.quantitySelection}>
+                  Selecciona la cantidad:
+                </p>
+                <div className={style.quantityContainer}>
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(_id, tipoVenta, "decrement")
+                    }
+                  >
+                    -
+                  </button>
+                  <span>
+                    {quantities[_id] || 0}{" "}
+                    {tipoVenta === "kg" ? "kg" : "unidades"}
+                  </span>
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(_id, tipoVenta, "increment")
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+                <p className={style.total}>
+                  Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+                </p>
                 <button
+                  className={style.addCart}
                   onClick={() =>
-                    handleQuantityChange(_id, tipoVenta, "decrement")
+                    handleAddToCart({ _id, nombre, precio, tipoVenta })
                   }
                 >
-                  -
-                </button>
-                <span>
-                  {quantities[_id] || 0}{" "}
-                  {tipoVenta === "kg" ? "kg" : "unidades"}
-                </span>
-                <button
-                  onClick={() =>
-                    handleQuantityChange(_id, tipoVenta, "increment")
-                  }
-                >
-                  +
+                  Añadir a carrito
                 </button>
               </div>
-              <p className={style.total}>
-                Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
-              </p>
-              <button
-                className={style.addCart}
-                onClick={() =>
-                  handleAddToCart({ _id, nombre, precio, tipoVenta })
-                }
-              >
-                Añadir a carrito
-              </button>
-            </div>
-          )
+            );
+          }
         )}
       </div>
 
