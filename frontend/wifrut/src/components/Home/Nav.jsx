@@ -16,7 +16,7 @@ function Nav() {
   const { isAuthenticated, logout } = useAuth();
   const { searchQuery, setSearchQuery } = useSearch();
   const [isFixed, setIsFixed] = useState(false);
-  const [showArrow, setShowArrow] = useState(false); // Estado para mostrar la flecha
+  const [showArrow, setShowArrow] = useState(false); 
   const { cart } = useCart(); 
 
   // Calcular la cantidad total de productos

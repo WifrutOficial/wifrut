@@ -19,7 +19,6 @@
   background-color: #ffffff;
   display: flex;
   gap: 20px;
-  padding: 20px 0;
   align-items: center;
   justify-content: space-between;
   transition: top 0.3s ease-in-out;
@@ -38,8 +37,8 @@
 }
 
 .logo {
-  width: 55px;
-  height: 55px;
+  width: 100px;
+  height: 100px;
   margin-left: 40px;
   cursor: pointer;
 }
@@ -187,7 +186,7 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  color: #B90003;
+  color: #b90003;
   border-radius: 50%;
   padding: 10px;
   cursor: pointer;
@@ -199,7 +198,7 @@
     position: fixed;
     bottom: 10px;
     right: 10px;
-    color: #B90003;
+    color: #b90003;
     border-radius: 50%;
     padding: 10px;
     cursor: pointer;
@@ -208,90 +207,35 @@
   .titleLog {
     display: none;
   }
-  .btnMenu {
-    display: block;
-    cursor: pointer;
-    color: #000000;
-    width: 25px;
-    height: 25px;
-  }
-
-  .btn {
-    width: 110px;
-    cursor: pointer;
-    border: none;
-    font-size: 11px;
-  }
-  .btn1 {
-    width: 110px;
-    border: none;
-    font-size: 11px;
-  }
-
-  .containerLinks2 {
-    gap: 20px;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 90px;
-    z-index: 1000000;
-    position: fixed;
-    left: 0;
-    top: 26px;
-    height: 100vh;
-    width: 220px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-    background-color: #ffffff;
-  }
-
-  .container2{
-    background-color: #ffffff;
-    height: 100px;
-  }
 
   .containerLog {
-    background-color: #99ad00;
-    z-index: 100000;
-    position: fixed;
-    top: 0;
-    justify-content: flex-end;
-    height: 28px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  .containerLinks {
-    justify-content: space-around;
-    padding: 0;
-  }
 
-  .containerLog.open {
-    transform: translateX(0);
-  }
-
-  .containerLinks2.open {
-    transform: translateX(0);
-  }
-
-  .btnClose {
-    display: block;
-    position: absolute;
-    top: 15px;
-    left: 184px;
-    cursor: pointer;
-  }
-
-  .search {
-   
     padding-left: 20px;
+  }
+
+  .container2 {
+    padding-right: 30px;
+    position: relative;
+    background-color: #ffffff;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-left: 15px;
+  }
+  .search {
+    padding-left: 20px;
+    padding-right: 30px;
     position: absolute;
-   margin-top: 135px;
+    margin-top: 120px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
- z-index: 1;
- background-color: #fff;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3)
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
   }
   .searchBtn {
     position: absolute;
@@ -302,19 +246,5 @@
   .search input {
     width: 200px;
     height: 25px;
-  }
-
-  .a {
-    border-bottom: 1px solid black;
-    width: 100%;
-  }
-
-  .btnCerrarSesion {
-    font-size: 11px;
-    background-color: none;
-    border-radius: 0;
-    box-shadow: none;
-    background-color: #99ad00;
-    width: 220px;
   }
 }
