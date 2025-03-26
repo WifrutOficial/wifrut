@@ -281,16 +281,16 @@
   }
 
   .search {
-    margin-top: 45px;
+   
     padding-left: 20px;
     position: absolute;
-   margin-top: 143px;
+   margin-top: 135px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
  z-index: 1;
- background-color: #ffffff;
+ background-color: #fff;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3)
   }
   .searchBtn {

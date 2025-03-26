@@ -4,6 +4,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   height: 100vh;
 }
@@ -18,7 +19,7 @@
   backdrop-filter: blur(20px);
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
-  margin: auto;
+  margin: 20px auto;
   display: flex;
   flex-direction: column;
 }
@@ -67,7 +68,7 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 40px;
+  padding: 20px 40px;
   color: #ffff;
 }
 
@@ -125,7 +126,7 @@ hr {
 .btnContainer {
   display: flex;
   justify-content: center;
-  padding: 30px 10px;
+  padding: 0 40px 10px 0;
   gap: 20px;
 }
 .btnContainer button {
@@ -133,10 +134,10 @@ hr {
   border: none;
   background-color: #00ad3a;
   padding: 5px 10px;
-  border-radius: 13px;
+  cursor: pointer;
   color: #ffff;
-  box-shadow: inset 0 4px 4px #00000050;
-  width: 300px;
+border-radius: 10px;
+  width: 200px;
 }
 
 .btnDelete {
@@ -179,6 +180,48 @@ hr {
   text-align: center;
 }
 
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.stepNumber {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.completed .stepNumber {
+  background-color: #00ad3a;
+  color: #fff;
+}
+
+.step p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.lineTime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  margin: 0 auto;
+  width: 520px;
+  padding: 10px;
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .fullTotal {
     font-size: 23px;
@@ -209,5 +252,28 @@ hr {
   .container .arrow {
     width: 30px;
     height: 30px;
+  }
+
+  .stepNumber {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+  }
+
+  .step p {
+    font-size: 12px;
+  }
+  .lineTime {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    background-color: #d4d4d415;
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    border: 1px solid #d4d4d4d6;
+    margin: auto;
+    width: 400px;
+    padding: 10px;
   }
 }

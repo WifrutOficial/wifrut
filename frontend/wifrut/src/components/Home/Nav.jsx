@@ -7,8 +7,9 @@ import { useAuth } from "../../context/AuthContext";
 import { BsCart2 } from "react-icons/bs";
 import { useSearch } from "../../context/SearchContext";
 import { useCart } from "../../context/CartContext";
+import { IoIosArrowDropup } from "react-icons/io";
 
-import { FaRegArrowAltCircleUp } from "react-icons/fa";import { IoIosArrowDropup } from "react-icons/io";
+
 function Nav() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
