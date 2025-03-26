@@ -217,6 +217,7 @@ function ProductsRender() {
             return (
               <div key={_id} className={style.cartContainer}>
                 <img className={style.img} src={`/${imagen}`} alt="img" />
+        
                 <p className={style.priceUnit}>
                   Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
                 </p>

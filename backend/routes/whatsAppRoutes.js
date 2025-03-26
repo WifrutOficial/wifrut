@@ -4,7 +4,11 @@ import {
   getOrdersByDate,
   verifyTwilioWebhook,
   getTotalProductsByDate,
+  sendWhatsAppMessage,
 } from "../controllers/whatsAppController.js";
+
+
+
 
 const router = Router();
 

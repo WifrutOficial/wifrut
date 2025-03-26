@@ -2,6 +2,7 @@ import twilio from "twilio";
 import mongoose from "mongoose";
 import { Order } from "../models/order.js";
 
+
 // 🔹 Configuración de Twilio
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, MONGO_URI_DEV } = process.env;
 const TWILIO_SANDBOX_NUMBER = "whatsapp:+14155238886"; // Número de pruebas de Twilio
@@ -15,7 +16,7 @@ mongoose
   .catch((err) => console.error("❌ Error al conectar con MongoDB:", err));
 
 // 🔹 Función para enviar mensajes de WhatsApp
-const sendWhatsAppMessage = async (to, message) => {
+export const sendWhatsAppMessage = async (to, message) => {
   try {
     const formattedTo = to.startsWith("whatsapp:") ? to : `whatsapp:${to}`;
 

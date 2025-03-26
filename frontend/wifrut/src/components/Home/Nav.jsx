@@ -6,15 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { BsCart2 } from "react-icons/bs";
 import { useSearch } from "../../context/SearchContext";
-import { useCart } from "../../context/CartContext"; 
+import { useCart } from "../../context/CartContext";
 
+import { FaRegArrowAltCircleUp } from "react-icons/fa";import { IoIosArrowDropup } from "react-icons/io";
 function Nav() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const { searchQuery, setSearchQuery } = useSearch();
   const [isFixed, setIsFixed] = useState(false);
+  const [showArrow, setShowArrow] = useState(false); // Estado para mostrar la flecha
   const { cart } = useCart(); 
+
   // Calcular la cantidad total de productos
   const totalProductos = cart.length;
 
@@ -31,6 +34,13 @@ function Nav() {
       } else {
         setIsFixed(false);
       }
+
+      // Mostrar la flecha flotante solo después de un cierto desplazamiento
+      if (window.scrollY > 100) { // Cambia 100 a la cantidad de desplazamiento que desees
+        setShowArrow(true);
+      } else {
+        setShowArrow(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -43,6 +53,10 @@ function Nav() {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value); 
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -67,13 +81,18 @@ function Nav() {
 
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.container2}>
-          <img className={style.logo} src="../../../logo.png" alt="logo" />
+          <img 
+            className={style.logo} 
+            src="../../../logo.png" 
+            alt="logo" 
+            onClick={handleScrollToTop}
+          />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
 
           <div className={`${style.containerLinks2} ${isOpen ? style.open : ""}`}>
             <IoMdClose onClick={toggleMenu} className={style.btnClose} />
-            <a className={style.a}  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} >Inicio</a>
-            <a className={style.a}  onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}  >Ofertas</a>
+            <a className={style.a} onClick={handleScrollToTop}>Inicio</a>
+            <a className={style.a} onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}>Ofertas</a>
           </div>
         </div>
 
@@ -91,10 +110,21 @@ function Nav() {
             <div className={style.CartNumber}>
               <p>{totalProductos}</p>
             </div>
-            <p className={style.totalNumber}>${total.toFixed(2)}</p> 
+            <p className={style.totalNumber}>${total.toFixed(2)}</p>
           </div>
         </div>
       </div>
+
+      {/* Flecha flotante (solo se muestra después de hacer scroll) */}
+      {showArrow && (
+        <div
+          onClick={handleScrollToTop}
+          className={style.floatingArrow}
+
+        >
+          <IoIosArrowDropup size={50} /> 
+        </div>
+      )}
     </div>
   );
 }
