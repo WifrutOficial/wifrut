@@ -14,7 +14,7 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  const [visibleCount, setVisibleCount] = useState(9);
+  const [visibleCount, setVisibleCount] = useState(8); // Solo para productos sin descuento
   const [selectedCategory, setSelectedCategory] = useState("");
   const [openCategory, setOpenCategory] = useState("");
 
@@ -22,10 +22,9 @@ function ProductsRender() {
     const getProductsBD = async () => {
       try {
         console.log("API URL PRODUCTOSSS:", import.meta.env.VITE_API_URL);
-
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/products/productos`,
-          { withCredentials: true } // 🔥 Agregar esto para que envíe las cookies
+          { withCredentials: true }
         );
         setProducts(response.data);
       } catch (error) {
@@ -101,7 +100,6 @@ function ProductsRender() {
     );
   };
 
-  // Manejamos la apertura/cierre de las subcategorías
   const toggleSubCategory = (category) => {
     setOpenCategory(openCategory === category ? "" : category);
   };
@@ -118,18 +116,23 @@ function ProductsRender() {
     return matchesSearch && matchesCategory;
   });
 
-  const visibleProducts = filteredProducts.slice(0, visibleCount);
-  const productsWithDiscount = visibleProducts.filter(
+  // Separamos productos con y sin descuento
+  const productsWithDiscount = filteredProducts.filter(
     (product) => product.descuento
   );
-  const productsWithoutDiscount = visibleProducts.filter(
+  const productsWithoutDiscount = filteredProducts.filter(
     (product) => !product.descuento
+  );
+  const visibleProductsWithoutDiscount = productsWithoutDiscount.slice(
+    0,
+    visibleCount
   );
 
   return (
     <>
+      {/* Mostrar todos los productos con descuento sin paginación */}
       <DiscountedProducts
-        products={productsWithDiscount}
+        products={productsWithDiscount} // Pasamos todos los productos con descuento
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
@@ -204,20 +207,27 @@ function ProductsRender() {
             </div>
           )}
         </div>
-
-        {/* Otras categorías similares */}
+        {/* Frutas */}
+        <div className={style.Frutas}>
+          <button
+            
+            className={style.categoryTitle}
+          >
+           Congelados
+          </button>
+       
+        </div>
       </div>
 
       <h2 className={style.title}>
         {selectedCategory ? selectedCategory : "Nuestros Productos"}
       </h2>
       <div className={style.container}>
-        {productsWithoutDiscount.map(
+        {visibleProductsWithoutDiscount.map(
           ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => {
             return (
               <div key={_id} className={style.cartContainer}>
                 <img className={style.img} src={`/${imagen}`} alt="img" />
-        
                 <p className={style.priceUnit}>
                   Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
                 </p>
@@ -262,8 +272,9 @@ function ProductsRender() {
         )}
       </div>
 
+      {/* Botones Ver más/Ver menos solo para productos sin descuento */}
       <div className={style.containerseeMoreBtn}>
-        {visibleCount < filteredProducts.length ? (
+        {visibleCount < productsWithoutDiscount.length ? (
           <button
             onClick={() => setVisibleCount((prev) => prev + 8)}
             className={style.seeMoreBtn}
@@ -276,9 +287,9 @@ function ProductsRender() {
           </p>
         )}
 
-        {visibleCount > 11 && (
+        {visibleCount > 9 && (
           <button
-            onClick={() => setVisibleCount((prev) => Math.max(prev - 8, 11))}
+            onClick={() => setVisibleCount((prev) => Math.max(prev - 8, 9))}
             className={style.seeMoreBtn}
           >
             Ver menos
