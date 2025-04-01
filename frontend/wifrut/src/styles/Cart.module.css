@@ -27,15 +27,15 @@
 .cart {
   display: flex;
   flex-direction: column;
-  margin: 0 20px;
   gap: 20px;
   align-items: center;
   padding: 30px;
-
+flex: 1;
   max-height: 300px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
+  
 }
 
 .cart li {
@@ -46,6 +46,8 @@
   font-weight: 200;
   width: 100%;
   align-items: center;
+  flex: 1;
+  
 }
 
 .cart li p {
@@ -126,7 +128,7 @@ hr {
 .btnContainer {
   display: flex;
   justify-content: center;
-  padding: 0 40px 10px 0;
+  padding: 20px 20px;
   gap: 20px;
 }
 .btnContainer button {
@@ -224,14 +226,19 @@ border-radius: 10px;
 
 @media (max-width: 768px) {
   .fullTotal {
-    font-size: 23px;
+    font-size: 18px;
   }
-
+  .btnContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px;
+    gap: 20px;
+  }
   .btnContainer button {
     width: 150px;
   }
   .cart {
-    padding: 19px;
+    padding: 10px;
   }
   .envio {
     padding: 20px 20px;
@@ -243,6 +250,7 @@ border-radius: 10px;
 
   .envio p {
     font-size: 12px;
+   
   }
 
   .container {
@@ -272,8 +280,25 @@ border-radius: 10px;
     backdrop-filter: blur(20px);
     border-radius: 15px;
     border: 1px solid #d4d4d4d6;
-    margin: auto;
-    width: 400px;
+    margin: 0 auto;
+    width: 320px;
     padding: 10px;
   }
+
+  .containerCart {
+   
+    width: 320px;
+  }
+
+  
+.containerPagoInput {
+  font-size: 13px;
+}
+.cart li p {
+ display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
 }

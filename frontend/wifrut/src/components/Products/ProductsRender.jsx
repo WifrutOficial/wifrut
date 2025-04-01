@@ -5,7 +5,7 @@ import { useCart } from "../../context/CartContext";
 import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
-import { BiSolidRightArrow } from "react-icons/bi";
+//import { BiSolidRightArrow } from "react-icons/bi";
 import Swal from "sweetalert2";
 
 function ProductsRender() {
@@ -14,7 +14,7 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  const [visibleCount, setVisibleCount] = useState(8);
+  //const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
     const getProductsBD = async () => {

@@ -73,17 +73,15 @@ function Nav2() {
         <div className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
           {!isAuthenticated ? (
-            <FaRegUser
-              className={style.logoUser2}
-              onClick={() => navigate("/login")}
-            />
+            <div className={style.btnLogin}>
+            <div><button onClick={()=> navigate("/login")}>Iniciar Sesion</button>|<button onClick={()=> navigate("/register")}>Registrate</button></div>
+              <FaRegUser onClick={() => navigate("/login")} />
+            </div>
           ) : (
-            < div className={style.btnCerrarSesion}>
-            <button  onClick={logout}>
-              Cerrar Sesion
-            </button>
-            <AiOutlineLogout />
-          </div>
+            <div className={style.btnCerrarSesion}>
+              <button onClick={logout}>Cerrar Sesion</button>
+              <AiOutlineLogout />
+            </div>
           )}
           <a className={style.a} onClick={handleScrollToTop}>
             Inicio
@@ -120,15 +118,16 @@ function Nav2() {
           </div>
         </div>
         {!isAuthenticated ? (
-          <FaRegUser
+         <div className={style.btnLogin2}>
+          <div><button onClick={()=> navigate("/login")}>Iniciar Sesion</button>|<button onClick={()=> navigate("/register")}>Registrate</button></div>
+           <FaRegUser
             className={style.logoUser}
             onClick={() => navigate("/login")}
           />
+         </div>
         ) : (
-          < div className={style.btnCerrarSesion2}>
-            <button  onClick={logout}>
-              Cerrar Sesion
-            </button>
+          <div className={style.btnCerrarSesion2}>
+            <button onClick={logout}>Cerrar Sesion</button>
             <AiOutlineLogout />
           </div>
         )}

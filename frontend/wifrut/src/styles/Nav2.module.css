@@ -168,6 +168,25 @@
   padding-right: 20px;
 }
 
+.btnLogin{
+  
+display: none;
+}
+
+.btnLogin2{
+  
+  display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-right: 0;
+  }
+  .btnLogin2 button{
+    font-size: 13px;
+    border: none;
+    background: none;
+ 
+  }
+
 /* Estilos para pantallas menores a 768px */
 @media (max-width: 768px) {
   .btnCerrarSesion {
@@ -210,8 +229,10 @@
   }
 
   .logoUser2 {
-    display: block;
+    display: flex;
     cursor: pointer;
+    gap: 10px;
+    align-items: center;
   }
 
   .logo {
@@ -267,4 +288,23 @@
     right: 5px;
 
   }
+  .btnLogin{
+  
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-right: 0;
+  }
+  .btnLogin button{
+    font-size: 13px;
+    border: none;
+    background: none;
+ 
+  }
+
+  .btnLogin2{
+  
+  display: none;
+    }
+ 
 }

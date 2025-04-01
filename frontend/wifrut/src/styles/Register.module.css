@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+ 
 }
 
 
@@ -181,7 +182,7 @@ span button {
 
 @media (max-width: 768px){
   .containerRegister {
-  width: 360px;
+  width: 355px;
 
 
   }
