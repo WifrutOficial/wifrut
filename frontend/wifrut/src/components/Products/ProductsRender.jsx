@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -14,7 +14,6 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  const categoryRefs = useRef({}); // Referencias dinámicas para cada categoría
 
   useEffect(() => {
     const getProductsBD = async () => {
@@ -30,21 +29,6 @@ function ProductsRender() {
     };
     getProductsBD();
   }, []);
-
-  // Desplazarse a la categoría con un offset de 20px más arriba
-  useEffect(() => {
-    if (searchQuery && categoryRefs.current[searchQuery]) {
-      const categoryElement = categoryRefs.current[searchQuery];
-      const topPosition =
-        categoryElement.getBoundingClientRect().top +
-        window.scrollY -
-        140; // Restamos 20px para frenar más arriba
-      window.scrollTo({
-        top: topPosition,
-        behavior: "smooth",
-      });
-    }
-  }, [searchQuery]);
 
   const handleQuantityChange = (productId, tipoVenta, action) => {
     setQuantities((prev) => {
@@ -113,9 +97,16 @@ function ProductsRender() {
     });
   };
 
-  // Agrupar productos por categoría sin filtrar
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      !searchQuery ||
+      product.descripcion?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.nombre?.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
+
   const categories = {};
-  products.forEach((product) => {
+  filteredProducts.forEach((product) => {
     const category = product.categoria || "Otro";
     if (!categories[category]) {
       categories[category] = [];
@@ -126,17 +117,14 @@ function ProductsRender() {
   return (
     <>
       <DiscountedProducts
-        products={products.filter((product) => product.descuento)}
+        products={filteredProducts.filter((product) => product.descuento)}
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
       />
 
       {Object.keys(categories).map((category) => (
-        <div
-          key={category}
-          ref={(el) => (categoryRefs.current[category] = el)} // Asignar ref dinámicamente
-        >
+        <div key={category} id={`category-${category}`}> {/* Añadimos ID único */}
           <div className={style.categoryContainer}>
             <MdPlayArrow />
             <h2 className={style.categoryTitle}>{category}</h2>

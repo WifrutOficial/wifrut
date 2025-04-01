@@ -77,13 +77,21 @@ function Nav2() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    setSearchQuery(e.target.value); // Esto queda intacto para el buscador
   };
 
   const handleCategoryClick = (category) => {
-    setSearchQuery(category); // Establece la categoría para el desplazamiento
     setShowCategorias(false); // Cierra el menú de categorías
-    setIsOpen(false); // Cierra el menú hamburguesa si está abierto
+    setIsOpen(false); // Cierra el menú hamburguesa
+    // Desplazamiento directo usando un evento personalizado o ID
+    const categoryElement = document.getElementById(`category-${category}`);
+    if (categoryElement) {
+      const topPosition = categoryElement.getBoundingClientRect().top + window.scrollY - 20;
+      window.scrollTo({
+        top: topPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   const handleScrollToTop = () => {
