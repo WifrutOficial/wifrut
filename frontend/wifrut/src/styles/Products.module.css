@@ -3,15 +3,12 @@
 .container {
   display: flex;
   gap: 30px;
-  padding: 20px 40px;
-  margin: 0 0 0 100px;
   overflow-x: scroll;
-  max-width: 1170px;
-  box-shadow: 4px 0px 4px 4px rgba(0, 0, 0, 0.267);
+  margin:0  130px;
+  padding: 20px;
 
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
-
-
 
 .descuento {
   background-image: url("../../fondoDescuento.png");
@@ -238,23 +235,43 @@
 .categoryTitle {
   color: black;
   font-weight: 500;
-  padding: clamp(10px, 5vw, 50px) clamp(20px, 10vw, 100px);
+
+}
+
+.titleOfertas {
+  font-size: 40px;
+  text-align: center;
+  padding: 20px 0 0 0;
+  font-weight: 400;
+}
+.categoryContainer{
+  display: flex;
+align-items: center;
+padding: 20px 0 0 100px;
+gap: 10px;
 }
 
 @media (max-width: 768px) {
-.container{
-  padding: 10px 20px;
-  margin: 0 0 0 20px;
-  max-width: 680px;
-}
-
+ 
+  .container {
+    display: flex;
+    gap: 30px;
+    overflow-x: scroll;
+    margin:0  10px;
+  
+  
+  }
   .categoryTitle {
     color: black;
     font-weight: 500;
     font-size: 15px;
-    padding: 20px 20px;
-  }
 
+  }
+  .categoryContainer{
+
+  padding: 20px 0 0 10px;
+
+  }
 
   .cartContainer {
     width: 200px;
@@ -312,7 +329,9 @@
   }
 
   .titleOfertas {
-    font-size: 40px;
+    font-size: 30px;
+
+
   }
 
   .quantitySelection {
@@ -325,8 +344,3 @@
   }
 }
 
-@media (min-width: 1300px){
-.container{
-max-width: 1600px;
-}
-}

@@ -67,7 +67,7 @@ function Nav2() {
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
-          <img className={style.logo} src="../../../logo.png" alt="logo" />
+          <img className={style.logo} src="../../../logo.png" alt="logo" onClick={handleScrollToTop}  />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
         <div className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>

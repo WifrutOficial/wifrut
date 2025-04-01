@@ -5,6 +5,7 @@ import { useCart } from "../../context/CartContext";
 import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
+import { MdPlayArrow } from "react-icons/md";
 //import { BiSolidRightArrow } from "react-icons/bi";
 import Swal from "sweetalert2";
 
@@ -122,7 +123,10 @@ function ProductsRender() {
       {/* Renderizar categorías */}
       {Object.keys(categories).map((category) => (
         <div key={category}>
-          <h2 className={style.categoryTitle}>{category}</h2>
+         <div className={style.categoryContainer}>
+         <MdPlayArrow />
+         <h2 className={style.categoryTitle}>{category}</h2>
+         </div>
           <div className={style.container}>
             {categories[category].map(
               ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
