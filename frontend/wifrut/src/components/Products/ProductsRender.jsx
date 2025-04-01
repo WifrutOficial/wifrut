@@ -53,27 +53,32 @@ function ProductsRender() {
       Swal.fire({
         text: "Debes iniciar sesión.",
         icon: "warning",
-        confirmButtonColor: "#B90003",
+        
         customClass: {
           popup: style.customAlert,
           icon: style.customIconErr,
        
         },
-        position: 'bottom',
+        position: 'bottom-start',
+        timer: 2000,  
+        timerProgressBar: true,  
+        showConfirmButton: false
       });
       return;
     }
     const cantidad = quantities[product._id] || 0;
     if (cantidad === 0) {
       Swal.fire({
-        title: "¡Error!",
         text: "Debes seleccionar una cantidad.",
         icon: "warning",
-        confirmButtonColor: "#B90003",
         customClass: {
           popup: style.customAlert,
           icon: style.customIconErr,
         },
+        position: 'bottom-start',
+        timer: 2000,  
+        timerProgressBar: true,  
+        showConfirmButton: false
       });
       return;
     }
@@ -85,11 +90,14 @@ function ProductsRender() {
     Swal.fire({
       text: "Producto agregado al carrito",
       icon: "success",
-      confirmButtonColor: "#004718",
       customClass: {
         popup: style.customAlert,
         icon: style.customIconSuc,
       },
+      position: 'bottom-start',
+      timer: 1000,  
+      timerProgressBar: true,  
+      showConfirmButton: false
     });
   };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ import { IoIosArrowDropup } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import style from "../../styles/Nav2.module.css";
+import { MdArrowDropDown } from "react-icons/md";
 
 function Nav2() {
   const navigate = useNavigate();
@@ -19,6 +21,12 @@ function Nav2() {
   const [isFixed, setIsFixed] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
   const { cart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [showCategorias, setShowCategorias] = useState(false);
+  const toggleCategorias = () => {
+    setShowCategorias(!showCategorias);
+  };
 
   // Calcular la cantidad total de productos
   const totalProductos = cart.length;
@@ -28,6 +36,27 @@ function Nav2() {
     const precioFinal = item.precioConDescuento || item.precio;
     return acc + item.quantity * precioFinal;
   }, 0);
+
+  useEffect(() => {
+    const getProductsBD = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/products/productos`,
+          { withCredentials: true }
+        );
+        setProducts(response.data);
+
+        // Extraer categorías únicas de los productos
+        const categorias = [
+          ...new Set(response.data.map((product) => product.categoria)),
+        ];
+        setCategorias(categorias); // Guardar las categorías en el estado
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+    getProductsBD();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +85,10 @@ function Nav2() {
     setSearchQuery(e.target.value);
   };
 
+  const handleCategoryClick = (category) => {
+    setSearchQuery(category); // Filtar por categoría
+  };
+
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -67,14 +100,27 @@ function Nav2() {
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
-          <img className={style.logo} src="../../../logo.png" alt="logo" onClick={handleScrollToTop}  />
+          <img
+            className={style.logo}
+            src="../../../logo.png"
+            alt="logo"
+            onClick={handleScrollToTop}
+          />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
         <div className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
           {!isAuthenticated ? (
             <div className={style.btnLogin}>
-            <div><button onClick={()=> navigate("/login")}>Iniciar Sesion</button>|<button onClick={()=> navigate("/register")}>Registrate</button></div>
+              <div>
+                <button onClick={() => navigate("/login")}>
+                  Iniciar Sesion
+                </button>
+                |
+                <button onClick={() => navigate("/register")}>
+                  Registrate
+                </button>
+              </div>
               <FaRegUser onClick={() => navigate("/login")} />
             </div>
           ) : (
@@ -99,6 +145,30 @@ function Nav2() {
             Conócenos
           </a>
           <a className={style.a}>Envios</a>
+
+          <div className={style.categorias}>
+            <div className={style.categoriasContainer}>
+              {" "}
+              <a onClick={toggleCategorias} className={style.a}>
+                Categorías
+              </a>
+              <MdArrowDropDown />
+            </div>
+            {/* Solo mostrar las categorías si showCategorias es true */}
+            {showCategorias && (
+              <div className={style.categoriasList}>
+                {categorias.map((categoria, index) => (
+                  <div
+                    key={index}
+                    className={style.aCategories}
+                    onClick={() => searchByCategory(categoria)}
+                  >
+                    {categoria}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <div className={style.search}>
           <input
@@ -118,13 +188,16 @@ function Nav2() {
           </div>
         </div>
         {!isAuthenticated ? (
-         <div className={style.btnLogin2}>
-          <div><button onClick={()=> navigate("/login")}>Iniciar Sesion</button>|<button onClick={()=> navigate("/register")}>Registrate</button></div>
-           <FaRegUser
-            className={style.logoUser}
-            onClick={() => navigate("/login")}
-          />
-         </div>
+          <div className={style.btnLogin2}>
+            <div>
+              <button onClick={() => navigate("/login")}>Iniciar Sesion</button>
+              |<button onClick={() => navigate("/register")}>Registrate</button>
+            </div>
+            <FaRegUser
+              className={style.logoUser}
+              onClick={() => navigate("/login")}
+            />
+          </div>
         ) : (
           <div className={style.btnCerrarSesion2}>
             <button onClick={logout}>Cerrar Sesion</button>
@@ -132,7 +205,6 @@ function Nav2() {
           </div>
         )}
       </div>
-      {/* Flecha flotante (solo se muestra después de hacer scroll) */}
       {showArrow && (
         <div onClick={handleScrollToTop} className={style.floatingArrow}>
           <IoIosArrowDropup size={50} />
