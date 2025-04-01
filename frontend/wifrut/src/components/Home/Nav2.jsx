@@ -24,14 +24,13 @@ function Nav2() {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
+
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
   };
 
-  // Calcular la cantidad total de productos
   const totalProductos = cart.length;
 
-  // Calcular el total del carrito
   const total = cart.reduce((acc, item) => {
     const precioFinal = item.precioConDescuento || item.precio;
     return acc + item.quantity * precioFinal;
@@ -45,12 +44,10 @@ function Nav2() {
           { withCredentials: true }
         );
         setProducts(response.data);
-
-        // Extraer categorías únicas de los productos
         const categorias = [
           ...new Set(response.data.map((product) => product.categoria)),
         ];
-        setCategorias(categorias); // Guardar las categorías en el estado
+        setCategorias(categorias);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -65,14 +62,12 @@ function Nav2() {
       } else {
         setIsFixed(false);
       }
-
       if (window.scrollY > 100) {
         setShowArrow(true);
       } else {
         setShowArrow(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -86,7 +81,9 @@ function Nav2() {
   };
 
   const handleCategoryClick = (category) => {
-    setSearchQuery(category); // Filtar por categoría
+    setSearchQuery(category); // Establece la categoría para el desplazamiento
+    setShowCategorias(false); // Cierra el menú de categorías
+    setIsOpen(false); // Cierra el menú hamburguesa si está abierto
   };
 
   const handleScrollToTop = () => {
@@ -148,20 +145,18 @@ function Nav2() {
 
           <div className={style.categorias}>
             <div className={style.categoriasContainer}>
-              {" "}
               <a onClick={toggleCategorias} className={style.a}>
                 Categorías
               </a>
               <MdArrowDropDown />
             </div>
-            {/* Solo mostrar las categorías si showCategorias es true */}
             {showCategorias && (
               <div className={style.categoriasList}>
                 {categorias.map((categoria, index) => (
                   <div
                     key={index}
                     className={style.aCategories}
-                    onClick={() => searchByCategory(categoria)}
+                    onClick={() => handleCategoryClick(categoria)}
                   >
                     {categoria}
                   </div>

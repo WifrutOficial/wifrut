@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -6,7 +6,6 @@ import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
 import { MdPlayArrow } from "react-icons/md";
-//import { BiSolidRightArrow } from "react-icons/bi";
 import Swal from "sweetalert2";
 
 function ProductsRender() {
@@ -15,7 +14,7 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  //const [visibleCount, setVisibleCount] = useState(8);
+  const categoryRefs = useRef({}); // Referencias dinámicas para cada categoría
 
   useEffect(() => {
     const getProductsBD = async () => {
@@ -31,6 +30,13 @@ function ProductsRender() {
     };
     getProductsBD();
   }, []);
+
+  // Desplazarse a la categoría cuando searchQuery cambia
+  useEffect(() => {
+    if (searchQuery && categoryRefs.current[searchQuery]) {
+      categoryRefs.current[searchQuery].scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchQuery]);
 
   const handleQuantityChange = (productId, tipoVenta, action) => {
     setQuantities((prev) => {
@@ -53,16 +59,14 @@ function ProductsRender() {
       Swal.fire({
         text: "Debes iniciar sesión.",
         icon: "warning",
-        
         customClass: {
           popup: style.customAlert,
           icon: style.customIconErr,
-       
         },
-        position: 'bottom-start',
-        timer: 2000,  
-        timerProgressBar: true,  
-        showConfirmButton: false
+        position: "bottom-start",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
       });
       return;
     }
@@ -75,10 +79,10 @@ function ProductsRender() {
           popup: style.customAlert,
           icon: style.customIconErr,
         },
-        position: 'bottom-start',
-        timer: 2000,  
-        timerProgressBar: true,  
-        showConfirmButton: false
+        position: "bottom-start",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
       });
       return;
     }
@@ -94,24 +98,16 @@ function ProductsRender() {
         popup: style.customAlert,
         icon: style.customIconSuc,
       },
-      position: 'bottom-start',
-      timer: 1000,  
-      timerProgressBar: true,  
-      showConfirmButton: false
+      position: "bottom-start",
+      timer: 1000,
+      timerProgressBar: true,
+      showConfirmButton: false,
     });
   };
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      !searchQuery ||
-      product.descripcion?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.nombre?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  });
-
-  // Agrupar productos por categoría
+  // Agrupar productos por categoría sin filtrar
   const categories = {};
-  filteredProducts.forEach((product) => {
+  products.forEach((product) => {
     const category = product.categoria || "Otro";
     if (!categories[category]) {
       categories[category] = [];
@@ -121,30 +117,27 @@ function ProductsRender() {
 
   return (
     <>
-      {/* Mostrar todos los productos con descuento sin paginación */}
       <DiscountedProducts
-        products={filteredProducts.filter((product) => product.descuento)}
+        products={products.filter((product) => product.descuento)}
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
       />
 
-      {/* Renderizar categorías */}
       {Object.keys(categories).map((category) => (
-        <div key={category}>
-         <div className={style.categoryContainer}>
-         <MdPlayArrow />
-         <h2 className={style.categoryTitle}>{category}</h2>
-         </div>
+        <div
+          key={category}
+          ref={(el) => (categoryRefs.current[category] = el)} // Asignar ref dinámicamente
+        >
+          <div className={style.categoryContainer}>
+            <MdPlayArrow />
+            <h2 className={style.categoryTitle}>{category}</h2>
+          </div>
           <div className={style.container}>
             {categories[category].map(
               ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
                 <div key={_id} className={style.cartContainer}>
-                  <img
-                    className={style.img}
-                    src={`/${imagen}`}
-                    alt="img"
-                  />
+                  <img className={style.img} src={`/${imagen}`} alt="img" />
                   <p className={style.priceUnit}>
                     Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
                   </p>
