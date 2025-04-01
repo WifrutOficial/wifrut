@@ -86,7 +86,7 @@ function Nav2() {
     // Desplazamiento directo usando un evento personalizado o ID
     const categoryElement = document.getElementById(`category-${category}`);
     if (categoryElement) {
-      const topPosition = categoryElement.getBoundingClientRect().top + window.scrollY - 20;
+      const topPosition = categoryElement.getBoundingClientRect().top + window.scrollY - 150;
       window.scrollTo({
         top: topPosition,
         behavior: "smooth",
