@@ -31,10 +31,18 @@ function ProductsRender() {
     getProductsBD();
   }, []);
 
-  // Desplazarse a la categoría cuando searchQuery cambia
+  // Desplazarse a la categoría con un offset de 20px más arriba
   useEffect(() => {
     if (searchQuery && categoryRefs.current[searchQuery]) {
-      categoryRefs.current[searchQuery].scrollIntoView({ behavior: "smooth" });
+      const categoryElement = categoryRefs.current[searchQuery];
+      const topPosition =
+        categoryElement.getBoundingClientRect().top +
+        window.scrollY -
+        140; // Restamos 20px para frenar más arriba
+      window.scrollTo({
+        top: topPosition,
+        behavior: "smooth",
+      });
     }
   }, [searchQuery]);
 
