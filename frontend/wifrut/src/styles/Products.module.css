@@ -3,7 +3,7 @@
 .container {
   display: flex;
   gap: 30px;
-  padding: 20px 50px;
+  padding: 20px 40px;
   overflow-x: scroll;
 }
 
@@ -248,6 +248,10 @@
 }
 
 @media (max-width: 768px) {
+.container{
+  padding: 10px 30px;
+}
+
   .categoryTitle {
     color: black;
     font-weight: 500;

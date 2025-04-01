@@ -261,4 +261,10 @@
     width: 100%;
     justify-content: space-between;
   }
+  .floatingArrow {
+ 
+    bottom: 5px;
+    right: 5px;
+
+  }
 }
