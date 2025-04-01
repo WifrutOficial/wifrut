@@ -14,14 +14,11 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
-  const [visibleCount, setVisibleCount] = useState(8); // Solo para productos sin descuento
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [openCategory, setOpenCategory] = useState("");
+  const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
     const getProductsBD = async () => {
       try {
-        console.log("API URL PRODUCTOSSS:", import.meta.env.VITE_API_URL);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/products/productos`,
           { withCredentials: true }
@@ -94,208 +91,91 @@ function ProductsRender() {
     });
   };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory((prevCategory) =>
-      prevCategory === category ? "" : category
-    );
-  };
-
-  const toggleSubCategory = (category) => {
-    setOpenCategory(openCategory === category ? "" : category);
-  };
-
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       !searchQuery ||
       product.descripcion?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.nombre?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      !selectedCategory ||
-      product.categoria?.toLowerCase().trim() ===
-        selectedCategory.toLowerCase().trim();
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
-  // Separamos productos con y sin descuento
-  const productsWithDiscount = filteredProducts.filter(
-    (product) => product.descuento
-  );
-  const productsWithoutDiscount = filteredProducts.filter(
-    (product) => !product.descuento
-  );
-  const visibleProductsWithoutDiscount = productsWithoutDiscount.slice(
-    0,
-    visibleCount
-  );
+  // Agrupar productos por categoría
+  const categories = {};
+  filteredProducts.forEach((product) => {
+    const category = product.categoria || "Otro";
+    if (!categories[category]) {
+      categories[category] = [];
+    }
+    categories[category].push(product);
+  });
 
   return (
     <>
       {/* Mostrar todos los productos con descuento sin paginación */}
       <DiscountedProducts
-        products={productsWithDiscount} // Pasamos todos los productos con descuento
+        products={filteredProducts.filter((product) => product.descuento)}
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
       />
 
-      <div className={style.containerCategory}>
-        <button
-          className={selectedCategory === "" ? style.activeCategory : ""}
-          onClick={() => setSelectedCategory("")}
-        >
-          Todos los productos
-        </button>
-
-        {/* Hortalizas */}
-        <div className={style.hortalizas}>
-          <button
-            onClick={() => toggleSubCategory("Hortalizas")}
-            className={style.categoryTitle}
-          >
-            Hortalizas
-          </button>
-          {openCategory === "Hortalizas" && (
-            <div className={style.subCategoryContainer}>
-              <BiSolidRightArrow className={style.arrow} />
-              {[
-                "Hortalizas de hoja",
-                "Hortalizas de raiz y tuberculos",
-                "Hortalizas de frutos",
-                "Hortalizas de tallo, brotes y legumbres frescas",
-              ].map((subcategory) => (
-                <button
-                  key={subcategory}
-                  className={
-                    selectedCategory === subcategory ? style.activeCategory : ""
-                  }
-                  onClick={() => handleCategoryClick(subcategory)}
-                >
-                  {subcategory}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Frutas */}
-        <div className={style.Frutas}>
-          <button
-            onClick={() => toggleSubCategory("Frutas")}
-            className={style.categoryTitle}
-          >
-            Frutas
-          </button>
-          {openCategory === "Frutas" && (
-            <div className={style.subCategoryContainer}>
-              <BiSolidRightArrow className={style.arrow} />
-              {[
-                "Frutas y Citricos",
-                "Frutas de carozo y pepita",
-                "Frutas tropicales y del Bosque",
-                "Frutas Melon sandia y uvas",
-              ].map((subcategory) => (
-                <button
-                  key={subcategory}
-                  className={
-                    selectedCategory === subcategory ? style.activeCategory : ""
-                  }
-                  onClick={() => handleCategoryClick(subcategory)}
-                >
-                  {subcategory}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        {/* Frutas */}
-        <div className={style.Frutas}>
-          <button
-            
-            className={style.categoryTitle}
-          >
-           Congelados
-          </button>
-       
-        </div>
-      </div>
-
-      <h2 className={style.title}>
-        {selectedCategory ? selectedCategory : "Nuestros Productos"}
-      </h2>
-      <div className={style.container}>
-        {visibleProductsWithoutDiscount.map(
-          ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => {
-            return (
-              <div key={_id} className={style.cartContainer}>
-                <img className={style.img} src={`/${imagen}`} alt="img" />
-                <p className={style.priceUnit}>
-                  Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
-                </p>
-                <p className={style.description}>{descripcion || nombre}</p>
-                <p className={style.quantitySelection}>
-                  Selecciona la cantidad:
-                </p>
-                <div className={style.quantityContainer}>
+      {/* Renderizar categorías */}
+      {Object.keys(categories).map((category) => (
+        <div key={category}>
+          <h2 className={style.categoryTitle}>{category}</h2>
+          <div className={style.container}>
+            {categories[category].map(
+              ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
+                <div key={_id} className={style.cartContainer}>
+                  <img
+                    className={style.img}
+                    src={`/${imagen}`}
+                    alt="img"
+                  />
+                  <p className={style.priceUnit}>
+                    Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
+                  </p>
+                  <p className={style.description}>{descripcion || nombre}</p>
+                  <p className={style.quantitySelection}>
+                    Selecciona la cantidad:
+                  </p>
+                  <div className={style.quantityContainer}>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(_id, tipoVenta, "decrement")
+                      }
+                    >
+                      -
+                    </button>
+                    <span>
+                      {quantities[_id] || 0}{" "}
+                      {tipoVenta === "kg" ? "kg" : "unidades"}
+                    </span>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(_id, tipoVenta, "increment")
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+                  <p className={style.total}>
+                    Total: ${(quantities[_id] || 0) * precio.toFixed(2)}
+                  </p>
                   <button
+                    className={style.addCart}
                     onClick={() =>
-                      handleQuantityChange(_id, tipoVenta, "decrement")
+                      handleAddToCart({ _id, nombre, precio, tipoVenta })
                     }
                   >
-                    -
-                  </button>
-                  <span>
-                    {quantities[_id] || 0}{" "}
-                    {tipoVenta === "kg" ? "kg" : "unidades"}
-                  </span>
-                  <button
-                    onClick={() =>
-                      handleQuantityChange(_id, tipoVenta, "increment")
-                    }
-                  >
-                    +
+                    Añadir a carrito
                   </button>
                 </div>
-                <p className={style.total}>
-                  Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
-                </p>
-                <button
-                  className={style.addCart}
-                  onClick={() =>
-                    handleAddToCart({ _id, nombre, precio, tipoVenta })
-                  }
-                >
-                  Añadir a carrito
-                </button>
-              </div>
-            );
-          }
-        )}
-      </div>
-
-      {/* Botones Ver más/Ver menos solo para productos sin descuento */}
-      <div className={style.containerseeMoreBtn}>
-        {visibleCount < productsWithoutDiscount.length ? (
-          <button
-            onClick={() => setVisibleCount((prev) => prev + 8)}
-            className={style.seeMoreBtn}
-          >
-            Ver más
-          </button>
-        ) : (
-          <p className={style.seeMoreBtnNo}>
-            Ya no hay más productos para mostrar
-          </p>
-        )}
-
-        {visibleCount > 9 && (
-          <button
-            onClick={() => setVisibleCount((prev) => Math.max(prev - 8, 9))}
-            className={style.seeMoreBtn}
-          >
-            Ver menos
-          </button>
-        )}
-      </div>
+              )
+            )}
+          </div>
+        </div>
+      ))}
     </>
   );
 }

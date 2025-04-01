@@ -27,21 +27,29 @@ createRoot(document.getElementById("root")).render(
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
-            <Route  path="/footer" element={<Footer></Footer>} ></Route>
+            <Route path="/footer" element={<Footer></Footer>}></Route>
 
             <Route element={<ProtectedRouter allowedRoles={["admin"]} />}>
               <Route path="/admin" element={<PanelAdmin />} />
               <Route path="/productos" element={<Products />} />
             </Route>
-          
+
             {/* Ruta protegida para usuarios pendientes */}
             <Route element={<ProtectedRouter />}>
-            <Route
+              <Route
                 path="/esperando-aprobacion"
                 element={<EsperandoAprobacion />}
               />
               <Route path="/paginadeespera" element={<PaginaDeEspera />} />
-            
+            </Route>
+            {/* Ruta accesible tanto para mayoristas como minoristas */}
+            <Route
+              element={
+                <ProtectedRouter allowedRoles={["minorista", "mayorista"]} />
+              }
+            >
+              <Route path="/cart" element={<Cart />} />
+             
             </Route>
             <Route element={<ProtectedRouter allowedRoles={["mayorista"]} />}>
               <Route path="/mayorista" element={<Mayorista />} />
@@ -49,8 +57,10 @@ createRoot(document.getElementById("root")).render(
 
             <Route element={<ProtectedRouter allowedRoles={["minorista"]} />}>
               <Route path="/minorista" element={<Minorista />} />
-              <Route path="/cart"  element={<Cart  />}></Route>
-              <Route path="/discoutedProducts" element={<DiscountedProducts></DiscountedProducts>} ></Route>
+              <Route
+                path="/discoutedProducts"
+                element={<DiscountedProducts />}
+              />
             </Route>
           </Routes>
         </Router>

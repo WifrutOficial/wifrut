@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import style from "../../styles/Nav.module.css";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +8,10 @@ import { useSearch } from "../../context/SearchContext";
 import { useCart } from "../../context/CartContext";
 import { IoIosArrowDropup } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
+import { AiOutlineLogout } from "react-icons/ai";
+import style from "../../styles/Nav2.module.css";
 
-function Nav() {
+function Nav2() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
@@ -61,49 +62,46 @@ function Nav() {
 
   return (
     <div className={style.container}>
-      {isAuthenticated ? (
-        <div className={`${style.containerLog} ${isOpen ? style.open : ""}`}>
-          <button className={style.btnCerrarSesion} onClick={logout}>
-            Cerrar Sesion
-          </button>
-        </div>
-      ) : (
-        <div className={`${style.containerLog} ${isOpen ? style.open : ""}`}>
-          <p className={style.titleLog}>Productos Saludables Seleccionados</p>
-         
-        </div>
-      )}
-
+      <div className={style.containerLog}>
+        <p className={style.titleLog}>Productos Saludables Seleccionados</p>
+      </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
-        <div className={style.container2}>
-
-          <img
-            className={style.logo}
-            src="../../../logo.png"
-            alt="logo"
-            onClick={handleScrollToTop}
-          />
+        <div className={style.logoContainer}>
+          <img className={style.logo} src="../../../logo.png" alt="logo" />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
-
-          <div
-            className={`${style.containerLinks2} ${isOpen ? style.open : ""}`}
-          >
-            <IoMdClose onClick={toggleMenu} className={style.btnClose} />
-            <a className={style.a} onClick={handleScrollToTop}>
-              Inicio
-            </a>
-            <a
-              className={style.a}
-              onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
-            >
-              Ofertas
-            </a>
-            <a  className={style.a} >Sobre Nosotros</a>
-            <a  className={style.a} >Zonas de Envio</a>
-          </div>
-         
         </div>
-      
+        <div className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
+          <IoMdClose onClick={toggleMenu} className={style.btnClose} />
+          {!isAuthenticated ? (
+            <FaRegUser
+              className={style.logoUser2}
+              onClick={() => navigate("/login")}
+            />
+          ) : (
+            < div className={style.btnCerrarSesion}>
+            <button  onClick={logout}>
+              Cerrar Sesion
+            </button>
+            <AiOutlineLogout />
+          </div>
+          )}
+          <a className={style.a} onClick={handleScrollToTop}>
+            Inicio
+          </a>
+          <a
+            className={style.a}
+            onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
+          >
+            Ofertas
+          </a>
+          <a
+            className={style.a}
+            onClick={() => window.scrollTo({ top: 2320, behavior: "smooth" })}
+          >
+            Conócenos
+          </a>
+          <a className={style.a}>Envios</a>
+        </div>
         <div className={style.search}>
           <input
             className={style.input}
@@ -120,11 +118,21 @@ function Nav() {
             </div>
             <p className={style.totalNumber}>${total.toFixed(2)}</p>
           </div>
-         
         </div>
-        <FaRegUser className={style.logoUser} onClick={() => navigate("/login")} />
+        {!isAuthenticated ? (
+          <FaRegUser
+            className={style.logoUser}
+            onClick={() => navigate("/login")}
+          />
+        ) : (
+          < div className={style.btnCerrarSesion2}>
+            <button  onClick={logout}>
+              Cerrar Sesion
+            </button>
+            <AiOutlineLogout />
+          </div>
+        )}
       </div>
-
       {/* Flecha flotante (solo se muestra después de hacer scroll) */}
       {showArrow && (
         <div onClick={handleScrollToTop} className={style.floatingArrow}>
@@ -135,4 +143,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default Nav2;

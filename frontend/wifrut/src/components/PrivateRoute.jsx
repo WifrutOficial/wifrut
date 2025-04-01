@@ -17,7 +17,7 @@ function ProtectedRouter({ allowedRoles = [] }) {
     user?.tipoUsuario === "mayorista" &&
     user?.estadoCuenta === "pendiente" &&
     location.pathname !== "/esperando-aprobacion" &&
-    location.pathname !== "/paginadeespera" // 🔥 Evitamos un bucle
+    location.pathname !== "/paginadeespera" //Evitamos un bucle
   ) {
     console.log("✅ Usuario pendiente → Redirigiendo a /esperando-aprobacion");
     return <Navigate to="/esperando-aprobacion" replace />;
