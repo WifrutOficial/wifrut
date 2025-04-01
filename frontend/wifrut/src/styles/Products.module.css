@@ -4,7 +4,7 @@
   display: flex;
   gap: 30px;
   overflow-x: scroll;
-  margin:0  130px;
+  margin: 0 130px;
   padding: 20px;
 
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -202,12 +202,6 @@
   gap: 10px;
 }
 
-.subCategoryContainer {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .arrow {
   width: 20px;
   height: 20px;
@@ -219,6 +213,7 @@
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
   color: #fff;
+  font-size: 12px;
 }
 
 .customIconSuc {
@@ -227,7 +222,7 @@
   text-align: center;
 }
 .customIconErr {
-  font-size: 10px;
+  font-size: 5px;
   background-color: #b90003;
   text-align: center;
 }
@@ -235,7 +230,6 @@
 .categoryTitle {
   color: black;
   font-weight: 500;
-
 }
 
 .titleOfertas {
@@ -244,33 +238,27 @@
   padding: 20px 0 0 0;
   font-weight: 400;
 }
-.categoryContainer{
+.categoryContainer {
   display: flex;
-align-items: center;
-padding: 20px 0 0 100px;
-gap: 10px;
+  align-items: center;
+  padding: 20px 0 10px 100px;
+  gap: 10px;
 }
 
 @media (max-width: 768px) {
- 
   .container {
     display: flex;
     gap: 30px;
     overflow-x: scroll;
-    margin:0  10px;
-  
-  
+    margin: 0 10px;
   }
   .categoryTitle {
     color: black;
     font-weight: 500;
     font-size: 15px;
-
   }
-  .categoryContainer{
-
-  padding: 20px 0 0 10px;
-
+  .categoryContainer {
+    padding: 20px 0 10px 10px;
   }
 
   .cartContainer {
@@ -294,12 +282,7 @@ gap: 10px;
     font-family: "Poppins", serif;
     color: #ffffff;
   }
-  .subCategoryContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
+
   .containerCategory {
     flex-direction: column;
     width: 100%;
@@ -330,8 +313,6 @@ gap: 10px;
 
   .titleOfertas {
     font-size: 30px;
-
-
   }
 
   .quantitySelection {
@@ -342,5 +323,8 @@ gap: 10px;
     text-align: center;
     font-size: 14px;
   }
-}
 
+  .customAlert {
+    font-size: 10px;
+  }
+}

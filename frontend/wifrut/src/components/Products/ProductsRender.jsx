@@ -51,14 +51,15 @@ function ProductsRender() {
   const handleAddToCart = (product) => {
     if (!isAuthenticated) {
       Swal.fire({
-        title: "¡Error!",
-        text: "Debes iniciar sesión para comprar.",
+        text: "Debes iniciar sesión.",
         icon: "warning",
         confirmButtonColor: "#B90003",
         customClass: {
           popup: style.customAlert,
           icon: style.customIconErr,
+       
         },
+        position: 'bottom',
       });
       return;
     }
