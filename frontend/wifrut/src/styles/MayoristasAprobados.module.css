@@ -1,23 +1,19 @@
 .container {
-  height: 455px;
-  width: 600px;
-  color: #000000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   backdrop-filter: blur(20px);
-  z-index: -1;
   border-radius: 15px;
   background-color: #d4d4d415;
   border: 1px solid #d4d4d46b;
- display: flex;
-  flex-direction: column;
-  gap: 20px;
+  margin: 20px 10px;
 }
 
-
-
-.container h2 {
+h2 {
   color: #fff;
-  font-weight: 200;
-  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
   padding: 15px 0px;
 }
 
@@ -33,7 +29,7 @@
 .solicitudItem {
   display: flex;
   font-size: 12px;
-  background-color: #FFB83B;
+  background-color: #ffb83b;
   border-radius: 13px;
   padding: 5px;
 }

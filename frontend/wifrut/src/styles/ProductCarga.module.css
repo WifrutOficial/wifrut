@@ -1,67 +1,57 @@
-.containerGlass {
-  position: relative;
-  width: 640px;
-  height: 220px;
-  border-radius: 16px;
-  margin-left: 30px;
-  overflow: hidden;
-}
 
-.containerGlass::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+
+.title {
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  color: 000000;
-  z-index: 1;
-  position: relative;
-  gap: 30px;
-}
-
-.title {
-  color: #fff;
-  font-size: 20px;
-}
-
-.container1 {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  margin: 10px 10px;
+  backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: 15px;
+  background-color: #d4d4d415;
+  border: 1px solid #d4d4d46b;
   gap: 20px;
+
+}
+.hiddenInput{
+  color: #fff;
+  
 }
 
+.customFileButton{
+  color: #fff;
+  
+}
 
 .btn{
-    border: none;
-    background: none ;
-    color: #000000;
-    background-color: #FFB83B ;
-    border-radius: 33px;
-    padding: 0 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  margin-left: 10px;
+  background-color: #FFB83B;
+  border-radius: 13px;
+  padding: 2px 5px;
 }
 
-.containerInfo{
-    display: flex;
-    gap: 30px;
+/* 📱 Ajuste para pantallas pequeñas */
+@media (max-width: 1000px) {
+.title{
+  font-size: 15px;
 }
 
+.customFileButton, .hiddenInput, .btn{
+ font-size: 10px;
+  
+}
 
-
+}

@@ -1,11 +1,13 @@
 .container {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  width: 100vh;
-  height: 450px;
-  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  background-color: #d4d4d415;
+  border: 1px solid #d4d4d46b;
+  margin: 20px 10px;
 }
 
 .container h2 {
