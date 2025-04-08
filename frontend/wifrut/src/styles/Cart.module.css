@@ -86,6 +86,7 @@ hr {
   border-bottom: 1px dotted #fff;
   color: #fff;
 
+
 }
 
 .btnEnvio {
@@ -279,12 +280,12 @@ hr {
     border-radius: 15px;
     border: 1px solid #d4d4d4d6;
     margin: 0 auto;
-    width: 340px;
+    width: 342px;
     padding: 10px;
   }
 
   .containerCart {
-    width: 340px;
+    width: 342px;
   }
 
   .containerPagoInput {
@@ -296,5 +297,12 @@ hr {
     align-items: center;
     flex: 1;
     text-align: center;
+  }
+
+  .inputEnvio input {
+   width: fit-content;
+   overflow-x: auto;
+  
+  
   }
 }

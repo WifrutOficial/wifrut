@@ -12,7 +12,7 @@ export default function Cart() {
   const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
-  const [step, setStep] = useState(1); // Paso actual: 1 (Productos y Dirección), 2 (Método de Pago)
+  const [step, setStep] = useState(1);
 
   const total = getTotal();
   const costoEnvio = 2800;
@@ -34,7 +34,7 @@ export default function Cart() {
       });
       return;
     }
-    setStep(2); // Pasa al paso 2 para mostrar el método de pago
+    setStep(2);
   };
 
   const handleCheckout = async () => {
@@ -178,7 +178,6 @@ export default function Cart() {
             <p>Total: ${total.toFixed(2)}</p>
           </div>
 
-          {/* Dirección (Paso 2) siempre visible */}
           <div className={style.envio}>
             <div className={style.inputEnvio}>
               <p>Dirección de envío:</p>
@@ -191,7 +190,7 @@ export default function Cart() {
             </div>
             <p>Costo: ${costoEnvio}</p>
           </div>
-          {/* Botón Siguiente visible en el paso 1 */}
+
           {step === 1 && (
             <div className={style.btnContainer}>
               <button onClick={handleNextStep}>Siguiente</button>
@@ -201,7 +200,6 @@ export default function Cart() {
             Total Final: ${totalFinal.toFixed(2)}
           </p>
 
-          {/* Método de Pago (Paso 3) visible solo en step 2 */}
           {step === 2 && (
             <>
               <div>
