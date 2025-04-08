@@ -72,7 +72,7 @@ hr {
   color: #ffff;
   gap: 10px;
 
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 .inputEnvio {
