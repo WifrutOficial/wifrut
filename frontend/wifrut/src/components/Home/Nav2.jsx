@@ -81,9 +81,9 @@ function Nav2() {
   };
 
   const handleCategoryClick = (category) => {
-    setShowCategorias(false); // Cierra el menú de categorías
-    setIsOpen(false); // Cierra el menú hamburguesa
-    // Desplazamiento directo usando un evento personalizado o ID
+    setShowCategorias(false); 
+    setIsOpen(false); 
+    // Desplazamiento directo
     const categoryElement = document.getElementById(`category-${category}`);
     if (categoryElement) {
       const topPosition = categoryElement.getBoundingClientRect().top + window.scrollY - 150;
@@ -145,7 +145,7 @@ function Nav2() {
           </a>
           <a
             className={style.a}
-            onClick={() => window.scrollTo({ top: 2320, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 3700, behavior: "smooth" })}
           >
             Conócenos
           </a>

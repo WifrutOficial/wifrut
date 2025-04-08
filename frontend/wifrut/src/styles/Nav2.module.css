@@ -44,11 +44,9 @@
   gap: 20px;
   align-items: center;
   justify-content: space-between;
+ 
 }
 
-.linkContainer.open {
-  transform: translateX(0);
-}
 
 .btnClose {
   display: none;
@@ -146,7 +144,7 @@
 .btnCerrarSesion2 button {
   background: none;
   border: none;
-  font-size: 12px;
+  font-size: 16px;
 }
 .btnCerrarSesion2 {
   display: flex;
@@ -174,12 +172,10 @@
 .categorias{
   display: none;
 }
-.a{
-  display: none;
-}
+
 
 /* Estilos para pantallas menores a 768px */
-@media (max-width: 768px) {
+@media (max-width: 966px) {
 
 
   .a {
@@ -232,8 +228,15 @@
     padding-top: 60px;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+
+
   }
 
+
+  .linkContainer.open {
+    transform: translateX(0);
+  }
+  
   .categoriasContainer {
     display: flex;
 
