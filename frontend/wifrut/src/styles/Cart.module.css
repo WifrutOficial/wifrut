@@ -71,6 +71,8 @@ hr {
   padding: 20px 40px;
   color: #ffff;
   gap: 10px;
+
+  overflow-x: auto;
 }
 
 .inputEnvio {
@@ -85,6 +87,8 @@ hr {
   border: none;
   border-bottom: 1px dotted #fff;
   color: #fff;
+  width: 130px;
+
 
 
 }
@@ -299,10 +303,4 @@ hr {
     text-align: center;
   }
 
-  .inputEnvio input {
-   width: fit-content;
-   overflow-x: auto;
-  
-  
-  }
 }
