@@ -54,6 +54,8 @@
   gap: 30px;
   height: 500px;
   overflow-x: scroll;
+
+
 }
 
 .cartContainer {
@@ -356,11 +358,6 @@
   }
 
   .scrollArrow {
-    right: 1px;
-
- 
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    display: none;
   }
 }

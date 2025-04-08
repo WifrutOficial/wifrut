@@ -3,6 +3,11 @@
   height: 100px;
   margin-left: 40px;
   cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.logo:hover{
+  transform: rotate(5deg);
 }
 
 .titleLog {
@@ -167,12 +172,15 @@
   font-size: 13px;
   border: none;
   background: none;
+  cursor: pointer;
 }
 
 .categorias{
   display: none;
 }
-
+.a{
+  cursor: pointer;
+}
 
 /* Estilos para pantallas menores a 768px */
 @media (max-width: 966px) {

@@ -1,29 +1,49 @@
 import React, { useState, useEffect } from "react";
 import style from "../../styles/Banner.module.css";
+import { useSwipeable } from "react-swipeable";
 
 const Banners = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const images = [
-    '../../../publicidad1.png',
-    '../../../publicidad1.png',
-    '../../../publicidad3.png',
+    '/publicidad1.png',
+    '/publicidad2.png',
+    '/publicidad3.png',
   ];
+
+  const handleSwipeLeft = () => {
+    setCurrentImage((prev) => (prev + 1) % images.length);
+  };
+
+  const handleSwipeRight = () => {
+    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handlers = useSwipeable({
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % images.length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleDotClick = (index) => {
-    setCurrentImage(index);
-  };
-
   return (
-    <div className={style.banner}>
+    <div {...handlers} className={style.banner}>
+      {/* Flechas */}
+      <button className={style.arrowLeft} onClick={handleSwipeRight}>
+        &#10094;
+      </button>
+      <button className={style.arrowRight} onClick={handleSwipeLeft}>
+        &#10095;
+      </button>
+
+      {/* Imágenes */}
       <div
         className={style.slider}
         style={{ transform: `translateX(-${currentImage * 100}%)` }}
@@ -39,7 +59,7 @@ const Banners = () => {
           <span
             key={index}
             className={`${style.dot} ${currentImage === index ? style.active : ""}`}
-            onClick={() => handleDotClick(index)}
+            onClick={() => setCurrentImage(index)}
           ></span>
         ))}
       </div>

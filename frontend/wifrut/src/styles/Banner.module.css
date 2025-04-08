@@ -4,12 +4,21 @@
   overflow: hidden;
   position: relative;
   display: flex;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
 }
+
+
+
 
 .slider {
   display: flex;
   width: 300%; 
-  transition: transform 0.8s ease-in-out;
+  transition: transform 0.4s ease-in-out;
+ 
 }
 
 .slider img {
@@ -28,8 +37,8 @@
 
 .dot {
   display: inline-block;
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   margin: 0 8px;
   background-color: #bbb;
   border-radius: 50%;
@@ -40,8 +49,39 @@
 
 
 .active {
-  background-color: #B90003;
+  background-color: grey;
 }
+
+
+.arrowLeft,
+.arrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.arrowLeft:hover,
+.arrowRight:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.arrowLeft {
+  left: 10px;
+}
+
+.arrowRight {
+  right: 10px;
+}
+
 
 /* 📱 Ajuste para pantallas pequeñas */
 @media (max-width: 768px) {
@@ -51,4 +91,15 @@
     height: 12px;
    
   }
+ 
+
+  .arrowLeft,
+  .arrowRight {
+    display: none;
+  }
+
+
+  
+  
+  
 }
