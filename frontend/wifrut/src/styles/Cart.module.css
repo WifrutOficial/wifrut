@@ -87,7 +87,7 @@ hr {
   border: none;
   border-bottom: 1px dotted #fff;
   color: #fff;
-  width: 130px;
+  width: 150px;
 
 
 
@@ -284,12 +284,14 @@ hr {
     border-radius: 15px;
     border: 1px solid #d4d4d4d6;
     margin: 0 auto;
-    width: 342px;
+    width: min(100%, 800px); /* No más de 800px */
+    min-width: 320px;
     padding: 10px;
   }
 
   .containerCart {
-    width: 342px;
+    width: min(100%, 800px); /* No más de 800px */
+    min-width: 320px;
   }
 
   .containerPagoInput {
