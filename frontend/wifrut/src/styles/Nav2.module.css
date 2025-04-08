@@ -257,7 +257,7 @@
 
   .containerLinks {
     flex-direction: column;
-    padding: 0 20px;
+    padding: 0 10px;
     gap: 0;
   }
 
@@ -295,10 +295,9 @@
     display: block;
     cursor: pointer;
     color: #000000;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
   }
-
   .cartContainer {
     font-size: 10px;
     gap: 5px;

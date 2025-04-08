@@ -30,12 +30,11 @@
   gap: 20px;
   align-items: center;
   padding: 30px;
-flex: 1;
+  flex: 1;
   max-height: 300px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
-  
 }
 
 .cart li {
@@ -47,7 +46,6 @@ flex: 1;
   width: 100%;
   align-items: center;
   flex: 1;
-  
 }
 
 .cart li p {
@@ -68,17 +66,18 @@ hr {
 
 .envio {
   display: flex;
- justify-content: space-between;
- align-items: center;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 40px;
   color: #ffff;
+  gap: 10px;
 }
 
 .inputEnvio {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .inputEnvio input {
@@ -86,6 +85,7 @@ hr {
   border: none;
   border-bottom: 1px dotted #fff;
   color: #fff;
+
 }
 
 .btnEnvio {
@@ -140,7 +140,7 @@ hr {
   padding: 5px 10px;
   cursor: pointer;
   color: #ffff;
-border-radius: 10px;
+  border-radius: 10px;
   width: 200px;
 }
 
@@ -246,15 +246,13 @@ border-radius: 10px;
     padding: 20px 20px;
   }
 
- 
-
   .envio p {
-    font-size: 8px;
-   
+    font-size: 13px;
   }
 
   .container {
     padding: 12px;
+    height: 100vh;
   }
 
   .container .arrow {
@@ -281,24 +279,22 @@ border-radius: 10px;
     border-radius: 15px;
     border: 1px solid #d4d4d4d6;
     margin: 0 auto;
-    width: 360px;
+    width: 342px;
     padding: 10px;
   }
 
   .containerCart {
-   
-    width: 360px;
+    width: 342spx;
   }
 
-  
-.containerPagoInput {
-  font-size: 13px;
-}
-.cart li p {
- display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  text-align: center;
-}
+  .containerPagoInput {
+    font-size: 13px;
+  }
+  .cart li p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+  }
 }
