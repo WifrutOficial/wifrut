@@ -7,8 +7,7 @@
   padding: 6px 12px;
   border-radius: 5px;
   animation: fadeIn 0.3s ease-in-out;
-  position: absolute;
-  top: 330px;
+
 }
 
 @keyframes fadeIn {
@@ -35,12 +34,16 @@
   transition: border-color 0.2s ease;
 }
 
-.envio {
+.Envio{
   display: flex;
-  padding: 30px;
-  color: #ffff;
   justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+  color: #ffff;
+  gap: 10px;
 }
+
+
 
 .inputEnvio {
   display: flex;
@@ -279,12 +282,10 @@ hr {
   .cart {
     padding: 10px;
   }
-  .envio {
-    padding: 20px 20px;
-    align-items: flex-start;
-    gap: 1px;
-    flex-wrap: wrap;
-    flex: 1;
+  .Envio{
+  
+    flex-direction: column;
+
   }
 
   .envio p {
@@ -347,12 +348,9 @@ hr {
   }
 
   .zonaDetectada {
-    font-size: 9px;
-    margin: 5px 20px;
-    padding: 0 10px;
-    border-radius: 5px;
-    animation: fadeIn 0.3s ease-in-out;
-    position: absolute;
-    top: 330px;
+    font-size: 12px;
+  
+   
+
   }
 }

@@ -20,7 +20,8 @@ export default function Cart() {
   const [zonaDetectadaMsg, setZonaDetectadaMsg] = useState("");
 
   const zonasEnvio = zonasGeo.features.map((feature) => {
-    const name = feature.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
+    const name =
+      feature.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
     const desc = feature.properties.description || "";
     const match = desc.match(/\d+/);
     const precio = match ? parseInt(match[0]) : 0;
@@ -111,7 +112,9 @@ export default function Cart() {
       const direccionCompleta = `${nuevaDireccion}, Neuquén, Argentina`;
 
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccionCompleta)}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          direccionCompleta
+        )}`
       );
       const data = await res.json();
 
@@ -125,16 +128,21 @@ export default function Cart() {
       );
 
       if (zona) {
-        const nombreZona = zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
+        const nombreZona =
+          zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
         const desc = zona.properties.description || "";
         const match = desc.match(/\d+/);
         const precio = match ? parseInt(match[0]) : 0;
 
         setZonaSeleccionada(nombreZona);
         setCostoEnvio(precio);
-        setZonaDetectadaMsg(`🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`);
+        setZonaDetectadaMsg(
+          `🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`
+        );
       } else {
-        setZonaDetectadaMsg("⚠️ Dirección fuera de las zonas de envío definidas.");
+        setZonaDetectadaMsg(
+          "⚠️ Dirección fuera de las zonas de envío definidas."
+        );
       }
     } catch (error) {
       console.error("Error al detectar zona:", error);
@@ -150,11 +158,17 @@ export default function Cart() {
           <span className={style.stepNumber}>1</span>
           <p>Productos</p>
         </div>
-        <div className={`${style.step} ${direccion.trim() ? style.completed : ""}`}>
+        <div
+          className={`${style.step} ${direccion.trim() ? style.completed : ""}`}
+        >
           <span className={style.stepNumber}>2</span>
           <p>Dirección</p>
         </div>
-        <div className={`${style.step} ${step === 2 && metodoPago ? style.completed : ""}`}>
+        <div
+          className={`${style.step} ${
+            step === 2 && metodoPago ? style.completed : ""
+          }`}
+        >
           <span className={style.stepNumber}>3</span>
           <p>Método de Pago</p>
         </div>
@@ -164,27 +178,41 @@ export default function Cart() {
         <p>El carrito está vacío</p>
       ) : (
         <div className={style.containerCart}>
-          <IoIosArrowDropleft className={style.arrow} onClick={() => navigate("/")} />
+          <IoIosArrowDropleft
+            className={style.arrow}
+            onClick={() => navigate("/")}
+          />
 
           <ul className={style.cart}>
-            {cart.map(({ _id, nombre, precio, quantity, precioConDescuento, tipoVenta }) => {
-              const precioFinal = precioConDescuento ?? precio;
-              return (
-                <li key={_id} className={style.cartItem}>
-                  <p>{nombre}</p>
-                  <div className={style.cantidades}>
-                    <p>{quantity} {tipoVenta === "kg" ? "kg" : "U"}</p>
-                  </div>
-                  <p>Total: ${quantity * precioFinal}</p>
-                  <button
-                    onClick={() => removeFromCart(_id)}
-                    className={style.btnDelete}
-                  >
-                    <IoTrashOutline />
-                  </button>
-                </li>
-              );
-            })}
+            {cart.map(
+              ({
+                _id,
+                nombre,
+                precio,
+                quantity,
+                precioConDescuento,
+                tipoVenta,
+              }) => {
+                const precioFinal = precioConDescuento ?? precio;
+                return (
+                  <li key={_id} className={style.cartItem}>
+                    <p>{nombre}</p>
+                    <div className={style.cantidades}>
+                      <p>
+                        {quantity} {tipoVenta === "kg" ? "kg" : "U"}
+                      </p>
+                    </div>
+                    <p>Total: ${quantity * precioFinal}</p>
+                    <button
+                      onClick={() => removeFromCart(_id)}
+                      className={style.btnDelete}
+                    >
+                      <IoTrashOutline />
+                    </button>
+                  </li>
+                );
+              }
+            )}
           </ul>
 
           <hr />
@@ -193,44 +221,48 @@ export default function Cart() {
           </div>
 
           <div className={style.envio}>
-            <div className={style.inputEnvio}>
-              <p>Dirección de envío:</p>
-              <input
-                type="text"
-                placeholder="Escribe tu dirección"
-                value={direccion}
-                onChange={handleDireccionChange}
-              />
-            
-            </div>
+            <div className={style.Envio}>
+              <div className={style.inputEnvio}>
+                <p>Dirección de envío:</p>
+                <input
+                  type="text"
+                  placeholder="Escribe tu dirección"
+                  value={direccion}
+                  onChange={handleDireccionChange}
+                />
+              </div>
 
-            <div className={style.inputEnvio}>
-              <p>Zonas:</p>
-              <select
-                value={zonaSeleccionada}
-                onChange={(e) => {f
-                  const zona = zonasEnvio.find(z => z.nombre === e.target.value);
-                  if (zona) {
-                    setZonaSeleccionada(zona.nombre);
-                    setCostoEnvio(zona.precio);
-                  }
-                }}
-              >
-                <option value="">Selecciona una zona</option>
-                {zonasEnvio.map((zona) => (
-                  <option key={zona.nombre} value={zona.nombre}>
-                    {zona.nombre} - ${zona.precio}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div className={style.inputEnvio}>
+                <p>Zonas:</p>
+                <select
+                  value={zonaSeleccionada}
+                  onChange={(e) => {
+                    f;
+                    const zona = zonasEnvio.find(
+                      (z) => z.nombre === e.target.value
+                    );
+                    if (zona) {
+                      setZonaSeleccionada(zona.nombre);
+                      setCostoEnvio(zona.precio);
+                    }
+                  }}
+                >
+                  <option value="">Selecciona una zona</option>
+                  {zonasEnvio.map((zona) => (
+                    <option key={zona.nombre} value={zona.nombre}>
+                      {zona.nombre} - ${zona.precio}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <p>Costo Envío: ${costoEnvio || 0}</p>
-            
+              <p>Costo Envío: ${costoEnvio || 0}</p>
+            </div>
+            {zonaDetectadaMsg && (
+              <p className={style.zonaDetectada}>{zonaDetectadaMsg}</p>
+            )}
           </div>
-          {zonaDetectadaMsg && (
-                <p className={style.zonaDetectada}>{zonaDetectadaMsg}</p>
-              )} 
+
           {step === 1 && (
             <div className={style.btnContainer}>
               <button onClick={handleNextStep}>Siguiente</button>
@@ -261,7 +293,8 @@ export default function Cart() {
               <div className={style.btnContainer}>
                 <button
                   onClick={() =>
-                    window.confirm("¿Estás seguro de vaciar el carrito?") && clearCart()
+                    window.confirm("¿Estás seguro de vaciar el carrito?") &&
+                    clearCart()
                   }
                 >
                   Vaciar Carrito
