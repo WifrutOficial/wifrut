@@ -77,7 +77,7 @@ function Nav2() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value); // Esto queda intacto para el buscador
+    setSearchQuery(e.target.value);
   };
 
   const handleCategoryClick = (category) => {
@@ -109,7 +109,7 @@ function Nav2() {
             className={style.logo}
             src="../../../logo.png"
             alt="logo"
-            onClick={handleScrollToTop}
+            onClick={()=> navigate("/")}
           />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
@@ -134,7 +134,7 @@ function Nav2() {
               <AiOutlineLogout />
             </div>
           )}
-          <a className={style.a} onClick={handleScrollToTop}>
+          <a className={style.a}   onClick={()=> navigate("/")}>
             Inicio
           </a>
           <a
@@ -149,7 +149,7 @@ function Nav2() {
           >
             Conócenos
           </a>
-          <a className={style.a}>Envios</a>
+          <a className={style.a}  onClick={() => navigate("/send")}>Envios</a>
 
           <div className={style.categorias}>
             <div className={style.categoriasContainer}>

@@ -17,6 +17,9 @@ import { SearchProvider } from "./context/SearchContext";
 import PaginaDeEspera from "./components/Home/panels/PaginaDeEspera";
 import DiscountedProducts from "./components/Products/DiscountedProducts";
 import Footer from "./components/Home/Footer";
+import Send from "./components/Home/Send";
+import 'leaflet/dist/leaflet.css';
+
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -28,6 +31,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/footer" element={<Footer></Footer>}></Route>
+            <Route path="/send" element={<Send/>} />
 
             <Route element={<ProtectedRouter allowedRoles={["admin"]} />}>
               <Route path="/admin" element={<PanelAdmin />} />
