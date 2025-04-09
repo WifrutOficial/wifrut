@@ -233,17 +233,19 @@ export default function Cart() {
               </div>
 
               <div className={style.inputEnvio}>
-                <p>Zonas:</p>
+              <p>zonas? no hace falta?</p>
                 <select
                   value={zonaSeleccionada}
                   onChange={(e) => {
-                    f;
                     const zona = zonasEnvio.find(
                       (z) => z.nombre === e.target.value
                     );
                     if (zona) {
                       setZonaSeleccionada(zona.nombre);
                       setCostoEnvio(zona.precio);
+                      setZonaDetectadaMsg(
+                        `🖐️ Zona seleccionada manualmente: ${zona.nombre} ($${zona.precio})`
+                      );
                     }
                   }}
                 >

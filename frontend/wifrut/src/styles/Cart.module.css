@@ -32,6 +32,8 @@
   font-size: 12px;
   outline: none;
   transition: border-color 0.2s ease;
+  display: none;
+
 }
 
 .Envio{
