@@ -73,10 +73,13 @@ function Login() {
       }
     }
   };
-
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/"); 
+  };
   return (
     <div className={style.container}>
-      <img className={style.logo} src="../../../logo.png" alt="logo" />
+      <img onClick={handleScrollToTop} className={style.logo} src="../../../logo.png" alt="logo" />
       <div className={style.containerRegister}>
       
         <p className={style.title}>Iniciar Sesion</p>

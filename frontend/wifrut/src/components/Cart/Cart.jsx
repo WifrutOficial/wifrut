@@ -72,10 +72,23 @@ export default function Cart() {
     try {
       const response = await checkout(direccion, metodoPago);
       if (response && response.status === 201) {
-        alert("Pedido realizado con éxito.");
-        clearCart();
+        Swal.fire({
+          title: "¡Gracias por tu compra!",
+          text: "Tu pedido fue realizado con éxito. En breve nos pondremos en contacto.",
+          icon: "success",
+          confirmButtonColor: "#B90003",
+          customClass: {
+            popup: style.customAlert,
+            icon: style.customIconSuc,
+          },
+        }).then(() => {
+          clearCart();
+          navigate("/"); // o a donde quieras redirigir después
+        });
+      
         const orderId = response.data.order?._id;
         if (!orderId) return;
+      
         if (metodoPago === "Mercado Pago") {
           createMercadoPagoPreference(orderId);
         }
@@ -231,9 +244,11 @@ export default function Cart() {
                   onChange={handleDireccionChange}
                 />
               </div>
-
+              <p className={style.infoEnvio}>
+                Para mas informacion sobre las zonas de envio visite:{" "}
+                <span  onClick={() => navigate("/send")} >Envios</span>
+              </p>
               <div className={style.inputEnvio}>
-              <p>zonas? no hace falta?</p>
                 <select
                   value={zonaSeleccionada}
                   onChange={(e) => {

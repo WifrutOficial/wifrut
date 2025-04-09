@@ -13,7 +13,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import style from "../../styles/Nav2.module.css";
 import { MdArrowDropDown } from "react-icons/md";
 
-function Nav2() {
+function Nav2({ hideSearchAndCart = false }) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
@@ -96,6 +96,7 @@ function Nav2() {
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/"); 
   };
 
   return (
@@ -109,7 +110,7 @@ function Nav2() {
             className={style.logo}
             src="../../../logo.png"
             alt="logo"
-            onClick={()=> navigate("/")}
+            onClick={handleScrollToTop}
           />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
@@ -134,7 +135,7 @@ function Nav2() {
               <AiOutlineLogout />
             </div>
           )}
-          <a className={style.a}   onClick={()=> navigate("/")}>
+          <a className={style.a}    onClick={handleScrollToTop}>
             Inicio
           </a>
           <a
@@ -173,23 +174,26 @@ function Nav2() {
             )}
           </div>
         </div>
-        <div className={style.search}>
-          <input
-            className={style.input}
-            type="text"
-            placeholder="Buscar productos"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-          <IoSearch className={style.searchBtn} />
-          <div className={style.cartContainer}>
-            <BsCart2 className={style.cart} onClick={() => navigate("/cart")} />
-            <div className={style.CartNumber}>
-              <p>{totalProductos}</p>
-            </div>
-            <p className={style.totalNumber}>${total.toFixed(2)}</p>
-          </div>
-        </div>
+        {!hideSearchAndCart && (
+           <div className={style.search}>
+           <input
+             className={style.input}
+             type="text"
+             placeholder="Buscar productos"
+             value={searchQuery}
+             onChange={handleSearchChange}
+           />
+           <IoSearch className={style.searchBtn} />
+           <div className={style.cartContainer}>
+             <BsCart2 className={style.cart} onClick={() => navigate("/cart")} />
+             <div className={style.CartNumber}>
+               <p>{totalProductos}</p>
+             </div>
+             <p className={style.totalNumber}>${total.toFixed(2)}</p>
+           </div>
+         </div>
+      )}
+     
         {!isAuthenticated ? (
           <div className={style.btnLogin2}>
             <div>

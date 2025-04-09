@@ -10,7 +10,7 @@ function Home() {
   return (
     <div>
     
-      <Nav2></Nav2>
+      <Nav2  ></Nav2>
       <Banners></Banners>
       <ProductsRender></ProductsRender>
       <AboutUs></AboutUs>

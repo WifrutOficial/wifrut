@@ -7,7 +7,8 @@ import MapaZonas from './MapaZonas';
 function Send() {
   return (
     <div className={style.container}>
-      <Nav2 />
+     <Nav2 hideSearchAndCart />
+
 
       <div className={style.infoZona}>
         <h2>Zonas de envío</h2>
@@ -27,6 +28,13 @@ function Send() {
           El costo de envío se calcula automáticamente cuando ingresás tu dirección al hacer un pedido.
           Si tenés dudas sobre tu zona, podés buscar tu ubicación en el siguiente mapa.
         </p>
+        
+
+        <div className={style.infoMapa}>
+          <p>
+            🗺️ <strong>TIP:</strong> Hacé <strong>clic</strong> en una zona del mapa para ver su precio y detalles.
+          </p>
+        </div>
       </div>
 
       <div className={style.containerMap}>
