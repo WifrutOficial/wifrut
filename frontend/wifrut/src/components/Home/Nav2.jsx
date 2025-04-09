@@ -12,6 +12,12 @@ import { FaRegUser } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import style from "../../styles/Nav2.module.css";
 import { MdArrowDropDown } from "react-icons/md";
+import { BiSolidOffer } from "react-icons/bi";
+import { IoHome } from "react-icons/io5";
+import { FaUsers } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
+import { MdLocalShipping } from "react-icons/md";
+import { ImWhatsapp } from "react-icons/im";
 
 function Nav2({ hideSearchAndCart = false }) {
   const navigate = useNavigate();
@@ -81,12 +87,13 @@ function Nav2({ hideSearchAndCart = false }) {
   };
 
   const handleCategoryClick = (category) => {
-    setShowCategorias(false); 
-    setIsOpen(false); 
+    setShowCategorias(false);
+    setIsOpen(false);
     // Desplazamiento directo
     const categoryElement = document.getElementById(`category-${category}`);
     if (categoryElement) {
-      const topPosition = categoryElement.getBoundingClientRect().top + window.scrollY - 150;
+      const topPosition =
+        categoryElement.getBoundingClientRect().top + window.scrollY - 150;
       window.scrollTo({
         top: topPosition,
         behavior: "smooth",
@@ -96,7 +103,7 @@ function Nav2({ hideSearchAndCart = false }) {
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
@@ -135,27 +142,31 @@ function Nav2({ hideSearchAndCart = false }) {
               <AiOutlineLogout />
             </div>
           )}
-          <a className={style.a}    onClick={handleScrollToTop}>
-            Inicio
+          <a className={style.a} onClick={handleScrollToTop}>
+            <IoHome /> Inicio
           </a>
           <a
             className={style.a}
             onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
           >
-            Ofertas
+            <BiSolidOffer /> Ofertas
           </a>
           <a
             className={style.a}
             onClick={() => window.scrollTo({ top: 3700, behavior: "smooth" })}
           >
-            Conócenos
+            <FaUsers /> Conócenos
           </a>
-          <a className={style.a}  onClick={() => navigate("/send")}>Envios</a>
+          <a className={style.a} onClick={() => navigate("/send")}>
+            {" "}
+            <MdLocalShipping />
+            Envios{" "}
+          </a>
 
           <div className={style.categorias}>
             <div className={style.categoriasContainer}>
               <a onClick={toggleCategorias} className={style.a}>
-                Categorías
+                <BiSolidCategory /> Categorías
               </a>
               <MdArrowDropDown />
             </div>
@@ -175,25 +186,28 @@ function Nav2({ hideSearchAndCart = false }) {
           </div>
         </div>
         {!hideSearchAndCart && (
-           <div className={style.search}>
-           <input
-             className={style.input}
-             type="text"
-             placeholder="Buscar productos"
-             value={searchQuery}
-             onChange={handleSearchChange}
-           />
-           <IoSearch className={style.searchBtn} />
-           <div className={style.cartContainer}>
-             <BsCart2 className={style.cart} onClick={() => navigate("/cart")} />
-             <div className={style.CartNumber}>
-               <p>{totalProductos}</p>
-             </div>
-             <p className={style.totalNumber}>${total.toFixed(2)}</p>
-           </div>
-         </div>
-      )}
-     
+          <div className={style.search}>
+            <input
+              className={style.input}
+              type="text"
+              placeholder="Buscar productos"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+            <IoSearch className={style.searchBtn} />
+            <div className={style.cartContainer}>
+              <BsCart2
+                className={style.cart}
+                onClick={() => navigate("/cart")}
+              />
+              <div className={style.CartNumber}>
+                <p>{totalProductos}</p>
+              </div>
+              <p className={style.totalNumber}>${total.toFixed(2)}</p>
+            </div>
+          </div>
+        )}
+
         {!isAuthenticated ? (
           <div className={style.btnLogin2}>
             <div>
@@ -217,6 +231,14 @@ function Nav2({ hideSearchAndCart = false }) {
           <IoIosArrowDropup size={50} />
         </div>
       )}
+      <a
+        href="https://wa.me/549XXXXXXXXXX"
+        target="_blank"
+        rel="noopener noreferrer"
+        
+      >
+        <img className={style.whatsappButton} src="../../../whatsapp.png" alt="wp" />
+      </a>
     </div>
   );
 }

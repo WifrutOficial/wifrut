@@ -40,10 +40,11 @@ export default function Cart() {
   const handleNextStep = () => {
     if (!direccion.trim() || !zonaSeleccionada) {
       Swal.fire({
-        title: "¡Error!",
-        text: "Por favor ingresa una dirección y selecciona una zona.",
+        title: false,
+        text: "Por favor ingresa una dirección.",
         icon: "warning",
-        confirmButtonColor: "#B90003",
+        timer: 2500,
+        showConfirmButton: false,
         customClass: {
           popup: style.customAlert,
           icon: style.customIcon,
@@ -57,10 +58,11 @@ export default function Cart() {
   const handleCheckout = async () => {
     if (!metodoPago) {
       Swal.fire({
-        title: "¡Error!",
+        title: false,
         text: "Por favor selecciona un método de pago.",
         icon: "warning",
-        confirmButtonColor: "#B90003",
+        timer: 2500,
+        showConfirmButton: false,
         customClass: {
           popup: style.customAlert,
           icon: style.customIcon,
@@ -74,21 +76,23 @@ export default function Cart() {
       if (response && response.status === 201) {
         Swal.fire({
           title: "¡Gracias por tu compra!",
-          text: "Tu pedido fue realizado con éxito. En breve nos pondremos en contacto.",
+          text: "Tu pedido fue realizado con éxito.",
           icon: "success",
-          confirmButtonColor: "#B90003",
+          timer: 2500,
+          showConfirmButton: false,
+
           customClass: {
             popup: style.customAlert,
             icon: style.customIconSuc,
           },
         }).then(() => {
           clearCart();
-          navigate("/"); // o a donde quieras redirigir después
+          navigate("/");
         });
-      
+
         const orderId = response.data.order?._id;
         if (!orderId) return;
-      
+
         if (metodoPago === "Mercado Pago") {
           createMercadoPagoPreference(orderId);
         }
@@ -246,7 +250,9 @@ export default function Cart() {
               </div>
               <p className={style.infoEnvio}>
                 Para mas informacion sobre las zonas de envio visite:{" "}
-                <span  onClick={() => navigate("/send")} >Envios</span>
+                <span className={style.spanm} onClick={() => navigate("/send")}>
+                  Envios
+                </span>
               </p>
               <div className={style.inputEnvio}>
                 <select

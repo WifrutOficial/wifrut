@@ -1,13 +1,12 @@
 .zonaDetectada {
   font-size: 10px;
-  margin: 5px 20px;
+  margin: 20px 20px;
   color: #333;
   background-color: #e7f7ec;
   border-left: 4px solid #4caf50;
   padding: 6px 12px;
   border-radius: 5px;
   animation: fadeIn 0.3s ease-in-out;
-
 }
 
 @keyframes fadeIn {
@@ -20,7 +19,15 @@
     transform: translateY(0);
   }
 }
+.customAlert {
+  font-size: 10px;
+}
 
+.customIcon {
+  font-size: 8px !important; /* Puedes ajustar el tamaño */
+  width: 30px !important;
+  height: 30px !important;
+}
 .inputEnvio select {
   width: 100%;
   padding: 0 0;
@@ -33,10 +40,9 @@
   outline: none;
   transition: border-color 0.2s ease;
   display: none;
-
 }
 
-.Envio{
+.Envio {
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -44,7 +50,6 @@
   color: #ffff;
   gap: 10px;
 }
-
 
 .inputEnvio {
   display: flex;
@@ -68,7 +73,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 .title {
   color: #ffff;
@@ -86,6 +91,7 @@
   flex-direction: column;
   width: min(100%, 800px); /* No más de 800px */
   min-width: 345px;
+
 }
 
 .cart {
@@ -267,7 +273,7 @@ hr {
   color: #fff;
 }
 
-.infoEnvio{
+.infoEnvio {
   font-size: 10px;
   color: #000000;
   position: absolute;
@@ -290,10 +296,8 @@ hr {
   .cart {
     padding: 10px;
   }
-  .Envio{
-  
+  .Envio {
     flex-direction: column;
-
   }
 
   .envio {
@@ -302,7 +306,7 @@ hr {
 
   .container {
     padding: 12px;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   .container .arrow {
@@ -357,25 +361,21 @@ hr {
 
   .zonaDetectada {
     font-size: 12px;
-  
-   
-
+    margin: 5px 20px;
   }
 
-  .infoEnvio{
+  .infoEnvio {
     font-size: 8px;
     color: #000000;
-    position:relative;
+    position: relative;
     top: 0;
     left: 0;
-  
-
   }
 
-   span{
+  .spanm {
     font-weight: 200;
     font-size: 8px;
-    text-decoration: underline ;
+    text-decoration: underline;
     cursor: pointer;
   }
 }

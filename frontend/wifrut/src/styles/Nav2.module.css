@@ -6,7 +6,7 @@
   transition: transform 0.5s ease;
 }
 
-.logo:hover{
+.logo:hover {
   transform: rotate(5deg);
 }
 
@@ -30,7 +30,6 @@
   gap: 20px;
   align-items: center;
   transition: top 0.3s ease-in-out;
-  
 }
 
 .fixed {
@@ -50,10 +49,7 @@
   gap: 20px;
   align-items: center;
   justify-content: space-between;
-
- 
 }
-
 
 .btnClose {
   display: none;
@@ -62,8 +58,6 @@
 .btnMenu {
   display: none;
 }
-
-
 
 .search input {
   background: none;
@@ -132,16 +126,7 @@
   margin-right: 40px;
 }
 
-.floatingArrow {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  color: #b90003;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
+
 .logoUser2 {
   display: none;
 }
@@ -177,17 +162,70 @@
   cursor: pointer;
 }
 
-.categorias{
+.categorias {
   display: none;
 }
-.a{
+.a {
   cursor: pointer;
+  align-items: center;
+  display: flex;
+  gap: 5px;
 }
+
+.a svg {
+  width: 15px;
+  height: 15px;
+}
+
+
+.floatingArrow {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  color: #b90003;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.whatsappButton{
+  position: fixed;
+  bottom: 20px;
+  right: 25px;
+  width: 40px;
+  height: 40px;
+  z-index: 1000;
+  animation: pulse 2s infinite;
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
 
 /* Estilos para pantallas menores a 768px */
 @media (max-width: 966px) {
-
-
+  .floatingArrow {
+    bottom: 60px;
+    right: 10px;
+  }
+  .whatsappButton{
+ 
+    bottom: 20px;
+    right: 17px;
+   
+  }
   .a {
     color: #000000;
     text-decoration: none;
@@ -204,10 +242,10 @@
     text-shadow: 2px 2px 5px yellow;
   }
 
-  .categorias{
+  .categorias {
     display: block;
   }
-  
+
   .btnCerrarSesion {
     display: flex;
     gap: 10px;
@@ -232,27 +270,22 @@
     left: 0 !important;
     height: 100vh;
     z-index: 1;
-    justify-content:flex-start;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     padding-left: 10px;
     padding-top: 60px;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
     z-index: 9999;
-
-
   }
-
 
   .linkContainer.open {
     transform: translateX(0);
   }
-  
+
   .categoriasContainer {
     display: flex;
-
   }
-
 
   .aCategories {
     color: #000000;
@@ -260,10 +293,8 @@
     font-weight: 500;
     cursor: pointer;
     border-bottom: #00000041 1px solid;
-    padding:5px 0;
+    padding: 5px 0;
     width: 190px;
-  
-
   }
 
   .containerLinks {
@@ -329,10 +360,7 @@
     width: 100%;
     justify-content: space-between;
   }
-  .floatingArrow {
-    bottom: 5px;
-    right: 5px;
-  }
+ 
   .btnLogin {
     display: flex;
     gap: 10px;

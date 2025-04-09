@@ -73,8 +73,8 @@ export const postLogin = async (req, res) => {
     // Guardar el token en las cookies
     res.cookie("token", token, {
       httpOnly: true,
-      secure:  process.env.NODE_ENV === "production",
-      sameSite: "None",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000,
     });

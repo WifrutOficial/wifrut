@@ -40,6 +40,11 @@ function Send() {
       <div className={style.containerMap}>
         <MapaZonas />
       </div>
+      <div className={style.backHomeContainer}>
+  <button className={style.backHomeButton} onClick={() => window.location.href = '/'}>
+  ← Regresar a la página principal
+  </button>
+</div>
 
       <Footer />
     </div>

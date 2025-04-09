@@ -6,9 +6,9 @@ const Banners = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const images = [
-    '/publicidad1.png',
-    '/publicidad2.png',
-    '/publicidad3.png',
+    '/publicidad1.jpg',
+    '/publicidad2.jpg',
+    '/publicidad3.jpg',
   ];
 
   const handleSwipeLeft = () => {

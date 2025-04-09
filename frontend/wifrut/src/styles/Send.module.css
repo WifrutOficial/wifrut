@@ -55,6 +55,25 @@
   color: #444;
 }
 
+.backHomeContainer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.backHomeButton {
+  background-color: #B90003;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.backHomeButton:hover {
+  background-color: #900002;
+}
 
 @media (max-width: 768px) {
   .containerMap {
