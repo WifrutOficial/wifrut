@@ -3,12 +3,10 @@
   height: 100px;
   margin-left: 40px;
   cursor: pointer;
-  transition: transform 0.5s ease;
+
 }
 
-.logo:hover {
-  transform: rotate(5deg);
-}
+
 
 .titleLog {
   font-size: 10px;
@@ -170,6 +168,7 @@
   align-items: center;
   display: flex;
   gap: 5px;
+
 }
 
 .a svg {
@@ -196,7 +195,11 @@
   height: 40px;
   z-index: 1000;
   animation: pulse 2s infinite;
+  filter: drop-shadow(0px 4px 6px rgb(0, 0, 0));
+  
 }
+
+
 
 
 @keyframes pulse {

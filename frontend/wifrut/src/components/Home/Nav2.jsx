@@ -167,8 +167,8 @@ function Nav2({ hideSearchAndCart = false }) {
             <div className={style.categoriasContainer}>
               <a onClick={toggleCategorias} className={style.a}>
                 <BiSolidCategory /> Categorías
+                <MdArrowDropDown />
               </a>
-              <MdArrowDropDown />
             </div>
             {showCategorias && (
               <div className={style.categoriasList}>
@@ -235,9 +235,12 @@ function Nav2({ hideSearchAndCart = false }) {
         href="https://wa.me/549XXXXXXXXXX"
         target="_blank"
         rel="noopener noreferrer"
-        
       >
-        <img className={style.whatsappButton} src="../../../whatsapp.png" alt="wp" />
+        <img
+          className={style.whatsappButton}
+          src="../../../whatsapp.png"
+          alt="wp"
+        />
       </a>
     </div>
   );
