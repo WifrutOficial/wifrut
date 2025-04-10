@@ -1,9 +1,8 @@
-
 .container {
   width: 100%;
   margin-top: 30px;
   padding: 20px;
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   color: white;
   display: flex;
   flex-direction: column;
@@ -17,7 +16,7 @@
   gap: 50px;
   width: 100%;
   max-width: 1000px;
-  flex-wrap: wrap; 
+
   padding: 20px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
@@ -25,12 +24,6 @@
 
 .containerContact {
   text-align: left;
-}
-
-.containerContact h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #fff;
 }
 
 .Info {
@@ -43,9 +36,8 @@
 
 .Info svg {
   font-size: 16px;
-  color: #FFD700;
+  color: #ffd700;
 }
-
 
 .derechos {
   display: flex;
@@ -78,19 +70,32 @@
 }
 
 .createBy a:hover {
-  color: #FFD700;
+  color: #ffd700;
 }
-
 
 @media (max-width: 768px) {
   .containerInfo {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .Info {
+    font-size: 12px;
+  }
+
+  .Info svg {
+    font-size: 13px;
   }
 
   .derechos {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+@media (max-width: 350px){
+  .containerInfo {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

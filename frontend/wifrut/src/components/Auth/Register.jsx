@@ -18,7 +18,6 @@ function Register() {
     tipoUsuario: "",
   });
 
-  // Manejar cambios en los inputs
   const handleChange = (name, value) => {
     setRegisterData({
       ...registerData,
@@ -26,7 +25,6 @@ function Register() {
     });
   };
 
-  //manejar envio de formulario al back y validaciones
   const formHandle = async (e) => {
     e.preventDefault();
     let newErrors = {};
@@ -86,9 +84,13 @@ function Register() {
   return (
     <>
       <div className={style.container}>
-        <img className={style.logo} src="../../../logo.png" alt="logo" />
+        <img
+          onClick={() => navigate("/")}
+          className={style.logo}
+          src="../../../logo.png"
+          alt="logo"
+        />
         <div className={style.containerRegister}>
-      
           <p className={style.title}>Crear Cuenta</p>
           <IoIosArrowDropleft
             className={style.arrow}

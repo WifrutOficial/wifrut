@@ -17,7 +17,8 @@ import { IoHome } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
-import { ImWhatsapp } from "react-icons/im";
+import CartPreview from "../../components/Cart/CartPreview";
+
 
 function Nav2({ hideSearchAndCart = false }) {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ function Nav2({ hideSearchAndCart = false }) {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
+  const [showCartPreview, setShowCartPreview] = useState(false); // 
+
 
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
@@ -106,8 +109,14 @@ function Nav2({ hideSearchAndCart = false }) {
     navigate("/");
   };
 
+  const toggleCartPreview = () => {
+    setShowCartPreview(!showCartPreview);
+  };
+  
+
   return (
     <div className={style.container}>
+  
       <div className={style.containerLog}>
         <p className={style.titleLog}>Productos Saludables Seleccionados</p>
       </div>
@@ -198,13 +207,14 @@ function Nav2({ hideSearchAndCart = false }) {
             <div className={style.cartContainer}>
               <BsCart2
                 className={style.cart}
-                onClick={() => navigate("/cart")}
+                onClick={toggleCartPreview}
               />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
               </div>
               <p className={style.totalNumber}>${total.toFixed(2)}</p>
             </div>
+      
           </div>
         )}
 
@@ -242,6 +252,10 @@ function Nav2({ hideSearchAndCart = false }) {
           alt="wp"
         />
       </a>
+      {showCartPreview && (
+  <CartPreview onClose={() => setShowCartPreview(false)} />
+)}
+
     </div>
   );
 }
