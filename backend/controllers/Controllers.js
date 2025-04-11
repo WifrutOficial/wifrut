@@ -61,7 +61,7 @@ export const postLogin = async (req, res) => {
       return res.status(401).json({ msg: "Contraseña incorrecta" });
     }
 
-    // Crear el token de verificación usando la función `createAccessToken`
+  
     const payload = {
       userId: user._id,
       tipoUsuario: user.tipoUsuario,
@@ -70,16 +70,16 @@ export const postLogin = async (req, res) => {
 
     const token = await createAccessToken(payload);
 
-    // Guardar el token en las cookies
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production" ? true : false,
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", 
       path: "/",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // Retornar el usuario sin la contraseña
+
     res.json({
       msg: "Inicio de sesión exitoso",
       user: {

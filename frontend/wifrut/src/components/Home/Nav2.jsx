@@ -21,7 +21,7 @@ import CartPreview from "../../components/Cart/CartPreview";
 
 
 function Nav2({ hideSearchAndCart = false }) {
-  const menuRef = useRef(null); // referencia para el linkContainer
+  const menuRef = useRef(null); 
  
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);

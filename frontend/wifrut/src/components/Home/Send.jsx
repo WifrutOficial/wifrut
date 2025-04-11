@@ -3,8 +3,14 @@ import Nav2 from './Nav2';
 import Footer from './Footer';
 import style from "../../styles/Send.module.css";
 import MapaZonas from './MapaZonas';
+import { useNavigate } from "react-router-dom";
 
 function Send() {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/");
+  };
+    const navigate = useNavigate();
   return (
     <div className={style.container}>
      <Nav2 hideSearchAndCart />
@@ -41,7 +47,7 @@ function Send() {
         <MapaZonas />
       </div>
       <div className={style.backHomeContainer}>
-  <button className={style.backHomeButton} onClick={() => window.location.href = '/'}>
+  <button className={style.backHomeButton}     onClick={handleScrollToTop} >
   ← Regresar a la página principal
   </button>
 </div>
