@@ -46,6 +46,7 @@ createRoot(document.getElementById("root")).render(
               />
               <Route path="/paginadeespera" element={<PaginaDeEspera />} />
             </Route>
+            
             {/* Ruta accesible tanto para mayoristas como minoristas */}
             <Route
               element={

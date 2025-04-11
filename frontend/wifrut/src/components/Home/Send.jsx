@@ -6,11 +6,15 @@ import MapaZonas from './MapaZonas';
 import { useNavigate } from "react-router-dom";
 
 function Send() {
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/");
-  };
+
     const navigate = useNavigate();
+    const handleGoHome = () => {
+      navigate("/"); // navegamos primero
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 300); // esperás a que termine la navegación
+    };
+    
   return (
     <div className={style.container}>
      <Nav2 hideSearchAndCart />
@@ -47,7 +51,7 @@ function Send() {
         <MapaZonas />
       </div>
       <div className={style.backHomeContainer}>
-  <button className={style.backHomeButton}     onClick={handleScrollToTop} >
+  <button className={style.backHomeButton}     onClick={ handleGoHome} >
   ← Regresar a la página principal
   </button>
 </div>

@@ -45,12 +45,13 @@ function CartPreview() {
           <div className={style.titleAndClose}>
             <h3>Carrito</h3>
             <IoMdClose onClick={handleClose} />
-          </div>
+          </div>    <div className={style.Container}>
           <ul>
             {cart.map((item, index) => {
       
               return (
-                <li key={index} className={style.cartItem}>
+          
+                  <li key={index} className={style.cartItem}>
                   <img
                     src={`/${item.imagen}`}
                     alt={item.nombre}
@@ -67,9 +68,10 @@ function CartPreview() {
                     ).toFixed(2)}
                   </p>
                 </li>
+              
               );
             })}
-          </ul>
+          </ul></div>
           <p className={style.total}>Total: ${total.toFixed(2)}</p>
           <button className={style.btn} onClick={()=> navigate("/cart")} >Terminar Compra</button>
         </div>

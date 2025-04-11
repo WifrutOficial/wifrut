@@ -11,13 +11,19 @@
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 8px 0 0 8px;
-  border: 1px solid #B90003;
+  border: 1px solid #b90003;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   justify-content: center;
   display: flex;
   flex-direction: column;
+}
 
+.Container {
+  height: 200px;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .cartPreview h3 {
@@ -48,7 +54,7 @@
 
 .cartItem p:last-child {
   font-weight: bold;
-  color: #B90003;
+  color: #b90003;
 }
 
 .titleAndClose {
@@ -59,55 +65,75 @@
 
 .titleAndClose svg {
   cursor: pointer;
-  }
-  .btn{
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 5px;
-    border-radius: 13px;
-    border: 1px solid #B90003;
-    margin-top: 5px;
-    cursor: pointer;
+}
+.btn {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 5px;
+  border-radius: 13px;
+  border: 1px solid #b90003;
+  margin-top: 5px;
+  cursor: pointer;
+}
 
+.miniTab {
+  position: fixed;
+  top: 125px;
+  right: 0;
+  width: 30px;
+  height: 80px;
+  background-color: #fff;
+  border: 1px solid #b90003;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 0;
+  color: #222;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.miniImage {
+  width: 35px;
+  height: 25px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .cartItem p {
+    font-size: 0.7rem;
   }
 
-  .miniTab {
-    position: fixed;
-    top: 125px;
-    right: 0;
-    width: 30px;
-    height: 80px;
-    background-color: #fff;
-    border: 1px solid #B90003;
-    border-radius: 8px 0 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  
-
-  .total{
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px 0;
-    color: #222;
-    font-weight: 500;
-    font-size: 15px;
+  .cartPreview {
+    padding: 15px;
+    width: 250px;
   }
 
-
-  .miniImage {
-    width: 35px;
-    height: 25px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-right: 10px;
+  .cartPreview h3 {
+    font-size: 1.2rem;
   }
-  
+
+  .btn {
+    padding: 2px;
+    font-size: 12px;
+  }
+
+  .total {
+    font-size: 13px;
+  }
+}
