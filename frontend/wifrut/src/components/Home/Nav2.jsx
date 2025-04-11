@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import axios from "axios";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -21,6 +21,8 @@ import CartPreview from "../../components/Cart/CartPreview";
 
 
 function Nav2({ hideSearchAndCart = false }) {
+  const menuRef = useRef(null); // referencia para el linkContainer
+ 
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
@@ -80,7 +82,24 @@ function Nav2({ hideSearchAndCart = false }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+  
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+  
 
+  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -114,6 +133,8 @@ function Nav2({ hideSearchAndCart = false }) {
   };
   
 
+
+
   return (
     <div className={style.container}>
   
@@ -130,7 +151,7 @@ function Nav2({ hideSearchAndCart = false }) {
           />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
-        <div className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
+        <div   ref={menuRef} className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
           {!isAuthenticated ? (
             <div className={style.btnLogin}>

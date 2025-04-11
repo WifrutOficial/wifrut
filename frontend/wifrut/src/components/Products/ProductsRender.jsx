@@ -180,7 +180,7 @@ function ProductsRender() {
               <button
                 className={style.addCart}
                 onClick={() =>
-                  handleAddToCart({ _id, nombre, precio, tipoVenta })
+                  handleAddToCart({ _id, nombre, precio, tipoVenta, imagen })
                 }
               >
                 Añadir a carrito
