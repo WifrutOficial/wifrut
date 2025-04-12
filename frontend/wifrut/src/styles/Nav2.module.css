@@ -172,8 +172,7 @@
 }
 
 .a svg {
-  width: 15px;
-  height: 15px;
+display: none;
 }
 
 
@@ -379,4 +378,9 @@
   .btnLogin2 {
     display: none;
   }
+
+  .a svg {
+    display: flex;
+    }
+    
 }

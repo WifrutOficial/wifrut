@@ -91,6 +91,8 @@
   flex-direction: column;
   width: min(100%, 800px); /* No más de 800px */
   min-width: 345px;
+
+  position: relative;
 }
 
 .cart {
@@ -275,9 +277,9 @@ hr {
 .infoEnvio {
   font-size: 11px;
   color: #000000;
-  position: absolute;
-  left: 20px;
-  top: 425px;
+ position: absolute;
+ top: 340px;
+ left: 20px;
 }
 
 .priceTotal {

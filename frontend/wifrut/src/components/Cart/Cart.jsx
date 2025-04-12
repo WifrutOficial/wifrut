@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import zonasGeo from "../../data/envios.json";
 import * as turf from "@turf/turf";
 
-
 export default function Cart() {
   const navigate = useNavigate();
   const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
@@ -201,32 +200,33 @@ export default function Cart() {
             onClick={() => navigate("/")}
           />
 
-<ul className={style.cart}>
-  {cart.map((item, index) => {
-    const precioFinal = item.precioConDescuento ?? item.precio;
-    return (
-      <li key={item._id || index} className={style.cartItem}>
-        <img
-          src={`/${item.imagen}`}
-          alt={item.nombre}
-          className={style.miniImage}
-        />
-        <p>{item.nombre}</p>
-        <p>
-          {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
-        </p>
-        <p className={style.priceTotal}>${(precioFinal * item.quantity).toFixed(2)}</p>
-        <button
-          onClick={() => removeFromCart(item._id)}
-          className={style.btnDelete}
-        >
-          <IoTrashOutline />
-        </button>
-      </li>
-    );
-  })}
-</ul>
-
+          <ul className={style.cart}>
+            {cart.map((item, index) => {
+              const precioFinal = item.precioConDescuento ?? item.precio;
+              return (
+                <li key={item._id || index} className={style.cartItem}>
+                  <img
+                    src={`/${item.imagen}`}
+                    alt={item.nombre}
+                    className={style.miniImage}
+                  />
+                  <p>{item.nombre}</p>
+                  <p>
+                    {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
+                  </p>
+                  <p className={style.priceTotal}>
+                    ${(precioFinal * item.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() => removeFromCart(item._id)}
+                    className={style.btnDelete}
+                  >
+                    <IoTrashOutline />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
 
           <hr />
           <div className={style.total}>
@@ -246,7 +246,12 @@ export default function Cart() {
               </div>
               <p className={style.infoEnvio}>
                 Para mas informacion sobre las zonas de envio visite:{" "}
-                <span className={style.spanm} onClick={() => navigate("/send")}>
+                <span
+                  className={style.spanm}
+                  onClick={() =>
+                    navigate("/send", { state: { fromCart: true } })
+                  }
+                >
                   Envios
                 </span>
               </p>

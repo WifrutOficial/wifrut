@@ -133,16 +133,8 @@ function ProductsRender() {
       <h2 className={style.categoryTitle}>{category}</h2>
     </div>
 
-    <div className={style.scrollWrapper}>
-      <div
-        className={style.scrollArrow}
-        onClick={() => {
-          const container = document.getElementById(`scroll-${category}`);
-          if (container) container.scrollBy({ left: 300, behavior: "smooth" });
-        }}
-      >
-        <MdArrowForwardIos />
-      </div>
+  
+   
 
       <div className={style.container} id={`scroll-${category}`}>
         {categories[category].map(
@@ -189,7 +181,7 @@ function ProductsRender() {
           )
         )}
       </div>
-    </div>
+
   </div>
 ))}
 

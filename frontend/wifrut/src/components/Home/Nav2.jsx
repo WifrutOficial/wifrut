@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -19,10 +19,9 @@ import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
 import CartPreview from "../../components/Cart/CartPreview";
 
-
 function Nav2({ hideSearchAndCart = false }) {
-  const menuRef = useRef(null); 
- 
+  const menuRef = useRef(null);
+
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
@@ -33,8 +32,7 @@ function Nav2({ hideSearchAndCart = false }) {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
-  const [showCartPreview, setShowCartPreview] = useState(false); // 
-
+  const [showCartPreview, setShowCartPreview] = useState(false); //
 
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
@@ -88,18 +86,16 @@ function Nav2({ hideSearchAndCart = false }) {
         setIsOpen(false);
       }
     };
-  
+
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-  
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
-  
 
-  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -128,16 +124,15 @@ function Nav2({ hideSearchAndCart = false }) {
     navigate("/");
   };
 
-  const toggleCartPreview = () => {
-    setShowCartPreview(!showCartPreview);
+  const handleOpenCartPreview = () => {
+    if (!showCartPreview) {
+      setShowCartPreview(true);
+    }
   };
   
 
-
-
   return (
     <div className={style.container}>
-  
       <div className={style.containerLog}>
         <p className={style.titleLog}>Productos Saludables Seleccionados</p>
       </div>
@@ -151,7 +146,10 @@ function Nav2({ hideSearchAndCart = false }) {
           />
           <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
-        <div   ref={menuRef} className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
+        <div
+          ref={menuRef}
+          className={`${style.linkContainer} ${isOpen ? style.open : ""}`}
+        >
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
           {!isAuthenticated ? (
             <div className={style.btnLogin}>
@@ -226,16 +224,12 @@ function Nav2({ hideSearchAndCart = false }) {
             />
             <IoSearch className={style.searchBtn} />
             <div className={style.cartContainer}>
-              <BsCart2
-                className={style.cart}
-                onClick={toggleCartPreview}
-              />
+              <BsCart2 className={style.cart} onClick={handleOpenCartPreview} />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
               </div>
               <p className={style.totalNumber}>${total.toFixed(2)}</p>
             </div>
-      
           </div>
         )}
 
@@ -274,9 +268,8 @@ function Nav2({ hideSearchAndCart = false }) {
         />
       </a>
       {showCartPreview && (
-  <CartPreview onClose={() => setShowCartPreview(false)} />
-)}
-
+        <CartPreview onClose={() => setShowCartPreview(false)} />
+      )}
     </div>
   );
 }
