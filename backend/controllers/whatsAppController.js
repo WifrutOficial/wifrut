@@ -208,7 +208,8 @@ export const verifyTwilioWebhook = (req, res) => {
   return res.status(400).send("Desafío no encontrado");
 };
 
-export const getOrdersByDate2 = async (req, res) => {
+// Para el frontend de la web
+export const getOrdersByDateWeb = async (req, res) => {
   try {
     const { date } = req.query;
     if (!date) {
@@ -218,16 +219,15 @@ export const getOrdersByDate2 = async (req, res) => {
     const startDate = new Date(`${date}T00:00:00.000Z`);
     const endDate = new Date(`${date}T23:59:59.999Z`);
 
-    console.log("Buscando pedidos entre:", startDate, "y", endDate);
+    console.log("🕵️ Buscando pedidos entre:", startDate, "y", endDate);
 
-    //populate para unir la informacion de dos modelos
     const orders = await Order.find({
       createdAt: { $gte: startDate, $lte: endDate },
     }).populate("userId", "phone");
 
     res.status(200).json(orders);
   } catch (error) {
-    console.error("Error al obtener pedidos:", error);
+    console.error("Error al obtener pedidos (web):", error);
     res.status(500).json({ message: "Error al obtener pedidos" });
   }
 };

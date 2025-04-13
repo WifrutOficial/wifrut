@@ -11,7 +11,7 @@ function BuscarPedidos() {
 
     try {
       const response = await axios.get(
-         `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`
+        `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`
       );
       setOrders(response.data);
     } catch (error) {
@@ -35,40 +35,39 @@ function BuscarPedidos() {
       <h3>Resultados</h3>
       <div className={style.containerInfo}>
         {orders.length > 0 ? (
-          orders.map((order , userId) => {
+          orders.map((order, userId) => {
             const { total, direccion, metodoPago, status, createdAt } = order;
             console.log("userId en frontend:", userId); // Verifica si `userId` tiene `phone`
-  
+
             const phone = userId?.phone || "No disponible"; // Asegura que no sea undefined
             return (
               <div className={style.contaonerItems} key={order._id}>
                 <div className={style.pedidos}>
-                  <p>
+                  <p className={style.p}>
                     {" "}
                     <span className={style.span}>Total del pedido:</span>{" "}
-                    {total}
+                    <p className={style.resultados}> {total}</p>
                   </p>
-                  <p>
+                  <p className={style.p}>
                     <span className={style.span}>Dirección de envío:</span>{" "}
                     {direccion}
                   </p>
-                  <p>
+                  <p className={style.p}>
                     <span className={style.span}>Método de pago:</span>{" "}
                     {metodoPago}
                   </p>
                 </div>
                 <div className={style.pedidos2}>
-                  <p>
+                  <p className={style.p}>
                     <span className={style.span}>Estado del pago:</span>{" "}
                     {status}
                   </p>
-                  <p>
+                  <p className={style.p}>
                     <span className={style.span}> Fecha del pedido:</span>{" "}
                     {new Date(createdAt).toLocaleDateString()}
                   </p>
-                  <p>
-                    <span className={style.span}>Telefono:</span>{" "}
-                    {phone}
+                  <p className={style.p}>
+                    <span className={style.span}>Telefono:</span> {phone}
                   </p>
                 </div>
               </div>

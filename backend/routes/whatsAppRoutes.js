@@ -5,6 +5,8 @@ import {
   verifyTwilioWebhook,
   getTotalProductsByDate,
   sendWhatsAppMessage,
+  getOrdersByDateWeb
+
 } from "../controllers/whatsAppController.js";
 
 
@@ -40,5 +42,6 @@ router.post("/webhook", async (req, res) => {
   await sendWhatsAppMessage(req.body.From, "⚠️ Formato desconocido. Usa 'pedidos YYYY-MM-DD' o 'total productos YYYY-MM-DD'.");
   res.status(400).send("Formato desconocido");
 });
+router.get("/ordersByDate", getOrdersByDateWeb);
 
 export default router;

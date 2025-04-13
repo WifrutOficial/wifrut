@@ -81,7 +81,7 @@ border: 1px solid #d4d4d46b;
   color: #ffff;
   margin: 8px;
 }
-@media (max-width: 1000px) {
+@media (max-width: 790px) {
   .navContent {
     padding: 10px;
     gap: 2px;
