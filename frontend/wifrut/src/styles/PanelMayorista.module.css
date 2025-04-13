@@ -1,8 +1,3 @@
-
-h2{
-  color: #ffff;
-}
-
 .navContent {
   padding: 20px;
   display: flex;
@@ -13,10 +8,12 @@ h2{
   background-color: #d4d4d415;
   border: 1px solid #d4d4d46b;
   margin: 20px 10px;
+
+
 }
 
 .navContent ul li {
-  background-color: #ffb83b;
+border: 1px solid #d4d4d46b;
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -24,22 +21,29 @@ h2{
   font-size: 13px;
   border-radius: 10px;
   height: 100px;
+  flex-direction: row;
+  color: #ffff;
+  padding: 0 5px;
 }
 
 .navContent h2 {
   font-size: 20px;
   font-weight: 400;
+  color: #ffff;
 }
 
 .solicitudInfo {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+ margin-top: 20px;
+ margin-bottom: auto;
   align-items: flex-start;
   padding: 0 20px;
+
+
 }
 
-.solicitudesList{
+.solicitudesList {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -52,6 +56,8 @@ h2{
   justify-content: center;
   align-items: flex-end;
   justify-content: space-around;
+
+
 }
 
 .aprobarBtn {
@@ -74,4 +80,40 @@ h2{
   cursor: pointer;
   color: #ffff;
   margin: 8px;
+}
+@media (max-width: 1000px) {
+  .navContent {
+    padding: 10px;
+    gap: 2px;
+  }
+
+
+  .aprobarBtn {
+    font-size: 10px;
+    width: 70px;
+    height:20px ;
+    margin: 2px;
+  }
+
+  .rechazarBtn {
+    font-size: 10px;
+    width: 70px;
+    height:20px ;
+    margin: 2px;
+
+  }
+  .solicitudInfo {
+
+    padding: 0 2px;
+    font-size: 9px;
+  }
+  .solicitudActions {
+
+    justify-content: none;
+  }
+  .solicitudActions {
+    display: flex;
+
+  }
+
 }

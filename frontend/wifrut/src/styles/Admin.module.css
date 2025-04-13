@@ -4,22 +4,25 @@
   background-position: center;
   background-size: cover;
   height: 100vh;
-
 }
 
-.logo{
+.logo {
   width: 100px;
   height: 100px;
+  position: absolute;
+  top: -60px;
+  left: auto;
 }
 
-.title{
+.title {
   text-align: center;
   padding: 30px 0;
   color: #fff;
   font-size: 20px;
+  margin-bottom: 40px;
 }
 
-.navContent{
+.navContent {
   backdrop-filter: blur(20px);
   z-index: -1;
   border-radius: 15px;
@@ -29,27 +32,30 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
+  padding: 45px 0 20px 0;
   margin: 0 10px;
-
 }
 
-.buttons{
+.buttons {
   display: flex;
   gap: 20px;
   padding: 0 10px;
- 
 }
 
-.buttons button{
-  background:  none;
+.buttons button {
+  background: none;
   border: none;
   cursor: pointer;
   color: #fff;
+  font-size: 15px;
+ border: 1px solid #d4d4d46b;
+  border-radius: 10px;
+  padding: 5px 5px;
+  cursor: pointer;
+
 }
 
-
-.inicialContainer{
+.inicialContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,24 +71,23 @@
   color: #fff;
 }
 
-
-
-
-
 /* 📱 Ajuste para pantallas pequeñas */
 @media (max-width: 1000px) {
-.buttons button{
-  font-size: 10px;
-}
+  .buttons button {
+    font-size: 9px;
+  }
 
-.navContent{
-
-  padding: 0 0;
-
-}
-
-.logo{
-  width: 60px;
-  height: 60px;
-}
+  .navContent {
+    padding: 35px 0 20px 0;
+  }
+  .buttons {
+    display: flex;
+    gap: 3px;
+    padding: 0 10px;
+  }
+  .logo {
+    width: 70px;
+    height: 70px;
+    top: -40px;
+  }
 }

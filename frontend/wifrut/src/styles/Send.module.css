@@ -57,7 +57,7 @@
 
 .backHomeContainer {
   text-align: center;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .backHomeButton {
@@ -79,4 +79,5 @@
   .containerMap {
     margin-right: 10px;
   }
+ 
 }

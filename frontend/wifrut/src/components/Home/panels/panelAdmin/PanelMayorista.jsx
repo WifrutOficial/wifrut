@@ -104,6 +104,7 @@ function PanelMayorista() {
                   <p>
                     <strong>Localidad:</strong> {solicitud.localidad}
                   </p>
+                
                 </div>
                 <div className={style.solicitudActions}>
                   <button

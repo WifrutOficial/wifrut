@@ -11,17 +11,17 @@ function Send() {
   const fromCart = location.state?.fromCart;
 
   const handleGoHome = () => {
-    navigate("/"); // navegamos primero
+    navigate("/"); 
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 300); // esperás a que termine la navegación
+    }, 300); 
   };
 
   const handleGoCart = () => {
-    navigate("/cart"); // navegamos primero
+    navigate("/cart"); 
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 300); // esperás a que termine la navegación
+    }, 300); 
   };
 
   return (

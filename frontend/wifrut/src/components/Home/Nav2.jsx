@@ -170,9 +170,12 @@ function Nav2({ hideSearchAndCart = false }) {
               <AiOutlineLogout />
             </div>
           )}
-          <a className={style.a} onClick={handleScrollToTop}>
+           <a className={style.a} onClick={handleScrollToTop}>
             <IoHome /> Inicio
           </a>
+          {!hideSearchAndCart &&(
+         <>
+          
           <a
             className={style.a}
             onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
@@ -190,7 +193,8 @@ function Nav2({ hideSearchAndCart = false }) {
             <MdLocalShipping />
             Envios{" "}
           </a>
-
+         </>
+)}
           <div className={style.categorias}>
             <div className={style.categoriasContainer}>
               <a onClick={toggleCategorias} className={style.a}>
@@ -212,6 +216,7 @@ function Nav2({ hideSearchAndCart = false }) {
               </div>
             )}
           </div>
+            
         </div>
         {!hideSearchAndCart && (
           <div className={style.search}>

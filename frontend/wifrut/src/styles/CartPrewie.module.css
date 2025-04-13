@@ -144,7 +144,7 @@
 
   .cartPreview {
     padding: 15px;
-    width: 250px;
+    width: 300px;
   }
 
   .cartPreview h3 {
@@ -159,4 +159,7 @@
   .total {
     font-size: 13px;
   }
+
+
+  
 }
