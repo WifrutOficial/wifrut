@@ -5,6 +5,7 @@ import style from "../../../../styles/PanelMayorista.module.css";
 function PanelMayorista() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [mayoristasAprobados, setMayoristasAprobados] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null); 
 
   useEffect(() => {
     const fetchSolicitudes = async () => {
@@ -78,53 +79,71 @@ function PanelMayorista() {
           <p style={{ color: "#fff" }}>No hay solicitudes pendientes</p>
         ) : (
           <ul className={style.solicitudesList}>
-            {solicitudes.map((solicitud) => (
-              <li key={solicitud._id} className={style.solicitudItem}>
+          {solicitudes.map((solicitud) => {
+            const isSelected = selectedOrder?._id === solicitud._id;
+            const itemClasses = `${style.solicitudItem} ${isSelected ? style.zoomed : ""}`;
+        
+            return (
+              <li
+                key={solicitud._id}
+                className={itemClasses}
+                onClick={() => !selectedOrder && setSelectedOrder(solicitud)}
+              >
+                {isSelected && (
+                  <img
+                    src="/close-icon.svg"
+                    alt="Cerrar"
+                    className={style.closeBtn}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedOrder(null);
+                    }}
+                  />
+                )}
                 <div className={style.solicitudInfo}>
-                  <p>
-                    <strong>Nombre:</strong> {solicitud.userId.nombre}
-                  </p>
-                  <p>
-                    <strong>CUIL:</strong> {solicitud.cuil || "No especificado"}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {solicitud.userId.email}
-                  </p>
-                  <p>
-                    <strong>Años de Actividad:</strong> {solicitud.aniosActividad}
-                  </p>
+                  <p><strong>Nombre:</strong> {solicitud.userId.nombre}</p>
+                  <p><strong>CUIL:</strong> {solicitud.cuil || "No especificado"}</p>
+                  <p><strong>Email:</strong> {solicitud.userId.email}</p>
+                  <p><strong>Años de Actividad:</strong> {solicitud.aniosActividad}</p>
                 </div>
                 <div className={style.solicitudInfo}>
-                  <p>
-                    <strong>Telefono:</strong> {solicitud.userId.phone}
-                  </p>
-                  <p>
-                    <strong>Provincia:</strong> {solicitud.provincia}
-                  </p>
-                  <p>
-                    <strong>Localidad:</strong> {solicitud.localidad}
-                  </p>
-                
+                  <p><strong>Teléfono:</strong> {solicitud.userId.phone}</p>
+                  <p><strong>Provincia:</strong> {solicitud.provincia}</p>
+                  <p><strong>Localidad:</strong> {solicitud.localidad}</p>
                 </div>
-                <div className={style.solicitudActions}>
-                  <button
-                    className={style.aprobarBtn}
-                    onClick={() => handleAprobar(solicitud.userId._id)}
-                  >
-                    Aceptar
-                  </button>
-                  <button
-                    className={style.rechazarBtn}
-                    onClick={() => handleRechazar(solicitud._id)}
-                  >
-                    Rechazar
-                  </button>
-                </div>
+                {!isSelected && (
+                  <div className={style.solicitudActions}>
+                    <button
+                      className={style.aprobarBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAprobar(solicitud.userId._id);
+                      }}
+                    >
+                      Aceptar
+                    </button>
+                    <button
+                      className={style.rechazarBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRechazar(solicitud._id);
+                      }}
+                    >
+                      Rechazar
+                    </button>
+                  </div>
+                )}
               </li>
-            ))}
-          </ul>
+            );
+          })}
+        </ul>
+        
         )}
       </div>
+        {/* Fondo oscuro para cerrar zoom */}
+            {selectedOrder && (
+              <div className={style.overlay} onClick={() => setSelectedOrder(null)} />
+            )}
     </div>
   );
 }
