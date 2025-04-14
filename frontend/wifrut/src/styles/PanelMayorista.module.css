@@ -8,19 +8,17 @@
   background-color: #d4d4d415;
   border: 1px solid #d4d4d46b;
   margin: 20px 10px;
-
-
 }
 
 .navContent ul li {
-border: 1px solid #d4d4d46b;
+  border: 1px solid #d4d4d46b;
   list-style: none;
   display: flex;
   justify-content: space-between;
   font-weight: 300;
   font-size: 13px;
   border-radius: 10px;
-  height: 90px;
+  height: 120px;
   flex-direction: row;
   color: #ffff;
   padding: 0 5px;
@@ -35,12 +33,10 @@ border: 1px solid #d4d4d46b;
 .solicitudInfo {
   display: flex;
   flex-direction: column;
- margin-top: 20px;
- margin-bottom: auto;
+  margin-top: 20px;
+  margin-bottom: auto;
   align-items: flex-start;
   padding: 0 20px;
-
-
 }
 
 .solicitudesList {
@@ -55,9 +51,6 @@ border: 1px solid #d4d4d46b;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-
-
-
 }
 
 .aprobarBtn {
@@ -81,66 +74,11 @@ border: 1px solid #d4d4d46b;
   color: #ffff;
   margin: 8px;
 }
-/* Efecto zoom */
-.zoomed {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 1000;
-  width: 90%;
-  max-width: 600px;
-  height: auto;
-  background: rgba(255, 255, 255, 0.05);
-  background-image: url('/glass-bg.png'); /* opcional */
-  background-size: cover;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  animation: zoomIn 0.3s ease-out;
-}
 
-/* Botón cerrar */
-.closeBtn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: 0.2s ease;
-  z-index: 1001;
-}
-.closeBtn:hover {
-  opacity: 1;
-}
 
-/* Fondo oscuro detrás */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 999;
-}
 
-/* Animación */
-@keyframes zoomIn {
-  from {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 1;
-  }
-}
+
+
 
 
 @media (max-width: 790px) {
@@ -149,11 +87,10 @@ border: 1px solid #d4d4d46b;
     gap: 2px;
   }
 
-
   .aprobarBtn {
     font-size: 10px;
     width: 70px;
-    height:30px ;
+    height: 30px;
     margin: 2px;
     border-radius: 10px;
   }
@@ -161,23 +98,18 @@ border: 1px solid #d4d4d46b;
   .rechazarBtn {
     font-size: 10px;
     width: 70px;
-    height:30px ;
+    height: 30px;
     margin: 2px;
     border-radius: 10px;
-
   }
   .solicitudInfo {
-
     padding: 0 2px;
     font-size: 9px;
   }
   .solicitudActions {
-
     justify-content: none;
   }
   .solicitudActions {
     display: flex;
-
   }
-
 }

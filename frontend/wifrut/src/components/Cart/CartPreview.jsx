@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/CartPrewie.module.css";
 import { IoMdClose } from "react-icons/io";
+import { IoTrashOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 function CartPreview() {
-  const { cart } = useCart();
+  const { cart, removeFromCart } = useCart(); 
   const [open, setOpen] = useState(true);
   const cartRef = useRef(null);
   const navigate = useNavigate();
@@ -13,13 +14,11 @@ function CartPreview() {
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
 
-  // Calcular total
   const total = cart.reduce((acc, item) => {
     const precio = item.precioConDescuento ?? item.precio;
     return acc + precio * item.quantity;
   }, 0);
 
-  // Cierre automático al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
@@ -45,30 +44,35 @@ function CartPreview() {
           <div className={style.titleAndClose}>
             <h3>Carrito</h3>
             <IoMdClose onClick={handleClose} />
-          </div>{" "}
+          </div>
           <div className={style.Container}>
             <ul>
-              {cart.map((item, index) => {
-                return (
-                  <li key={index} className={style.cartItem}>
-                    <img
-                      src={`/${item.imagen}`}
-                      alt={item.nombre}
-                      className={style.miniImage}
-                    />
-                    <p>{item.nombre}</p>
-                    <p>
-                      {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
-                    </p>
-                    <p>
-                      $
-                      {(
-                        (item.precioConDescuento ?? item.precio) * item.quantity
-                      ).toFixed(2)}
-                    </p>
-                  </li>
-                );
-              })}
+              {cart.map((item, index) => (
+                <li key={index} className={style.cartItem}>
+                  <img
+                    src={`/${item.imagen}`}
+                    alt={item.nombre}
+                    className={style.miniImage}
+                  />
+                  <p>{item.nombre}</p>
+                  <p>
+                    {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
+                  </p>
+                  <p>
+                    $
+                    {(
+                      (item.precioConDescuento ?? item.precio) * item.quantity
+                    ).toFixed(2)}
+                  </p>
+                  <button
+                    className={style.btnDelete}
+                    onClick={() => removeFromCart(item._id)}
+                    title="Eliminar producto"
+                  >
+                    <IoTrashOutline />
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
           <p className={style.total}>Total: ${total.toFixed(2)}</p>

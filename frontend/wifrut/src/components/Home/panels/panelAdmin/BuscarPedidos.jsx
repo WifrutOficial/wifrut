@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 function BuscarPedidos() {
   const [date, setDate] = useState("");
   const [orders, setOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null); // 👈 nuevo estado para zoom
+  const [selectedOrder, setSelectedOrder] = useState(null); 
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");

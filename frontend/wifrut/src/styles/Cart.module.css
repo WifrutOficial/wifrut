@@ -118,10 +118,12 @@
   font-weight: 200;
   width: 100%;
   flex: 1;
+
 }
 
 .cartItem p {
   flex: 1;
+
 }
 
 .total {
@@ -192,9 +194,11 @@ hr {
 }
 
 .btnDelete {
-  background: none;
+  background: transparent;
   border: none;
-  color: #ffff;
+  color: #b90003;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 .cantidades p {
@@ -277,9 +281,9 @@ hr {
 .infoEnvio {
   font-size: 11px;
   color: #000000;
- position: absolute;
- top: 340px;
- left: 20px;
+  position: absolute;
+  top: 420px;
+  left: 20px;
 }
 
 .priceTotal {
