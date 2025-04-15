@@ -4,7 +4,6 @@ import { WholesaleProduct } from "../models/productsMayorista.js";
 
 
 
-//MINORISTA
 export const uploadExcel = async (req, res) => {
   try {
     if (!req.file) {
@@ -17,37 +16,57 @@ export const uploadExcel = async (req, res) => {
     const sheet = workbook.Sheets[sheetName];
 
     // Convertir los datos del Excel a un array de objetos
-    const productsFromExcel = XLSX.utils.sheet_to_json(sheet);
+    const productsFromExcel = XLSX.utils.sheet_to_json(sheet, { raw: true });
+
+    // Limpiar productos: eliminar claves vacías o auxiliares como __EMPTY
+    const cleanProducts = productsFromExcel.map((product) => {
+      const cleanedProduct = {};
+
+      for (const key in product) {
+        if (
+          key &&
+          !key.startsWith("__") &&
+          product[key] !== null &&
+          product[key] !== ""
+        ) {
+          cleanedProduct[key.trim()] = typeof product[key] === "string"
+            ? product[key].trim()
+            : product[key];
+        }
+      }
+
+      return cleanedProduct;
+    });
 
     // Verificar qué datos se están leyendo del Excel
-    console.log("Productos procesados:", productsFromExcel);
+    console.log("Productos procesados:", cleanProducts);
 
     // Obtener los productos actuales en la base de datos
     const existingProducts = await Product.find({});
 
     // 1. Actualizar o insertar productos nuevos
-    const bulkOps = productsFromExcel.map((product) => {
+    const bulkOps = cleanProducts.map((product) => {
       const updateFields = { ...product };
 
-      // Convertir precio y descuento a números para asegurarse de que no sean strings
+      // Convertir precio y descuento a números
       const precio = Number(product.precio);
       const descuento = Number(product.descuento);
 
       console.log(`Procesando producto: ${product.nombre}`);
       console.log(`Precio: ${precio}, Descuento: ${descuento}`);
 
-      // Si no hay descripción en el archivo, dejarlo como null
+      // Si no hay descripción, dejarlo como null
       updateFields.descripcion =
         product.descripcion && product.descripcion.trim() !== ""
           ? product.descripcion
           : null;
 
-      // Si el producto tiene un descuento mayor que 0, calcular el precio con descuento
+      // Calcular precio con descuento
       if (!isNaN(precio) && !isNaN(descuento) && descuento > 0) {
         updateFields.precioConDescuento = precio - (precio * descuento) / 100;
         console.log(`Precio con descuento calculado: ${updateFields.precioConDescuento}`);
       } else {
-        updateFields.precioConDescuento = precio; // Usar el precio original si no hay descuento
+        updateFields.precioConDescuento = precio;
         console.log(`No se aplica descuento, precioConDescuento: ${updateFields.precioConDescuento}`);
       }
 
@@ -55,18 +74,18 @@ export const uploadExcel = async (req, res) => {
         updateOne: {
           filter: { nombre: product.nombre },
           update: { $set: updateFields },
-          upsert: true, // Si no existe, crea uno nuevo
+          upsert: true,
         },
       };
     });
 
-    // Ejecutar operaciones en la base de datos para actualizar o insertar productos
+    // Ejecutar operaciones en la base de datos
     await Product.bulkWrite(bulkOps);
 
     // 2. Eliminar productos que ya no están en el Excel
     const productsToDelete = existingProducts.filter(
       (product) =>
-        !productsFromExcel.some(
+        !cleanProducts.some(
           (excelProduct) => excelProduct.nombre === product.nombre
         )
     );
@@ -76,22 +95,18 @@ export const uploadExcel = async (req, res) => {
         deleteOne: { filter: { _id: product._id } },
       }));
 
-      // Eliminar los productos que no están en el Excel
       await Product.bulkWrite(deleteOps);
     }
 
-    // En lugar de updatedProducts, deberías usar productsFromExcel si los productos con los precios calculados se encuentran en esa variable
     res.status(200).json({
       message: "Productos actualizados y eliminados exitosamente",
-      products: productsFromExcel, // Esto enviará los productos con el precio calculado
+      products: cleanProducts,
     });
-
   } catch (error) {
     console.error("Error al procesar el archivo:", error);
     res.status(500).json({ message: "Error al procesar el archivo" });
   }
 };
-
 
 
 export const getProducts = async (req, res) => {
