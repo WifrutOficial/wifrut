@@ -56,7 +56,11 @@
   height: 50%;
   border-radius: 13px;
   object-fit: cover;
- 
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  border-radius: 10px; /* opcional */
 }
 .sale {
   position: absolute;
