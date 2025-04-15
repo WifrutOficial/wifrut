@@ -53,8 +53,10 @@
 
 .img {
   width: 240px;
-  height: 140px;
+  height: 50%;
   border-radius: 13px;
+  object-fit: cover;
+ 
 }
 .sale {
   position: absolute;
