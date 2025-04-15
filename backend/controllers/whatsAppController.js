@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { Order } from "../models/order.js";
 
 
+
 // 🔹 Configuración de Twilio
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, MONGO_URI_DEV } = process.env;
 const TWILIO_SANDBOX_NUMBER = "whatsapp:+14155238886"; // Número de pruebas de Twilio
@@ -220,10 +221,20 @@ export const getOrdersByDateWeb = async (req, res) => {
     const endDate = new Date(`${date}T23:59:59.999Z`);
 
     console.log("🕵️ Buscando pedidos entre:", startDate, "y", endDate);
-
     const orders = await Order.find({
       createdAt: { $gte: startDate, $lte: endDate },
-    }).populate("userId", "phone");
+    })
+      .populate({
+        path: 'userId',    // Referencia al campo `userId` en el modelo `Order`, que debe hacer populate con el modelo `Register`.
+        select: 'phone',   // Solo traer el campo `phone` del modelo `Register`.
+      })
+      .populate({
+        path: 'items.productId',  // Hacer el populate sobre el campo `productId` dentro de `items`.
+        select: 'nombre tipoVenta',  // Solo traer los campos `nombre` y `tipoVenta` del modelo `Product`.
+      });
+    
+      console.log(JSON.stringify(orders, null, 2));
+    
 
     res.status(200).json(orders);
   } catch (error) {

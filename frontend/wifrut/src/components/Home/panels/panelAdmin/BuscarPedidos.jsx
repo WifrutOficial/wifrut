@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 function BuscarPedidos() {
   const [date, setDate] = useState("");
   const [orders, setOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null); 
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");
@@ -22,9 +22,26 @@ function BuscarPedidos() {
     }
   };
 
+  // Resumen de productos y total del día
+  const resumenProductos = {};
+  let totalDelDia = 0;
+
+  orders.forEach((order) => {
+    totalDelDia += order.total;
+
+    order.items.forEach((item) => {
+      const nombre = item.productId?.nombre || "desconocido";
+      const tipo = item.productId?.tipoVenta || "unidades";
+      const key = `${nombre}__${tipo}`;
+
+      resumenProductos[key] = (resumenProductos[key] || 0) + item.cantidad;
+    });
+  });
+
   return (
     <div className={style.container}>
       <h2>Buscar pedidos por fecha</h2>
+
       <div className={style.search}>
         <input
           type="date"
@@ -35,19 +52,17 @@ function BuscarPedidos() {
       </div>
 
       <h3>Resultados</h3>
+
       <div className={style.containerInfo}>
         {orders.length > 0 ? (
           orders.map((order) => {
-            const { total, direccion, metodoPago, status, createdAt } = order;
+            const { total, direccion, metodoPago, status, createdAt, items } = order;
             const phone = order?.userId?.phone || "No disponible";
             const isSelected = selectedOrder?._id === order._id;
-            const orderClasses = `${style.contaonerItems} ${
-              isSelected ? style.zoomed : ""
-            }`;
 
             return (
               <div
-                className={orderClasses}
+                className={style.contaonerItems}
                 key={order._id}
                 onClick={() => !selectedOrder && setSelectedOrder(order)}
               >
@@ -61,33 +76,30 @@ function BuscarPedidos() {
                   />
                 )}
 
-                {/* contenido */}
-                <div className={style.pedidos}>
-                  <p className={style.p}>
-                    <span className={style.span}>Total del pedido:</span>
-                    <p className={style.resultados}>{total}</p>
-                  </p>
-                  <p className={style.p}>
-                    <span className={style.span}>Dirección de envío:</span>{" "}
-                    {direccion}
-                  </p>
-                  <p className={style.p}>
-                    <span className={style.span}>Método de pago:</span>{" "}
-                    {metodoPago}
-                  </p>
+                {/* Información del pedido */}
+                <div className={style.infoPedido}>
+                  <div>
+                    <p><span>Total del pedido:</span> ${total.toFixed(2)}</p>
+                    <p><span>Dirección de envío:</span> {direccion}</p>
+                    <p><span>Método de pago:</span> {metodoPago}</p>
+                  </div>
+                  <div>
+                    <p><span>Estado del pago:</span> {status}</p>
+                    <p><span>Fecha del pedido:</span> {new Date(createdAt).toLocaleDateString()}</p>
+                    <p><span>Teléfono:</span> {phone}</p>
+                  </div>
                 </div>
-                <div className={style.pedidos2}>
-                  <p className={style.p}>
-                    <span className={style.span}>Estado del pago:</span>{" "}
-                    {status}
-                  </p>
-                  <p className={style.p}>
-                    <span className={style.span}>Fecha del pedido:</span>{" "}
-                    {new Date(createdAt).toLocaleDateString()}
-                  </p>
-                  <p className={style.p}>
-                    <span className={style.span}>Teléfono:</span> {phone}
-                  </p>
+
+                {/* Detalles de productos por pedido */}
+                <div className={style.productosPedido}>
+                  <p><strong>Productos del pedido:</strong></p>
+                  <ul>
+                    {items.map((item, index) => (
+                      <li key={index}>
+                        {item.productId?.nombre || "desconocido"}: {item.cantidad} {item.productId?.tipo || "unidades"}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             );
@@ -97,9 +109,24 @@ function BuscarPedidos() {
         )}
       </div>
 
-      {/* Fondo oscuro para cerrar zoom */}
-      {selectedOrder && (
-        <div className={style.overlay} onClick={() => setSelectedOrder(null)} />
+      {/* Resumen del día */}
+      {orders.length > 0 && (
+        <div className={style.resumen}>
+          <h3>Total de Productos:</h3>
+          {Object.entries(resumenProductos).map(([key, cantidad]) => {
+            const [nombre, tipo] = key.split("__");
+            return (
+              <div key={key} className={style.itemResumen}>
+                <span>{nombre}</span>
+                <span>{cantidad} {tipo}</span>
+              </div>
+            );
+          })}
+          <div className={style.itemResumen}>
+            <span><strong>Total vendido:</strong></span>
+            <span className={style.total}>${totalDelDia.toFixed(2)}</span>
+          </div>
+        </div>
       )}
     </div>
   );
