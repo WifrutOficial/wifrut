@@ -21,6 +21,7 @@
 .search input {
   border-radius: 13px;
   padding: 8px;
+  margin-bottom: 10px  ;
   border: 1px solid #d4d4d46b;
   background: none;
   cursor: pointer;
@@ -28,7 +29,7 @@
 
 .search button {
   border-radius: 13px;
-  padding: 8px;
+  padding: 5px 8px;
   width: 140px;
   background: none;
   border: 1px solid #d4d4d46b;

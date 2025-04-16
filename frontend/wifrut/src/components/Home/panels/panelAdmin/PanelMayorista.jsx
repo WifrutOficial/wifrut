@@ -66,7 +66,7 @@ function PanelMayorista() {
   return (
     <div className={style.container}>
       <div className={style.navContent}>
-        <h2>Solicitudes de Mayoristas</h2>
+        <h2>Solicitudes de Mayoristas Pendientes</h2>
         {solicitudes.length === 0 ? (
           <p style={{ color: "#fff" }}>No hay solicitudes pendientes</p>
         ) : (
