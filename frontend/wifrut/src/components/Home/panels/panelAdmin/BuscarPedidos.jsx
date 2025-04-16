@@ -40,7 +40,7 @@ function BuscarPedidos() {
 
   return (
     <div className={style.container}>
-      <h2>Buscar pedidos por fecha</h2>
+      <h2 className={style.title}>Buscar pedidos por fecha</h2>
 
       <div className={style.search}>
         <input
@@ -51,7 +51,7 @@ function BuscarPedidos() {
         <button onClick={fetchOrdersByDate}>Buscar</button>
       </div>
 
-      <h3>Resultados</h3>
+      <h3 className={style.title}>Resultados</h3>
 
       <div className={style.containerInfo}>
         {orders.length > 0 ? (
@@ -62,38 +62,30 @@ function BuscarPedidos() {
 
             return (
               <div
-                className={style.contaonerItems}
+                className={style.containerItems}
                 key={order._id}
                 onClick={() => !selectedOrder && setSelectedOrder(order)}
               >
-                {isSelected && (
-                  <IoMdClose
-                    className={style.closeBtn}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedOrder(null);
-                    }}
-                  />
-                )}
+             
 
                 {/* Información del pedido */}
                 <div className={style.infoPedido}>
-                  <div>
-                    <p><span>Total del pedido:</span> ${total.toFixed(2)}</p>
-                    <p><span>Dirección de envío:</span> {direccion}</p>
-                    <p><span>Método de pago:</span> {metodoPago}</p>
+                  <div className={style.info1}>
+                    <p><span>Total:</span> ${total.toFixed(2)}</p>
+                    <p><span>Dirección:</span> {direccion}</p>
+                    <p><span>Pago:</span> {metodoPago}</p>
                   </div>
-                  <div>
-                    <p><span>Estado del pago:</span> {status}</p>
-                    <p><span>Fecha del pedido:</span> {new Date(createdAt).toLocaleDateString()}</p>
+                  <div className={style.info1}>
+                    <p><span>Estado:</span> {status}</p>
+                    <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
                     <p><span>Teléfono:</span> {phone}</p>
                   </div>
                 </div>
 
                 {/* Detalles de productos por pedido */}
                 <div className={style.productosPedido}>
-                  <p><strong>Productos del pedido:</strong></p>
-                  <ul>
+                  <p className={style.title}>Productos del pedido:</p>
+                  <ul className={style.infoProducto} >
                     {items.map((item, index) => (
                       <li key={index}>
                         {item.productId?.nombre || "desconocido"}: {item.cantidad} {item.productId?.tipo || "unidades"}
@@ -112,13 +104,13 @@ function BuscarPedidos() {
       {/* Resumen del día */}
       {orders.length > 0 && (
         <div className={style.resumen}>
-          <h3>Total de Productos:</h3>
+          <h3 className={style.title}>Total de Productos:</h3>
           {Object.entries(resumenProductos).map(([key, cantidad]) => {
             const [nombre, tipo] = key.split("__");
             return (
               <div key={key} className={style.itemResumen}>
-                <span>{nombre}</span>
-                <span>{cantidad} {tipo}</span>
+                <span className={style.name}>{nombre}:</span>
+                <p>{cantidad} {tipo}</p>
               </div>
             );
           })}
