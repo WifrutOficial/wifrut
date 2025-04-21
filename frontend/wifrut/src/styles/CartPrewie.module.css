@@ -20,7 +20,7 @@
 }
 
 .Container {
-  height: 200px;
+  max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 15px;

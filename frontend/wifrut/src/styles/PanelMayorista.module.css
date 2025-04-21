@@ -7,7 +7,8 @@
   border-radius: 15px;
   background-color: #d4d4d415;
   border: 1px solid #d4d4d46b;
-  margin: 20px 10px;
+  margin: 20px auto;
+  max-width: 900px;
 }
 
 .navContent ul li {

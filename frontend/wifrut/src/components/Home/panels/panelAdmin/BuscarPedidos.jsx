@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import style from "../../../../styles/BuscarPedidos.module.css";
 import axios from "axios";
-import { IoMdClose } from "react-icons/io";
+
 
 function BuscarPedidos() {
   const [date, setDate] = useState("");
@@ -97,7 +97,7 @@ function BuscarPedidos() {
             );
           })
         ) : (
-          <p>No hay pedidos para esta fecha</p>
+          <p className={style.none}>No hay pedidos para esta fecha</p>
         )}
       </div>
 

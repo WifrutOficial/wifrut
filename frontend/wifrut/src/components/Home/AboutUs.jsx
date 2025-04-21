@@ -5,16 +5,23 @@ function AboutUs() {
   return (
     <div className={style.aboutUs}>
       <h2 className={style.title}>Conócenos</h2>
-      
+
       <div className={style.containerInfo}>
         <img src="../../../img1.png" alt="Equipo de trabajo" />
         <div className={style.Info}>
           <h3>¿Quiénes somos?</h3>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi
-            ipsam distinctio officiis voluptatem adipisci recusandae mayores!
-            Deserunt, modi? Ullam, impedit suscipit dicta at nostrum doloribus
-            molestiae perspiciatis architecto nobis possimus?
+            En WIFRUT somos la verdulería en tu puerta. Dos jóvenes
+            emprendedores unidos por las ganas de traer algo innovador a
+            Neuquén, y buscando facilitar una tarea del día a día... trabajamos
+            directamente con distribuidores para ofrecerte lo más fresco que
+            llega a la Patagonia, seleccionado con cuidado y entregado en tus
+            manos. <br></br>
+            Nacimos para facilitar la vida a quienes valoran su tiempo, tienen
+            movilidad reducida o simplemente prefieren invertir sus energías en
+            lo que más les importa. Con "La verdulería en tu puerta", llevamos
+            la frescura y la calidad de siempre, pero con la comodidad de un
+            clic.
           </p>
         </div>
       </div>
@@ -23,10 +30,8 @@ function AboutUs() {
         <div className={`${style.Info} ${style.left}`}>
           <h3>Ubicados en Neuquén</h3>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi
-            ipsam distinctio officiis voluptatem adipisci recusandae mayores!
-            Deserunt, modi? Ullam, impedit suscipit dicta at nostrum doloribus
-            molestiae perspiciatis architecto nobis possimus?
+          Nuestra base de operaciones y desde donde sucede toda la logística para entregarte tus
+          productos de primera calidad es en el mercado concentrador de Neuquén.
           </p>
         </div>
         <img src="../../../neuquen.png" alt="Ubicación en Neuquén" />
@@ -37,10 +42,10 @@ function AboutUs() {
           src="https://www.google.com/maps/embed?pb=!4v1741735490324!6m8!1m7!1suddi9Q-Swa9XcpWDuWRAnw!2m2!1d-38.95172297333154!2d-68.05908758013764!3f36.8215!4f0!5f0.7820865974627469"
           width="100%"
           height="300px"
-          style={{ 
+          style={{
             borderRadius: "13px",
-            border: "0", 
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.62)" 
+            border: "0",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.62)",
           }}
           allowFullScreen
           loading="lazy"

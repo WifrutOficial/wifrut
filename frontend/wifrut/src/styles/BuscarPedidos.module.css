@@ -1,5 +1,6 @@
 .container {
-  margin: 10px 10px;
+  margin: 10px auto;
+  max-width: 900px;
   border-radius: 13px;
   backdrop-filter: blur(20px);
   z-index: -1;
@@ -25,6 +26,7 @@
   border: 1px solid #d4d4d46b;
   background: none;
   cursor: pointer;
+  color: #fff;
 }
 
 .search button {
@@ -171,4 +173,11 @@
 
 .name{
   color: #d1df09f8;
+}
+
+.none{
+  text-align: center;
+  color:   #d1df09f8;
+  padding: 10px 0;
+
 }

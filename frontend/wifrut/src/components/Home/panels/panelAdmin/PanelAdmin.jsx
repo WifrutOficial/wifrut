@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import style from "../../../../styles/Admin.module.css";
 import { useState } from "react";
 import Products from "./Products";
@@ -9,7 +9,7 @@ import { GoArrowUp } from "react-icons/go";
 import BuscarPedidos from "./BuscarPedidos";
 
 function PanelAdmin() {
-  const navigate = useNavigate();
+ // const navigate = useNavigate();
 
   const [activeComponent, setActiveComponent] = useState(null);
 

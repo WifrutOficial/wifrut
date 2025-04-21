@@ -80,6 +80,7 @@ function Nav2({ hideSearchAndCart = false }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -129,7 +130,6 @@ function Nav2({ hideSearchAndCart = false }) {
       setShowCartPreview(true);
     }
   };
-  
 
   return (
     <div className={style.container}>
@@ -170,53 +170,57 @@ function Nav2({ hideSearchAndCart = false }) {
               <AiOutlineLogout />
             </div>
           )}
-           <a className={style.a} onClick={handleScrollToTop}>
+          <a className={style.a} onClick={handleScrollToTop}>
             <IoHome /> Inicio
           </a>
-          {!hideSearchAndCart &&(
-         <>
-          
-          <a
-            className={style.a}
-            onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
-          >
-            <BiSolidOffer /> Ofertas
-          </a>
-          <a
-            className={style.a}
-            onClick={() => window.scrollTo({ top: 3700, behavior: "smooth" })}
-          >
-            <FaUsers /> Conócenos
-          </a>
-          <a className={style.a} onClick={() => navigate("/send")}>
-            {" "}
-            <MdLocalShipping />
-            Envios{" "}
-          </a>
-         </>
-)}
-          <div className={style.categorias}>
-            <div className={style.categoriasContainer}>
-              <a onClick={toggleCategorias} className={style.a}>
-                <BiSolidCategory /> Categorías
-                <MdArrowDropDown />
+          {!hideSearchAndCart && (
+            <>
+              <a
+                className={style.a}
+                onClick={() =>
+                  window.scrollTo({ top: 600, behavior: "smooth" })
+                }
+              >
+                <BiSolidOffer /> Ofertas
               </a>
-            </div>
-            {showCategorias && (
-              <div className={style.categoriasList}>
-                {categorias.map((categoria, index) => (
-                  <div
-                    key={index}
-                    className={style.aCategories}
-                    onClick={() => handleCategoryClick(categoria)}
-                  >
-                    {categoria}
-                  </div>
-                ))}
+              <a
+                className={style.a}
+                onClick={() =>
+                  window.scrollTo({ top: 3700, behavior: "smooth" })
+                }
+              >
+                <FaUsers /> Conócenos
+              </a>
+              <a className={style.a} onClick={() => navigate("/send")}>
+                {" "}
+                <MdLocalShipping />
+                Envios{" "}
+              </a>
+            </>
+          )}
+          {!hideSearchAndCart && (
+            <div className={style.categorias}>
+              <div className={style.categoriasContainer}>
+                <a onClick={toggleCategorias} className={style.a}>
+                  <BiSolidCategory /> Categorías
+                  <MdArrowDropDown />
+                </a>
               </div>
-            )}
-          </div>
-            
+              {showCategorias && (
+                <div className={style.categoriasList}>
+                  {categorias.map((categoria, index) => (
+                    <div
+                      key={index}
+                      className={style.aCategories}
+                      onClick={() => handleCategoryClick(categoria)}
+                    >
+                      {categoria}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         {!hideSearchAndCart && (
           <div className={style.search}>
