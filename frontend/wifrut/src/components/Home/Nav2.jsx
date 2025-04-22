@@ -32,7 +32,7 @@ function Nav2({ hideSearchAndCart = false }) {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
-  const [showCartPreview, setShowCartPreview] = useState(false); //
+  const [showCartPreview, setShowCartPreview] = useState(false); 
 
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
@@ -138,13 +138,13 @@ function Nav2({ hideSearchAndCart = false }) {
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
+
           <img
             className={style.logo}
             src="../../../logo.png"
             alt="logo"
             onClick={handleScrollToTop}
           />
-          <IoMenu onClick={toggleMenu} className={style.btnMenu} />
         </div>
         <div
           ref={menuRef}
@@ -239,6 +239,8 @@ function Nav2({ hideSearchAndCart = false }) {
               </div>
               <p className={style.totalNumber}>${total.toFixed(2)}</p>
             </div>
+            <IoMenu onClick={toggleMenu} className={style.btnMenu} />
+
           </div>
         )}
 

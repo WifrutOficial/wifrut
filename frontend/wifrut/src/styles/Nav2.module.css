@@ -3,7 +3,6 @@
   height: 100px;
   margin-left: 40px;
   cursor: pointer;
-
 }
 
 
@@ -24,7 +23,7 @@
 .containerLinks {
   background-color: #ffffff;
   display: flex;
-  justify-content: space-between;
+  
   gap: 20px;
   align-items: center;
   transition: top 0.3s ease-in-out;
@@ -75,11 +74,12 @@
 .search {
   position: relative;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   width: fit-content;
   cursor: pointer;
+
 }
 .searchBtn {
   position: absolute;
@@ -124,7 +124,6 @@
   margin-right: 40px;
 }
 
-
 .logoUser2 {
   display: none;
 }
@@ -152,6 +151,8 @@
   gap: 10px;
   align-items: center;
   padding-right: 0;
+  justify-content: flex-end;
+  width: 100%;
 }
 .btnLogin2 button {
   font-size: 13px;
@@ -168,13 +169,11 @@
   align-items: center;
   display: flex;
   gap: 5px;
-
 }
 
 .a svg {
-display: none;
+  display: none;
 }
-
 
 .floatingArrow {
   position: fixed;
@@ -186,7 +185,7 @@ display: none;
   z-index: 1000;
 }
 
-.whatsappButton{
+.whatsappButton {
   position: fixed;
   bottom: 20px;
   right: 25px;
@@ -195,11 +194,7 @@ display: none;
   z-index: 1000;
   animation: pulse 2s infinite;
   filter: drop-shadow(0px 4px 6px rgb(0, 0, 0));
-  
 }
-
-
-
 
 @keyframes pulse {
   0% {
@@ -213,20 +208,15 @@ display: none;
   }
 }
 
-
-
-
 /* Estilos para pantallas menores a 768px */
 @media (max-width: 966px) {
   .floatingArrow {
     bottom: 60px;
     right: 10px;
   }
-  .whatsappButton{
- 
+  .whatsappButton {
     bottom: 20px;
     right: 17px;
-   
   }
   .a {
     color: #000000;
@@ -300,9 +290,9 @@ display: none;
   }
 
   .containerLinks {
-    flex-direction: column;
-    padding: 0 10px;
-    gap: 0;
+    gap: 15px;
+    padding: 0 2px;
+    justify-content: center;
   }
 
   .logoUser {
@@ -323,9 +313,13 @@ display: none;
   }
 
   .search input {
-    width: 200px;
-    height: 25px;
+    width: 160px;
+    height: 22px;
+
+
   }
+
+  
 
   .btnClose {
     display: flex;
@@ -338,7 +332,6 @@ display: none;
   .btnMenu {
     display: block;
     cursor: pointer;
-    color: #000000;
     width: 28px;
     height: 28px;
   }
@@ -348,21 +341,10 @@ display: none;
   }
 
   .cart {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
-  .logoContainer {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .search {
-    width: 100%;
-    justify-content: space-between;
-  }
- 
+  
   .btnLogin {
     display: flex;
     gap: 10px;
@@ -381,6 +363,5 @@ display: none;
 
   .a svg {
     display: flex;
-    }
-    
+  }
 }
