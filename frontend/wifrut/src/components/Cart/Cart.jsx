@@ -122,41 +122,48 @@ export default function Cart() {
   const handleDireccionChange = async (e) => {
     const nuevaDireccion = e.target.value;
     setDireccion(nuevaDireccion);
-
+  
+    // Resetear los estados por si la nueva dirección no es válida
+    setZonaSeleccionada("");
+    setCostoEnvio(0);
+    setZonaDetectadaMsg("");
+  
     if (nuevaDireccion.length < 5) return;
-
+  
     try {
       const direccionCompleta = `${nuevaDireccion}, Neuquén, Argentina`;
-
+  
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
           direccionCompleta
         )}`
       );
       const data = await res.json();
-
+  
       if (!data.length) return;
-
+  
       const { lat, lon } = data[0];
       const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
-
+  
       const zona = zonasGeo.features.find((feature) =>
         turf.booleanPointInPolygon(punto, feature)
       );
-
+  
       if (zona) {
         const nombreZona =
           zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
         const desc = zona.properties.description || "";
         const match = desc.match(/\d+/);
         const precio = match ? parseInt(match[0]) : 0;
-
+  
         setZonaSeleccionada(nombreZona);
         setCostoEnvio(precio);
         setZonaDetectadaMsg(
           `🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`
         );
       } else {
+        setZonaSeleccionada(""); 
+        setCostoEnvio(0);
         setZonaDetectadaMsg(
           "⚠️ Dirección fuera de las zonas de envío definidas."
         );
@@ -165,6 +172,7 @@ export default function Cart() {
       console.error("Error al detectar zona:", error);
     }
   };
+  
 
   return (
     <div className={style.container}>

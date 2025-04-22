@@ -1,4 +1,4 @@
-import Nav from "../Home/Nav";
+
 import ProductsRender from "../Products/ProductsRender";
 import Banners from "../Home/Banners"
 import AboutUs from "./AboutUs";

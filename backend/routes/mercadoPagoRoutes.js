@@ -1,12 +1,15 @@
 import { Router } from "express";
-import {  createOrderAndPreference } from "../controllers/mercadoPagoController.js";
-
+import {
+  createOrderAndPreference,
+  saveMercadoPagoToken,
+} from "../controllers/mercadoPagoController.js";
 
 const router = Router();
 
-router.post("/preference", createOrderAndPreference)
+// 📌 Ruta para guardar el token del dueño (solo una vez, con el `code`)
+router.post("/token", saveMercadoPagoToken);
 
-
-
+// 📌 Crear preferencia de pago
+router.post("/preference", createOrderAndPreference);
 
 export default router;

@@ -8,17 +8,13 @@
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
-
-
-
 
 .slider {
   display: flex;
-  width: 300%; 
+  width: 300%;
   transition: transform 0.4s ease-in-out;
- 
 }
 
 .slider img {
@@ -46,12 +42,9 @@
   transition: background-color 0.3s ease;
 }
 
-
-
 .active {
   background-color: grey;
 }
-
 
 .arrowLeft,
 .arrowRight {
@@ -82,23 +75,14 @@
   right: 10px;
 }
 
-
 @media (max-width: 768px) {
   .dot {
-   
     width: 12px;
     height: 12px;
-   
   }
- 
 
   .arrowLeft,
   .arrowRight {
     display: none;
   }
-
-
-  
-  
-  
 }

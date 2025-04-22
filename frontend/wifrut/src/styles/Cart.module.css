@@ -50,7 +50,14 @@
   color: #ffff;
   gap: 10px;
 }
+.infoEnvio{
+  color: #000000;
+  font-size: 9px;
+  position: absolute;
+  top:250px;
+  left: 70px;
 
+}
 .inputEnvio {
   display: flex;
   justify-content: center;
@@ -278,13 +285,6 @@ hr {
   color: #fff;
 }
 
-.infoEnvio {
-  font-size: 11px;
-  color: #000000;
-  position: absolute;
-  top: 420px;
-  left: 20px;
-}
 
 .priceTotal {
   color: #b90003;
@@ -301,7 +301,7 @@ hr {
 
 .spanm {
   font-weight: 200;
-  font-size: 12px;
+  font-size: 9px;
   text-decoration: underline;
   cursor: pointer;
 }

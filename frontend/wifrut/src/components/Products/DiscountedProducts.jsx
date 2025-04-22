@@ -11,10 +11,7 @@ function DiscountedProducts({
     (product) => Number(product.descuento) > 0
   );
 
-  useEffect(() => {
-    // Este useEffect podría utilizarse si necesitas hacer alguna lógica
-    // específica cuando los productos con descuento cambian, pero no es necesario
-  }, [discountedProducts]);
+
 
   if (discountedProducts.length === 0) {
     return (
@@ -28,7 +25,7 @@ function DiscountedProducts({
 
   return (
     <>
-      <h3 className={style.titleOfertas}>Promociones</h3>
+      <h3 className={style.titleOfertas}>Ofertas</h3>
       <div className={style.descuento}>
         <div className={style.container2}>
           {discountedProducts.map(
