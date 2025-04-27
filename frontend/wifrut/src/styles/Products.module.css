@@ -9,7 +9,7 @@
 }
 
 .descuento {
-  background-image: url("../../fondoDescuento.png");
+ background-color: #ffb83b;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

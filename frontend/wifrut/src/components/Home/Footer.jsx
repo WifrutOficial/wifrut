@@ -53,7 +53,7 @@ function Footer() {
             src="../../../LOGO COMPLETO.png"
             alt="logoDev"
           />
-          <p>{"< MAI-Nova />"}</p>{" "}
+          <p>{"< CodexAstra />"}</p>{" "}
           <div className={style.contactDev}>
             <a href="https://www.linkedin.com/in/maira-coria/">
               <TbBrandLinktree />
