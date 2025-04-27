@@ -5,7 +5,14 @@ import { useCart } from "../../context/CartContext";
 import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
-import { MdPlayArrow, MdArrowForwardIos } from "react-icons/md";
+
+const categoryImages = {
+  Frutas: "../../../frutas.png",
+  Verduras: "../../../verdura.png",
+  Hortalizas: "../../../hortalizas.png",
+  // agregando más categorías...
+};
+
 import Swal from "sweetalert2";
 
 function ProductsRender() {
@@ -126,7 +133,11 @@ function ProductsRender() {
       {Object.keys(categories).map((category) => (
         <div key={category} id={`category-${category}`}>
           <div className={style.categoryContainer}>
-            <MdPlayArrow />
+            <img
+              src={categoryImages[category] || "../../../verduras.png"}
+              alt={category}
+              className={style.iconCategory}
+            />
             <h2 className={style.categoryTitle}>{category}</h2>
           </div>
 

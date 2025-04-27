@@ -13,7 +13,7 @@
 }
 
 .containerLog {
-  background-color: #99ad00;
+  background-color: #479200;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,6 +64,7 @@
   border-radius: 15px;
   border: 1px solid rgba(0, 0, 0, 0.842);
   padding-left: 30px;
+
 }
 
 .search input::placeholder {
@@ -84,6 +85,7 @@
 .searchBtn {
   position: absolute;
   left: 9px;
+  color: #000000;
 }
 
 .cart {
@@ -179,7 +181,7 @@
   position: fixed;
   bottom: 60px;
   right: 20px;
-  color: #b90003;
+  color: #005234;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
@@ -195,6 +197,7 @@
   animation: pulse 2s infinite;
   filter: drop-shadow(0px 4px 6px rgb(0, 0, 0));
 }
+
 
 @keyframes pulse {
   0% {
@@ -292,7 +295,7 @@
   .containerLinks {
     gap: 15px;
     padding: 0 2px;
-    justify-content: center;
+    justify-content: space-around;
   }
 
   .logoUser {
@@ -307,19 +310,24 @@
   }
 
   .logo {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     margin: 0;
   }
 
   .search input {
     width: 160px;
     height: 22px;
+    color: #000000;
+  
 
 
   }
 
-  
+  .search input::placeholder {
+    color: #000000;
+    font-weight: 400;
+  }
 
   .btnClose {
     display: flex;
@@ -336,13 +344,13 @@
     height: 28px;
   }
   .cartContainer {
-    font-size: 10px;
+    font-size: 9px;
     gap: 5px;
   }
 
   .cart {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
   
   .btnLogin {
