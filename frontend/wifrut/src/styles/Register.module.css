@@ -9,9 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 }
-
 
 .logo {
   width: 120px;
@@ -19,12 +17,9 @@
   position: relative;
   top: 50px;
   cursor: pointer;
-
 }
 
-
-
- .arrow {
+.arrow {
   width: 35px;
   height: 35px;
   color: #ffffffbd;
@@ -60,26 +55,21 @@
   justify-content: space-around;
   border-radius: 15px;
   position: relative;
-  padding-top: 30px;
   gap: 20px;
-  padding:  40px 20px 0 40px;
-  
-
+  padding: 40px 20px 0 40px;
 }
 .containerForm {
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 30px;
-  width: 380px  ;
-
 }
 .containerForm input {
   background: none;
   border: none;
   padding-left: 15px;
   height: 40px;
-  width:320px ;
+  width: 320px;
   border-radius: 13px;
   background-color: #d9d9d959;
   color: #ffffff;
@@ -184,25 +174,33 @@ span button {
   border: 1px solid #d4d4d46b;
 }
 
-
-@media (max-width: 768px){
-  .containerRegister {
-  width: 355px;
-
-
-  }
+@media (max-width: 768px) {
 
   .containerForm {
- 
     gap: 10px;
-
-  
   }
   .select {
- 
     width: 320px;
- 
   }
+  .title {
 
-
+    font-size: 25px;
+   
+  }
+  .containerForm input {
+   
+    height: 35px;
+    width: 260px;
+  
+  }
+  .containerRegister {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+    position: relative;
+    gap: 20px;
+    padding: 40px 20px 0 30px;
+  }
 }
