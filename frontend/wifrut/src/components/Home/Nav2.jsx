@@ -17,6 +17,7 @@ import { IoHome } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
+import CartPreview from "../Cart/CartPreview";
 
 
 
