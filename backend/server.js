@@ -11,34 +11,28 @@ import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "path"
+import { fileURLToPath } from 'url';
 
 // Configuración de dotenv para acceder a las variables de entorno
 dotenv.config();
 
+
 const app = express();
-console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // Configuración de CORS
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigin =
-        process.env.NODE_ENV === "production"
-          ? process.env.FRONTEND_URL_PROD
-          : process.env.FRONTEND_URL_DEV;
-
-      if (origin === allowedOrigin || origin === allowedOrigin.replace(/\/$/, "")) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.FRONTEND_URL_PROD  
+        : process.env.FRONTEND_URL_DEV,    
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    credentials: true, 
   })
 );
+
 // Middleware para el manejo de JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,7 +40,9 @@ app.use(express.urlencoded({ extended: true }));
 // Obtener el directorio del archivo actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
+app.use( express.static(path.resolve(__dirname, '../frontend/wifrut/public')));
+
+
 
 // Conexión a la base de datos
 connectDB();
@@ -67,7 +63,8 @@ app.use("/api/mercadopago", mercadoPagoRoutes);
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 3000; 
 
 // Iniciar el servidor
 app.listen(PORT, () => {

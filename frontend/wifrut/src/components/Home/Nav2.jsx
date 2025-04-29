@@ -17,9 +17,7 @@ import { IoHome } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
-import CartPreview from "../Cart/CartPreview";
-
-
+import CartPreview from "../../components/Cart/CartPreview";
 
 function Nav2({ hideSearchAndCart = false }) {
   const menuRef = useRef(null);
