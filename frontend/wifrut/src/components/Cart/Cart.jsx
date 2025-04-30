@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import zonasGeo from "../../data/envios.json";
 import * as turf from "@turf/turf";
 import debounce from "lodash/debounce";
+import { TiShoppingCart } from "react-icons/ti";
 
 export default function Cart({ hideSearchAndCart = true }) {
   const navigate = useNavigate();
@@ -251,12 +252,12 @@ export default function Cart({ hideSearchAndCart = true }) {
 
       {cart.length === 0 ? (
         <div className={style.emptyCartContainer}>
-          <IoTrashOutline
+          <TiShoppingCart
             className={`${style.emptyCartIcon} ${style.animatedIcon}`}
           />
           <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
           <p className={style.emptyCartSub}>
-            ¡Es el momento perfecto para llenarlo con algo especial!
+          ¡No te vayas sin tus frutas y verduras favoritas!
           </p>
           <button className={style.shopButton} onClick={() => navigate("/")}>
           ← Empezar a comprar

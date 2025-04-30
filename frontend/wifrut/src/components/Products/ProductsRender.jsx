@@ -5,7 +5,7 @@ import { useCart } from "../../context/CartContext";
 import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
-import { MdPlayArrow, MdArrowForwardIos } from "react-icons/md";
+import { MdPlayArrow,} from "react-icons/md";
 import Swal from "sweetalert2";
 
 function ProductsRender() {
@@ -55,7 +55,7 @@ function ProductsRender() {
           popup: style.customAlert,
           icon: style.customIconErr,
         },
-        position: "bottom-start",
+        position: "center",
         timer: 2000,
         timerProgressBar: true,
         showConfirmButton: false,
@@ -71,7 +71,7 @@ function ProductsRender() {
           popup: style.customAlert,
           icon: style.customIconErr,
         },
-        position: "bottom-start",
+        position: "center",
         timer: 2000,
         timerProgressBar: true,
         showConfirmButton: false,
@@ -90,7 +90,7 @@ function ProductsRender() {
         popup: style.customAlert,
         icon: style.customIconSuc,
       },
-      position: "bottom-start",
+      position: "center",
       timer: 1000,
       timerProgressBar: true,
       showConfirmButton: false,

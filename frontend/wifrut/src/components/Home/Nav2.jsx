@@ -232,8 +232,8 @@ function Nav2({ hideSearchAndCart = false }) {
               onChange={handleSearchChange}
             />
             <IoSearch className={style.searchBtn} />
-            <div className={style.cartContainer}>
-              <BsCart2 className={style.cart} onClick={handleOpenCartPreview} />
+            <div className={style.cartContainer} onClick={handleOpenCartPreview} >
+              <BsCart2 className={style.cart} />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
               </div>

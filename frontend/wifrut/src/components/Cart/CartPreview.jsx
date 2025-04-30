@@ -4,6 +4,7 @@ import style from "../../styles/CartPrewie.module.css";
 import { IoMdClose } from "react-icons/io";
 import { IoTrashOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { TiShoppingCart } from "react-icons/ti";
 
 function CartPreview() {
   const { cart, removeFromCart } = useCart(); 
@@ -55,7 +56,7 @@ function CartPreview() {
         <div className={style.Container}>
           {cart.length === 0 ? (
             <div className={style.emptyCartContainer}>
-              <IoTrashOutline
+              <TiShoppingCart
                 className={`${style.emptyCartIcon} ${style.animatedIcon}`}
               />
               <h2 className={style.emptyCart}>Tu carrito está vacío</h2>

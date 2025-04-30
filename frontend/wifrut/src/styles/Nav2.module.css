@@ -126,6 +126,7 @@
 }
 .btnCerrarSesion {
   display: none;
+
 }
 .btnCerrarSesion2 button {
   background: none;
@@ -134,9 +135,11 @@
 }
 .btnCerrarSesion2 {
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
   align-items: center;
   padding-right: 20px;
+  width: 100%; 
 }
 
 .btnLogin {
@@ -288,7 +291,7 @@
 
   .containerLinks {
     gap: 15px;
-    padding: 5px 8px;
+    padding:10px 10px;
     justify-content: space-between;
   }
 
