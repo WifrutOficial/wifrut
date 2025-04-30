@@ -35,58 +35,86 @@ function CartPreview() {
     };
   }, [open]);
 
-  if (!cart.length && !open) return null;
+  if (!open) {
+    return (
+      <div className={style.miniTab} onClick={handleOpen}>
+        🛒
+      </div>
+    );
+  }
+  
 
   return (
     <>
-      {open ? (
-        <div ref={cartRef} className={style.cartPreview}>
-          <div className={style.titleAndClose}>
-            <h3>Carrito</h3>
-            <IoMdClose onClick={handleClose} />
-          </div>
-          <div className={style.Container}>
-            <ul>
-              {cart.map((item, index) => (
-                <li key={index} className={style.cartItem}>
-                  <img
-                    src={`/${item.imagen}`}
-                    alt={item.nombre}
-                    className={style.miniImage}
-                  />
-                  <p>{item.nombre}</p>
-                  <p>
-                    {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
-                  </p>
-                  <p>
-                    $
-                    {(
-                      (item.precioConDescuento ?? item.precio) * item.quantity
-                    ).toFixed(2)}
-                  </p>
-                  <button
-                    className={style.btnDelete}
-                    onClick={() => removeFromCart(item._id)}
-                    title="Eliminar producto"
-                  >
-                    <IoTrashOutline />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className={style.total}>Total: ${total.toFixed(2)}</p>
-          <button className={style.btn} onClick={() => navigate("/cart")}>
-            Terminar Compra
-          </button>
+    {open ? (
+      <div ref={cartRef} className={style.cartPreview}>
+        <div className={style.titleAndClose}>
+          <h3>Carrito</h3>
+          <IoMdClose onClick={handleClose} />
         </div>
-      ) : (
-        <div className={style.miniTab} onClick={handleOpen}>
-          🛒
+        <div className={style.Container}>
+          {cart.length === 0 ? (
+            <div className={style.emptyCartContainer}>
+              <IoTrashOutline
+                className={`${style.emptyCartIcon} ${style.animatedIcon}`}
+              />
+              <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
+              <p className={style.emptyCartSub}>
+                ¡Es el momento perfecto para llenarlo con algo especial!
+              </p>
+              <button
+                className={style.shopButton}
+                onClick={() =>     setOpen(false)       }
+              >
+                 ← Empezar a comprar
+              </button>
+            </div>
+          ) : (
+            <>
+              <ul>
+                {cart.map((item, index) => (
+                  <li key={index} className={style.cartItem}>
+                    <img
+                      src={`/${item.imagen}`}
+                      alt={item.nombre}
+                      className={style.miniImage}
+                    />
+                    <p>{item.nombre}</p>
+                    <p>
+                      {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
+                    </p>
+                    <p>
+                      $
+                      {(
+                        (item.precioConDescuento ?? item.precio) *
+                        item.quantity
+                      ).toFixed(2)}
+                    </p>
+                    <button
+                      className={style.btnDelete}
+                      onClick={() => removeFromCart(item._id)}
+                      title="Eliminar producto"
+                    >
+                      <IoTrashOutline />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p className={style.total}>Total: ${total.toFixed(2)}</p>
+              <button className={style.btn} onClick={() => navigate("/cart")}>
+                Terminar Compra
+              </button>
+            </>
+          )}
         </div>
-      )}
-    </>
-  );
+      </div>
+    ) : (
+      <div className={style.miniTab} onClick={handleOpen}>
+        🛒
+      </div>
+    )}
+  </>
+);
 }
 
 export default CartPreview;

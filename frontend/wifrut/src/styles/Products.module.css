@@ -53,7 +53,7 @@
   -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   mask-size: 100% 100%;
   -webkit-mask-size: 100% 100%;
-  border-radius: 10px; /* opcional */
+  border-radius: 10px; 
 }
 .sale {
   position: absolute;
@@ -115,7 +115,7 @@
 }
 
 .addCart {
-  background-color: #b90003;
+  background-color: #247504;
   color: #d9d9d9;
   border: none;
   width: 197px;
@@ -129,23 +129,6 @@
   align-items: center;
   padding: 30px;
   gap: 20px;
-}
-.seeMoreBtn {
-  border: none;
-  background-color: #b90003;
-  height: 30px;
-  width: 130px;
-  border-radius: 33px;
-  font-size: 15px;
-  font-family: "Poppins", serif;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.seeMoreBtnNo {
-  text-align: center;
-  font-size: 1rem;
-  color: #ffb83b;
 }
 
 .containerCategory {
@@ -170,20 +153,8 @@
 
   transition: transform 0.3s ease-in-out;
 }
+ 
 
-.containerCategory button.activeCategory {
-  background-color: #b90003;
-  color: white;
-  border-color: #b90003;
-}
-
-.containerCategory button:hover {
-  transform: scale(1);
-}
-
-.containerCategory .background {
-  color: #ffff;
-}
 
 .offOfertas {
   height: 504px;

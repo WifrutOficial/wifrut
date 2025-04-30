@@ -1,6 +1,5 @@
 import React from "react";
 import style from "../../styles/Footer.module.css";
-import { FaPhoneAlt } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { FaInstagram } from "react-icons/fa";
@@ -15,15 +14,12 @@ function Footer() {
           <p>Contactanos</p>
           <div className={style.Info}>
             <FaWhatsapp />
-            <p>23753822940</p>
+            <p>+54 9 2995 974-289</p>
           </div>
-          <div className={style.Info}>
-            <FaPhoneAlt />
-            <p>23753822940</p>
-          </div>
+      
           <div className={style.Info}>
             <IoIosMail />
-            <p>wifrut@verduleria.com</p>
+            <p>wifrut.oficial@gmail.com</p>
           </div>
           <div className={style.Info}>
             <FaMapMarkerAlt />

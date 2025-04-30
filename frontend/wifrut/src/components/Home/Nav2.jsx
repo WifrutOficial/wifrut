@@ -268,7 +268,7 @@ function Nav2({ hideSearchAndCart = false }) {
         </div>
       )}
       <a
-        href="https://wa.me/549XXXXXXXXXX"
+        href="https://wa.me/542995974289"
         target="_blank"
         rel="noopener noreferrer"
       >

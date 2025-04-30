@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";
@@ -8,8 +8,9 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import Swal from "sweetalert2";
 import zonasGeo from "../../data/envios.json";
 import * as turf from "@turf/turf";
+import debounce from "lodash/debounce";
 
-export default function Cart() {
+export default function Cart({ hideSearchAndCart = true }) {
   const navigate = useNavigate();
   const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
   const [direccion, setDireccion] = useState("");
@@ -18,6 +19,7 @@ export default function Cart() {
   const [zonaSeleccionada, setZonaSeleccionada] = useState("");
   const [costoEnvio, setCostoEnvio] = useState(0);
   const [zonaDetectadaMsg, setZonaDetectadaMsg] = useState("");
+  const [isLoadingZona, setIsLoadingZona] = useState(false);
 
   const zonasEnvio = zonasGeo.features.map((feature) => {
     const name =
@@ -25,11 +27,7 @@ export default function Cart() {
     const desc = feature.properties.description || "";
     const match = desc.match(/\d+/);
     const precio = match ? parseInt(match[0]) : 0;
-
-    return {
-      nombre: name,
-      precio,
-    };
+    return { nombre: name, precio };
   });
 
   const total = getTotal();
@@ -41,7 +39,7 @@ export default function Cart() {
     if (!direccion.trim() || !zonaSeleccionada) {
       Swal.fire({
         title: false,
-        text: "Por favor ingresa una dirección.",
+        text: "Por favor ingresa una dirección y selecciona una zona válida.",
         icon: "warning",
         timer: 2500,
         showConfirmButton: false,
@@ -80,7 +78,6 @@ export default function Cart() {
           icon: "success",
           timer: 2500,
           showConfirmButton: false,
-
           customClass: {
             popup: style.customAlert,
             icon: style.customIconSuc,
@@ -119,88 +116,152 @@ export default function Cart() {
     }
   };
 
-  const handleDireccionChange = async (e) => {
+  const buscarZona = useCallback(
+    debounce(async (nuevaDireccion) => {
+      if (nuevaDireccion.length < 5) {
+        setZonaSeleccionada("");
+        setCostoEnvio(0);
+        setZonaDetectadaMsg("");
+        setIsLoadingZona(false);
+        return;
+      }
+
+      setIsLoadingZona(true);
+
+      try {
+        const direccionCompleta = `${nuevaDireccion}, Neuquén, Argentina`;
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          direccionCompleta
+        )}&addressdetails=1&limit=1`;
+
+        const response = await fetch(url, {
+          headers: {
+            "User-Agent": "TuApp/1.0 (contacto@tuapp.com)", // Reemplaza con el nombre de tu app y un email de contacto
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Error HTTP: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+
+        if (!data.length) {
+          setZonaSeleccionada("");
+          setCostoEnvio(0);
+          setZonaDetectadaMsg(
+            "⚠️ No se pudo encontrar la dirección ingresada."
+          );
+          setIsLoadingZona(false);
+          return;
+        }
+
+        const { lat, lon } = data[0];
+        const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
+
+        const zona = zonasGeo.features.find((feature) =>
+          turf.booleanPointInPolygon(punto, feature)
+        );
+
+        if (zona) {
+          const nombreZona =
+            zona.properties.name?.trim().replace(/\n/g, "") ||
+            "Zona desconocida";
+          const desc = zona.properties.description || "";
+          const match = desc.match(/\d+/);
+          const precio = match ? parseInt(match[0]) : 0;
+
+          setZonaSeleccionada(nombreZona);
+          setCostoEnvio(precio);
+          setZonaDetectadaMsg(
+            `🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`
+          );
+        } else {
+          setZonaSeleccionada("");
+          setCostoEnvio(0);
+          setZonaDetectadaMsg(
+            "⚠️ Dirección fuera de las zonas de envío definidas."
+          );
+        }
+      } catch (error) {
+        console.error("Error al detectar zona:", error);
+        let errorMsg = "⚠️ Error al procesar la dirección.";
+        if (error.message.includes("Failed to fetch")) {
+          errorMsg =
+            "⚠️ No se pudo conectar con el servicio de geolocalización. Por favor, selecciona una zona manualmente.";
+        } else if (error.message.includes("403")) {
+          errorMsg =
+            "⚠️ Acceso denegado por el servicio de geolocalización. Por favor, selecciona una zona manualmente.";
+        } else if (error.message.includes("429")) {
+          errorMsg =
+            "⚠️ Demasiadas solicitudes al servicio de geolocalización. Intenta de nuevo en unos segundos.";
+        }
+        setZonaDetectadaMsg(errorMsg);
+      } finally {
+        setIsLoadingZona(false);
+      }
+    }, 1000),
+    []
+  );
+
+  const handleDireccionChange = (e) => {
     const nuevaDireccion = e.target.value;
     setDireccion(nuevaDireccion);
-  
-    // Resetear los estados por si la nueva dirección no es válida
-    setZonaSeleccionada("");
-    setCostoEnvio(0);
-    setZonaDetectadaMsg("");
-  
-    if (nuevaDireccion.length < 5) return;
-  
-    try {
-      const direccionCompleta = `${nuevaDireccion}, Neuquén, Argentina`;
-  
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          direccionCompleta
-        )}`
-      );
-      const data = await res.json();
-  
-      if (!data.length) return;
-  
-      const { lat, lon } = data[0];
-      const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
-  
-      const zona = zonasGeo.features.find((feature) =>
-        turf.booleanPointInPolygon(punto, feature)
-      );
-  
-      if (zona) {
-        const nombreZona =
-          zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
-        const desc = zona.properties.description || "";
-        const match = desc.match(/\d+/);
-        const precio = match ? parseInt(match[0]) : 0;
-  
-        setZonaSeleccionada(nombreZona);
-        setCostoEnvio(precio);
-        setZonaDetectadaMsg(
-          `🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`
-        );
-      } else {
-        setZonaSeleccionada(""); 
-        setCostoEnvio(0);
-        setZonaDetectadaMsg(
-          "⚠️ Dirección fuera de las zonas de envío definidas."
-        );
-      }
-    } catch (error) {
-      console.error("Error al detectar zona:", error);
-    }
+    buscarZona(nuevaDireccion);
   };
-  
+
+  useEffect(() => {
+    if (!direccion.trim()) {
+      setZonaSeleccionada("");
+      setCostoEnvio(0);
+      setZonaDetectadaMsg("");
+      setIsLoadingZona(false);
+    }
+  }, [direccion]);
 
   return (
     <div className={style.container}>
       <h2 className={style.title}>Carrito de Compras</h2>
-
-      <div className={style.lineTime}>
-        <div className={`${style.step} ${style.completed}`}>
-          <span className={style.stepNumber}>1</span>
-          <p>Productos</p>
+      {!hideSearchAndCart && (
+        <div className={style.lineTime}>
+          <div className={`${style.step} ${style.completed}`}>
+            <span className={style.stepNumber}>1</span>
+            <p>Productos</p>
+          </div>
+          <div
+            className={`${style.step} ${
+              direccion.trim() ? style.completed : ""
+            }`}
+          >
+            <span className={style.stepNumber}>2</span>
+            <p>Dirección</p>
+          </div>
+          <div
+            className={`${style.step} ${
+              step === 2 && metodoPago ? style.completed : ""
+            }`}
+          >
+            <span className={style.stepNumber}>3</span>
+            <p>Método de Pago</p>
+          </div>
         </div>
-        <div
-          className={`${style.step} ${direccion.trim() ? style.completed : ""}`}
-        >
-          <span className={style.stepNumber}>2</span>
-          <p>Dirección</p>
-        </div>
-        <div
-          className={`${style.step} ${
-            step === 2 && metodoPago ? style.completed : ""
-          }`}
-        >
-          <span className={style.stepNumber}>3</span>
-          <p>Método de Pago</p>
-        </div>
-      </div>
+      )}
 
       {cart.length === 0 ? (
-        <p>El carrito está vacío</p>
+        <div className={style.emptyCartContainer}>
+          <IoTrashOutline
+            className={`${style.emptyCartIcon} ${style.animatedIcon}`}
+          />
+          <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
+          <p className={style.emptyCartSub}>
+            ¡Es el momento perfecto para llenarlo con algo especial!
+          </p>
+          <button className={style.shopButton} onClick={() => navigate("/")}>
+          ← Empezar a comprar
+          </button>
+        </div>
       ) : (
         <div className={style.containerCart}>
           <IoIosArrowDropleft
@@ -253,14 +314,14 @@ export default function Cart() {
                 />
               </div>
               <p className={style.infoEnvio}>
-                Para mas informacion sobre las zonas de envio visite:{" "}
+                Para más información sobre las zonas de envío visite:{" "}
                 <span
                   className={style.spanm}
                   onClick={() =>
                     navigate("/send", { state: { fromCart: true } })
                   }
                 >
-                  Envios
+                  Envíos
                 </span>
               </p>
               <div className={style.inputEnvio}>
@@ -290,7 +351,10 @@ export default function Cart() {
 
               <p>Costo Envío: ${costoEnvio || 0}</p>
             </div>
-            {zonaDetectadaMsg && (
+            {isLoadingZona && (
+              <p className={style.zonaDetectada}>⏳ Buscando zona...</p>
+            )}
+            {zonaDetectadaMsg && !isLoadingZona && (
               <p className={style.zonaDetectada}>{zonaDetectadaMsg}</p>
             )}
           </div>

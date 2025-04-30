@@ -32,7 +32,7 @@ function Login() {
 
     try {
       const user = await login(loginData.email, loginData.password);
-      console.log("Usuario después del login:", user); // Verifica qué datos trae el usuario
+
 
       // Asegurar que `user` tiene las propiedades necesarias
       if (

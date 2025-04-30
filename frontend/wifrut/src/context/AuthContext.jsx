@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-
 const AuthContext = createContext();
 
 // Proveedor del contexto de autenticación
@@ -12,9 +11,10 @@ export const AuthProvider = ({ children }) => {
   // Verificacion de token en las cookies
   const checkAuthStatus = async () => {
     try {
-      console.log("API URL:", import.meta.env.VITE_API_URL);
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/login`, { withCredentials: true });
-     
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/login`,
+        { withCredentials: true }
+      );
 
       if (response.data?.user) {
         setIsAuthenticated(true);
@@ -36,15 +36,16 @@ export const AuthProvider = ({ children }) => {
   // FUNCIÓN LOGIN
   const login = async (email, password) => {
     try {
-    
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`,
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/login`,
         { email, password },
-        { withCredentials: true ,  headers: { "Content-Type": "application/json" }}
-       
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
       );
 
       if (response.data?.user) {
-        console.log("Usuario autenticado:", response.data.user);
         setIsAuthenticated(true);
         setUser(response.data.user);
         return response.data.user;
@@ -60,7 +61,11 @@ export const AuthProvider = ({ children }) => {
   //FUNCIÓN LOGOUT
   const logout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/logout`, {}, { withCredentials: true });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/logout`,
+        {},
+        { withCredentials: true }
+      );
       setIsAuthenticated(false);
       setUser(null);
     } catch (error) {

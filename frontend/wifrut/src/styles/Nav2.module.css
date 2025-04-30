@@ -5,15 +5,13 @@
   cursor: pointer;
 }
 
-
-
 .titleLog {
   font-size: 10px;
   font-weight: 0;
 }
 
 .containerLog {
-  background-color: #99ad00;
+  background-color: #479200;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +21,7 @@
 .containerLinks {
   background-color: #ffffff;
   display: flex;
-  
+
   gap: 20px;
   align-items: center;
   transition: top 0.3s ease-in-out;
@@ -79,7 +77,6 @@
   gap: 10px;
   width: fit-content;
   cursor: pointer;
-
 }
 .searchBtn {
   position: absolute;
@@ -179,7 +176,7 @@
   position: fixed;
   bottom: 60px;
   right: 20px;
-  color: #b90003;
+  color: #ff810d;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
@@ -291,8 +288,8 @@
 
   .containerLinks {
     gap: 15px;
-    padding: 0 2px;
-    justify-content: center;
+    padding: 5px 8px;
+    justify-content: space-between;
   }
 
   .logoUser {
@@ -307,19 +304,15 @@
   }
 
   .logo {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     margin: 0;
   }
 
   .search input {
     width: 160px;
     height: 22px;
-
-
   }
-
-  
 
   .btnClose {
     display: flex;
@@ -336,15 +329,15 @@
     height: 28px;
   }
   .cartContainer {
-    font-size: 10px;
+    font-size: 9px;
     gap: 5px;
   }
 
   .cart {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
-  
+
   .btnLogin {
     display: flex;
     gap: 10px;

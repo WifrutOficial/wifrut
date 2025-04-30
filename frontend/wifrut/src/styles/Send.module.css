@@ -12,14 +12,11 @@
   padding: 30px 0;
 }
 
-
-.map{
+.map {
   width: 95%;
   height: 530px;
   box-shadow: 2px 2px 10px black;
   z-index: 0;
-
-
 }
 
 .infoZona {
@@ -34,7 +31,7 @@
 .infoZona h2 {
   font-size: 28px;
   margin-bottom: 10px;
-  color: #b90003;
+  color: #005234;
 }
 
 .infoZona ul {
@@ -61,7 +58,7 @@
 }
 
 .backHomeButton {
-  background-color: #B90003;
+  background-color: #247504;
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
@@ -72,12 +69,11 @@
 }
 
 .backHomeButton:hover {
-  background-color: #900002;
+  background-color: #247504;
 }
 
 @media (max-width: 768px) {
   .containerMap {
     margin-right: 10px;
   }
- 
 }

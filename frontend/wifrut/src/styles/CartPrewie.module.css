@@ -11,7 +11,7 @@
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 8px 0 0 8px;
-  border: 1px solid #b90003;
+  border: 1px solid #005234;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   justify-content: center;
@@ -20,14 +20,13 @@
 }
 
 .Container {
-  max-height: 200px;
+  max-height: 230px;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 15px;
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-
 }
 /* Estilos del scroll para navegadores WebKit (Chrome, Edge, etc.) */
 .Container::-webkit-scrollbar {
@@ -96,9 +95,10 @@
   -webkit-backdrop-filter: blur(10px);
   padding: 5px;
   border-radius: 13px;
-  border: 1px solid #b90003;
+  border: 1px solid #247504;
   margin-top: 5px;
   cursor: pointer;
+  width: 100%;
 }
 
 .miniTab {
@@ -108,7 +108,7 @@
   width: 30px;
   height: 80px;
   background-color: #fff;
-  border: 1px solid #b90003;
+  border: 1px solid #247504;
   border-radius: 8px 0 0 8px;
   display: flex;
   align-items: center;
@@ -139,9 +139,52 @@
 .btnDelete {
   background: transparent;
   border: none;
-  color: #ff5555;
+  color: #005234;
   cursor: pointer;
   font-size: 1.2rem;
+}
+.emptyCartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+.emptyCartIcon {
+  font-size: 25px;
+  color: #247504;
+}
+
+.animatedIcon {
+  animation: bounce 1.5s infinite;
+}
+
+.emptyCartSub{
+  font-size: 12px;
+  text-align: center;
+  padding-bottom: 15px;
+}
+.emptyCart{
+  color: #333;
+}
+
+.shopButton{
+  background-color: #247504;
+  padding: 6px 15px;
+  border-radius: 13px;
+  color: #fff;
+  border: none;
+}
+
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -166,7 +209,4 @@
   .total {
     font-size: 13px;
   }
-
-
-  
 }
