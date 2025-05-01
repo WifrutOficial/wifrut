@@ -28,8 +28,8 @@ app.use(
       process.env.NODE_ENV === "production"
         ? process.env.FRONTEND_URL_PROD  
         : process.env.FRONTEND_URL_DEV,    
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, 
+        allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+        credentials: true,
   })
 );
 

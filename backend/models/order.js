@@ -24,25 +24,30 @@ const orderSchema = new mongoose.Schema({
   },
   direccion: {
     type: String,
-    required: true,  
+    required: true,
   },
   metodoPago: {
     type: String,
-    enum: ["Efectivo", "Mercado Pago"],  
-    required: true, 
+    enum: ["Efectivo", "Mercado Pago"],
+    required: true,
   },
   status: {
     type: String,
     enum: ["pendiente", "procesando", "enviado", "entregado"],
     default: "pendiente",
   },
-  paymentStatus: {  // Nuevo campo para el estado del pago
+  paymentStatus: {
     type: String,
     enum: ["aprobado", "pendiente", "fallido"],
     default: "pendiente",
   },
-  preferenceId: {  // Nuevo campo para el ID de la preferencia de pago de Mercado Pago
+  preferenceId: {
     type: String,
+  },
+  numeroPedido: {
+    type: String,
+    required: true,
+    unique: true, // 🔐 opcional: para evitar duplicados por error
   },
   createdAt: {
     type: Date,

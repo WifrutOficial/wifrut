@@ -159,24 +159,22 @@
   animation: bounce 1.5s infinite;
 }
 
-.emptyCartSub{
+.emptyCartSub {
   font-size: 12px;
   text-align: center;
   padding-bottom: 15px;
 }
-.emptyCart{
+.emptyCart {
   color: #333;
 }
 
-.shopButton{
+.shopButton {
   background-color: #247504;
   padding: 6px 15px;
   border-radius: 13px;
   color: #fff;
   border: none;
 }
-
-
 
 @keyframes bounce {
   0%,

@@ -71,13 +71,13 @@ export default function Cart({ hideSearchAndCart = true }) {
     }
 
     try {
-      const response = await checkout(direccion, metodoPago);
+      const response = await checkout(direccion, metodoPago, totalFinal, costoEnvio);
       if (response && response.status === 201) {
         Swal.fire({
-          title: "¡Gracias por tu compra!",
-          text: "Tu pedido fue realizado con éxito.",
+          title:"¡Gracias por elegir Wifrut! Tu pedido ha sido recibido.",
+          text: `Se envió un mail de confirmación del pedido con el número:  ${response.data.order.numeroPedido}.`,
           icon: "success",
-          timer: 2500,
+          timer: 3500,
           showConfirmButton: false,
           customClass: {
             popup: style.customAlert,
@@ -89,17 +89,52 @@ export default function Cart({ hideSearchAndCart = true }) {
         });
 
         const orderId = response.data.order?._id;
-        if (!orderId) return;
-
-        if (metodoPago === "Mercado Pago") {
+        if (orderId && metodoPago === "Mercado Pago") {
           createMercadoPagoPreference(orderId);
         }
       } else {
-        alert("Hubo un error al procesar tu pedido.");
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un error al procesar tu pedido.",
+          icon: "error",
+          timer: 2500,
+          showConfirmButton: false,
+          customClass: {
+            popup: style.customAlert,
+            icon: style.customIcon,
+          },
+        });
       }
     } catch (error) {
       console.error("Error en el checkout:", error);
-      alert("Hubo un error al procesar tu pedido.");
+      if (error.message === "Debes estar autenticado para realizar un pedido.") {
+        Swal.fire({
+          title: "Inicia sesión",
+          text: "Por favor, inicia sesión para realizar el pedido.",
+          icon: "warning",
+          confirmButtonText: "Ir al login",
+          customClass: {
+            popup: style.customAlert,
+            icon: style.customIcon,
+          },
+        }).then(() => {
+          navigate("/login");
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text:
+            error.response?.data?.message ||
+            "Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.",
+          icon: "error",
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: style.customAlert,
+            icon: style.customIcon,
+          },
+        });
+      }
     }
   };
 
@@ -107,13 +142,25 @@ export default function Cart({ hideSearchAndCart = true }) {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
-        { orderId }
+        { orderId },
+        { withCredentials: true }
       );
       if (response.data.init_point) {
         window.location.href = response.data.init_point;
       }
     } catch (error) {
       console.error("Error al crear la preferencia de pago:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo iniciar el pago con Mercado Pago.",
+        icon: "error",
+        timer: 2500,
+        showConfirmButton: false,
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIcon,
+        },
+      });
     }
   };
 
@@ -137,14 +184,12 @@ export default function Cart({ hideSearchAndCart = true }) {
 
         const response = await fetch(url, {
           headers: {
-            "User-Agent": "TuApp/1.0 (contacto@tuapp.com)", // Reemplaza con el nombre de tu app y un email de contacto
+            "User-Agent": "TuApp/1.0 (contacto@tuapp.com)",
           },
         });
 
         if (!response.ok) {
-          throw new Error(
-            `Error HTTP: ${response.status} ${response.statusText}`
-          );
+          throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -152,9 +197,7 @@ export default function Cart({ hideSearchAndCart = true }) {
         if (!data.length) {
           setZonaSeleccionada("");
           setCostoEnvio(0);
-          setZonaDetectadaMsg(
-            "⚠️ No se pudo encontrar la dirección ingresada."
-          );
+          setZonaDetectadaMsg("⚠️ No se pudo encontrar la dirección ingresada.");
           setIsLoadingZona(false);
           return;
         }
@@ -168,8 +211,7 @@ export default function Cart({ hideSearchAndCart = true }) {
 
         if (zona) {
           const nombreZona =
-            zona.properties.name?.trim().replace(/\n/g, "") ||
-            "Zona desconocida";
+            zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
           const desc = zona.properties.description || "";
           const match = desc.match(/\d+/);
           const precio = match ? parseInt(match[0]) : 0;
@@ -232,9 +274,7 @@ export default function Cart({ hideSearchAndCart = true }) {
             <p>Productos</p>
           </div>
           <div
-            className={`${style.step} ${
-              direccion.trim() ? style.completed : ""
-            }`}
+            className={`${style.step} ${direccion.trim() ? style.completed : ""}`}
           >
             <span className={style.stepNumber}>2</span>
             <p>Dirección</p>
@@ -254,13 +294,18 @@ export default function Cart({ hideSearchAndCart = true }) {
         <div className={style.emptyCartContainer}>
           <TiShoppingCart
             className={`${style.emptyCartIcon} ${style.animatedIcon}`}
+            aria-hidden="true"
           />
           <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
           <p className={style.emptyCartSub}>
-          ¡No te vayas sin tus frutas y verduras favoritas!
+            ¡No te vayas sin tus frutas y verduras favoritas!
           </p>
-          <button className={style.shopButton} onClick={() => navigate("/")}>
-          ← Empezar a comprar
+          <button
+            className={style.shopButton}
+            onClick={() => navigate("/")}
+            aria-label="Volver a la página de productos"
+          >
+            ← Empezar a comprar
           </button>
         </div>
       ) : (
@@ -268,6 +313,7 @@ export default function Cart({ hideSearchAndCart = true }) {
           <IoIosArrowDropleft
             className={style.arrow}
             onClick={() => navigate("/")}
+            aria-label="Volver a la página principal"
           />
 
           <ul className={style.cart}>
@@ -276,7 +322,7 @@ export default function Cart({ hideSearchAndCart = true }) {
               return (
                 <li key={item._id || index} className={style.cartItem}>
                   <img
-                    src={`/${item.imagen}`}
+                    src={`/images/${item.imagen}`} // Ajusta según la estructura de tu servidor
                     alt={item.nombre}
                     className={style.miniImage}
                   />
@@ -290,6 +336,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                   <button
                     onClick={() => removeFromCart(item._id)}
                     className={style.btnDelete}
+                    aria-label={`Eliminar ${item.nombre} del carrito`}
                   >
                     <IoTrashOutline />
                   </button>
@@ -312,6 +359,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                   placeholder="Escribe tu dirección"
                   value={direccion}
                   onChange={handleDireccionChange}
+                  aria-label="Dirección de envío"
                 />
               </div>
               <p className={style.infoEnvio}>
@@ -319,6 +367,12 @@ export default function Cart({ hideSearchAndCart = true }) {
                 <span
                   className={style.spanm}
                   onClick={() =>
+                    navigate("/send", { state: { fromCart: true } })
+                  }
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" &&
                     navigate("/send", { state: { fromCart: true } })
                   }
                 >
@@ -340,6 +394,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                       );
                     }
                   }}
+                  aria-label="Seleccionar zona de envío"
                 >
                   <option value="">Selecciona una zona</option>
                   {zonasEnvio.map((zona) => (
@@ -362,7 +417,9 @@ export default function Cart({ hideSearchAndCart = true }) {
 
           {step === 1 && (
             <div className={style.btnContainer}>
-              <button onClick={handleNextStep}>Siguiente</button>
+              <button onClick={handleNextStep} aria-label="Ir al siguiente paso">
+                Siguiente
+              </button>
             </div>
           )}
 
@@ -382,6 +439,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                       name="metodoPago"
                       checked={metodoPago === metodo}
                       onChange={() => handlePagoChange(metodo)}
+                      aria-label={`Seleccionar ${metodo} como método de pago`}
                     />
                   </label>
                 ))}
@@ -393,10 +451,16 @@ export default function Cart({ hideSearchAndCart = true }) {
                     window.confirm("¿Estás seguro de vaciar el carrito?") &&
                     clearCart()
                   }
+                  aria-label="Vaciar carrito"
                 >
                   Vaciar Carrito
                 </button>
-                <button onClick={handleCheckout}>Realizar Pedido</button>
+                <button
+                  onClick={handleCheckout}
+                  aria-label="Realizar pedido"
+                >
+                  Realizar Pedido
+                </button>
               </div>
             </>
           )}
