@@ -106,19 +106,14 @@
 
 .Envio {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   padding: 10px 20px;
   color: #ffff;
   gap: 10px;
+
 }
-.infoEnvio {
-  color: #000000;
-  font-size: 9px;
-  position: absolute;
-  top: 250px;
-  left: 70px;
-}
+
 .inputEnvio {
   display: flex;
   justify-content: center;
@@ -358,17 +353,28 @@ hr {
 }
 
 .spanm {
-  font-weight: 200;
-  font-size: 9px;
+
   text-decoration: underline;
   cursor: pointer;
   color: #ff810d;
 }
 
-
+.containerEnvio{
+  color: #2c2c2c;
+letter-spacing: 1px;
+  padding: 0 20px;
+  font-size: 12px;
+  background-color: #00523457;;
+}
 
 
 @media (max-width: 768px) {
+  .containerEnvio{
+  
+    font-size: 9px;
+
+  }
+  
   .fullTotal {
     font-size: 18px;
   }
@@ -455,20 +461,9 @@ hr {
     margin: 5px 20px;
   }
 
-  .infoEnvio {
-    font-size: 9px;
-    color: #000000;
-    position: relative;
-    top: 0;
-    left: 0;
-  }
+ 
 
-  .spanm {
-    font-weight: 200;
-    font-size: 10px;
-    text-decoration: underline;
-    cursor: pointer;
-  }
+
 
   .emptyCart {
     font-size: 20px;

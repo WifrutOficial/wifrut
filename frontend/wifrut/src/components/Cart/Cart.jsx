@@ -362,23 +362,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                   aria-label="Dirección de envío"
                 />
               </div>
-              <p className={style.infoEnvio}>
-                Para más información sobre las zonas de envío visite:{" "}
-                <span
-                  className={style.spanm}
-                  onClick={() =>
-                    navigate("/send", { state: { fromCart: true } })
-                  }
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" &&
-                    navigate("/send", { state: { fromCart: true } })
-                  }
-                >
-                  Envíos
-                </span>
-              </p>
+          
               <div className={style.inputEnvio}>
                 <select
                   value={zonaSeleccionada}
@@ -406,6 +390,25 @@ export default function Cart({ hideSearchAndCart = true }) {
               </div>
 
               <p>Costo Envío: ${costoEnvio || 0}</p>
+            </div>
+            <div className={style.containerEnvio}>
+            <p className={style.infoEnvio}>
+                Para más información sobre las zonas de envío visite:
+                <span
+                  className={style.spanm}
+                  onClick={() =>
+                    navigate("/send", { state: { fromCart: true } })
+                  }
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" &&
+                    navigate("/send", { state: { fromCart: true } })
+                  }
+                >
+                  Envíos
+                </span>
+              </p>
             </div>
             {isLoadingZona && (
               <p className={style.zonaDetectada}>⏳ Buscando zona...</p>
