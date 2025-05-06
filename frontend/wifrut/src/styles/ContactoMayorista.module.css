@@ -1,0 +1,83 @@
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-5deg); }
+    30% { transform: rotate(5deg); }
+    45% { transform: rotate(-5deg); }
+    60% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(270deg, #ff6b6b, #feca57,  #f3fe57,  #79c532);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem; 
+   
+  }
+  img{
+    width: 100px;
+    height: 100px;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  
+  .container {
+    background-image: url("../../fondo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .wrapper {
+    max-width: 600px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    margin: 0 40px;
+    padding: 2px 30px 10px ;
+    animation: fadeInUp 1.2s ease-out;
+  }
+  
+
+  .message {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #f0f0f0;
+    margin-top: 0.5rem;
+  }
+  
+  .highlight {
+    font-weight: 700;
+    color: #ff8c42;
+    position: relative;
+  }
+  
+  .highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 4px;
+    background: rgba(255, 140, 66, 0.6);
+    border-radius: 2px;
+    animation: fadeInUp 1.5s ease-out;
+  }
+
+
+
+  

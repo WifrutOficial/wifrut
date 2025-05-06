@@ -15,11 +15,11 @@ function ProtectedRouter({ allowedRoles = [] }) {
   if (
     user?.tipoUsuario === "mayorista" &&
     user?.estadoCuenta === "pendiente" &&
-    location.pathname !== "/esperando-aprobacion" &&
+    location.pathname !== "/contacto-mayorista" &&
     location.pathname !== "/paginadeespera" //Evitamos un bucle
   ) {
 
-    return <Navigate to="/esperando-aprobacion" replace />;
+    return <Navigate to="/contacto-mayorista" replace />;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(user?.tipoUsuario)) {

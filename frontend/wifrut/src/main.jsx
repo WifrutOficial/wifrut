@@ -19,6 +19,7 @@ import DiscountedProducts from "./components/Products/DiscountedProducts";
 import Footer from "./components/Home/Footer";
 import Send from "./components/Home/Send";
 import 'leaflet/dist/leaflet.css';
+import ContactoMayorista from "./components/Home/panels/panelAdmin/ContactoMayorista";
 
 
 createRoot(document.getElementById("root")).render(
@@ -43,6 +44,10 @@ createRoot(document.getElementById("root")).render(
               <Route
                 path="/esperando-aprobacion"
                 element={<EsperandoAprobacion />}
+              />
+                 <Route
+                path="/contacto-mayorista"
+                element={<ContactoMayorista/>}
               />
               <Route path="/paginadeespera" element={<PaginaDeEspera />} />
             </Route>

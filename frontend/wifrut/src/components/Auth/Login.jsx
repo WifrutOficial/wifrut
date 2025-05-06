@@ -56,7 +56,7 @@ function Login() {
         user.tipoUsuario === "mayorista" &&
         user.estadoCuenta === "pendiente"
       ) {
-        navigate("/esperando-aprobacion");
+        navigate("/contacto-mayorista");
       } else {
         navigate("/minorista");
       }

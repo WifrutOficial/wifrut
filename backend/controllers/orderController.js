@@ -135,6 +135,8 @@ export const postProduct = async (req, res) => {
   } catch (error) {
     console.error("Error al crear el pedido:", error);
     res.status(500).json({ message: "Error al procesar el pedido" });
+    if (error.errors) console.error(error.errors);
+res.status(500).json({ message: error.message });
   }
 };
 

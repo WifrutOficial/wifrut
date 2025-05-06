@@ -55,7 +55,7 @@ function Register() {
     if (registerData.password && !/[A-Z]/.test(registerData.password)) {
       newErrors.password =
         "La contraseña debe contener al menos una letra mayúscula";
-    }
+    } 
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

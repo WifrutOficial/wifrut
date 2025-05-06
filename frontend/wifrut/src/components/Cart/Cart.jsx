@@ -10,6 +10,7 @@ import zonasGeo from "../../data/envios.json";
 import * as turf from "@turf/turf";
 import debounce from "lodash/debounce";
 import { TiShoppingCart } from "react-icons/ti";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Cart({ hideSearchAndCart = true }) {
   const navigate = useNavigate();
@@ -53,6 +54,9 @@ export default function Cart({ hideSearchAndCart = true }) {
     }
     setStep(2);
   };
+  
+  const { user } = useAuth();
+
 
   const handleCheckout = async () => {
     if (!metodoPago) {
@@ -71,14 +75,19 @@ export default function Cart({ hideSearchAndCart = true }) {
     }
 
     try {
-      const response = await checkout(direccion, metodoPago, totalFinal, costoEnvio);
+      const response = await checkout(
+        direccion,
+        metodoPago,
+        totalFinal,
+        costoEnvio
+      );
       if (response && response.status === 201) {
         Swal.fire({
-          title:"¡Gracias por elegir Wifrut! Tu pedido ha sido recibido.",
-          text: `Se envió un mail de confirmación del pedido con el número:  ${response.data.order.numeroPedido}.`,
+          title: "¡Gracias por elegir Wifrut!",
+          text: `Tu pedido nº ${response.data.order.numeroPedido}. ha sido recibido. Te enviamos un mail con el detalle de tu compra a ${user.email}`,
           icon: "success",
-          timer: 3500,
-          showConfirmButton: false,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
           customClass: {
             popup: style.customAlert,
             icon: style.customIconSuc,
@@ -107,7 +116,9 @@ export default function Cart({ hideSearchAndCart = true }) {
       }
     } catch (error) {
       console.error("Error en el checkout:", error);
-      if (error.message === "Debes estar autenticado para realizar un pedido.") {
+      if (
+        error.message === "Debes estar autenticado para realizar un pedido."
+      ) {
         Swal.fire({
           title: "Inicia sesión",
           text: "Por favor, inicia sesión para realizar el pedido.",
@@ -136,6 +147,27 @@ export default function Cart({ hideSearchAndCart = true }) {
         });
       }
     }
+  };
+
+  const confirmarVaciarCarrito = () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Vas a vaciar el carrito y no podrás deshacer esta acción.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, vaciar carrito",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#FFB83B",
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIcon,
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearCart();
+        console.log("Carrito vaciado");
+      }
+    });
   };
 
   const createMercadoPagoPreference = async (orderId) => {
@@ -189,7 +221,9 @@ export default function Cart({ hideSearchAndCart = true }) {
         });
 
         if (!response.ok) {
-          throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Error HTTP: ${response.status} ${response.statusText}`
+          );
         }
 
         const data = await response.json();
@@ -197,7 +231,9 @@ export default function Cart({ hideSearchAndCart = true }) {
         if (!data.length) {
           setZonaSeleccionada("");
           setCostoEnvio(0);
-          setZonaDetectadaMsg("⚠️ No se pudo encontrar la dirección ingresada.");
+          setZonaDetectadaMsg(
+            "⚠️ No se pudo encontrar la dirección ingresada."
+          );
           setIsLoadingZona(false);
           return;
         }
@@ -211,7 +247,8 @@ export default function Cart({ hideSearchAndCart = true }) {
 
         if (zona) {
           const nombreZona =
-            zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
+            zona.properties.name?.trim().replace(/\n/g, "") ||
+            "Zona desconocida";
           const desc = zona.properties.description || "";
           const match = desc.match(/\d+/);
           const precio = match ? parseInt(match[0]) : 0;
@@ -274,7 +311,9 @@ export default function Cart({ hideSearchAndCart = true }) {
             <p>Productos</p>
           </div>
           <div
-            className={`${style.step} ${direccion.trim() ? style.completed : ""}`}
+            className={`${style.step} ${
+              direccion.trim() ? style.completed : ""
+            }`}
           >
             <span className={style.stepNumber}>2</span>
             <p>Dirección</p>
@@ -362,7 +401,7 @@ export default function Cart({ hideSearchAndCart = true }) {
                   aria-label="Dirección de envío"
                 />
               </div>
-          
+
               <div className={style.inputEnvio}>
                 <select
                   value={zonaSeleccionada}
@@ -392,7 +431,7 @@ export default function Cart({ hideSearchAndCart = true }) {
               <p>Costo Envío: ${costoEnvio || 0}</p>
             </div>
             <div className={style.containerEnvio}>
-            <p className={style.infoEnvio}>
+              <p className={style.infoEnvio}>
                 Para más información sobre las zonas de envío visite:
                 <span
                   className={style.spanm}
@@ -420,7 +459,10 @@ export default function Cart({ hideSearchAndCart = true }) {
 
           {step === 1 && (
             <div className={style.btnContainer}>
-              <button onClick={handleNextStep} aria-label="Ir al siguiente paso">
+              <button
+                onClick={handleNextStep}
+                aria-label="Ir al siguiente paso"
+              >
                 Siguiente
               </button>
             </div>
@@ -450,18 +492,12 @@ export default function Cart({ hideSearchAndCart = true }) {
 
               <div className={style.btnContainer}>
                 <button
-                  onClick={() =>
-                    window.confirm("¿Estás seguro de vaciar el carrito?") &&
-                    clearCart()
-                  }
+                  onClick={confirmarVaciarCarrito}
                   aria-label="Vaciar carrito"
                 >
                   Vaciar Carrito
                 </button>
-                <button
-                  onClick={handleCheckout}
-                  aria-label="Realizar pedido"
-                >
+                <button onClick={handleCheckout} aria-label="Realizar pedido">
                   Realizar Pedido
                 </button>
               </div>
