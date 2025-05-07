@@ -23,7 +23,7 @@ notas.txt
 *.njsproj
 *.sln
 *.sw?
-.env
+#.env
 .vercel
 
 
