@@ -71,14 +71,18 @@ export const postLogin = async (req, res) => {
     const token = await createAccessToken(payload);
 
 
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", 
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: isProd,                          // true en producción (HTTPS)
+      sameSite: isProd ? "None" : "Lax",       // None en producción para cross-site
+      domain: isProd
+        ? ".wifrut.com"                     // sin subdominio, con punto al inicio
+        : "localhost",                         // o la URL local en desarrollo
+      path: "/",                               // ruta válida para toda la app
+      maxAge: 24 * 60 * 60 * 1000,             // 1 día
     });
-
 
     res.json({
       msg: "Inicio de sesión exitoso",
