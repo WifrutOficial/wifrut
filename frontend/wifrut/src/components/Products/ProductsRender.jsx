@@ -7,8 +7,6 @@ import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
 import { MdPlayArrow,} from "react-icons/md";
 import Swal from "sweetalert2";
-import { FaAppleAlt, FaLeaf } from "react-icons/fa";
-import { GiCarrot, GiBroccoli } from "react-icons/gi";
 
 function ProductsRender() {
   const [products, setProducts] = useState([]);
@@ -19,10 +17,10 @@ function ProductsRender() {
 
   // Mapping categories to icons
   const categoryIcons = {
-    Frutas: <img src="../../../public/frutas.png" alt="frutas" className={style.iconCategories} />,
-    Verduras: <img src="../../../public/verdura.png" alt="verduras" className={style.iconCategories} />,  
-    Hortalizas: <img src="../../../public/hortalizas.png" alt="Hortalizas" className={style.iconCategories} />,
-    Otros: <FaLeaf className={style.categoryIcon} />,
+    Frutas: <img src="../../../frutas.png" alt="frutas" className={style.iconCategories} />,
+    Verduras: <img src="../../../verdura.png" alt="verduras" className={style.iconCategories} />,  
+    Hortalizas: <img src="../../../hortalizas.png" alt="Hortalizas" className={style.iconCategories} />,
+    
   };
 
   useEffect(() => {

@@ -334,7 +334,8 @@ hr {
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
   margin: 0 auto;
-  width: 345px;
+  width: min(100%, 800px);
+    min-width: 345px;
   padding: 10px;
   color: #fff;
 }

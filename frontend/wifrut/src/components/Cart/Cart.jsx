@@ -157,7 +157,8 @@ export default function Cart({ hideSearchAndCart = true }) {
       showCancelButton: true,
       confirmButtonText: "Sí, vaciar carrito",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#FFB83B",
+      confirmButtonColor: "#247504",
+    cancelButtonColor: "#B90003",
       customClass: {
         popup: style.customAlert,
         icon: style.customIcon,
@@ -304,7 +305,7 @@ export default function Cart({ hideSearchAndCart = true }) {
   return (
     <div className={style.container}>
       <h2 className={style.title}>Carrito de Compras</h2>
-      {!hideSearchAndCart && (
+      {cart.length > 0 && (
         <div className={style.lineTime}>
           <div className={`${style.step} ${style.completed}`}>
             <span className={style.stepNumber}>1</span>

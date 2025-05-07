@@ -1,6 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import style from "../styles/Cart.module.css";
+import Swal from "sweetalert2";
+
 
 const CartContext = createContext();
 
@@ -44,13 +47,38 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Eliminar productos del carrito
-  const removeFromCart = (productId) => {
-    const isConfirmed = window.confirm("¿Seguro desea eliminar el producto?");
-    if (isConfirmed) {
+ // Eliminar productos del carrito con SweetAlert2
+ const removeFromCart = (productId) => {
+  Swal.fire({
+    title: '¿Seguro deseas eliminar el producto?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar', 
+    confirmButtonColor: "#247504",
+    cancelButtonColor: "#B90003",
+    customClass: {
+      popup: style.customAlert,
+      icon: style.customIcon,
+    },
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
       setCart((prevCart) => prevCart.filter((item) => item._id !== productId));
+      Swal.fire({
+        title: 'Eliminado',
+        text: 'El producto ha sido eliminado del carrito.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: false,
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIconSuc,
+        },
+      });
     }
-  };
+  });
+};
 
   // Vaciar carrito
   const clearCart = () => {
