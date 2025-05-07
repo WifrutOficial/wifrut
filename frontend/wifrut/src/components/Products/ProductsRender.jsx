@@ -7,6 +7,8 @@ import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
 import { MdPlayArrow,} from "react-icons/md";
 import Swal from "sweetalert2";
+import { FaAppleAlt, FaLeaf } from "react-icons/fa";
+import { GiCarrot, GiBroccoli } from "react-icons/gi";
 
 function ProductsRender() {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,14 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
+
+  // Mapping categories to icons
+  const categoryIcons = {
+    Frutas: <img src="../../../public/frutas.png" alt="frutas" className={style.iconCategories} />,
+    Verduras: <img src="../../../public/verdura.png" alt="verduras" className={style.iconCategories} />,  
+    Hortalizas: <img src="../../../public/hortalizas.png" alt="Hortalizas" className={style.iconCategories} />,
+    Otros: <FaLeaf className={style.categoryIcon} />,
+  };
 
   useEffect(() => {
     const getProductsBD = async () => {
@@ -126,7 +136,7 @@ function ProductsRender() {
       {Object.keys(categories).map((category) => (
         <div key={category} id={`category-${category}`}>
           <div className={style.categoryContainer}>
-            <MdPlayArrow />
+          {categoryIcons[category] || categoryIcons["Otros"]}
             <h2 className={style.categoryTitle}>{category}</h2>
           </div>
 
