@@ -22,12 +22,15 @@ function ProductsRender() {
     Hortalizas: <img src="../../../hortalizas.png" alt="Hortalizas" className={style.iconCategories} />,
     
   };
+  const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
+  console.log("👉 Fetching productos from:", url);
+  console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
 
   useEffect(() => {
     const getProductsBD = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/products/productos`,
+         url,
           { withCredentials: true }
         );
         setProducts(response.data);
