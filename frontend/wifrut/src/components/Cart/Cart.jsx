@@ -362,7 +362,7 @@ export default function Cart({ hideSearchAndCart = true }) {
               return (
                 <li key={item._id || index} className={style.cartItem}>
                   <img
-                    src={`/images/${item.imagen}`} // Ajusta según la estructura de tu servidor
+                    src={`../../../${item.imagen}`} // Ajusta según la estructura de tu servidor
                     alt={item.nombre}
                     className={style.miniImage}
                   />

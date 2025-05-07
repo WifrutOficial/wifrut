@@ -178,7 +178,7 @@ function Nav2({ hideSearchAndCart = false }) {
               <a
                 className={style.a}
                 onClick={() =>
-                  window.scrollTo({ top: 600, behavior: "smooth" })
+                  window.scrollTo({ top: 550, behavior: "smooth" })
                 }
               >
                 <BiSolidOffer /> Ofertas
@@ -186,7 +186,7 @@ function Nav2({ hideSearchAndCart = false }) {
               <a
                 className={style.a}
                 onClick={() =>
-                  window.scrollTo({ top: 3700, behavior: "smooth" })
+                  window.scrollTo({ top: 2800, behavior: "smooth" })
                 }
               >
                 <FaUsers /> Conócenos

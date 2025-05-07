@@ -78,6 +78,18 @@
     animation: fadeInUp 1.5s ease-out;
   }
 
+  .btn{
+    background-color: #247504;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+
 
 
   
