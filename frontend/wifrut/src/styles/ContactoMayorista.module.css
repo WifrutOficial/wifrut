@@ -18,7 +18,7 @@
     margin-bottom: 1rem; 
    
   }
-  img{
+  .img{
     width: 100px;
     height: 100px;
     animation: wobble 3s ease-in-out infinite;
