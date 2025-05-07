@@ -24,12 +24,18 @@ console.log('NODE_ENV:', process.env.NODE_ENV);
 // Configuración de CORS
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.FRONTEND_URL_PROD  
-        : process.env.FRONTEND_URL_DEV,    
-        allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-        credentials: true,
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://wifrut.com", // ✅ frontend en Hostinger
+        "http://localhost:5173", // ⚙️ desarrollo local con Vite
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("No permitido por CORS"));
+      }
+    },
+    credentials: true, // ✅ Necesario para cookies
   })
 );
 
