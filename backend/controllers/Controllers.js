@@ -75,9 +75,8 @@ export const postLogin = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,                       // ✅ true en producción
-      sameSite: isProd ? "None" : "Lax",   // ✅ None para cross-origin
-      domain: isProd ? "wifrut.com" : undefined, // ✅ sin punto al inicio y no usar localhost acá
+      secure: isProd,                      
+      sameSite: isProd ? "None" : "Lax",  
       path: "/",
       maxAge: 24 * 60 * 60 * 1000,
     });

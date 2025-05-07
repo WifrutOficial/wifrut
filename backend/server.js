@@ -39,6 +39,10 @@ app.use(
   })
 );
 
+// Responder a solicitudes OPTIONS
+app.options('*', cors());
+
+
 // Middleware para el manejo de JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
