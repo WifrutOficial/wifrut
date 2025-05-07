@@ -70,4 +70,8 @@
   .left {
     text-align: center;
   }
+
+  .map iframe{
+    width: 100%;
+  }
 }

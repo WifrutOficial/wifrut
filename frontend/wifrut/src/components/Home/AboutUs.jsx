@@ -40,7 +40,7 @@ function AboutUs() {
       <div className={style.map}>
         <iframe
           src="https://www.google.com/maps/embed?pb=!4v1741735490324!6m8!1m7!1suddi9Q-Swa9XcpWDuWRAnw!2m2!1d-38.95172297333154!2d-68.05908758013764!3f36.8215!4f0!5f0.7820865974627469"
-          width="100%"
+          width="50%"
           height="300px"
           style={{
             borderRadius: "13px",

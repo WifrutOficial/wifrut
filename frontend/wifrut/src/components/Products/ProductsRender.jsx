@@ -17,9 +17,9 @@ function ProductsRender() {
 
   // Mapping categories to icons
   const categoryIcons = {
-    Frutas: <img src="../../../frutas.png" alt="frutas" className={style.iconCategories} />,
-    Verduras: <img src="../../../verdura.png" alt="verduras" className={style.iconCategories} />,  
-    Hortalizas: <img src="../../../hortalizas.png" alt="Hortalizas" className={style.iconCategories} />,
+    Frutas: <img src="../../../apple.png" alt="frutas" className={style.iconCategories} />,
+    Verduras: <img src="../../../vegetable.png" alt="verduras" className={style.iconCategories} />,  
+    Hortalizas: <img src="../../../carrot.png" alt="Hortalizas" className={style.iconCategories} />,
     
   };
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;

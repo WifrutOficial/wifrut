@@ -4,12 +4,33 @@ import { useSwipeable } from "react-swipeable";
 
 const Banners = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const images = [
-    '/publicidad1.jpg',
-    '/publicidad2.jpg',
-    '/publicidad3.jpg',
+  useEffect(() => {
+    // Detectar si es móvil
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile(); // lo ejecuta al montar
+
+    window.addEventListener("resize", checkMobile); // escucha cambios
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const desktopImages = [
+    '/banner1.png',
+    '/banner1.png',
+    '/banner1.png',
   ];
+
+  const mobileImages = [
+    '/banner2.png',
+    '/banner2.png',
+    '/banner2.png',
+  ];
+
+  const images = isMobile ? mobileImages : desktopImages;
 
   const handleSwipeLeft = () => {
     setCurrentImage((prev) => (prev + 1) % images.length);
@@ -35,7 +56,6 @@ const Banners = () => {
 
   return (
     <div {...handlers} className={style.banner}>
-      {/* Flechas */}
       <button className={style.arrowLeft} onClick={handleSwipeRight}>
         &#10094;
       </button>
@@ -43,7 +63,6 @@ const Banners = () => {
         &#10095;
       </button>
 
-      {/* Imágenes */}
       <div
         className={style.slider}
         style={{ transform: `translateX(-${currentImage * 100}%)` }}
@@ -53,7 +72,6 @@ const Banners = () => {
         ))}
       </div>
 
-      {/* Dots */}
       <div className={style.dots}>
         {images.map((_, index) => (
           <span
