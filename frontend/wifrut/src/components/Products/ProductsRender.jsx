@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import style from "../../styles/Products.module.css";
 import { useSearch } from "../../context/SearchContext";
 import DiscountedProducts from "./DiscountedProducts";
-import { MdPlayArrow,} from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 import Swal from "sweetalert2";
+import style from "../../styles/Products.module.css";
 
 function ProductsRender() {
   const [products, setProducts] = useState([]);
@@ -15,24 +15,36 @@ function ProductsRender() {
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
 
-  // Mapping categories to icons
   const categoryIcons = {
-    Frutas: <img src="../../../apple.png" alt="frutas" className={style.iconCategories} />,
-    Verduras: <img src="../../../vegetable.png" alt="verduras" className={style.iconCategories} />,  
-    Hortalizas: <img src="../../../carrot.png" alt="Hortalizas" className={style.iconCategories} />,
-    
+    Frutas: (
+      <img
+        src="../../../apple.png"
+        alt="frutas"
+        className={style.iconCategories}
+      />
+    ),
+    Verduras: (
+      <img
+        src="../../../vegetable.png"
+        alt="verduras"
+        className={style.iconCategories}
+      />
+    ),
+    Hortalizas: (
+      <img
+        src="../../../carrot.png"
+        alt="Hortalizas"
+        className={style.iconCategories}
+      />
+    ),
   };
+
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
-  console.log("👉 Fetching productos from:", url);
-  console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
 
   useEffect(() => {
     const getProductsBD = async () => {
       try {
-        const response = await axios.get(
-         url,
-          { withCredentials: true }
-        );
+        const response = await axios.get(url, { withCredentials: true });
         setProducts(response.data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
@@ -119,82 +131,121 @@ function ProductsRender() {
   const categories = {};
   filteredProducts.forEach((product) => {
     const category = product.categoria || "Otro";
-    if (!categories[category]) {
-      categories[category] = [];
-    }
+    if (!categories[category]) categories[category] = [];
     categories[category].push(product);
   });
 
   return (
     <>
       <DiscountedProducts
-        products={filteredProducts.filter((product) => product.descuento)}
+        products={filteredProducts.filter((p) => p.descuento)}
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
       />
 
       {Object.keys(categories).map((category) => (
-        <div key={category} id={`category-${category}`}>
+        <section key={category} className={style.categorySection}>
           <div className={style.categoryContainer}>
-          {categoryIcons[category] || categoryIcons["Otros"]}
+            {categoryIcons[category] || <span />}
             <h2 className={style.categoryTitle}>{category}</h2>
           </div>
 
-          <div className={style.container} id={`scroll-${category}`}>
-            {categories[category].map(
-              ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
-                <div key={_id} className={style.cartContainer}>
-                  <img className={style.img} src={`/${imagen}`} alt="img" />
-                  <p className={style.priceUnit}>
-                    Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: ${precio}
-                  </p>
-                  <p className={style.description}>{descripcion || nombre}</p>
-                  <p className={style.quantitySelection}>
-                    Selecciona la cantidad:
-                  </p>
-                  <div className={style.quantityContainer}>
+          <div className={style.carouselWrapper}>
+            <button
+              className={style.arrowLeft}
+              onClick={() => {
+                const cont = document.getElementById(
+                  `scroll-${category}`
+                );
+                cont.scrollBy({ left: -300, behavior: "smooth" });
+              }}
+            >
+              <IoIosArrowForward
+                className={style.arrowIcon}
+                style={{ transform: "rotate(180deg)" }}
+              />
+            </button>
+
+            <div
+              className={style.container}
+              id={`scroll-${category}`}
+            >
+              {categories[category].map(
+                ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
+                  <div key={_id} className={style.cartContainer}>
+                    <img
+                      className={style.img}
+                      src={`/${imagen}`}
+                      alt={nombre}
+                    />
+                    <p className={style.priceUnit}>
+                      Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: $
+                      {precio}
+                    </p>
+                    <p className={style.description}>
+                      {descripcion || nombre}
+                    </p>
+                    <p className={style.quantitySelection}>
+                      Selecciona la cantidad:
+                    </p>
+                    <div className={style.quantityContainer}>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(_id, tipoVenta, "decrement")
+                        }
+                      >
+                        -
+                      </button>
+                      <span>
+                        {quantities[_id] || 0}{" "}
+                        {tipoVenta === "kg" ? "kg" : "unidades"}
+                      </span>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(_id, tipoVenta, "increment")
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p className={style.total}>
+                      Total: $
+                      {((quantities[_id] || 0) * precio)
+                        .toFixed(2)}
+                    </p>
                     <button
+                      className={style.addCart}
                       onClick={() =>
-                        handleQuantityChange(_id, tipoVenta, "decrement")
+                        handleAddToCart({
+                          _id,
+                          nombre,
+                          precio,
+                          tipoVenta,
+                          imagen,
+                        })
                       }
                     >
-                      -
-                    </button>
-                    <span>
-                      {quantities[_id] || 0}{" "}
-                      {tipoVenta === "kg" ? "kg" : "unidades"}
-                    </span>
-                    <button
-                      onClick={() =>
-                        handleQuantityChange(_id, tipoVenta, "increment")
-                      }
-                    >
-                      +
+                      Añadir a carrito
                     </button>
                   </div>
-                  <p className={style.total}>
-                    Total: ${(quantities[_id] || 0) * precio.toFixed(2)}
-                  </p>
-                  <button
-                    className={style.addCart}
-                    onClick={() =>
-                      handleAddToCart({
-                        _id,
-                        nombre,
-                        precio,
-                        tipoVenta,
-                        imagen,
-                      })
-                    }
-                  >
-                    Añadir a carrito
-                  </button>
-                </div>
-              )
-            )}
+                )
+              )}
+            </div>
+
+            <button
+              className={style.arrowRight}
+              onClick={() => {
+                const cont = document.getElementById(
+                  `scroll-${category}`
+                );
+                cont.scrollBy({ left: 300, behavior: "smooth" });
+              }}
+            >
+              <IoIosArrowForward className={style.arrowIcon} />
+            </button>
           </div>
-        </div>
+        </section>
       ))}
     </>
   );

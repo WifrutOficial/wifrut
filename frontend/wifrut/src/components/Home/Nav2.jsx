@@ -33,7 +33,12 @@ function Nav2({ hideSearchAndCart = false }) {
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
   const [showCartPreview, setShowCartPreview] = useState(false); 
+  const [expanded, setExpanded] = useState(false);
 
+  const toggleSearch = () => {
+    setExpanded(!expanded);
+  };
+  
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
   };
@@ -248,7 +253,7 @@ function Nav2({ hideSearchAndCart = false }) {
           <div className={style.btnLogin2}>
             <div>
               <button onClick={() => navigate("/login")}>Iniciar Sesion</button>
-              |<button onClick={() => navigate("/register")}>Registrate</button>
+          
             </div>
             <FaRegUser
               className={style.logoUser}

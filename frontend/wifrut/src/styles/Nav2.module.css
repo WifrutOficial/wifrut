@@ -1,14 +1,10 @@
 .logo {
   width: 85px;
   height: 85px;
-
+  margin-left: 10px;
   cursor: pointer;
+}
 
-}
-.logoContainer{
-  align-self: flex-start;
-  width: 40%;
-}
 .titleLog {
   font-size: 10px;
   font-weight: 0;
@@ -23,11 +19,7 @@
 }
 
 .containerLinks {
-  background-color: #fff;
   display: flex;
-  height: 90px;
-  gap: 20px;
-  justify-content: flex-end;
   transition: top 0.3s ease-in-out;
 }
 
@@ -49,6 +41,7 @@
   gap: 20px;
   align-items: center;
   justify-content: space-between;
+  margin-left: auto;
 }
 
 .btnClose {
@@ -63,9 +56,9 @@
   background: none;
   border: none;
   width: 250px;
-  height: 30px;
-  border-radius: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.842);
+  height: 33px;
+  border: 1px solid #000;
+  border-radius: 13px;
   padding-left: 30px;
 }
 
@@ -82,6 +75,7 @@
   gap: 10px;
   width: fit-content;
   cursor: pointer;
+  margin-left: 20px;
 }
 .searchBtn {
   position: absolute;
@@ -100,6 +94,8 @@
   align-items: center;
   flex-direction: column;
   gap: 10px;
+  width:33px ;
+  height: 33px;
 }
 
 .CartNumber {
@@ -123,7 +119,6 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  margin-right: 40px;
 }
 
 .logoUser2 {
@@ -131,7 +126,6 @@
 }
 .btnCerrarSesion {
   display: none;
-
 }
 .btnCerrarSesion2 button {
   background: none;
@@ -144,7 +138,7 @@
   gap: 10px;
   align-items: center;
   padding-right: 20px;
-  width: 100%; 
+  width: 100%;
 }
 
 .btnLogin {
@@ -155,9 +149,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-
-
-
+  margin: 0 20px;
 }
 .btnLogin2 button {
   font-size: 13px;
@@ -294,12 +286,6 @@
     width: 190px;
   }
 
-  .containerLinks {
-    gap: 15px;
-    padding:10px 10px;
-    justify-content: space-between;
-  }
-
   .logoUser {
     display: none;
   }
@@ -312,16 +298,18 @@
   }
 
   .logo {
-    width: 70px;
-    height: 70px;
-    margin: 0;
+    width: 60px;
+    height: 60px;
   }
 
   .search input {
     width: 160px;
-    height: 22px;
+    height: 28px;
   }
-
+  .search {
+    margin-left: auto;
+    margin-right: 10px;
+  }
   .btnClose {
     display: flex;
     cursor: pointer;
@@ -333,8 +321,8 @@
   .btnMenu {
     display: block;
     cursor: pointer;
-    width: 28px;
-    height: 28px;
+    width: 33px;
+    height: 33px;
   }
   .cartContainer {
     font-size: 9px;

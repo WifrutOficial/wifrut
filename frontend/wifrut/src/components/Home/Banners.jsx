@@ -9,7 +9,7 @@ const Banners = () => {
   useEffect(() => {
     // Detectar si es móvil
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 513);
     };
 
     checkMobile(); // lo ejecuta al montar
@@ -18,16 +18,12 @@ const Banners = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const desktopImages = [
-    '/banner1.png',
-    '/banner1.png',
-    '/banner1.png',
-  ];
+  const desktopImages = ["/banner1.png", "/banner1.png", "/banner1.png"];
 
   const mobileImages = [
-    '/banner2.png',
-    '/banner2.png',
-    '/banner2.png',
+    "/banner2.png",
+    "/banner2.png",
+    "/banner2.png",
   ];
 
   const images = isMobile ? mobileImages : desktopImages;
@@ -76,7 +72,9 @@ const Banners = () => {
         {images.map((_, index) => (
           <span
             key={index}
-            className={`${style.dot} ${currentImage === index ? style.active : ""}`}
+            className={`${style.dot} ${
+              currentImage === index ? style.active : ""
+            }`}
             onClick={() => setCurrentImage(index)}
           ></span>
         ))}
