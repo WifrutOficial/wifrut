@@ -6,6 +6,7 @@ import { FaInstagram } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { TbBrandLinktree } from "react-icons/tb";
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <div className={style.container}>
@@ -16,7 +17,7 @@ function Footer() {
             <FaWhatsapp />
             <p>+54 9 2995 974-289</p>
           </div>
-      
+
           <div className={style.Info}>
             <IoIosMail />
             <p>wifrut.oficial@gmail.com</p>
@@ -30,11 +31,29 @@ function Footer() {
           <p>Redes Sociales</p>
           <div className={style.Info}>
             <FaInstagram />
-            <p>WifrutVerduleria</p>
+            <p>
+              <a
+                href="https://www.facebook.com/profile.php?id=61575813925313"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={style.link} /* opcional, para estilos */
+              >
+                WifrutOficial
+              </a>
+            </p>
           </div>
           <div className={style.Info}>
             <FaSquareFacebook />
-            <p>WifrutVerduleria</p>
+            <p>
+              <a
+                href="https://www.facebook.com/profile.php?id=61575813925313"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={style.link} /* opcional, para estilos */
+              >
+                WifrutOficial
+              </a>
+            </p>
           </div>
         </div>
       </div>

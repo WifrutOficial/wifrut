@@ -49,10 +49,10 @@ function Send() {
             <strong>Zona 4 (Marrón):</strong> $6500
           </li>
           <li>
-            <strong>Centenario Zona 1 (Rojo oscuro):</strong> $???
+            <strong>Centenario Zona 1 (Rojo oscuro):</strong> $2000
           </li>
           <li>
-            <strong>Centenario Zona 2 (Violeta):</strong> $???
+            <strong>Centenario Zona 2 (Violeta):</strong> $3500
           </li>
         </ul>
         <p>
