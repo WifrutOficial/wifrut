@@ -11,6 +11,19 @@
   align-items: center;
 
 }
+.containerLogin {
+  background-image: url("../../backG.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  padding: 10rem;
+  align-items: center;
+
+}
 
 .logo {
   width: 120px;

@@ -78,7 +78,7 @@ function Login() {
     navigate("/"); 
   };
   return (
-    <div className={style.container}>
+    <div className={style.containerLogin}>
       <img onClick={handleScrollToTop} className={style.logo} src="../../../logo.png" alt="logo" />
       <div className={style.containerRegister}>
       

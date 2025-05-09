@@ -162,10 +162,6 @@ function Nav2({ hideSearchAndCart = false }) {
                 <button onClick={() => navigate("/login")}>
                   Iniciar Sesion
                 </button>
-                |
-                <button onClick={() => navigate("/register")}>
-                  Registrate
-                </button>
               </div>
               <FaRegUser onClick={() => navigate("/login")} />
             </div>

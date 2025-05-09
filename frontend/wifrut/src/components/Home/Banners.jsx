@@ -18,12 +18,12 @@ const Banners = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const desktopImages = ["/banner1.png", "/banner1.png", "/banner1.png"];
+  const desktopImages = ["/banner1.png", "/banner2.png", "/banner3.png"];
 
   const mobileImages = [
-    "/banner2.png",
-    "/banner2.png",
-    "/banner2.png",
+    "/bannerM1.png",
+    "/bannerM2.png",
+    "/bannerM3.png",
   ];
 
   const images = isMobile ? mobileImages : desktopImages;
