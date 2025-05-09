@@ -23,7 +23,7 @@ function Home() {
         confirmButtonText: "¡Entendido!",
         confirmButtonColor: "#247504",
          customClass: {
-                  popup: style.customAlert,
+                  popup: style.customAlertInfo,
                 },
       });
       localStorage.setItem(key, now.toString());

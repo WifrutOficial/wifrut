@@ -206,6 +206,16 @@
   font-size: 12px;
   display: flex;
 }
+.customAlertInfo {
+  background-color: rgba(212, 212, 212, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  height: 400px;
+}
 .customIconSuc {
   font-size: 10px;
   background-color: #004718;
