@@ -12,7 +12,6 @@
 .slider {
   display: flex;
   transition: transform 0.4s ease-in-out;
-
 }
 
 .slider img {
@@ -45,8 +44,6 @@
   background-color: #247504;
   width: 25px;
   height: 12px;
-
-
 }
 
 .arrowLeft,
@@ -79,13 +76,10 @@
 }
 
 @media (max-width: 768px) {
-  .dot {
-    width: 12px;
-    height: 12px;
-  }
 
   .arrowLeft,
   .arrowRight {
     display: none;
   }
+
 }

@@ -18,9 +18,7 @@ const Banners = () => {
   }, []);
 
   const desktopImages = ["/banner5.jpg", "/banner5.jpg", "/banner5.jpg"];
-
   const mobileImages = ["/bannerM1.png", "/bannerM2.png", "/bannerM3.png"];
-
   const images = isMobile ? mobileImages : desktopImages;
 
   const handleSwipeLeft = () => {
