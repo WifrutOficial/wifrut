@@ -30,19 +30,19 @@
 .emptyCart {
   font-size: 24px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   margin-bottom: 10px;
 }
 
 .emptyCartSub {
   font-size: 16px;
-  color: #fff;
+  color: #000;
   margin-bottom: 20px;
 }
 
 .shopButton {
   background-color: #247504;
-  color: white;
+  color: #fff;
   padding: 10px 30px;
   border: none;
   border-radius: 13px;
@@ -97,7 +97,7 @@
   background-color: #d4d4d415;
   backdrop-filter: blur(20px);
   border-radius: 13px;
-  border: 1px solid #d4d4d4d6;
+  border: 1px solid #000;
   font-size: 12px;
   outline: none;
   transition: border-color 0.2s ease;
@@ -109,7 +109,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 10px 20px;
-  color: #ffff;
+  color: #000;
   gap: 10px;
 
 }
@@ -125,11 +125,11 @@
   background: none;
   border: none;
   border-bottom: 1px dotted #fff;
-  color: #fff;
+  color: #000;
 }
 
 .container {
-  background-image: url("../../fondo.png");
+  background-image: url("../../backG.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -139,7 +139,7 @@
   min-height: 100vh;
 }
 .title {
-  color: #ffff;
+  color: #000;
   font-weight: 400;
   text-align: center;
   padding: 20px 0;
@@ -148,7 +148,7 @@
   background-color: #d4d4d415;
   backdrop-filter: blur(20px);
   border-radius: 15px;
-  border: 1px solid #d4d4d4d6;
+  border: 1px solid #000;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -176,7 +176,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  color: #ffff;
+  color: #000;
   font-size: 12px;
   font-weight: 200;
   width: 100%;
@@ -191,7 +191,7 @@
   display: flex;
   justify-content: flex-end;
   padding: 10px 40px;
-  color: #ffff;
+  color: #000;
 }
 
 hr {
@@ -212,21 +212,21 @@ hr {
 }
 
 .fullTotal {
-  color: #ffff;
+  color: #000;
   font-size: 32px;
   text-align: end;
   padding: 0 40px;
 }
 
 .titlePago {
-  color: #ffff;
+  color: #000;
   text-align: left;
   padding-left: 40px;
 }
 
 .containerPago {
   display: flex;
-  color: #fff;
+  color: #000;
   padding-left: 40px;
   gap: 40px;
 }
@@ -249,7 +249,7 @@ hr {
   background-color: #247504;
   padding: 5px 10px;
   cursor: pointer;
-  color: #ffff;
+  color: #fff;
   border-radius: 10px;
   width: 200px;
 }
@@ -275,7 +275,7 @@ hr {
 .container .arrow {
   width: 30px;
   height: 30px;
-  color: #ffffffbd;
+  color: #000;
 
   margin-left: 10px;
   margin-top: 8px;
@@ -287,7 +287,7 @@ hr {
   backdrop-filter: blur(20px);
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
-  color: #fff;
+  color: #000;
 }
 
 .customIcon {
@@ -317,7 +317,7 @@ hr {
 
 .completed .stepNumber {
   background-color: #247504;
-  color: #fff;
+  color: #000;
 }
 
 .step p {
@@ -337,7 +337,7 @@ hr {
   width: min(100%, 800px);
     min-width: 345px;
   padding: 10px;
-  color: #fff;
+  color: #000;
 }
 
 .priceTotal {
@@ -361,7 +361,7 @@ hr {
 }
 
 .containerEnvio{
-  color: #fff;
+  color: #000;
 letter-spacing: 1px;
   padding: 0 20px;
   font-size: 12px;
@@ -434,7 +434,7 @@ letter-spacing: 1px;
     width: min(100%, 800px);
     min-width: 345px;
     padding: 10px;
-    color: #fff;
+    color: #000;
   }
 
   .containerCart {

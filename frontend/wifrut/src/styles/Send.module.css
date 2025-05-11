@@ -39,9 +39,12 @@
   margin-bottom: 15px;
   padding-left: 20px;
 }
-
+strong{
+  margin-left: 10px;
+}
 .infoZona li {
   margin-bottom: 6px;
+  list-style: none;
 }
 .infoMapa {
   background-color: #fff8e1;

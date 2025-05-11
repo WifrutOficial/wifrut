@@ -30,17 +30,19 @@ function AboutUs() {
         <div className={`${style.Info} ${style.left}`}>
           <h3>Ubicados en Neuquén</h3>
           <p>
-          Nuestra base de operaciones y desde donde sucede toda la logística para entregarte tus
-          productos de primera calidad es en el mercado concentrador de Neuquén.
+            Nuestra base de operaciones y desde donde sucede toda la logística
+            para entregarte tus productos de primera calidad es en el mercado
+            concentrador de Neuquén.
           </p>
         </div>
         <img src="../../../neuquen.png" alt="Ubicación en Neuquén" />
       </div>
 
       <div className={style.map}>
+     
         <iframe
-          src="https://www.google.com/maps/embed?pb=!4v1741735490324!6m8!1m7!1suddi9Q-Swa9XcpWDuWRAnw!2m2!1d-38.95172297333154!2d-68.05908758013764!3f36.8215!4f0!5f0.7820865974627469"
-          width="50%"
+          src="https://www.google.com/maps/embed?pb=!3m2!1ses!2sar!4v1746985216220!5m2!1ses!2sar!6m8!1m7!1sB7RclvY-OSwnWkpPwlFpHQ!2m2!1d-38.88954677790815!2d-68.10160552087919!3f214.21022188544507!4f-2.788713398437366!5f0.7820865974627469"
+         width="50%"
           height="300px"
           style={{
             borderRadius: "13px",

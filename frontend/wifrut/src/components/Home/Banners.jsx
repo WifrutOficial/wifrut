@@ -7,24 +7,19 @@ const Banners = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Detectar si es móvil
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 513);
     };
 
-    checkMobile(); // lo ejecuta al montar
+    checkMobile();
 
-    window.addEventListener("resize", checkMobile); // escucha cambios
+    window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const desktopImages = ["/banner1.png", "/banner2.png", "/banner3.png"];
+  const desktopImages = ["/banner5.jpg", "/banner5.jpg", "/banner5.jpg"];
 
-  const mobileImages = [
-    "/bannerM1.png",
-    "/bannerM2.png",
-    "/bannerM3.png",
-  ];
+  const mobileImages = ["/bannerM1.png", "/bannerM2.png", "/bannerM3.png"];
 
   const images = isMobile ? mobileImages : desktopImages;
 

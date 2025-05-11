@@ -87,7 +87,8 @@
   width: 320px;
   border-radius: 13px;
   background-color: #d9d9d959;
-  color: #ffffff;
+  color: black;
+  font-weight: 800;
   box-shadow: 0 3px 10px -3px black;
   font-size: 12px;
   font-weight: 300;
@@ -220,4 +221,16 @@ span button {
     width: 110px;
     height: 110px;
   }
+  .container {
+  background-image: url("../../fondoM.png");
+ 
+
 }
+.containerLogin {
+  background-image: url("../../fondoM.png");
+
+
+}
+
+}
+

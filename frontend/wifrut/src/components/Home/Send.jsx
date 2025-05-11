@@ -1,4 +1,3 @@
-import React from "react";
 import Nav2 from "./Nav2";
 import Footer from "./Footer";
 import style from "../../styles/Send.module.css";
@@ -37,24 +36,32 @@ function Send() {
         </p>
         <ul>
           <li>
-            <strong>Zona 1 (Verde):</strong> $2000
+           🟢 <strong> Neuquén Zona 1:</strong> $2000
           </li>
           <li>
-            <strong>Zona 2 (Naranja):</strong> $3500
+           🟠  <strong>Neuquén Zona 2:</strong> $3500
           </li>
           <li>
-            <strong>Zona 3 (Celeste):</strong> $4500
+            🔵 <strong>Neuquén Zona 3: $4500</strong> $4500
           </li>
           <li>
-            <strong>Zona 4 (Marrón):</strong> $6500
+           🟤  <strong>Plottier Zona 4:</strong> $6500
           </li>
           <li>
-            <strong>Centenario Zona 1 (Rojo oscuro):</strong> $2000
+           🔴  <strong>Centenario Zona 1: </strong> $2000
           </li>
           <li>
-            <strong>Centenario Zona 2 (Violeta):</strong> $3500
+            🟣<strong> Centenario Zona 2:</strong> $3500
           </li>
         </ul>
+         $2000
+
+
+
+
+
+
+
         <p>
           El costo de envío se calcula automáticamente cuando ingresás tu
           dirección al hacer un pedido. Si tenés dudas sobre tu zona, podés

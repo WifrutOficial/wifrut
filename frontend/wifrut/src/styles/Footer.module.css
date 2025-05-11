@@ -25,7 +25,9 @@
 .containerContact {
   text-align: left;
 }
-
+span{
+  color: aqua;
+}
 .Info {
   display: flex;
   align-items: center;
@@ -36,7 +38,13 @@
 
 .Info svg {
   font-size: 16px;
-  color: #ffd700;
+  color: #247504;
+}
+a{
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
 }
 
 .derechos {

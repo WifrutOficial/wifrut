@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 import style from "../../styles/Products.module.css";
 
 function DiscountedProducts({
@@ -10,8 +10,6 @@ function DiscountedProducts({
   const discountedProducts = products.filter(
     (product) => Number(product.descuento) > 0
   );
-
-
 
   if (discountedProducts.length === 0) {
     return (
@@ -27,7 +25,22 @@ function DiscountedProducts({
     <>
       <h3 className={style.titleOfertas}>Ofertas</h3>
       <div className={style.descuento}>
-        <div className={style.container2}>
+        {/* Flecha izquierda */}
+        <button
+          className={style.arrowLeft}
+          onClick={() => {
+            const cont = document.getElementById("scroll-ofertas");
+            if (cont) cont.scrollBy({ left: -300, behavior: "smooth" });
+          }}
+        >
+          <IoIosArrowForward
+            className={style.arrowIcon}
+            style={{ transform: "rotate(180deg)" }}
+          />
+        </button>
+
+        {/* Contenedor scrollable */}
+        <div id="scroll-ofertas" className={style.container}>
           {discountedProducts.map(
             ({
               _id,
@@ -40,12 +53,11 @@ function DiscountedProducts({
             }) => (
               <div key={_id} className={style.cartContainer}>
                 <img className={style.img} src={`/${imagen}`} alt="img" />
-             
-                  <div className={style.sale}>
-                    <img src="../../../Star 1.png" alt="sale" />
-                    <p>%</p>
-                  </div>
-               
+
+                <div className={style.sale}>
+                  <img src="../../../Star 1.png" alt="sale" />
+                  <p>%</p>
+                </div>
 
                 <p className={style.priceUnit}>
                   Precio con descuento: ${precioConDescuento || 0}
@@ -101,6 +113,17 @@ function DiscountedProducts({
             )
           )}
         </div>
+
+        {/* Flecha derecha */}
+        <button
+          className={style.arrowRight}
+          onClick={() => {
+            const cont = document.getElementById("scroll-ofertas");
+            if (cont) cont.scrollBy({ left: 300, behavior: "smooth" });
+          }}
+        >
+          <IoIosArrowForward className={style.arrowIcon} />
+        </button>
       </div>
     </>
   );

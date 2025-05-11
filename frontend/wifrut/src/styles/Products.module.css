@@ -9,7 +9,15 @@
   gap: 5px;
   
 }
+/* Otros contenedores y estilos */
+.descuento {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 
+}
 /* Flechas */
 .arrowLeft,
 .arrowRight {
@@ -30,12 +38,11 @@
 
 /* Contenedor de productos (carrusel) */
 .container {
-  display: flex;
+display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 1rem;
-  width: 80%;
-  padding: 1rem 1.5rem; 
+  padding: 20px;
 
 }
 .container::-webkit-scrollbar {
@@ -132,25 +139,8 @@
   cursor: pointer;
 }
 
-/* Otros contenedores y estilos */
-.container2 {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  gap: 30px;
-  height: 500px;
-  overflow-x: scroll;
-}
-.descuento {
-  background-image: url("../../fondoDescuento.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  margin-top: 40px;
-  box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.685);
-}
+
+
 .containerseeMoreBtn {
   display: flex;
   justify-content: center;
