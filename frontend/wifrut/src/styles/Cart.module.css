@@ -8,7 +8,14 @@
   border-radius: 5px;
   animation: fadeIn 0.3s ease-in-out;
 }
-
+.mp {
+  width: 40px;
+  height: 20px;
+}
+.ft {
+  width: 20px;
+  height: 20px;
+}
 .emptyCartContainer {
   display: flex;
   flex-direction: column;
@@ -20,7 +27,7 @@
 
 .emptyCartIcon {
   font-size: 40px;
-  color: #005234
+  color: #005234;
 }
 
 .animatedIcon {
@@ -97,7 +104,7 @@
   background-color: #d4d4d415;
   backdrop-filter: blur(20px);
   border-radius: 13px;
-  border: 1px solid #000;
+  border: 1px solid #00000023;
   font-size: 12px;
   outline: none;
   transition: border-color 0.2s ease;
@@ -111,7 +118,6 @@
   padding: 10px 20px;
   color: #000;
   gap: 10px;
-
 }
 
 .inputEnvio {
@@ -124,7 +130,7 @@
 .inputEnvio input {
   background: none;
   border: none;
-  border-bottom: 1px dotted #fff;
+  border-bottom: 1px dotted #00000023;
   color: #000;
 }
 
@@ -148,7 +154,7 @@
   background-color: #d4d4d415;
   backdrop-filter: blur(20px);
   border-radius: 15px;
-  border: 1px solid #000;
+  border: 1px solid #00000023;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -226,6 +232,8 @@ hr {
 
 .containerPago {
   display: flex;
+  justify-content: center;
+  align-items: center ;
   color: #000;
   padding-left: 40px;
   gap: 40px;
@@ -233,8 +241,10 @@ hr {
 
 .containerPagoInput {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px 0;
-  gap: 20px;
+  gap: 5px;
 }
 
 .btnContainer {
@@ -332,10 +342,10 @@ hr {
   gap: 30px;
   backdrop-filter: blur(20px);
   border-radius: 15px;
-  border: 1px solid #d4d4d4d6;
+  border: 1px solid #00000023;
   margin: 0 auto;
   width: min(100%, 800px);
-    min-width: 345px;
+  min-width: 345px;
   padding: 10px;
   color: #000;
 }
@@ -354,28 +364,30 @@ hr {
 }
 
 .spanm {
-
   text-decoration: underline;
   cursor: pointer;
   color: #ff810d;
 }
 
-.containerEnvio{
+.PagoText {
   color: #000;
-letter-spacing: 1px;
-  padding: 0 20px;
-  font-size: 12px;
-  background-color: #00523457;;
+  font-size: 15px;
+  font-weight: 400;
 }
 
+.containerEnvio {
+  color: #000;
+  letter-spacing: 1px;
+  padding: 0 20px;
+  font-size: 12px;
+  background-color: #00523457;
+}
 
 @media (max-width: 768px) {
-  .containerEnvio{
-  
+  .containerEnvio {
     font-size: 9px;
-
   }
-  
+
   .fullTotal {
     font-size: 18px;
   }
@@ -462,10 +474,6 @@ letter-spacing: 1px;
     font-size: 12px;
     margin: 5px 20px;
   }
-
- 
-
-
 
   .emptyCart {
     font-size: 20px;

@@ -109,7 +109,7 @@ function Login() {
             />
           </div>
           <button type="submit" className={style.registerBtn}>
-            Iniciar Sesion
+            Iniciar Sesion  
           </button>
           {errors.general && (
             <span className={style.errorText}>{errors.general}</span>

@@ -54,9 +54,8 @@ export default function Cart({ hideSearchAndCart = true }) {
     }
     setStep(2);
   };
-  
-  const { user } = useAuth();
 
+  const { user } = useAuth();
 
   const handleCheckout = async () => {
     if (!metodoPago) {
@@ -158,7 +157,7 @@ export default function Cart({ hideSearchAndCart = true }) {
       confirmButtonText: "Sí, vaciar carrito",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#247504",
-    cancelButtonColor: "#B90003",
+      cancelButtonColor: "#B90003",
       customClass: {
         popup: style.customAlert,
         icon: style.customIcon,
@@ -477,15 +476,19 @@ export default function Cart({ hideSearchAndCart = true }) {
             <>
               <p className={style.titlePago}>Método de pago</p>
               <div className={style.containerPago}>
-                {["Efectivo", "Mercado Pago"].map((metodo) => (
-                  <label key={metodo} className={style.containerPagoInput}>
-                    {metodo}
+                {[
+                  { nombre: "Efectivo", icono: "/efectivo.png" },
+                  { nombre: "Mercado Pago", icono: "/mpicon.png" },
+                ].map(({ nombre, icono }) => (
+                  <label key={nombre} className={style.containerPagoInput}>
+                    <img src={icono} alt={nombre} className={`${style.mp} ${nombre === "Efectivo" ? style.ft : style.mp}`} />
+                    <span className={style.PagoText}> {nombre}</span>
                     <input
                       type="radio"
                       name="metodoPago"
-                      checked={metodoPago === metodo}
-                      onChange={() => handlePagoChange(metodo)}
-                      aria-label={`Seleccionar ${metodo} como método de pago`}
+                      checked={metodoPago === nombre}
+                      onChange={() => handlePagoChange(nombre)}
+                      aria-label={`Seleccionar ${nombre} como método de pago`}
                     />
                   </label>
                 ))}

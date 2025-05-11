@@ -42,7 +42,7 @@ function Send() {
            🟠  <strong>Neuquén Zona 2:</strong> $3500
           </li>
           <li>
-            🔵 <strong>Neuquén Zona 3: $4500</strong> $4500
+            🔵 <strong>Neuquén Zona 3:</strong> $4500
           </li>
           <li>
            🟤  <strong>Plottier Zona 4:</strong> $6500

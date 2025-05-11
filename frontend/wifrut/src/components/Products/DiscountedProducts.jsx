@@ -25,8 +25,8 @@ function DiscountedProducts({
     <>
       <div className={style.containerOfertas}>
         {" "}
-        <p className={style.iconOfertas}><img src="../../../public/iconM.png" alt="" /></p>
-        <h3 className={style.titleOfertas}>Ofertas</h3>
+        <p className={style.iconOfertas}><img src="../../../ofertasIcon.png" alt="" /></p>
+        <h3 className={style.titleOfertas}>OFERTAS</h3>
     
       </div>
 
