@@ -1,12 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chewy&display=swap");
 .iconOfertas {
-  font-size: 33px;
+
  display: flex;
  justify-content: center; 
  align-items: center;
-  color: #0a0700;
+ 
   
+}
+
+.iconOfertas:hover {
+  transform: scale(1.08);
+}
+
+.iconOfertas img{
+  width: 50px;
+  height: 50px;
 }
 .containerOfertas {
   display: flex;
@@ -235,7 +244,7 @@
   font-family: "Chewy", cursive;
   font-size: 52px;
   text-align: center;
-  background: linear-gradient(90deg, #ffa500, #ff3cac, #ffb83b);
+  background-color: #2F76AB;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
