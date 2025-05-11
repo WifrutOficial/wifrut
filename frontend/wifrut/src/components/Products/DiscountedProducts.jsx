@@ -23,7 +23,13 @@ function DiscountedProducts({
 
   return (
     <>
-      <h3 className={style.titleOfertas}>Ofertas</h3>
+      <div className={style.containerOfertas}>
+        {" "}
+        <p className={style.iconOfertas}>🍓</p>
+        <h3 className={style.titleOfertas}>Ofertas</h3>
+        <p className={style.iconOfertas}>📣</p>
+      </div>
+
       <div className={style.descuento}>
         {/* Flecha izquierda */}
         <button
