@@ -31,6 +31,7 @@ export const postRegister = async (req, res) => {
 
     res.status(201).json({
       msg: "Registro exitoso",
+       nombre: register.nombre,
       tipoUsuario: register.tipoUsuario,
       estadoCuenta: register.estadoCuenta,
     });
