@@ -17,9 +17,12 @@ import { FaUsers } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
 import CartPreview from "../../components/Cart/CartPreview";
+import { IoMdLogOut } from "react-icons/io";
+import { BiPackage } from "react-icons/bi";
 
 function Nav2({ hideSearchAndCart = false }) {
   const menuRef = useRef(null);
+  const userMenuRef = useRef(null); // New ref for user menu
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout, user } = useAuth();
@@ -74,20 +77,29 @@ function Nav2({ hideSearchAndCart = false }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close sidebar menu if clicking outside
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
+      }
+      // Close user menu if clicking outside
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target)
+      ) {
         setShowUserMenu(false);
       }
     };
-    if (isOpen || showUserMenu) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, showUserMenu]);
+  }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const toggleUserMenu = () => {
+    setShowUserMenu((prev) => !prev); // Toggle user menu state
+  };
 
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
@@ -143,19 +155,20 @@ function Nav2({ hideSearchAndCart = false }) {
               <FaRegUser onClick={() => navigate("/login")} />
             </div>
           ) : (
-            <div className={style.userDropdownMobil}>
-              <div
-                className={style.userGreeting2}
-                onClick={() => setShowUserMenu((prev) => !prev)}
-              >
+            <div className={style.userDropdownMobil} ref={userMenuRef}>
+              <div className={style.userGreeting2} onClick={toggleUserMenu}>
                 Hola, {user?.name || "Usuario"} <MdArrowDropDown />
               </div>
               {showUserMenu && (
-                <div className={`${style.dropdownMenuMobil} ${style.userGreeting}`}>
-                  <button onClick={() => navigate("/orders")}>
-                    Mis pedidos
-                  </button>
-                  <button onClick={logout}>Cerrar sesión</button>
+                <div
+                  className={`${style.dropdownMenuMobil} ${style.userGreeting}`}
+                >
+                  <a className={style.a} onClick={() => navigate("/orders")}>
+                    <BiPackage style={{ strokeWidth: "1px" }} /> Mis pedidos
+                  </a>
+                  <a className={style.a} onClick={logout}>
+                    <IoMdLogOut style={{ strokeWidth: "10px" }} /> Cerrar sesión
+                  </a>
                 </div>
               )}
             </div>
@@ -194,7 +207,7 @@ function Nav2({ hideSearchAndCart = false }) {
                 <FaUsers /> Conócenos
               </a>
               <a className={style.a} onClick={() => navigate("/send")}>
-                <MdLocalShipping /> Envios
+                <MdLocalShipping /> Envíos
               </a>
             </>
           )}
@@ -258,19 +271,21 @@ function Nav2({ hideSearchAndCart = false }) {
             />
           </div>
         ) : (
-          <div className={style.dropdownMenuCompu}>
-            <div
-              className={`${style.userGreeting} ${
-                showUserMenu ? style.open : ""
-              }`}
-              onClick={() => setShowUserMenu((prev) => !prev)}
-            >
+          <div className={style.dropdownMenuCompu} ref={userMenuRef}>
+            <div className={style.userGreeting} onClick={toggleUserMenu}>
               Hola, {user?.name || "Usuario"} <MdArrowDropDown />
             </div>
             {showUserMenu && (
               <div className={`${style.dropdownMenu} ${style.userGreeting}`}>
-                <button onClick={() => navigate("/orders")}>Mis pedidos</button>
-                <button onClick={logout}>Cerrar sesión</button>
+                <a
+                  className={style.aCompu}
+                  onClick={() => navigate("/orders")}
+                >
+                  <BiPackage style={{ strokeWidth: "1px" }} /> Mis pedidos
+                </a>
+                <a className={style.aCompu} onClick={logout}>
+                  <IoMdLogOut style={{ strokeWidth: "10px" }} /> Cerrar sesión
+                </a>
               </div>
             )}
           </div>
