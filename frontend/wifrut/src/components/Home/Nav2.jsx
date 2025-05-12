@@ -8,40 +8,32 @@ import { BsCart2 } from "react-icons/bs";
 import { useSearch } from "../../context/SearchContext";
 import { useCart } from "../../context/CartContext";
 import { IoIosArrowDropup } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa";
-import style from "../../styles/Nav2.module.css";
-import { MdArrowDropDown } from "react-icons/md";
-import { BiSolidOffer } from "react-icons/bi";
-import { IoHome } from "react-icons/io5";
-import { FaUsers } from "react-icons/fa";
-import { BiSolidCategory } from "react-icons/bi";
-import { MdLocalShipping } from "react-icons/md";
+import { FaRegUser, FaUsers } from "react-icons/fa";
+import { MdArrowDropDown, MdLocalShipping } from "react-icons/md";
+import { BiSolidOffer, BiSolidCategory, BiPackage } from "react-icons/bi";
+import { IoHome, IoMdLogOut } from "react-icons/io5";
 import CartPreview from "../../components/Cart/CartPreview";
-import { IoMdLogOut } from "react-icons/io";
-import { BiPackage } from "react-icons/bi";
+import style from "../../styles/Nav2.module.css";
 
 function Nav2({ hideSearchAndCart = false }) {
   const menuRef = useRef(null);
-  const userMenuRef = useRef(null); // New ref for user menu
+  const userMenuRef = useRef(null);
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, logout, user } = useAuth();
-  const { searchQuery, setSearchQuery } = useSearch();
   const [isFixed, setIsFixed] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
-  const { cart } = useCart();
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
   const [showCartPreview, setShowCartPreview] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const toggleCategorias = () => {
-    setShowCategorias(!showCategorias);
-  };
+  const { isAuthenticated, logout, user } = useAuth();
+  const { searchQuery, setSearchQuery } = useSearch();
+  const { cart } = useCart();
 
   const totalProductos = cart.length;
-
   const total = cart.reduce((acc, item) => {
     const precioFinal = item.precioConDescuento || item.precio;
     return acc + item.quantity * precioFinal;
@@ -55,10 +47,10 @@ function Nav2({ hideSearchAndCart = false }) {
           { withCredentials: true }
         );
         setProducts(response.data);
-        const categorias = [
+        const categoriasUnicas = [
           ...new Set(response.data.map((product) => product.categoria)),
         ];
-        setCategorias(categorias);
+        setCategorias(categoriasUnicas);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -77,11 +69,9 @@ function Nav2({ hideSearchAndCart = false }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close sidebar menu if clicking outside
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
-      // Close user menu if clicking outside
       if (
         userMenuRef.current &&
         !userMenuRef.current.contains(event.target)
@@ -95,12 +85,14 @@ function Nav2({ hideSearchAndCart = false }) {
     };
   }, []);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const toggleUserMenu = () => {
-    setShowUserMenu((prev) => !prev); // Toggle user menu state
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/");
   };
 
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleUserMenu = () => setShowUserMenu((prev) => !prev);
+  const toggleCategorias = () => setShowCategorias(!showCategorias);
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
   const handleCategoryClick = (category) => {
@@ -114,11 +106,6 @@ function Nav2({ hideSearchAndCart = false }) {
     }
   };
 
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/");
-  };
-
   const handleOpenCartPreview = () => {
     if (!showCartPreview) setShowCartPreview(true);
   };
@@ -127,8 +114,7 @@ function Nav2({ hideSearchAndCart = false }) {
     <div className={style.container}>
       <div className={style.containerLog}>
         <p className={style.titleLog}>
-          <span className={style.truck}> 🚚 </span>Envío GRATIS en compras
-          mayores a $80.000
+          <span className={style.truck}> 🚚 </span>Envío GRATIS en compras mayores a $80.000
         </p>
       </div>
 
@@ -142,13 +128,9 @@ function Nav2({ hideSearchAndCart = false }) {
           />
         </div>
 
-        <div
-          ref={menuRef}
-          className={`${style.linkContainer} ${isOpen ? style.open : ""}`}
-        >
+        <div ref={menuRef} className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
 
-          {/* Menú lateral */}
           {!isAuthenticated ? (
             <div className={style.btnLogin}>
               <button onClick={() => navigate("/login")}>Iniciar Sesión</button>
@@ -160,14 +142,12 @@ function Nav2({ hideSearchAndCart = false }) {
                 Hola, {user?.name || "Usuario"} <MdArrowDropDown />
               </div>
               {showUserMenu && (
-                <div
-                  className={`${style.dropdownMenuMobil} ${style.userGreeting}`}
-                >
+                <div className={`${style.dropdownMenuMobil} ${style.userGreeting}`}>
                   <a className={style.a} onClick={() => navigate("/orders")}>
-                    <BiPackage style={{ strokeWidth: "1px" }} /> Mis pedidos
+                    <BiPackage /> Mis pedidos
                   </a>
                   <a className={style.a} onClick={logout}>
-                    <IoMdLogOut style={{ strokeWidth: "10px" }} /> Cerrar sesión
+                    <IoMdLogOut /> Cerrar sesión
                   </a>
                 </div>
               )}
@@ -185,8 +165,7 @@ function Nav2({ hideSearchAndCart = false }) {
                 onClick={() => {
                   const el = document.getElementById("ofertas");
                   if (el) {
-                    const y =
-                      el.getBoundingClientRect().top + window.pageYOffset - 200;
+                    const y = el.getBoundingClientRect().top + window.pageYOffset - 200;
                     window.scrollTo({ top: y, behavior: "smooth" });
                   }
                 }}
@@ -198,8 +177,7 @@ function Nav2({ hideSearchAndCart = false }) {
                 onClick={() => {
                   const el = document.getElementById("sobre-nosotros");
                   if (el) {
-                    const y =
-                      el.getBoundingClientRect().top + window.pageYOffset - 200;
+                    const y = el.getBoundingClientRect().top + window.pageYOffset - 200;
                     window.scrollTo({ top: y, behavior: "smooth" });
                   }
                 }}
@@ -214,11 +192,9 @@ function Nav2({ hideSearchAndCart = false }) {
 
           {!hideSearchAndCart && (
             <div className={style.categorias}>
-              <div className={style.categoriasContainer}>
-                <a onClick={toggleCategorias} className={style.a}>
-                  <BiSolidCategory /> Categorías <MdArrowDropDown />
-                </a>
-              </div>
+              <a onClick={toggleCategorias} className={style.a}>
+                <BiSolidCategory /> Categorías <MdArrowDropDown />
+              </a>
               {showCategorias && (
                 <div className={style.categoriasList}>
                   {categorias.map((categoria, index) => (
@@ -236,7 +212,6 @@ function Nav2({ hideSearchAndCart = false }) {
           )}
         </div>
 
-        {/* Search + Cart + Menu (parte derecha) */}
         {!hideSearchAndCart && (
           <div className={style.search}>
             <input
@@ -247,10 +222,7 @@ function Nav2({ hideSearchAndCart = false }) {
               onChange={handleSearchChange}
             />
             <IoSearch className={style.searchBtn} />
-            <div
-              className={style.cartContainer}
-              onClick={handleOpenCartPreview}
-            >
+            <div className={style.cartContainer} onClick={handleOpenCartPreview}>
               <BsCart2 className={style.cart} />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
@@ -261,14 +233,10 @@ function Nav2({ hideSearchAndCart = false }) {
           </div>
         )}
 
-        {/* Versión para pantallas grandes */}
         {!isAuthenticated ? (
           <div className={style.btnLogin2}>
             <button onClick={() => navigate("/login")}>Iniciar Sesión</button>
-            <FaRegUser
-              className={style.logoUser}
-              onClick={() => navigate("/login")}
-            />
+            <FaRegUser className={style.logoUser} onClick={() => navigate("/login")} />
           </div>
         ) : (
           <div className={style.dropdownMenuCompu} ref={userMenuRef}>
@@ -277,14 +245,11 @@ function Nav2({ hideSearchAndCart = false }) {
             </div>
             {showUserMenu && (
               <div className={`${style.dropdownMenu} ${style.userGreeting}`}>
-                <a
-                  className={style.aCompu}
-                  onClick={() => navigate("/orders")}
-                >
-                  <BiPackage style={{ strokeWidth: "1px" }} /> Mis pedidos
+                <a className={style.aCompu} onClick={() => navigate("/orders")}>
+                  <BiPackage /> Mis pedidos
                 </a>
                 <a className={style.aCompu} onClick={logout}>
-                  <IoMdLogOut style={{ strokeWidth: "10px" }} /> Cerrar sesión
+                  <IoMdLogOut /> Cerrar sesión
                 </a>
               </div>
             )}
@@ -296,22 +261,6 @@ function Nav2({ hideSearchAndCart = false }) {
         <div onClick={handleScrollToTop} className={style.floatingArrow}>
           <IoIosArrowDropup size={50} />
         </div>
-      )}
-
-      <a
-        href="https://wa.me/542995974289"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          className={style.whatsappButton}
-          src="../../../whatsapp.png"
-          alt="wp"
-        />
-      </a>
-
-      {showCartPreview && (
-        <CartPreview onClose={() => setShowCartPreview(false)} />
       )}
     </div>
   );
