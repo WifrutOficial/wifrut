@@ -35,7 +35,7 @@ function AboutUs() {
             concentrador de Neuquén.
           </p>
         </div>
-        <img src="../../../neuquen.png" alt="Ubicación en Neuquén" />
+        <img className={style.img} src="../../../neuquen.png" alt="Ubicación en Neuquén" />
       </div>
 
       <div className={style.map}>
