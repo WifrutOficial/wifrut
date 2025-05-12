@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -11,7 +11,9 @@ import { IoIosArrowDropup } from "react-icons/io";
 import { FaRegUser, FaUsers } from "react-icons/fa";
 import { MdArrowDropDown, MdLocalShipping } from "react-icons/md";
 import { BiSolidOffer, BiSolidCategory, BiPackage } from "react-icons/bi";
-import { IoHome, IoMdLogOut } from "react-icons/io5";
+import { IoHome } from "react-icons/io5";
+import { IoMdLogOut } from "react-icons/io";
+
 import CartPreview from "../../components/Cart/CartPreview";
 import style from "../../styles/Nav2.module.css";
 
@@ -262,6 +264,12 @@ function Nav2({ hideSearchAndCart = false }) {
           <IoIosArrowDropup size={50} />
         </div>
       )}
+      {showCartPreview && (
+  <div className={style.cartPreviewContainer}>
+    <CartPreview onClose={() => setShowCartPreview(false)} />
+  </div>
+)}
+
     </div>
   );
 }
