@@ -7,7 +7,12 @@
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
 }
-
+.imgAbout{
+ width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 .title {
   text-align: center;
   color: #004718;
@@ -26,12 +31,7 @@
   padding-bottom: 30px;
 }
 
-.containerInfo img {
-  width: 160px;
-  height: 160px;
-  border-radius: 10px;
-  
-}
+
 
 .Info {
   display: flex;

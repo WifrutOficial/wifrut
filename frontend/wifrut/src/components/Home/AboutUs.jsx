@@ -1,13 +1,13 @@
-import React from "react";
+
 import style from "../../styles/AboutUs.module.css";
 
 function AboutUs() {
   return (
     <div className={style.aboutUs}>
-      <h2 className={style.title}>Conócenos</h2>
+      <h2 id="sobre-nosotros" className={style.title}>Conócenos</h2>
 
       <div className={style.containerInfo}>
-        <img src="../../../img1.png" alt="Equipo de trabajo" />
+        <img className={style.imgAbout} src="../../../img1.jpg" alt="Equipo de trabajo" />
         <div className={style.Info}>
           <h3>¿Quiénes somos?</h3>
           <p>

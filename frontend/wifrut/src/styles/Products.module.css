@@ -277,13 +277,13 @@
     overflow-x: scroll;
     margin: 0 10px;
     background-color: transparent;
-    padding: 20px 0;
+    padding: 15px 0 20px 0;
   }
   .categoryTitle {
     font-size: 15px;
   }
   .categoryContainer {
-    padding: 20px 0 10px 10px;
+    padding: 10px 0 0 10px;
   }
   .cartContainer {
     width: 200px;

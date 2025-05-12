@@ -6,13 +6,13 @@ import { FaInstagram } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { TbBrandLinktree } from "react-icons/tb";
-import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <div className={style.container}>
       <div className={style.containerInfo}>
         <div className={style.containerContact}>
-          <p>Contactanos</p>
+          <p className={style.rs}>CONTACTANOS</p>
           <div className={style.Info}>
             <FaWhatsapp />
             <p>+54 9 2995 974-289</p>
@@ -28,7 +28,7 @@ function Footer() {
           </div>
         </div>
         <div className={style.containerContact}>
-          <p>Redes Sociales</p>
+          <p className={style.rs}>REDES SOCIALES</p>
           <div className={style.Info}>
             <FaInstagram />
             <p>

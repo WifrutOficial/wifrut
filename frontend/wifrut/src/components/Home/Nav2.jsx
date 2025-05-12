@@ -32,13 +32,13 @@ function Nav2({ hideSearchAndCart = false }) {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
-  const [showCartPreview, setShowCartPreview] = useState(false); 
+  const [showCartPreview, setShowCartPreview] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   //const toggleSearch = () => {
-    //setExpanded(!expanded);
+  //setExpanded(!expanded);
   //};
-  
+
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
   };
@@ -139,11 +139,13 @@ function Nav2({ hideSearchAndCart = false }) {
   return (
     <div className={style.container}>
       <div className={style.containerLog}>
-        <p className={style.titleLog}><span className={style.truck}> 🚚 </span>Envío GRATIS en compras mayores a $80.000 </p>
+        <p className={style.titleLog}>
+          <span className={style.truck}> 🚚 </span>Envío GRATIS en compras
+          mayores a $80.000{" "}
+        </p>
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
-
           <img
             className={style.logo}
             src="../../../logo.png"
@@ -178,17 +180,27 @@ function Nav2({ hideSearchAndCart = false }) {
             <>
               <a
                 className={style.a}
-                onClick={() =>
-                  window.scrollTo({ top: 550, behavior: "smooth" })
-                }
+                onClick={() => {
+                  const el = document.getElementById("ofertas");
+                  if (el) {
+                    const y =
+                      el.getBoundingClientRect().top + window.pageYOffset - 200;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                  }
+                }}
               >
                 <BiSolidOffer /> Ofertas
               </a>
               <a
                 className={style.a}
-                onClick={() =>
-                  window.scrollTo({ top: 2800, behavior: "smooth" })
-                }
+                onClick={() => {
+                  const el = document.getElementById("sobre-nosotros");
+                  if (el) {
+                    const y =
+                      el.getBoundingClientRect().top + window.pageYOffset - 200;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                  }
+                }}
               >
                 <FaUsers /> Conócenos
               </a>
@@ -233,7 +245,10 @@ function Nav2({ hideSearchAndCart = false }) {
               onChange={handleSearchChange}
             />
             <IoSearch className={style.searchBtn} />
-            <div className={style.cartContainer} onClick={handleOpenCartPreview} >
+            <div
+              className={style.cartContainer}
+              onClick={handleOpenCartPreview}
+            >
               <BsCart2 className={style.cart} />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
@@ -241,7 +256,6 @@ function Nav2({ hideSearchAndCart = false }) {
               <p className={style.totalNumber}>${total.toFixed(2)}</p>
             </div>
             <IoMenu onClick={toggleMenu} className={style.btnMenu} />
-
           </div>
         )}
 
@@ -249,7 +263,6 @@ function Nav2({ hideSearchAndCart = false }) {
           <div className={style.btnLogin2}>
             <div>
               <button onClick={() => navigate("/login")}>Iniciar Sesion</button>
-          
             </div>
             <FaRegUser
               className={style.logoUser}

@@ -10,17 +10,17 @@ function Send() {
   const fromCart = location.state?.fromCart;
 
   const handleGoHome = () => {
-    navigate("/"); 
+    navigate("/");
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 300); 
+    }, 300);
   };
 
   const handleGoCart = () => {
-    navigate("/cart"); 
+    navigate("/cart");
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 300); 
+    }, 300);
   };
 
   return (
@@ -36,31 +36,44 @@ function Send() {
         </p>
         <ul>
           <li>
-           🟢 <strong> Neuquén Zona 1:</strong> $2000
+            🟢{" "}
+            <strong className={style.strong}>
+              {" "}
+              Neuquén Zona 1: <p className={style.price}>  $2000</p>{" "}
+            </strong>
           </li>
           <li>
-           🟠  <strong>Neuquén Zona 2:</strong> $3500
+            🟠{" "}
+            <strong  className={style.strong}>
+              Neuquén Zona 2: <p className={style.price}> $3500</p>{" "}
+            </strong>
           </li>
           <li>
-            🔵 <strong>Neuquén Zona 3:</strong> $4500
+            🔵{" "}
+            <strong  className={style.strong}>
+              Neuquén Zona 3: <p className={style.price}> $4500</p>
+            </strong>
           </li>
           <li>
-           🟤  <strong>Plottier Zona 4:</strong> $6500
+            🟤{" "}
+            <strong  className={style.strong}>
+              Plottier Zona 4: <p className={style.price}>  $6500</p>{" "}
+            </strong>
           </li>
           <li>
-           🔴  <strong>Centenario Zona 1: </strong> $2000
+            🔴{" "}
+            <strong  className={style.strong}>
+              Centenario Zona 1: <p className={style.price}> $2000</p>{" "}
+            </strong>
           </li>
           <li>
-            🟣<strong> Centenario Zona 2:</strong> $3500
+            🟣
+            <strong className={style.strong}>
+              {" "}
+              Centenario Zona 2: <p  className={style.price}>  $3500</p>{" "}
+            </strong>
           </li>
         </ul>
-         $2000
-
-
-
-
-
-
 
         <p>
           El costo de envío se calcula automáticamente cuando ingresás tu
