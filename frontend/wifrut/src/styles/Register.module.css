@@ -1,13 +1,48 @@
+.registerBtn {
+  background-color: #005234;
+  color: white;
+  border: none;
+padding: 5px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.registerBtn:disabled {
+   background-color: #247504;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
 .container {
   background-image: url("../../backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  height: 100vh;
+  max-height: fit-content;
+  min-height: 100vh ;
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
-  padding: 3rem;
   align-items: center;
 
 }
@@ -110,17 +145,7 @@ input:focus::placeholder {
   opacity: 0;
 }
 
-.registerBtn {
-  color: #000;
-  font-size: 14px;
-  background-color: #00ad3a;
-  border: none;
-  width: 150px;
-  height: 30px;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: inset 3px 3px 25px -5px rgba(0, 0, 0, 0.747);
-}
+
 
 .login {
   color: #000;

@@ -13,7 +13,7 @@ function DiscountedProducts({
 
   if (discountedProducts.length === 0) {
     return (
-      <div className={style.containerOfertas}>
+      <div>
         <p className={style.offOfertas}>
           No hay productos con descuento disponibles.
         </p>

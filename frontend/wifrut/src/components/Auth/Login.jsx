@@ -10,6 +10,7 @@ function Login() {
   const { login } = useAuth();
   const [errors, setErrors] = useState({});
   const [onClick, setOnClick] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -24,27 +25,28 @@ function Login() {
   const formHandle = async (e) => {
     e.preventDefault();
     setErrors({});
+    setLoading(true); // ⏳ Activar loading al iniciar
 
     if (!loginData.email || !loginData.password) {
       setErrors({ general: "Error, todos los campos son obligatorios" });
+      setLoading(false); // ❌ Desactivar si hay error de campos vacíos
       return;
     }
 
     try {
       const user = await login(loginData.email, loginData.password);
 
-
-      // Asegurar que `user` tiene las propiedades necesarias
       if (
         !user ||
         !user.tipoUsuario ||
         (user.tipoUsuario === "mayorista" && !user.estadoCuenta)
       ) {
         setErrors({ general: "Error: Datos del usuario incorrectos" });
+        setLoading(false); // ❌ Desactivar si hay error en datos
         return;
       }
 
-      // Redirigir según el tipo de usuario y estadoCuenta
+      // ✅ Redirección correcta, sin necesidad de setLoading(false)
       if (user.tipoUsuario === "admin") {
         navigate("/admin");
       } else if (
@@ -71,24 +73,30 @@ function Login() {
             "Usuario o Contraseña incorrectas, por favor intente de nuevo",
         });
       }
+    } finally {
+      setLoading(false); // ✅ Siempre se desactiva al final
     }
   };
+
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/"); 
+    navigate("/");
   };
   return (
     <div className={style.containerLogin}>
-      <img onClick={handleScrollToTop} className={style.logo} src="../../../logo.png" alt="logo" />
+      <img
+        onClick={handleScrollToTop}
+        className={style.logo}
+        src="../../../logo.png"
+        alt="logo"
+      />
       <div className={style.containerRegister}>
-      
         <p className={style.title}>Iniciar Sesion</p>
         <IoIosArrowDropleft
           className={style.arrow}
           onClick={() => navigate("/")}
         />
         <form className={style.containerForm} onSubmit={formHandle}>
-       
           <input
             type="text"
             placeholder="Email"
@@ -108,9 +116,14 @@ function Login() {
               onClick={() => setOnClick(!onClick)}
             />
           </div>
-          <button type="submit" className={style.registerBtn}>
-            Iniciar Sesion  
+          <button
+            type="submit"
+            className={style.registerBtn}
+            disabled={loading}
+          >
+            {loading ? <div className={style.spinner}></div> : "Iniciar Sesion"}
           </button>
+
           {errors.general && (
             <span className={style.errorText}>{errors.general}</span>
           )}

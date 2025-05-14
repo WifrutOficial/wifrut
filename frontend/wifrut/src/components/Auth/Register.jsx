@@ -9,6 +9,8 @@ function Register() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [onClick, setOnClick] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [registerData, setRegisterData] = useState({
     nombre: "",
     email: "",
@@ -25,64 +27,62 @@ function Register() {
     });
   };
 
-  const formHandle = async (e) => {
-    e.preventDefault();
-    let newErrors = {};
+const formHandle = async (e) => {
+  e.preventDefault();
+  setLoading(true); // 👈 Activa el loading apenas empieza
 
-    // Validación de campos vacíos
-    if (
-      !registerData.nombre ||
-      !registerData.email ||
-      !registerData.phone ||
-      !registerData.password ||
-      !registerData.confirmpassword ||
-      !registerData.tipoUsuario
-    ) {
-      newErrors.general = "Error, todos los campos son obligatorios";
+  let newErrors = {};
+
+  if (
+    !registerData.nombre ||
+    !registerData.email ||
+    !registerData.phone ||
+    !registerData.password ||
+    !registerData.confirmpassword ||
+    !registerData.tipoUsuario
+  ) {
+    newErrors.general = "Error, todos los campos son obligatorios";
+  }
+
+  if (registerData.password !== registerData.confirmpassword) {
+    newErrors.password = "Error, las contraseñas deben coincidir";
+  }
+
+  if (registerData.password && registerData.password.length < 8) {
+    newErrors.password = "La contraseña debe tener al menos 8 caracteres";
+  }
+
+  if (registerData.password && !/[A-Z]/.test(registerData.password)) {
+    newErrors.password =
+      "La contraseña debe contener al menos una letra mayúscula";
+  }
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    setLoading(false); // 👈 Desactiva si hay errores
+    return;
+  }
+
+  setErrors({});
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/register`,
+      registerData,
+      { withCredentials: true }
+    );
+    alert("Formulario enviado correctamente");
+    navigate("/login");
+  } catch (error) {
+    if (error.response) {
+      setErrors({ general: error.response.data.message });
+    } else {
+      console.log(error);
     }
-
-    // Validación de que las contraseñas coincidan
-    if (registerData.password !== registerData.confirmpassword) {
-      newErrors.password = "Error, las contraseñas deben coincidir";
-    }
-
-    // Validación de longitud mínima de la contraseña
-    if (registerData.password && registerData.password.length < 8) {
-      newErrors.password = "La contraseña debe tener al menos 8 caracteres";
-    }
-
-    // Validación de contraseña con al menos una letra mayúscula
-    if (registerData.password && !/[A-Z]/.test(registerData.password)) {
-      newErrors.password =
-        "La contraseña debe contener al menos una letra mayúscula";
-    } 
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setErrors({});
-
-    // Enviar los datos al backend
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/register`, 
-        registerData,
-        {
-          withCredentials: true      
-        }
-      );
-      alert("Formulario enviado correctamente");
-      navigate("/login");
-    } catch (error) {
-      if (error.response) {
-        setErrors({ general: error.response.data.message });
-      } else {
-        console.log(error);
-      }
-    }
-  };
+  } finally {
+    setLoading(false); // 👈 Siempre desactiva el loading al final
+  }
+};
 
   return (
     <>
@@ -159,10 +159,14 @@ function Register() {
               <option value="mayorista">Mayorista</option>
               <option value="minorista">Minorista</option>
             </select>
-            <button type="submit" className={style.registerBtn}>
-              {" "}
-              Registrarse
+            <button
+              type="submit"
+              className={style.registerBtn}
+              disabled={loading}
+            >
+              {loading ? <div className={style.spinner}></div> : "Registrarse"}
             </button>
+
             {errors.general && (
               <span className={style.errorText}>{errors.general}</span>
             )}

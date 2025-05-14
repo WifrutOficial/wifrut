@@ -135,7 +135,7 @@
 }
 
 .container {
-  background-image: url("../../backG.png");
+  background-image: url("../../fondoM.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -416,7 +416,7 @@ hr {
   }
 
   .container {
-    padding: 12px;
+      padding: 4px;
     min-height: 100vh;
   }
 

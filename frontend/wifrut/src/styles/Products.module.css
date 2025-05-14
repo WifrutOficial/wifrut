@@ -1,4 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.registerBtn {
+  background-color: #005234;
+  color: white;
+  border: none;
+padding: 5px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  position: relative;
+}
+.loadingBtn{
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+.registerBtn:disabled {
+   background-color: #247504;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
 .userDropdown,
 .userDropdownDesktop {
   position: relative;
@@ -59,8 +98,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 40px 0 20px 0;
+ 
 }
 /* Wrapper del carrusel */
 .carouselWrapper {
@@ -226,15 +264,10 @@
   transition: transform 0.3s ease-in-out;
 }
 .offOfertas {
-  height: 504px;
+
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-image: url("../../fondo.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: #ffffff;
+
 }
 .hortalizas,
 .Frutas {
@@ -296,7 +329,7 @@
 .categoryContainer {
   display: flex;
   align-items: center;
-  padding: 20px 0 10px 100px;
+  padding: 10px 0 10px 100px;
   gap: 10px;
 }
 .iconCategories {

@@ -14,6 +14,7 @@ function ProductsRender() {
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
   const { searchQuery } = useSearch();
+  const [loading, setLoading] = useState(true);
 
   const categoryIcons = {
     Frutas: (
@@ -44,10 +45,13 @@ function ProductsRender() {
   useEffect(() => {
     const getProductsBD = async () => {
       try {
+        setLoading(true); 
         const response = await axios.get(url, { withCredentials: true });
         setProducts(response.data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
+      } finally {
+        setLoading(false);
       }
     };
     getProductsBD();
@@ -135,6 +139,16 @@ function ProductsRender() {
     categories[category].push(product);
   });
 
+  if (loading) {
+    return (
+      <div className={style.loadingBtn}>
+        <button type="submit" className={style.registerBtn} disabled={loading}>
+          {loading ? <div className={style.spinner}></div> : "Registrarse"}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <>
       <DiscountedProducts
@@ -169,7 +183,11 @@ function ProductsRender() {
               {categories[category].map(
                 ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
                   <div key={_id} className={style.cartContainer}>
-                    <img className={style.img} src={`/${imagen}`} alt={nombre} />
+                    <img
+                      className={style.img}
+                      src={`/${imagen}`}
+                      alt={nombre}
+                    />
                     <p className={style.priceUnit}>
                       Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: $
                       {precio}
