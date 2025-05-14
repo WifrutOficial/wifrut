@@ -1,4 +1,4 @@
-import  { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -8,34 +8,41 @@ import { BsCart2 } from "react-icons/bs";
 import { useSearch } from "../../context/SearchContext";
 import { useCart } from "../../context/CartContext";
 import { IoIosArrowDropup } from "react-icons/io";
-import { FaRegUser, FaUsers } from "react-icons/fa";
-import { MdArrowDropDown, MdLocalShipping } from "react-icons/md";
-import { BiSolidOffer, BiSolidCategory, BiPackage } from "react-icons/bi";
-import { IoHome } from "react-icons/io5";
-import { IoMdLogOut } from "react-icons/io";
-
-import CartPreview from "../../components/Cart/CartPreview";
+import { FaRegUser } from "react-icons/fa";
 import style from "../../styles/Nav2.module.css";
+import { MdArrowDropDown } from "react-icons/md";
+import { BiSolidOffer } from "react-icons/bi";
+import { IoHome } from "react-icons/io5";
+import { FaUsers } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
+import { MdLocalShipping } from "react-icons/md";
+import CartPreview from "../../components/Cart/CartPreview";
+
+import { IoIosArrowDown } from "react-icons/io";
 
 function Nav2({ hideSearchAndCart = false }) {
   const menuRef = useRef(null);
-  const userMenuRef = useRef(null);
+  const { user } = useAuth();
   const navigate = useNavigate();
-
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+  const { searchQuery, setSearchQuery } = useSearch();
   const [isFixed, setIsFixed] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
+  const { cart } = useCart();
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [showCategorias, setShowCategorias] = useState(false);
   const [showCartPreview, setShowCartPreview] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const { isAuthenticated, logout, user } = useAuth();
-  const { searchQuery, setSearchQuery } = useSearch();
-  const { cart } = useCart();
+  const [mostrarOpciones, setMostrarOpciones] = useState(false);
+
+  const toggleCategorias = () => {
+    setShowCategorias(!showCategorias);
+  };
 
   const totalProductos = cart.length;
+
   const total = cart.reduce((acc, item) => {
     const precioFinal = item.precioConDescuento || item.precio;
     return acc + item.quantity * precioFinal;
@@ -49,10 +56,10 @@ function Nav2({ hideSearchAndCart = false }) {
           { withCredentials: true }
         );
         setProducts(response.data);
-        const categoriasUnicas = [
+        const categorias = [
           ...new Set(response.data.map((product) => product.categoria)),
         ];
-        setCategorias(categoriasUnicas);
+        setCategorias(categorias);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -62,64 +69,98 @@ function Nav2({ hideSearchAndCart = false }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsFixed(window.scrollY > 20);
-      setShowArrow(window.scrollY > 100);
+      // Lógica para fijar elemento
+      if (window.scrollY > 20) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+
+      // Lógica para mostrar flecha
+      if (window.scrollY > 100) {
+        setShowArrow(true);
+      } else {
+        setShowArrow(false);
+      }
+
+      // 🔽 Lógica para cerrar el menú al hacer scroll
+      if (mostrarOpciones) {
+        setMostrarOpciones(false);
+      }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mostrarOpciones]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
-      if (
-        userMenuRef.current &&
-        !userMenuRef.current.contains(event.target)
-      ) {
-        setShowUserMenu(false);
-      }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleCategoryClick = (category) => {
+  setShowCategorias(false);
+  setIsOpen(false);
+  // Target the correct ID used in ProductsRender
+  const categoryElement = document.getElementById(`scroll-${category}`);
+  if (categoryElement) {
+    const topPosition =
+      categoryElement.getBoundingClientRect().top + window.scrollY - 150;
+    window.scrollTo({
+      top: topPosition,
+      behavior: "smooth",
+    });
+  } else {
+    // Fallback: Navigate to the products page and try scrolling after a delay
+    navigate("/");
+    setTimeout(() => {
+      const retryElement = document.getElementById(`scroll-${category}`);
+      if (retryElement) {
+        const topPosition =
+          retryElement.getBoundingClientRect().top + window.scrollY - 150;
+        window.scrollTo({
+          top: topPosition,
+          behavior: "smooth",
+        });
+      }
+    }, 500); // Delay to allow page rendering
+  }
+};
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate("/");
   };
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const toggleUserMenu = () => setShowUserMenu((prev) => !prev);
-  const toggleCategorias = () => setShowCategorias(!showCategorias);
-  const handleSearchChange = (e) => setSearchQuery(e.target.value);
-
-  const handleCategoryClick = (category) => {
-    setShowCategorias(false);
-    setIsOpen(false);
-    const categoryElement = document.getElementById(`category-${category}`);
-    if (categoryElement) {
-      const topPosition =
-        categoryElement.getBoundingClientRect().top + window.scrollY - 150;
-      window.scrollTo({ top: topPosition, behavior: "smooth" });
-    }
-  };
-
   const handleOpenCartPreview = () => {
-    if (!showCartPreview) setShowCartPreview(true);
+    if (!showCartPreview) {
+      setShowCartPreview(true);
+    }
   };
 
   return (
     <div className={style.container}>
       <div className={style.containerLog}>
-        <p className={style.titleLog}>
-          <span className={style.truck}> 🚚 </span>Envío GRATIS en compras mayores a $80.000
-        </p>
+        <p className={style.titleLog}>Productos Saludables Seleccionados</p>
       </div>
-
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
           <img
@@ -129,28 +170,49 @@ function Nav2({ hideSearchAndCart = false }) {
             onClick={handleScrollToTop}
           />
         </div>
-
-        <div ref={menuRef} className={`${style.linkContainer} ${isOpen ? style.open : ""}`}>
+        <div
+          ref={menuRef}
+          className={`${style.linkContainer} ${isOpen ? style.open : ""}`}
+        >
           <IoMdClose onClick={toggleMenu} className={style.btnClose} />
 
           {!isAuthenticated ? (
             <div className={style.btnLogin}>
-              <button onClick={() => navigate("/login")}>Iniciar Sesión</button>
+              <div>
+                <button onClick={() => navigate("/login")}>
+                  Iniciar Sesion
+                </button>
+              </div>
               <FaRegUser onClick={() => navigate("/login")} />
             </div>
           ) : (
-            <div className={style.userDropdownMobil} ref={userMenuRef}>
-              <div className={style.userGreeting2} onClick={toggleUserMenu}>
-                Hola, {user?.name || "Usuario"} <MdArrowDropDown />
+            <div className={style.btnCerrarSesion}>
+              <div className={style.userLogin}>
+                <p>Hola, {user?.name} </p>
+                <IoIosArrowDown
+                  onClick={() => setMostrarOpciones(!mostrarOpciones)}
+                  className={style.arrow}
+                />
               </div>
-              {showUserMenu && (
-                <div className={`${style.dropdownMenuMobil} ${style.userGreeting}`}>
-                  <a className={style.a} onClick={() => navigate("/orders")}>
-                    <BiPackage /> Mis pedidos
-                  </a>
-                  <a className={style.a} onClick={logout}>
-                    <IoMdLogOut /> Cerrar sesión
-                  </a>
+
+              {mostrarOpciones && (
+                <div className={style.btnContainerMobil}>
+                  <div className={style.buttonMenu}>
+                    <img
+                      className={style.logoutbtn}
+                      src="/lista-de-la-compra.png"
+                      alt=""
+                    />
+                    <button>Mis pedidos</button>
+                  </div>
+                  <div className={style.buttonMenu}>
+                    <img
+                      className={style.logoutbtn}
+                      src="/cerrar-sesion.png"
+                      alt=""
+                    />
+                    <button onClick={logout}>Cerrar Sesion</button>
+                  </div>
                 </div>
               )}
             </div>
@@ -159,44 +221,39 @@ function Nav2({ hideSearchAndCart = false }) {
           <a className={style.a} onClick={handleScrollToTop}>
             <IoHome /> Inicio
           </a>
-
           {!hideSearchAndCart && (
             <>
               <a
                 className={style.a}
-                onClick={() => {
-                  const el = document.getElementById("ofertas");
-                  if (el) {
-                    const y = el.getBoundingClientRect().top + window.pageYOffset - 200;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                  }
-                }}
+                onClick={() =>
+                  window.scrollTo({ top: 550, behavior: "smooth" })
+                }
               >
                 <BiSolidOffer /> Ofertas
               </a>
               <a
                 className={style.a}
-                onClick={() => {
-                  const el = document.getElementById("sobre-nosotros");
-                  if (el) {
-                    const y = el.getBoundingClientRect().top + window.pageYOffset - 200;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                  }
-                }}
+                onClick={() =>
+                  window.scrollTo({ top: 2800, behavior: "smooth" })
+                }
               >
                 <FaUsers /> Conócenos
               </a>
               <a className={style.a} onClick={() => navigate("/send")}>
-                <MdLocalShipping /> Envíos
+                {" "}
+                <MdLocalShipping />
+                Envios{" "}
               </a>
             </>
           )}
-
           {!hideSearchAndCart && (
             <div className={style.categorias}>
-              <a onClick={toggleCategorias} className={style.a}>
-                <BiSolidCategory /> Categorías <MdArrowDropDown />
-              </a>
+              <div className={style.categoriasContainer}>
+                <a onClick={toggleCategorias} className={style.a}>
+                  <BiSolidCategory /> Categorías
+                  <MdArrowDropDown />
+                </a>
+              </div>
               {showCategorias && (
                 <div className={style.categoriasList}>
                   {categorias.map((categoria, index) => (
@@ -213,7 +270,6 @@ function Nav2({ hideSearchAndCart = false }) {
             </div>
           )}
         </div>
-
         {!hideSearchAndCart && (
           <div className={style.search}>
             <input
@@ -224,7 +280,10 @@ function Nav2({ hideSearchAndCart = false }) {
               onChange={handleSearchChange}
             />
             <IoSearch className={style.searchBtn} />
-            <div className={style.cartContainer} onClick={handleOpenCartPreview}>
+            <div
+              className={style.cartContainer}
+              onClick={handleOpenCartPreview}
+            >
               <BsCart2 className={style.cart} />
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
@@ -237,39 +296,65 @@ function Nav2({ hideSearchAndCart = false }) {
 
         {!isAuthenticated ? (
           <div className={style.btnLogin2}>
-            <button onClick={() => navigate("/login")}>Iniciar Sesión</button>
-            <FaRegUser className={style.logoUser} onClick={() => navigate("/login")} />
+            <div>
+              <button onClick={() => navigate("/login")}>Iniciar Sesion</button>
+            </div>
+            <FaRegUser
+              className={style.logoUser}
+              onClick={() => navigate("/login")}
+            />
           </div>
         ) : (
-          <div className={style.dropdownMenuCompu} ref={userMenuRef}>
-            <div className={style.userGreeting} onClick={toggleUserMenu}>
-              Hola, {user?.name || "Usuario"} <MdArrowDropDown />
+          <div className={style.btnCerrarSesion2}>
+            <div className={style.containerNameUser}>
+              <p>Hola, {user?.name} </p>
+              <IoIosArrowDown
+                onClick={() => setMostrarOpciones(!mostrarOpciones)}
+              />
             </div>
-            {showUserMenu && (
-              <div className={`${style.dropdownMenu} ${style.userGreeting}`}>
-                <a className={style.aCompu} onClick={() => navigate("/orders")}>
-                  <BiPackage /> Mis pedidos
-                </a>
-                <a className={style.aCompu} onClick={logout}>
-                  <IoMdLogOut /> Cerrar sesión
-                </a>
+
+            {mostrarOpciones && (
+              <div className={style.containerLogoutOrder}>
+                <div className={style.btnContainer}>
+                  <button> Mis pedidos</button>
+                  <img
+                    className={style.logoutbtn}
+                    src="/lista-de-la-compra.png"
+                    alt="mis-pedidos"
+                  />
+                </div>
+                <div className={style.btnContainer}>
+                  <button onClick={logout}>Cerrar Sesion</button>
+                  <img
+                    className={style.logoutbtn}
+                    src="/cerrar-sesion.png"
+                    alt="cerrar-sesion"
+                  />
+                </div>
               </div>
             )}
           </div>
         )}
       </div>
-
       {showArrow && (
         <div onClick={handleScrollToTop} className={style.floatingArrow}>
           <IoIosArrowDropup size={50} />
         </div>
       )}
+      <a
+        href="https://wa.me/542995974289"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          className={style.whatsappButton}
+          src="../../../whatsapp.png"
+          alt="wp"
+        />
+      </a>
       {showCartPreview && (
-  <div className={style.cartPreviewContainer}>
-    <CartPreview onClose={() => setShowCartPreview(false)} />
-  </div>
-)}
-
+        <CartPreview onClose={() => setShowCartPreview(false)} />
+      )}
     </div>
   );
 }

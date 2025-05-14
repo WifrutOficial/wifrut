@@ -155,9 +155,7 @@ function ProductsRender() {
             <button
               className={style.arrowLeft}
               onClick={() => {
-                const cont = document.getElementById(
-                  `scroll-${category}`
-                );
+                const cont = document.getElementById(`scroll-${category}`);
                 cont.scrollBy({ left: -300, behavior: "smooth" });
               }}
             >
@@ -167,25 +165,16 @@ function ProductsRender() {
               />
             </button>
 
-            <div
-              className={style.container}
-              id={`scroll-${category}`}
-            >
+            <div className={style.container} id={`scroll-${category}`}>
               {categories[category].map(
                 ({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
                   <div key={_id} className={style.cartContainer}>
-                    <img
-                      className={style.img}
-                      src={`/${imagen}`}
-                      alt={nombre}
-                    />
+                    <img className={style.img} src={`/${imagen}`} alt={nombre} />
                     <p className={style.priceUnit}>
                       Precio por {tipoVenta === "kg" ? "kg" : "unidad"}: $
                       {precio}
                     </p>
-                    <p className={style.description}>
-                      {descripcion || nombre}
-                    </p>
+                    <p className={style.description}>{descripcion || nombre}</p>
                     <p className={style.quantitySelection}>
                       Selecciona la cantidad:
                     </p>
@@ -210,9 +199,7 @@ function ProductsRender() {
                       </button>
                     </div>
                     <p className={style.total}>
-                      Total: $
-                      {((quantities[_id] || 0) * precio)
-                        .toFixed(2)}
+                      Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
                     </p>
                     <button
                       className={style.addCart}
@@ -236,9 +223,7 @@ function ProductsRender() {
             <button
               className={style.arrowRight}
               onClick={() => {
-                const cont = document.getElementById(
-                  `scroll-${category}`
-                );
+                const cont = document.getElementById(`scroll-${category}`);
                 cont.scrollBy({ left: 300, behavior: "smooth" });
               }}
             >

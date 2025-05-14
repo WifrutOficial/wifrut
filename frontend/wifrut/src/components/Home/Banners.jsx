@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import style from "../../styles/Banner.module.css";
 import { useSwipeable } from "react-swipeable";
 
@@ -18,7 +18,7 @@ const Banners = () => {
   }, []);
 
   const desktopImages = ["/banner5.jpg", "/banner5.jpg", "/banner5.jpg"];
-  const mobileImages = ["/Bannermovil.jpg","/Bannermovil.jpg",  ];
+  const mobileImages = ["/Bannermovil.jpg", "/Bannermovil.jpg"];
   const images = isMobile ? mobileImages : desktopImages;
 
   const handleSwipeLeft = () => {
