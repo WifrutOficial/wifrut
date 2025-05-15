@@ -8,6 +8,39 @@
   border-radius: 5px;
   animation: fadeIn 0.3s ease-in-out;
 }
+
+.registerBtn {
+  background-color: #005234;
+  color: white;
+  border: none;
+padding: 5px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.registerBtn:disabled {
+   background-color: #247504;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .mp {
   width: 40px;
   height: 20px;

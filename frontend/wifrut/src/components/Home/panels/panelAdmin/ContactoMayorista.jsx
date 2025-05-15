@@ -1,4 +1,4 @@
-import React from "react";
+
 import style from "../../../../styles/ContactoMayorista.module.css";
 import { useNavigate } from "react-router-dom";
 

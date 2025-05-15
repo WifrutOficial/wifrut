@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import style from "../../../../styles/BuscarPedidos.module.css";
 import axios from "axios";
 

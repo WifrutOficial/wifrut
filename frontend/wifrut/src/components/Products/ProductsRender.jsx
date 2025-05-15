@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -123,6 +123,11 @@ function ProductsRender() {
       showConfirmButton: false,
     });
   };
+useEffect(() => {
+  if (searchQuery && productsContainerRef.current) {
+    productsContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}, [searchQuery]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -138,7 +143,7 @@ function ProductsRender() {
     if (!categories[category]) categories[category] = [];
     categories[category].push(product);
   });
-
+const productsContainerRef = useRef(null)
   if (loading) {
     return (
       <div className={style.loadingBtn}>
@@ -151,6 +156,7 @@ function ProductsRender() {
 
   return (
     <>
+      <div ref={productsContainerRef}></div>
       <DiscountedProducts
         products={filteredProducts.filter((p) => p.descuento)}
         handleAddToCart={handleAddToCart}

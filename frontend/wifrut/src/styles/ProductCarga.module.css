@@ -1,7 +1,7 @@
 
 
 .title {
-  color: #fff;
+  color: #000;
   font-size: 20px;
   text-align: center;
 
@@ -18,18 +18,18 @@
   z-index: -1;
   border-radius: 15px;
   background-color: #d4d4d415;
-  border: 1px solid #d4d4d46b;
+   border: 1px solid #0c0c0c6b;
   gap: 20px;
   max-width: 900px;
 
 }
 .hiddenInput{
-  color: #fff;
+  color: #000;
   
 }
 
 .customFileButton{
-  color: #fff;
+  color: #000;
   
 }
 
@@ -37,7 +37,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #fff;
+  color: #000;
   margin-left: 10px;
   background-color: #FFB83B;
   border-radius: 13px;

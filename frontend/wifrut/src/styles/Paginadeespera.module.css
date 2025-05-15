@@ -20,7 +20,7 @@
   .containerInfo{
     width: 528px ;
     height: 189px;
-    color: #fff;
+    color: #000;
     position: relative;
     display: flex;
     flex-direction: column;

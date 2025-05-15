@@ -6,14 +6,14 @@
   backdrop-filter: blur(20px);
   border-radius: 15px;
   background-color: #d4d4d415;
-  border: 1px solid #d4d4d46b;
+  border: 1px solid #0c0c0c6b;
   margin: 20px auto;
   max-width: 900px;
 
 }
 
 h2 {
-  color: #fff;
+  color: #000;
   font-weight: 500;
   font-size: 20px;
   padding: 15px 0px;
@@ -31,10 +31,10 @@ h2 {
 .solicitudItem {
   display: flex;
   font-size: 12px;
-  border: 1px solid #d4d4d46b;
+  border: 1px solid #0c0c0c6b;
   border-radius: 13px;
   padding: 5px;
-  color: #fff;
+  color: #000;
 }
 .solicitudInfo1 {
   display: flex;

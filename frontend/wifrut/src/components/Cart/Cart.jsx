@@ -22,6 +22,7 @@ export default function Cart({ hideSearchAndCart = true }) {
   const [costoEnvio, setCostoEnvio] = useState(0);
   const [zonaDetectadaMsg, setZonaDetectadaMsg] = useState("");
   const [isLoadingZona, setIsLoadingZona] = useState(false);
+    const [loading, setLoading] = useState(false);
 
   const zonasEnvio = zonasGeo.features.map((feature) => {
     const name =
@@ -72,7 +73,7 @@ export default function Cart({ hideSearchAndCart = true }) {
       });
       return;
     }
-
+  setLoading(true);
     try {
       const response = await checkout(
         direccion,
@@ -145,7 +146,9 @@ export default function Cart({ hideSearchAndCart = true }) {
           },
         });
       }
-    }
+    }finally {
+    setLoading(false); 
+  }
   };
 
   const confirmarVaciarCarrito = () => {
@@ -481,7 +484,13 @@ export default function Cart({ hideSearchAndCart = true }) {
                   { nombre: "Mercado Pago", icono: "/mpicon.png" },
                 ].map(({ nombre, icono }) => (
                   <label key={nombre} className={style.containerPagoInput}>
-                    <img src={icono} alt={nombre} className={`${style.mp} ${nombre === "Efectivo" ? style.ft : style.mp}`} />
+                    <img
+                      src={icono}
+                      alt={nombre}
+                      className={`${style.mp} ${
+                        nombre === "Efectivo" ? style.ft : style.mp
+                      }`}
+                    />
                     <span className={style.PagoText}> {nombre}</span>
                     <input
                       type="radio"
@@ -501,8 +510,18 @@ export default function Cart({ hideSearchAndCart = true }) {
                 >
                   Vaciar Carrito
                 </button>
-                <button onClick={handleCheckout} aria-label="Realizar pedido">
-                  Realizar Pedido
+                <button
+                  onClick={handleCheckout}
+                  type="submit"
+                  className={style.registerBtn}
+                  disabled={loading}
+                  aria-label="Realizar pedido"
+                >
+                  {loading ? (
+                    <div className={style.spinner}></div>
+                  ) : (
+                    "Realizar Pedido"
+                  )}
                 </button>
               </div>
             </>
