@@ -33,36 +33,37 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-// FUNCIÓN LOGIN
-const login = async (email, password) => {
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/login`,
-      { email, password },
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
+  // FUNCIÓN LOGIN
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/login`,
+        { email, password },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.data?.user) {
+        const u = response.data.user;
+         console.log("Usuario recibido DONDE TENDRIA QUE ESTAR TELEFONO:", u);
+        setIsAuthenticated(true);
+        setUser({
+          ...u,
+          name: u.nombre,
+          phone: u.phone,
+        });
+        console.log("Respuesta del login:", response.data);
+        return response.data.user;
+      } else {
+        throw new Error("Usuario no recibido en la respuesta.");
       }
-    );
-
-    if (response.data?.user) {
-      const u = response.data.user;
-      setIsAuthenticated(true);
-      // Mapear 'nombre' a 'name' para que Nav2 lea user.name
-      setUser({
-        ...u,
-        name: u.nombre
-      });
-      return response.data.user;
-    } else {
-      throw new Error("Usuario no recibido en la respuesta.");
+    } catch (error) {
+      console.error("Error en login:", error.response?.data || error.message);
+      throw error.response?.data?.msg || "Error en el servidor";
     }
-  } catch (error) {
-    console.error("Error en login:", error.response?.data || error.message);
-    throw error.response?.data?.msg || "Error en el servidor";
-  }
-};
-
+  };
 
   //FUNCIÓN LOGOUT
   const logout = async () => {

@@ -17,8 +17,8 @@ const Banners = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const desktopImages = ["/banner5.jpg", "/banner5.jpg", "/banner5.jpg"];
-  const mobileImages = ["/Bannermovil.jpg", "/Bannermovil.jpg"];
+  const desktopImages = ["/banner5.jpg", "/bannerC2.jpeg"];
+  const mobileImages = ["/Bannermovil.jpg", "/bannerM2.jpeg"];
   const images = isMobile ? mobileImages : desktopImages;
 
   const handleSwipeLeft = () => {

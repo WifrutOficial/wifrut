@@ -1,0 +1,33 @@
+.containerInfo{
+   backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: 15px;
+  background-color: #d4d4d415;
+  border: 1px solid #0c0c0c6b;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px 10px;
+  margin: auto;
+  max-width: 900px;
+  font-size: 18px;
+}
+
+h2{
+    color: #000;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    padding-top: 20px;  
+}
+
+
+
+@media (max-width: 1000px) {
+    .containerInfo {
+        padding: 20px 10px;
+        margin: 20px auto;
+        max-width: 90%;
+        font-size: 12px;
+    }
+}

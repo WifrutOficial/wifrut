@@ -4,6 +4,7 @@
   color: #000;
   font-size: 20px;
   text-align: center;
+  margin: 20px auto;
 
 }
 
@@ -52,6 +53,11 @@
 
 .customFileButton, .hiddenInput, .btn{
  font-size: 10px;
+  
+}
+.container {
+
+  margin: auto 20px;
   
 }
 

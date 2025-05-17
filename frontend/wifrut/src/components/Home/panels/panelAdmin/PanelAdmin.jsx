@@ -3,8 +3,9 @@ import React from "react";
 import style from "../../../../styles/Admin.module.css";
 import { useState } from "react";
 import Products from "./Products";
-import PanelMayorista from "./PanelMayorista";
-import MayoristasAprobados from "./MayoristasAprobados";
+//import PanelMayorista from "./PanelMayorista";
+//import MayoristasAprobados from "./MayoristasAprobados";
+import MayoristasAprobados2 from "./MayoristasAprobados2";
 import { GoArrowUp } from "react-icons/go";
 import BuscarPedidos from "./BuscarPedidos";
 
@@ -29,14 +30,14 @@ function PanelAdmin() {
               <button onClick={() => setActiveComponent(<Products></Products>)}>
                 Carga de Productos
               </button>
-              <button
+            {/*   <button
                 onClick={() =>
-                  setActiveComponent(<PanelMayorista></PanelMayorista>)
+                  setActiveComponent(<PanelMasyorista></PanelMayorista>)
                 }
               >
                 Solicitudes Pendientes
-              </button>
-              <button
+              </button> */}
+            {/*   <button
                 onClick={() =>
                   setActiveComponent(
                     <MayoristasAprobados></MayoristasAprobados>
@@ -44,7 +45,16 @@ function PanelAdmin() {
                 }
               >
                 Lista Clientes Mayoristas
-              </button>
+              </button> */}
+                <button
+                onClick={() =>
+                  setActiveComponent(
+                    <MayoristasAprobados2></MayoristasAprobados2>
+                  )
+                }
+              >
+                Lista Clientes Mayoristas
+              </button> 
               <button
                 onClick={() =>
                   setActiveComponent(<BuscarPedidos></BuscarPedidos>)

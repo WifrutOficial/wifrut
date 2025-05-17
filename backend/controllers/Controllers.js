@@ -4,7 +4,6 @@ import { createAccessToken } from "../token/token.js";
 //controlador para guardar en la BD y validar en el back en registro.
 export const postRegister = async (req, res) => {
   try {
-  
     const { nombre, email, phone, password, tipoUsuario } = req.body;
 
     if (!nombre || !email || !phone || !password || !tipoUsuario) {
@@ -31,9 +30,10 @@ export const postRegister = async (req, res) => {
 
     res.status(201).json({
       msg: "Registro exitoso",
-       nombre: register.nombre,
+      nombre: register.nombre,
       tipoUsuario: register.tipoUsuario,
       estadoCuenta: register.estadoCuenta,
+      phone: register.phone,
     });
   } catch (error) {
     if (error.response) {
@@ -46,13 +46,33 @@ export const postRegister = async (req, res) => {
 };
 
 
+/**
+ * GET /api/register/mayoristas
+ * Devuelve solamente los usuarios de tipo “mayorista”.
+ * Si quieres además solo los “pendiente”, descomenta la línea correspondiente.
+ */
+export const getMayoristas = async (req, res) => {
+  try {
+    // Definimos aquí el filtro para “mayoristas”
+    const filtro = { tipoUsuario: "mayorista" };
+    // Si además quieres sólo los pendientes, descomenta:
+    // filtro.estadoCuenta = "pendiente";
+
+    const mayoristas = await Register.find(filtro).select("-password -__v");
+    res.json(mayoristas);
+  } catch (error) {
+    console.error("Error al obtener mayoristas:", error);
+    res.status(500).json({ msg: "Error de servidor al obtener mayoristas." });
+  }
+};
 
 
 export const postLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await Register.findOne({ email }).select("+password");
+    const user = await Register.findOne({ email }).select("+password +phone");
+
     if (!user) {
       return res.status(401).json({ msg: "Usuario no encontrado" });
     }
@@ -62,22 +82,21 @@ export const postLogin = async (req, res) => {
       return res.status(401).json({ msg: "Contraseña incorrecta" });
     }
 
-  
     const payload = {
       userId: user._id,
       tipoUsuario: user.tipoUsuario,
       estadoCuenta: user.estadoCuenta,
+      phone: user.phone,
     };
 
     const token = await createAccessToken(payload);
-
 
     const isProd = process.env.NODE_ENV === "production";
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,                      
-      sameSite: isProd ? "None" : "Lax",  
+      secure: isProd,
+      sameSite: isProd ? "None" : "Lax",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -91,6 +110,7 @@ export const postLogin = async (req, res) => {
         userName: user.userName,
         tipoUsuario: user.tipoUsuario,
         estadoCuenta: user.estadoCuenta,
+        phone: user.phone,
       },
     });
   } catch (error) {

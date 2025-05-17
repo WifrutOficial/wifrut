@@ -4,7 +4,7 @@ import style from "../../../../styles/ProductCarga.module.css";
 
 function Products() {
   const [retailFile, setRetailFile] = useState(null);
-  const [wholesaleFile, setWholesaleFile] = useState(null);
+  //const [wholesaleFile, setWholesaleFile] = useState(null);
 
   const handleFileChange = (e, type) => {
     if (type === "retail") {
@@ -54,8 +54,9 @@ function Products() {
     <div className={style.container1}>
       {/* Carga de Productos Minoristas */}
       <div className={style.containerGlass}>
+        <p className={style.title}>Carga de Productos Minoristas</p>
         <div className={style.container}>
-          <p className={style.title}>Carga de Productos Minoristas</p>
+          
           <input
             type="file"
             accept=".xlsx, .xls"
@@ -74,9 +75,9 @@ function Products() {
         </div>
       </div>
 
-      {/* Carga de Productos Mayoristas */}
+     
       <div className={style.containerGlass}>
-        <div className={style.container}>
+       {/*  <div className={style.container}>
           <p className={style.title}>Carga de Productos Mayoristas</p>
           <input
             type="file"
@@ -93,7 +94,7 @@ function Products() {
               Cargar Excel
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

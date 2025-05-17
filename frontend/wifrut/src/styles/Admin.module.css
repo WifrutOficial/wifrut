@@ -5,6 +5,7 @@
   background-size: cover;
    max-height: fit-content;
   min-height: 100vh;
+  
 }
 
 .logo {
@@ -36,7 +37,7 @@
   justify-content: center;
   align-items: center;
   padding: 45px 0 20px 0;
-  margin: auto;
+  margin: 10px auto;
   max-width: 900px;
 
 }
@@ -53,7 +54,7 @@
   cursor: pointer;
   color: #000;
   font-size: 15px;
- border: 1px solid #d4d4d46b;
+  border: 1px solid #0c0c0c6b;
   border-radius: 10px;
   padding: 5px 5px;
   cursor: pointer;
@@ -88,6 +89,7 @@ span{
 
   .navContent {
     padding: 35px 0 20px 0;
+    margin: auto 20px;
   }
   .buttons {
     display: flex;
@@ -105,7 +107,7 @@ span{
   
 }
 .title {
-  padding-top: 30px;
+  padding-top: 200px;
 
   
 

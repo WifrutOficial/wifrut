@@ -2,10 +2,10 @@
   display: flex;
   height: 100%;
   gap: 10px;
-  width: 150px;
+  width: fit-content;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 10px;
+
   margin-left: 30px;
 
 }
@@ -158,8 +158,9 @@
   align-items: center;
   flex-direction: column;
   gap: 10px;
-  width: 33px;
+  width: fit-content;
   height: 33px;
+  
 }
 
 .CartNumber {
@@ -198,6 +199,7 @@
   gap: 10px;
   align-items: center;
   margin: 0 20px;
+  width: fit-content;
 }
 .btnLogin2 button {
   font-size: 13px;

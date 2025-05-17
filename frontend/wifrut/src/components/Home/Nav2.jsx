@@ -188,7 +188,7 @@ function Nav2({ hideSearchAndCart = false }) {
           ) : (
             <div className={style.btnCerrarSesion}>
               <div className={style.userLogin}>
-                <p>Hola, {user?.name} </p>
+                <p> ¡Hola, {user?.name}! </p>
                 <IoIosArrowDown
                   onClick={() => setMostrarOpciones(!mostrarOpciones)}
                   className={style.arrow}
@@ -307,7 +307,7 @@ function Nav2({ hideSearchAndCart = false }) {
         ) : (
           <div className={style.btnCerrarSesion2}>
             <div className={style.containerNameUser}>
-              <p>Hola, {user?.name} </p>
+              <p>¡Hola, {user?.name}! </p>
               <IoIosArrowDown
                 onClick={() => setMostrarOpciones(!mostrarOpciones)}
               />

@@ -42,8 +42,11 @@ function BuscarPedidos() {
   });
 
   return (
+
+    <div>
+         <h2 className={style.title}>Buscar pedidos por fecha</h2>
     <div className={style.container}>
-      <h2 className={style.title}>Buscar pedidos por fecha</h2>
+   
 
       <div className={style.search}>
         <input
@@ -123,6 +126,7 @@ function BuscarPedidos() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

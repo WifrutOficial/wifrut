@@ -1,18 +1,20 @@
 .container {
-  margin: 0 auto;
+  margin: 10px auto; ;
   max-width: 900px;
   border-radius: 13px;
   backdrop-filter: blur(20px);
   z-index: -1;
   background-color: #d4d4d415;
   border: 1px solid #0c0c0c6b;
-  max-height: fit-content;
-  min-height: 100vh;
+  height: fit-content;
+  padding: 20px 10px;
+
 }
 
 .title {
   text-align: center;
   color: #000;
+  padding-bottom: 20px;
 }
 
 .search {
@@ -177,4 +179,10 @@
 .none {
   text-align: center;
   padding: 10px 0;
+}
+
+@media (max-width: 1000px){
+  .container{
+    margin: auto  20px ;
+  }
 }
