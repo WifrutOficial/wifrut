@@ -47,8 +47,15 @@ const orderSchema = new mongoose.Schema({
   numeroPedido: {
     type: String,
     required: true,
-    unique: true, // 🔐 opcional: para evitar duplicados por error
+    unique: true, 
   },
+ turno: {
+  type: String,
+  enum: ["mañana", "tarde"],
+  default: "mañana",
+  
+},
+
   createdAt: {
     type: Date,
     default: Date.now,

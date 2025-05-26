@@ -256,6 +256,21 @@
   }
 }
 
+.truck {
+  display: inline-block;
+  margin-left: 0.5ch;
+  animation: drive 1s ease-in-out infinite alternate;
+}
+
+@keyframes drive {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-15px);
+  }
+}
+
 /* Estilos para pantallas menores a 768px */
 @media (max-width: 966px) {
   .floatingArrow {

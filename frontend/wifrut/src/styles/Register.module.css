@@ -2,7 +2,7 @@
   background-color: #005234;
   color: white;
   border: none;
-padding: 5px 5px;
+  padding: 5px 5px;
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
@@ -10,7 +10,7 @@ padding: 5px 5px;
 }
 
 .registerBtn:disabled {
-   background-color: #247504;
+  background-color: #247504;
   cursor: not-allowed;
 }
 
@@ -30,21 +30,20 @@ padding: 5px 5px;
   }
 }
 
-
-
-
 .container {
   background-image: url("../../backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   max-height: fit-content;
-  min-height: 100vh ;
+  min-height: 100vh;
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-
+   
+  
 }
 .containerLogin {
   background-image: url("../../backG.png");
@@ -55,9 +54,8 @@ padding: 5px 5px;
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+justify-content: center;
   align-items: center;
-
 
 }
 
@@ -67,6 +65,8 @@ padding: 5px 5px;
   position: relative;
   top: 50px;
   cursor: pointer;
+ 
+
 }
 
 .arrow {
@@ -137,15 +137,13 @@ input:focus {
 
 input::placeholder {
   color: #000;
-   font-size: 11px;
+  font-size: 11px;
   font-weight: 400;
 }
 
 input:focus::placeholder {
   opacity: 0;
 }
-
-
 
 .login {
   color: #000;
@@ -190,9 +188,12 @@ span button {
 }
 
 .errorText {
-  color: red;
-  font-size: 12px;
-  background-color: #00ad3a;
+  color: #ff0000;
+  font-size: 11px;
+  max-width: 270px;
+  padding-top: 5px;
+  padding-left: 9px;
+  display: flex;
 }
 
 .select {
@@ -216,11 +217,16 @@ span button {
   border: 1px solid #d4d4d46b;
 }
 
+.customAlert {
+  background-color: #d4d4d415;
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  color: #000;
+}
+
 @media (max-width: 768px) {
-  .containerRegister {
-    width: fit-content;
-    padding: 40px 10px 0 20px;
-  }
+
 
   .containerForm {
     gap: 10px;
@@ -248,15 +254,13 @@ span button {
     height: 110px;
   }
   .container {
-  background-image: url("../../fondoM.png");
- 
-
+    background-image: url("../../fondoM.png");
+  
+  }
+  .containerLogin {
+    background-image: url("../../fondoM.png");
+  }
+  .customAlert {
+    font-size: 10px;
+  }
 }
-.containerLogin {
-  background-image: url("../../fondoM.png");
-
-
-}
-
-}
-

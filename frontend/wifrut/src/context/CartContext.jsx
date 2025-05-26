@@ -4,7 +4,6 @@ import axios from "axios";
 import style from "../styles/Cart.module.css";
 import Swal from "sweetalert2";
 
-
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
@@ -47,38 +46,40 @@ export const CartProvider = ({ children }) => {
     });
   };
 
- // Eliminar productos del carrito con SweetAlert2
- const removeFromCart = (productId) => {
-  Swal.fire({
-    title: '¿Seguro deseas eliminar el producto?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar', 
-    confirmButtonColor: "#247504",
-    cancelButtonColor: "#B90003",
-    customClass: {
-      popup: style.customAlert,
-      icon: style.customIcon,
-    },
-    reverseButtons: true,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      setCart((prevCart) => prevCart.filter((item) => item._id !== productId));
-      Swal.fire({
-        title: 'Eliminado',
-        text: 'El producto ha sido eliminado del carrito.',
-        icon: 'success',
-        timer: 3000,
-        showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIconSuc,
-        },
-      });
-    }
-  });
-};
+  // Eliminar productos del carrito con SweetAlert2
+  const removeFromCart = (productId) => {
+    Swal.fire({
+      title: "¿Seguro deseas eliminar el producto?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#247504",
+      cancelButtonColor: "#B90003",
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIcon,
+      },
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setCart((prevCart) =>
+          prevCart.filter((item) => item._id !== productId)
+        );
+        Swal.fire({
+          title: "Eliminado",
+          text: "El producto ha sido eliminado del carrito.",
+          icon: "success",
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: style.customAlert,
+            icon: style.customIconSuc,
+          },
+        });
+      }
+    });
+  };
 
   // Vaciar carrito
   const clearCart = () => {
@@ -86,50 +87,65 @@ export const CartProvider = ({ children }) => {
   };
 
   // Función para enviar pedido al backend
-  const checkout = async (direccion, metodoPago) => {
+  const checkout = async (
+    direccion,
+    metodoPago,
+    totalFinal,
+    costoEnvio,
+    turno
+  ) => {
+    console.log("Turno:", turno);
+    console.log("Cart para enviar:", cart);
+    console.log(
+      "Items mapeados:",
+      cart.map((item) => ({
+        productId: item.productId ?? item._id,
+        nombre: item.nombre,
+        cantidad: item.quantity,
+        precio: item.precioConDescuento ?? item.precio,
+      }))
+    );
+
     if (!user) {
       alert("Debes estar autenticado para realizar un pedido.");
       return;
     }
-  
+
     if (cart.length === 0) {
       alert("El carrito está vacío.");
       return;
     }
-  
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/order/create`,
         {
           userId: user._id,
-          items: cart.map(item => ({
+          items: cart.map((item) => ({
             productId: item._id,
             nombre: item.nombre,
-            cantidad: item.quantity,
+            cantidad: item.cantidad,
             precio: item.precioConDescuento ?? item.precio,
           })),
-          total: cart.reduce(
-            (acc, item) =>
-              acc + (item.precioConDescuento ?? item.precio) * item.quantity,
-            0
-          ),
+          total: totalFinal,
+          costoEnvio: costoEnvio || 0,
           direccion,
           metodoPago,
+          turno,
         },
         {
           withCredentials: true,
         }
       );
-  
+
       if (response.status === 201) {
-        return response; // Asegúrate de devolver la respuesta aquí.
+        return response;
       }
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
-      throw error; // Propaga el error para que sea capturado en el componente.
+      throw error;
     }
   };
-  
 
   // Calcular cantidad total de productos
   const getTotalProductos = () => {
@@ -160,7 +176,7 @@ export const CartProvider = ({ children }) => {
         getTotal,
         tipoVenta,
         setTipoVenta,
-       
+        setCart,
       }}
     >
       {children}

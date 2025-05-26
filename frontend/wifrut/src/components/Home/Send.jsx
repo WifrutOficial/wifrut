@@ -39,38 +39,29 @@ function Send() {
             🟢{" "}
             <strong className={style.strong}>
               {" "}
-              Neuquén Zona 1: <p className={style.price}>  $2000</p>{" "}
+              ZONA 1 NEUQUÉN - CENTENARIO: <p className={style.price}>
+                {" "}
+                $2000
+              </p>{" "}
             </strong>
           </li>
           <li>
             🟠{" "}
-            <strong  className={style.strong}>
-              Neuquén Zona 2: <p className={style.price}> $3500</p>{" "}
+            <strong className={style.strong}>
+              ZONA 2 NEUQUÉN - CENTENARIO: <p className={style.price}> $3500</p>{" "}
             </strong>
           </li>
           <li>
             🔵{" "}
-            <strong  className={style.strong}>
-              Neuquén Zona 3: <p className={style.price}> $4500</p>
+            <strong className={style.strong}>
+              ZONA 3 NEUQUÉN: <p className={style.price}> $4500</p>
             </strong>
           </li>
           <li>
             🟤{" "}
-            <strong  className={style.strong}>
-              Plottier Zona 4: <p className={style.price}>  $6500</p>{" "}
-            </strong>
-          </li>
-          <li>
-            🔴{" "}
-            <strong  className={style.strong}>
-              Centenario Zona 1: <p className={style.price}> $2000</p>{" "}
-            </strong>
-          </li>
-          <li>
-            🟣
             <strong className={style.strong}>
-              {" "}
-              Centenario Zona 2: <p  className={style.price}>  $3500</p>{" "}
+              ZONA 4 PLOTTIER Y ALREDEDORES:{" "}
+              <p className={style.price}> $6500</p>{" "}
             </strong>
           </li>
         </ul>
@@ -80,6 +71,29 @@ function Send() {
           dirección al hacer un pedido. Si tenés dudas sobre tu zona, podés
           buscar tu ubicación en el siguiente mapa.
         </p>
+        <br />
+        <div className={style.clockContainer}>
+          <div className={style.clockContent}>
+            <div className={style.clockHeader}>
+              <h3 className={style.clockTitle}>Horarios de Entrega</h3>
+              <video className={style.video} autoPlay loop muted>
+                <source src="/animacion2.webm" type="video/webm" />
+                Tu navegador no soporta el video.
+              </video>
+            </div>
+            <div className={style.containerHorario}>
+              {" "}
+              <div className={style.continerHorio1}>
+                <p>Mañana:</p>
+                <p className={style.clockTime}>🚚 10:30 - 13:30 </p>
+              </div>
+              <div className={style.continerHorio1}>
+                <p>Tarde:</p>
+                <p className={style.clockTime}> 🚚 14:00 - 18:00</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className={style.infoMapa}>
           <p>

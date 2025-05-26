@@ -1,4 +1,3 @@
-import React from "react";
 import style from "../../styles/Footer.module.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
@@ -33,10 +32,10 @@ function Footer() {
             <FaInstagram />
             <p>
               <a
-                href="https://www.facebook.com/profile.php?id=61575813925313"
+                href="https://www.instagram.com/wifrut.oficial"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={style.link} /* opcional, para estilos */
+                className={style.link} 
               >
                 WifrutOficial
               </a>
@@ -49,7 +48,7 @@ function Footer() {
                 href="https://www.facebook.com/profile.php?id=61575813925313"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={style.link} /* opcional, para estilos */
+                className={style.link} 
               >
                 WifrutOficial
               </a>

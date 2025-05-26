@@ -24,13 +24,12 @@
 
 .containerContact {
   text-align: left;
-
 }
 
-.rs{
-  font-size:13px ;
+.rs {
+  font-size: 13px;
 }
-span{
+span {
   color: aqua;
 }
 .Info {
@@ -39,13 +38,15 @@ span{
   gap: 10px;
   font-size: 14px;
   margin-bottom: 5px;
+  cursor: pointer;
+
 }
 
 .Info svg {
   font-size: 16px;
   color: #247504;
 }
-a{
+a {
   color: white;
   text-decoration: none;
   transition: color 0.3s;
@@ -106,7 +107,7 @@ a{
   }
 }
 
-@media (max-width: 350px){
+@media (max-width: 350px) {
   .containerInfo {
     flex-wrap: wrap;
     justify-content: center;

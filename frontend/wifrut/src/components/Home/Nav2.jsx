@@ -118,33 +118,33 @@ function Nav2({ hideSearchAndCart = false }) {
   };
 
   const handleCategoryClick = (category) => {
-  setShowCategorias(false);
-  setIsOpen(false);
-  // Target the correct ID used in ProductsRender
-  const categoryElement = document.getElementById(`scroll-${category}`);
-  if (categoryElement) {
-    const topPosition =
-      categoryElement.getBoundingClientRect().top + window.scrollY - 150;
-    window.scrollTo({
-      top: topPosition,
-      behavior: "smooth",
-    });
-  } else {
-    // Fallback: Navigate to the products page and try scrolling after a delay
-    navigate("/");
-    setTimeout(() => {
-      const retryElement = document.getElementById(`scroll-${category}`);
-      if (retryElement) {
-        const topPosition =
-          retryElement.getBoundingClientRect().top + window.scrollY - 150;
-        window.scrollTo({
-          top: topPosition,
-          behavior: "smooth",
-        });
-      }
-    }, 500); // Delay to allow page rendering
-  }
-};
+    setShowCategorias(false);
+    setIsOpen(false);
+    // Target the correct ID used in ProductsRender
+    const categoryElement = document.getElementById(`scroll-${category}`);
+    if (categoryElement) {
+      const topPosition =
+        categoryElement.getBoundingClientRect().top + window.scrollY - 150;
+      window.scrollTo({
+        top: topPosition,
+        behavior: "smooth",
+      });
+    } else {
+      // Fallback: Navigate to the products page and try scrolling after a delay
+      navigate("/");
+      setTimeout(() => {
+        const retryElement = document.getElementById(`scroll-${category}`);
+        if (retryElement) {
+          const topPosition =
+            retryElement.getBoundingClientRect().top + window.scrollY - 150;
+          window.scrollTo({
+            top: topPosition,
+            behavior: "smooth",
+          });
+        }
+      }, 500); // Delay to allow page rendering
+    }
+  };
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate("/");
@@ -159,7 +159,10 @@ function Nav2({ hideSearchAndCart = false }) {
   return (
     <div className={style.container}>
       <div className={style.containerLog}>
-        <p className={style.titleLog}>Productos Saludables Seleccionados</p>
+        <p className={style.titleLog}>
+          <span className={style.truck}>🚚</span>
+          ¡Envío GRATIS en compras desde $80.000!{" "}
+        </p>
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
@@ -203,7 +206,7 @@ function Nav2({ hideSearchAndCart = false }) {
                       src="/lista-de-la-compra.png"
                       alt=""
                     />
-                    <button>Mis pedidos</button>
+                    <button onClick={ () => navigate("/repetir-pedido") }>Mis pedidos</button>
                   </div>
                   <div className={style.buttonMenu}>
                     <img

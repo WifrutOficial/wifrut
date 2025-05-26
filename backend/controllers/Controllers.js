@@ -1,23 +1,26 @@
 import Register from "../models/register.js";
 import { createAccessToken } from "../token/token.js";
 
-//controlador para guardar en la BD y validar en el back en registro.
 export const postRegister = async (req, res) => {
   try {
     const { nombre, email, phone, password, tipoUsuario } = req.body;
 
+    // 1️⃣ Campos obligatorios
     if (!nombre || !email || !phone || !password || !tipoUsuario) {
-      return res
-        .status(400)
-        .json({ msg: "Todos los campos son obligatorios." });
+      return res.status(400).json({
+        errors: { general: "Todos los campos son obligatorios" },
+      });
     }
 
-    const existingUser = await Register.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ msg: "El email ya está registrado." });
+    // 2️⃣ Email duplicado
+    if (await Register.findOne({ email })) {
+      return res.status(409).json({
+        errors: { email: "El email ya está registrado" },
+      });
     }
 
-    const register = new Register({
+    // 3️⃣ Crear usuario
+    const user = new Register({
       nombre,
       email,
       phone,
@@ -25,47 +28,55 @@ export const postRegister = async (req, res) => {
       tipoUsuario,
       estadoCuenta: tipoUsuario === "mayorista" ? "pendiente" : "aprobado",
     });
+    await user.save();
 
-    await register.save();
-
-    res.status(201).json({
-      msg: "Registro exitoso",
-      nombre: register.nombre,
-      tipoUsuario: register.tipoUsuario,
-      estadoCuenta: register.estadoCuenta,
-      phone: register.phone,
+    // 4️⃣ Respuesta exitosa
+    return res.status(201).json({
+      message: "Registro exitoso",
+      user: {
+        nombre: user.nombre,
+        tipoUsuario: user.tipoUsuario,
+        estadoCuenta: user.estadoCuenta,
+        phone: user.phone,
+      },
     });
   } catch (error) {
-    if (error.response) {
-      console.log("Error del backend:", error.response.data);
-      setErrors({ general: error.response.data.message });
-    } else {
-      console.log("Error inesperado:", error);
+    console.error("Error en /api/register:", error);
+
+    // 5️⃣ Errores de validación de Mongoose
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).reduce((acc, err) => {
+        acc[err.path] = err.message;
+        return acc;
+      }, {});
+      return res.status(400).json({ errors });
     }
+
+    // 6️⃣ Error de índice único
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0];
+      return res.status(409).json({
+        errors: { [field]: `El ${field} ya está registrado` },
+      });
+    }
+
+    // 7️⃣ Cualquier otro
+    return res.status(500).json({
+      errors: { general: "Error interno del servidor" },
+    });
   }
 };
 
-
-/**
- * GET /api/register/mayoristas
- * Devuelve solamente los usuarios de tipo “mayorista”.
- * Si quieres además solo los “pendiente”, descomenta la línea correspondiente.
- */
 export const getMayoristas = async (req, res) => {
   try {
-    // Definimos aquí el filtro para “mayoristas”
     const filtro = { tipoUsuario: "mayorista" };
-    // Si además quieres sólo los pendientes, descomenta:
-    // filtro.estadoCuenta = "pendiente";
-
     const mayoristas = await Register.find(filtro).select("-password -__v");
     res.json(mayoristas);
   } catch (error) {
     console.error("Error al obtener mayoristas:", error);
-    res.status(500).json({ msg: "Error de servidor al obtener mayoristas." });
+    res.status(500).json({ message: "Error de servidor al obtener mayoristas" });
   }
 };
-
 
 export const postLogin = async (req, res) => {
   try {
@@ -74,12 +85,12 @@ export const postLogin = async (req, res) => {
     const user = await Register.findOne({ email }).select("+password +phone");
 
     if (!user) {
-      return res.status(401).json({ msg: "Usuario no encontrado" });
+      return res.status(401).json({ message: "Usuario no encontrado" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ msg: "Contraseña incorrecta" });
+      return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
     const payload = {
@@ -98,23 +109,23 @@ export const postLogin = async (req, res) => {
       secure: isProd,
       sameSite: isProd ? "None" : "Lax",
       path: "/",
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
-      msg: "Inicio de sesión exitoso",
+      message: "Inicio de sesión exitoso",
       user: {
         id: user._id,
         nombre: user.nombre,
         email: user.email,
-        userName: user.userName,
         tipoUsuario: user.tipoUsuario,
         estadoCuenta: user.estadoCuenta,
         phone: user.phone,
       },
     });
   } catch (error) {
-    res.status(500).json({ msg: "Error en el servidor" });
+    console.error("Error en /api/login:", error);
+    return res.status(500).json({ message: "Error en el servidor" });
   }
 };
 

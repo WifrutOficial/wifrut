@@ -20,6 +20,7 @@ import Footer from "./components/Home/Footer";
 import Send from "./components/Home/Send";
 import 'leaflet/dist/leaflet.css';
 import ContactoMayorista from "./components/Home/panels/panelAdmin/ContactoMayorista";
+import RepetirPedidos from "./components/Cart/RepetirPedidos";
 
 
 createRoot(document.getElementById("root")).render(
@@ -59,7 +60,7 @@ createRoot(document.getElementById("root")).render(
               }
             >
               <Route path="/cart" element={<Cart />} />
-             
+                <Route path="/repetir-pedido" element={<RepetirPedidos />} />
             </Route>
             <Route element={<ProtectedRouter allowedRoles={["mayorista"]} />}>
               <Route path="/mayorista" element={<Mayorista />} />

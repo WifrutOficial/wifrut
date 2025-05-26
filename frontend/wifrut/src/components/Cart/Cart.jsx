@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import  { useState, useEffect, useCallback } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";
@@ -11,8 +11,9 @@ import * as turf from "@turf/turf";
 import debounce from "lodash/debounce";
 import { TiShoppingCart } from "react-icons/ti";
 import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
-export default function Cart({ hideSearchAndCart = true }) {
+export default function Cart() {
   const navigate = useNavigate();
   const { cart, removeFromCart, clearCart, checkout, getTotal } = useCart();
   const [direccion, setDireccion] = useState("");
@@ -22,7 +23,26 @@ export default function Cart({ hideSearchAndCart = true }) {
   const [costoEnvio, setCostoEnvio] = useState(0);
   const [zonaDetectadaMsg, setZonaDetectadaMsg] = useState("");
   const [isLoadingZona, setIsLoadingZona] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [turno, setTurno] = useState("");
+// useEffect 1: setea los valores desde location.state
+useEffect(() => {
+  if (location.state) {
+    if (location.state.direccion) setDireccion(location.state.direccion);
+    if (location.state.turno) setTurno(location.state.turno);
+    if (location.state.metodoPago) setMetodoPago(location.state.metodoPago);
+    if (location.state.zonaSeleccionada) setZonaSeleccionada(location.state.zonaSeleccionada);
+
+  }
+}, [location.state]);
+
+
+
+
+
+  const handleChange = (e) => {
+    setTurno(e.target.value);
+  };
 
   const zonasEnvio = zonasGeo.features.map((feature) => {
     const name =
@@ -33,8 +53,10 @@ export default function Cart({ hideSearchAndCart = true }) {
     return { nombre: name, precio };
   });
 
-  const total = getTotal();
-  const totalFinal = total + (costoEnvio || 0);
+const total = getTotal();
+const totalConDescuento = metodoPago === "Efectivo" ? total * 0.9 : total;
+const totalFinal = totalConDescuento + (costoEnvio || 0);
+
 
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
@@ -73,13 +95,14 @@ export default function Cart({ hideSearchAndCart = true }) {
       });
       return;
     }
-  setLoading(true);
+    setLoading(true);
     try {
       const response = await checkout(
         direccion,
         metodoPago,
         totalFinal,
-        costoEnvio
+        costoEnvio,
+        turno
       );
       if (response && response.status === 201) {
         Swal.fire({
@@ -146,9 +169,9 @@ export default function Cart({ hideSearchAndCart = true }) {
           },
         });
       }
-    }finally {
-    setLoading(false); 
-  }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const confirmarVaciarCarrito = () => {
@@ -389,7 +412,11 @@ export default function Cart({ hideSearchAndCart = true }) {
 
           <hr />
           <div className={style.total}>
-            <p>Total: ${total.toFixed(2)}</p>
+            <p>Costo Envío: ${costoEnvio || 0}</p>
+            Total productos: $
+            {metodoPago === "Efectivo"
+              ? (total * 0.9).toFixed(2)
+              : total.toFixed(2)}
           </div>
 
           <div className={style.envio}>
@@ -404,7 +431,29 @@ export default function Cart({ hideSearchAndCart = true }) {
                   aria-label="Dirección de envío"
                 />
               </div>
-
+              <p>Elegir el horario de envio:</p>
+              <div>
+                <div>
+                  <label htmlFor="mañana">mañana: 10 a 13</label>
+                  <input
+                    type="radio"
+                    id="mañana"
+                    name="turno"
+                    value="mañana"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="tarde">tarde: 10 a 13</label>
+                  <input
+                    type="radio"
+                    value="tarde"
+                    name="turno"
+                    id="tarde"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
               <div className={style.inputEnvio}>
                 <select
                   value={zonaSeleccionada}
@@ -430,8 +479,6 @@ export default function Cart({ hideSearchAndCart = true }) {
                   ))}
                 </select>
               </div>
-
-              <p>Costo Envío: ${costoEnvio || 0}</p>
             </div>
             <div className={style.containerEnvio}>
               <p className={style.infoEnvio}>
@@ -502,7 +549,12 @@ export default function Cart({ hideSearchAndCart = true }) {
                   </label>
                 ))}
               </div>
-
+              <div>
+                <p>💸 Paga en efectivo y obtén hasta un 10% de descuento.</p>{" "}
+                {metodoPago === "Efectivo"
+                  ? "(¡aplicado!)"
+                  : "(al elegir efectivo)"}
+              </div>
               <div className={style.btnContainer}>
                 <button
                   onClick={confirmarVaciarCarrito}

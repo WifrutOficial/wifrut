@@ -7,6 +7,12 @@ function DiscountedProducts({
   handleQuantityChange,
   handleAddToCart,
 }) {
+  // función para detectar cualquier variante de "kilo" en tipoVenta
+  const isKg = (tipoVenta) =>
+    String(tipoVenta || "")
+      .toLowerCase()
+      .includes("kilo");
+
   const discountedProducts = products.filter(
     (product) => Number(product.descuento) > 0
   );
@@ -24,7 +30,6 @@ function DiscountedProducts({
   return (
     <>
       <div className={style.containerOfertas}>
-        {" "}
         <p className={style.iconOfertas}>
           <img src="../../../ofertasIcon.png" alt="" />
         </p>
@@ -61,7 +66,10 @@ function DiscountedProducts({
               imagen,
             }) => (
               <div key={_id} className={style.cartContainer}>
-                <img className={style.img} src={`/${imagen}`} alt="img" />
+                <img className={style.img} src={`/${imagen}`} alt={nombre} />
+
+                {/* badge de descuento */}
+                <div className={style.discountBadge}>{descuento}%</div>
 
                 <div className={style.sale}>
                   <img src="../../../Star 1.png" alt="sale" />
@@ -69,9 +77,14 @@ function DiscountedProducts({
                 </div>
 
                 <p className={style.priceUnit}>
-                  Precio con descuento: ${precioConDescuento || 0}
+                  Precio: ${precioConDescuento?.toFixed(2) || "0.00"}{" "}
+                   {isKg(tipoVenta) ? "kg" : "unidad"}
                 </p>
-                <p className={style.description}>{descripcion || nombre}</p>
+
+                <p className={style.productName}>{nombre}</p>
+                {descripcion && (
+                  <p className={style.description}>{descripcion}</p>
+                )}
 
                 <p className={style.quantitySelection}>
                   Selecciona la cantidad:
@@ -85,8 +98,7 @@ function DiscountedProducts({
                     -
                   </button>
                   <span>
-                    {quantities[_id] || 0}{" "}
-                    {tipoVenta === "kg" ? "kg" : "unidades"}
+                    {quantities[_id] || 0} {isKg(tipoVenta) ? "kg" : "unidad"}
                   </span>
                   <button
                     onClick={() =>
@@ -99,8 +111,9 @@ function DiscountedProducts({
 
                 <p className={style.total}>
                   Total: $
-                  {(quantities[_id] || 0) *
-                    (precioConDescuento || 0).toFixed(2)}
+                  {((quantities[_id] || 0) * (precioConDescuento || 0)).toFixed(
+                    2
+                  )}{" "}
                 </p>
 
                 <button
@@ -112,6 +125,7 @@ function DiscountedProducts({
                       descuento,
                       precioConDescuento,
                       tipoVenta,
+                      imagen,
                       cantidad: quantities[_id] || 0,
                     })
                   }

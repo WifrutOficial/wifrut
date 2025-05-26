@@ -8,47 +8,6 @@ dotenv.config();
 
 
 
-
-// Controlador para crear un nuevo pedido basado en uno existente
-export const createNewOrder = async (req, res) => {
-  try {
-    const { productos, total, direccion, metodoPago } = req.body;
-
-    if (!productos || productos.length === 0) {
-      return res.status(400).json({ message: "El carrito está vacío." });
-    }
-    if (!direccion || !metodoPago) {
-      return res
-        .status(400)
-        .json({ message: "Se requiere dirección y método de pago." });
-    }
-
-    // Generar número de pedido (esto puede ser adaptado según tu lógica de negocio)
-    const numeroPedido = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
-    // Crear un nuevo pedido utilizando el modelo Pedido
-    const nuevoPedido = new Pedido({
-      numeroPedido,
-      usuarioId: req.user.id,  // Asegúrate de usar el usuario autenticado
-      productos,
-      total,
-      direccion,
-      metodoPago,
-    });
-
-    // Guardar el pedido en la base de datos
-    await nuevoPedido.save();
-
-    // Devolver la respuesta con el pedido creado
-    res.status(201).json(nuevoPedido);
-  } catch (error) {
-    console.error("Error al crear el nuevo pedido:", error);
-    res.status(500).json({ error: 'Hubo un error al crear el nuevo pedido' });
-  }
-};
-
-
-
 // Genera un número de pedido tipo "20250429-001"
 const generarNumeroDePedido = async () => {
   const hoy = new Date();
@@ -69,7 +28,7 @@ const generarNumeroDePedido = async () => {
 // Controlador principal
 export const postProduct = async (req, res) => {
   try {
-    const { items, total, direccion, metodoPago, costoEnvio } = req.body;
+    const { items, total, direccion, metodoPago, costoEnvio, turno } = req.body;
     const userId = req.user?.userId;
 
     if (!items || items.length === 0) {
@@ -80,18 +39,28 @@ export const postProduct = async (req, res) => {
         .status(400)
         .json({ message: "Se requiere dirección y método de pago." });
     }
+    if (!["mañana", "tarde"].includes(turno)) {
+      return res.status(400).json({ message: "Turno inválido." });
+    }
+
     if (!userId) {
       return res
         .status(401)
         .json({ message: "Debes estar autenticado para realizar un pedido." });
     }
-
     const formattedItems = await Promise.all(
       items.map(async (item) => {
-        const product = await Product.findById(item.productId);
-        if (!product) {
-          throw new Error(`Producto con ID ${item.productId} no encontrado`);
+        const productId = item.productId ?? item._id;
+
+        if (!productId) {
+          throw new Error("El producto no tiene un ID válido.");
         }
+
+        const product = await Product.findById(productId);
+        if (!product) {
+          throw new Error(`Producto con ID ${productId} no encontrado`);
+        }
+
         const precio = product.precioConDescuento ?? product.precio;
         return {
           productId: product._id,
@@ -111,7 +80,8 @@ export const postProduct = async (req, res) => {
       direccion,
       metodoPago,
       numeroPedido,
-      costoEnvio, // Añadido si el modelo Order lo soporta
+      costoEnvio,
+      turno,
     });
 
     await newOrder.save();
@@ -136,7 +106,7 @@ export const postProduct = async (req, res) => {
     console.error("Error al crear el pedido:", error);
     res.status(500).json({ message: "Error al procesar el pedido" });
     if (error.errors) console.error(error.errors);
-res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -184,3 +154,19 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
 };
 
 
+//REPETIR PEDIDOS
+export const getUserOrders = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ message: "No autenticado" });
+    }
+
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error al obtener pedidos:", error);
+    res.status(500).json({ message: "Error al obtener pedidos" });
+  }
+};
