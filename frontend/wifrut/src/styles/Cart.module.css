@@ -146,16 +146,19 @@ padding: 5px 5px;
 
 .Envio {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   padding: 10px 20px;
   color: #000;
   gap: 10px;
 }
-
+.mañanaTardeContainer{
+  display: flex;
+  gap: 20px;
+}
 .inputEnvio {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 8px;
 }
@@ -231,8 +234,12 @@ padding: 5px 5px;
   justify-content: flex-end;
   padding: 10px 40px;
   color: #000;
+  gap: 20px;
 }
-
+.containerDescuento{
+  text-align: center;
+  font-size:14px ;
+}
 hr {
   margin: 0 40px;
 }

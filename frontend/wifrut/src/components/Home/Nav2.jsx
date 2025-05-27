@@ -36,6 +36,18 @@ function Nav2({ hideSearchAndCart = false }) {
   const [showCartPreview, setShowCartPreview] = useState(false);
 
   const [mostrarOpciones, setMostrarOpciones] = useState(false);
+  const [indice, setIndice] = useState(0);
+  const mensajes = [
+    "🚚 ¡Envío GRATIS en compras desde $80.000!",
+    "🛍️ ¡Compra minima desde $25000!",
+  ];
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setIndice((prev) => (prev + 1) % mensajes.length);
+    }, 30000);
+
+    return () => clearInterval(intervalo);
+  }, []);
 
   const toggleCategorias = () => {
     setShowCategorias(!showCategorias);
@@ -69,21 +81,18 @@ function Nav2({ hideSearchAndCart = false }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Lógica para fijar elemento
       if (window.scrollY > 20) {
         setIsFixed(true);
       } else {
         setIsFixed(false);
       }
 
-      // Lógica para mostrar flecha
       if (window.scrollY > 100) {
         setShowArrow(true);
       } else {
         setShowArrow(false);
       }
 
-      // 🔽 Lógica para cerrar el menú al hacer scroll
       if (mostrarOpciones) {
         setMostrarOpciones(false);
       }
@@ -120,7 +129,7 @@ function Nav2({ hideSearchAndCart = false }) {
   const handleCategoryClick = (category) => {
     setShowCategorias(false);
     setIsOpen(false);
-    // Target the correct ID used in ProductsRender
+
     const categoryElement = document.getElementById(`scroll-${category}`);
     if (categoryElement) {
       const topPosition =
@@ -130,7 +139,6 @@ function Nav2({ hideSearchAndCart = false }) {
         behavior: "smooth",
       });
     } else {
-      // Fallback: Navigate to the products page and try scrolling after a delay
       navigate("/");
       setTimeout(() => {
         const retryElement = document.getElementById(`scroll-${category}`);
@@ -142,7 +150,7 @@ function Nav2({ hideSearchAndCart = false }) {
             behavior: "smooth",
           });
         }
-      }, 500); // Delay to allow page rendering
+      }, 500);
     }
   };
   const handleScrollToTop = () => {
@@ -159,10 +167,7 @@ function Nav2({ hideSearchAndCart = false }) {
   return (
     <div className={style.container}>
       <div className={style.containerLog}>
-        <p className={style.titleLog}>
-          <span className={style.truck}>🚚</span>
-          ¡Envío GRATIS en compras desde $80.000!{" "}
-        </p>
+        <p className={style.titleLog}>{mensajes[indice]}</p>
       </div>
       <div className={`${style.containerLinks} ${isFixed ? style.fixed : ""}`}>
         <div className={style.logoContainer}>
@@ -206,7 +211,9 @@ function Nav2({ hideSearchAndCart = false }) {
                       src="/lista-de-la-compra.png"
                       alt=""
                     />
-                    <button onClick={ () => navigate("/repetir-pedido") }>Mis pedidos</button>
+                    <button onClick={() => navigate("/repetir-pedido")}>
+                      Mis pedidos
+                    </button>
                   </div>
                   <div className={style.buttonMenu}>
                     <img
@@ -236,9 +243,17 @@ function Nav2({ hideSearchAndCart = false }) {
               </a>
               <a
                 className={style.a}
-                onClick={() =>
-                  window.scrollTo({ top: 2800, behavior: "smooth" })
-                }
+                onClick={() => {
+                  const elemento = document.getElementById("about");
+                  if (elemento) {
+                    const offsetTop =
+                      elemento.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({
+                      top: offsetTop - 300,
+                      behavior: "smooth",
+                    });
+                  }
+                }}
               >
                 <FaUsers /> Conócenos
               </a>
@@ -319,7 +334,7 @@ function Nav2({ hideSearchAndCart = false }) {
             {mostrarOpciones && (
               <div className={style.containerLogoutOrder}>
                 <div className={style.btnContainer}>
-                  <button> Mis pedidos</button>
+                  <button onClick={() => navigate("/repetir-pedido")}> Mis pedidos</button>
                   <img
                     className={style.logoutbtn}
                     src="/lista-de-la-compra.png"

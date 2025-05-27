@@ -1,28 +1,157 @@
-.containerProducts{
-    display: flex;
-    flex-direction: column;
-  font-size: 12px;
-   
-    width: 100%;
-    height: 100%;
-    background-color: pink;
-    gap: 1px;
-    margin-top: 10px;
-    border-radius: 13px;
-    padding: 10px;
+.container {
+  background-image: url("../../backG.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  backdrop-filter: blur(20px);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
+  min-height: 100vh;
 }
 
-.containerPedido{
-   
-    background-color: lightblue;
+.containerProducts {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 12px;
+  margin: 5px 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: 15px;
+  background-color: #ffffff38;
+  border: 1px solid #00000023;
+  gap: 1px;
+
+  border-radius: 13px;
+  padding-top: 10px;
 }
-.btn{
-    padding: 1px  10px;
-    background-color: #4CAF50; /* Green */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
+
+.containerTotal {
+  box-shadow: #0000007c 0px 0px 20px;
+  max-height: 600px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  z-index: -1;
+  border-radius: 13px;
+  min-width: 520px;
+  max-width: 750px;
+  margin: auto;
+  position: relative;
+  padding-top: 35px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scrollbar-width: thin;          
+  scrollbar-color: #444 transparent; 
+}
+
+/* Chrome, Edge, Safari */
+.containerTotal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.containerTotal::-webkit-scrollbar-thumb {
+  background-color: #444;       /* color de la barra */
+  border-radius: 10px;
+}
+
+.containerTotal::-webkit-scrollbar-track {
+  background: transparent;      /* fondo transparente */
+}
+.containerPedido {
+  backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: 15px;
+  background-color: #ffffff38;
+  border: 1px solid #00000023;
+  max-width: 500px;
+  padding: 10px 1rem;
+  margin: 8px 10px;
+}
+.btn {
+  padding: 1px 10px;
+  background-color: #ffffff38;
+  color: #000;
+  border: none;
+  border-radius: 13px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 10px;
+  margin-top: 10px;
+
+  border: 1px solid #00000f38;
+}
+
+.btn:hover {
+  background-color: #ffb83b;
+
+  border: 1px solid #ffffff7f;
+}
+
+.repetir {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+}
+
+.h4 {
+  text-align: right;
+}
+.h2 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding-top: 2px;
+  position: absolute;
+  top: 53px;
+  left: 20px;
+  z-index: 1000;
+}
+.imagenProducto {
+  width: 70px;
+  height: 60px;
+  border-radius: 13px;
+}
+.arrow {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+}
+.backHomeButton {
+  background-color: #247504;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 5rem;
+}
+@media (max-width: 966px) {
+  .containerTotal {
+    min-width: 320px;
+    max-width: 450px;
+    max-height: 500px;
+  }
+.backHomeButton {
+  font-size: 0.7rem;
+  margin-bottom: 2rem;
+    padding: 0.7rem 1.2rem;
+}
 }

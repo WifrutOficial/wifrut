@@ -42,8 +42,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-   
-  
 }
 .containerLogin {
   background-image: url("../../backG.png");
@@ -54,9 +52,8 @@
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
-justify-content: center;
+  justify-content: center;
   align-items: center;
-
 }
 
 .logo {
@@ -65,8 +62,6 @@ justify-content: center;
   position: relative;
   top: 50px;
   cursor: pointer;
- 
-
 }
 
 .arrow {
@@ -226,8 +221,6 @@ span button {
 }
 
 @media (max-width: 768px) {
-
-
   .containerForm {
     gap: 10px;
     width: fit-content;
@@ -255,7 +248,6 @@ span button {
   }
   .container {
     background-image: url("../../fondoM.png");
-  
   }
   .containerLogin {
     background-image: url("../../fondoM.png");

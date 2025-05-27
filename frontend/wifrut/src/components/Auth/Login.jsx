@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import style from "../../styles/Register.module.css";
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";

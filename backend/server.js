@@ -14,7 +14,7 @@ import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
 import path from "path"
 import { fileURLToPath } from 'url';
 
-// Configuración de dotenv para acceder a las variables de entorno
+
 dotenv.config();
 
 
@@ -26,8 +26,8 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = [
-        "https://wifrut.com", // ✅ frontend en Hostinger
-        "http://localhost:5173", // ⚙️ desarrollo local con Vite
+        "https://wifrut-frontend.vercel.app", 
+        "http://localhost:5173", 
       ];
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -35,7 +35,7 @@ app.use(
         callback(new Error("No permitido por CORS"));
       }
     },
-    credentials: true, // ✅ Necesario para cookies
+    credentials: true, 
   })
 );
 
@@ -54,10 +54,10 @@ app.use( express.static(path.resolve(__dirname, '../frontend/wifrut/public')));
 
 
 
-// Conexión a la base de datos
+
 connectDB();
 
-// Manejo de cookies
+
 app.use(cookieParser());
 
 // Rutas del backend
@@ -81,5 +81,5 @@ app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-// Exporta la aplicación para ser utilizada en Vercel
+
 export default app;

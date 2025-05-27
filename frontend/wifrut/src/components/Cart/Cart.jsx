@@ -1,4 +1,4 @@
-import  { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";
@@ -11,7 +11,7 @@ import * as turf from "@turf/turf";
 import debounce from "lodash/debounce";
 import { TiShoppingCart } from "react-icons/ti";
 import { useAuth } from "../../context/AuthContext";
-import { useLocation } from "react-router-dom";
+
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -25,20 +25,16 @@ export default function Cart() {
   const [isLoadingZona, setIsLoadingZona] = useState(false);
   const [loading, setLoading] = useState(false);
   const [turno, setTurno] = useState("");
-// useEffect 1: setea los valores desde location.state
-useEffect(() => {
-  if (location.state) {
-    if (location.state.direccion) setDireccion(location.state.direccion);
-    if (location.state.turno) setTurno(location.state.turno);
-    if (location.state.metodoPago) setMetodoPago(location.state.metodoPago);
-    if (location.state.zonaSeleccionada) setZonaSeleccionada(location.state.zonaSeleccionada);
-
-  }
-}, [location.state]);
-
-
-
-
+  // useEffect 1: setea los valores desde location.state
+  useEffect(() => {
+    if (location.state) {
+      if (location.state.direccion) setDireccion(location.state.direccion);
+      if (location.state.turno) setTurno(location.state.turno);
+      if (location.state.metodoPago) setMetodoPago(location.state.metodoPago);
+      if (location.state.zonaSeleccionada)
+        setZonaSeleccionada(location.state.zonaSeleccionada);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     setTurno(e.target.value);
@@ -53,10 +49,9 @@ useEffect(() => {
     return { nombre: name, precio };
   });
 
-const total = getTotal();
-const totalConDescuento = metodoPago === "Efectivo" ? total * 0.9 : total;
-const totalFinal = totalConDescuento + (costoEnvio || 0);
-
+  const total = getTotal();
+  const totalConDescuento = metodoPago === "Efectivo" ? total * 0.9 : total;
+  const totalFinal = totalConDescuento + (costoEnvio || 0);
 
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
@@ -431,9 +426,9 @@ const totalFinal = totalConDescuento + (costoEnvio || 0);
                   aria-label="Dirección de envío"
                 />
               </div>
-              <p>Elegir el horario de envio:</p>
+              <p>Elegir el horario de envio ⏰</p>
               <div>
-                <div>
+                <div className={style.mañanaTardeContainer}> 
                   <label htmlFor="mañana">mañana: 10 a 13</label>
                   <input
                     type="radio"
@@ -443,7 +438,7 @@ const totalFinal = totalConDescuento + (costoEnvio || 0);
                     onChange={handleChange}
                   />
                 </div>
-                <div>
+                <div className={style.mañanaTardeContainer}>
                   <label htmlFor="tarde">tarde: 10 a 13</label>
                   <input
                     type="radio"
@@ -549,7 +544,7 @@ const totalFinal = totalConDescuento + (costoEnvio || 0);
                   </label>
                 ))}
               </div>
-              <div>
+              <div className={style.containerDescuento} >
                 <p>💸 Paga en efectivo y obtén hasta un 10% de descuento.</p>{" "}
                 {metodoPago === "Efectivo"
                   ? "(¡aplicado!)"

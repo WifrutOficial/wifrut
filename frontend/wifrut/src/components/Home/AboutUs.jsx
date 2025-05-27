@@ -9,7 +9,7 @@ function AboutUs() {
 
       <div className={style.containerInfo}>
         <div className={style.Info}>
-          <h3>¿Quiénes somos?</h3>
+          <h3 id="about">¿Quiénes somos?</h3>
           <p className={style.p}>
             En WIFRUT somos la verdulería en tu puerta. Dos jóvenes neuquinos
             emprendedores con las ganas de traer algo innovador a Neuquén.
