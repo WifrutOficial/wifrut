@@ -306,16 +306,16 @@
   backdrop-filter: blur(20px);
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
-  color: #fff;
+  color: #000;
   font-size: 12px;
   display: flex;
 }
 .customAlertInfo {
-  background-color: rgba(212, 212, 212, 0.15);
+  background-color:#fff;
   backdrop-filter: blur(20px);
   border-radius: 15px;
   border: 1px solid #d4d4d4d6;
-  color: #fff;
+  color: #000;
   font-size: 12px;
   display: flex;
   height: 350px;

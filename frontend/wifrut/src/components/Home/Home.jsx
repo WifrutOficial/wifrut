@@ -11,15 +11,15 @@ function Home() {
   useEffect(() => {
     const key = "visitTimestamp";
     const lastVisit = localStorage.getItem(key);
-    const oneDay = 24 * 60 * 60 * 1000; // ms en 24 h
+    const oneDay = 24 * 60 * 60 * 1000;
     const now = Date.now();
 
-    // Solo mostrar el mensaje si ha pasado más de un día
+  
     if (!lastVisit || now - parseInt(lastVisit, 10) > oneDay) {
       Swal.fire({
         html: `
           <div style="display: flex; flex-direction: column; align-items: center;">
-            <h2 style="margin: 0; color: #fff; font-size: 16px"> 🚚 🕘 ¡HORARIOS Y DÍAS DE ENTREGA!</h2>
+            <h2 style="margin: 0;  font-size: 16px"> 🚚 🕘 ¡HORARIOS Y DÍAS DE ENTREGA!</h2>
             <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
               <p style="margin-bottom: 20px;">
                 <strong>LUNES A VIERNES:</strong><br />

@@ -37,6 +37,12 @@ const productSchema = new mongoose.Schema({
     enum: ["unidad", "litro", "kilo"],
     trim: true,
   },
+  kiloMinimo:{
+    type:Number,
+    enum: ["0.5", "1"],
+    trim: true,
+
+  },
   imagen:{
     type: String,
     trim : true

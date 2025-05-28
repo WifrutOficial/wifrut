@@ -43,26 +43,39 @@ function ProductsRender() {
   }, []);
 
   const isKg = (tipoVenta) => {
-    // normalizamos: pasamos a minúsculas y buscamos 'kilo'
-    return String(tipoVenta || "").toLowerCase().includes("kilo");
+    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
   };
 
-  const handleQuantityChange = (productId, tipoVenta, action) => {
-    setQuantities((prev) => {
-      const currentQty = prev[productId] || 0;
-      let newQty = currentQty;
+const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
+  const minimo = Number(kiloMinimo) || 0.5;  // Usa kiloMinimo, si no tiene valor usa 0.5
 
+  setQuantities((prev) => {
+    const currentQty = prev[productId] || 0;
+    let newQty = currentQty;
+
+    // Si el tipo de venta es por kilo, usa kiloMinimo para incrementar o decrementar
+    if (isKg(tipoVenta)) {
       if (action === "increment") {
-        newQty = isKg(tipoVenta) ? currentQty + 0.5 : currentQty + 1;
-      } else if (action === "decrement" && currentQty > 0) {
-        newQty = isKg(tipoVenta)
-          ? Math.max(0, currentQty - 0.5)
-          : Math.max(0, currentQty - 1);
+        newQty = currentQty + minimo;  // Incrementa según kiloMinimo
+      } else if (action === "decrement") {
+        if (currentQty - minimo >= minimo) {
+          newQty = currentQty - minimo;  // Decrementa según kiloMinimo
+        }
       }
+    } else {
+      // Si no es por kilo, la cantidad se incrementa o decrementa por 1 unidad
+      if (action === "increment") {
+        newQty = currentQty + 1;  // Incrementa 1 unidad
+      } else if (action === "decrement") {
+        if (currentQty > 1) {
+          newQty = currentQty - 1;  // Decrementa 1 unidad
+        }
+      }
+    }
 
-      return { ...prev, [productId]: newQty };
-    });
-  };
+    return { ...prev, [productId]: newQty };
+  });
+};
 
   const handleAddToCart = (product) => {
     if (!isAuthenticated) {
@@ -80,6 +93,7 @@ function ProductsRender() {
       });
       return;
     }
+
     const cantidad = quantities[product._id] || 0;
     if (cantidad === 0) {
       Swal.fire({
@@ -96,6 +110,7 @@ function ProductsRender() {
       });
       return;
     }
+
     addToCart({ ...product, tipoVenta: product.tipoVenta || "Unidad" }, cantidad);
     Swal.fire({
       text: "Producto agregado al carrito",
@@ -175,7 +190,7 @@ function ProductsRender() {
             </button>
 
             <div className={style.container} id={`scroll-${categoria}`}>
-              {items.map(({ _id, nombre, precio, descripcion, tipoVenta, imagen }) => (
+              {items.map(({ _id, nombre, precio, descripcion, tipoVenta, imagen , kiloMinimo}) => (
                 <div key={_id} className={style.cartContainer}>
                   <img className={style.img} src={`/${imagen}`} alt={nombre} />
 
@@ -188,11 +203,11 @@ function ProductsRender() {
 
                   <p className={style.quantitySelection}>Selecciona la cantidad:</p>
                   <div className={style.quantityContainer}>
-                    <button onClick={() => handleQuantityChange(_id, tipoVenta, "decrement")}>-</button>
+                    <button onClick={() => handleQuantityChange(_id, tipoVenta,  "decrement", kiloMinimo)}>-</button>
                     <span>
                       {quantities[_id] || 0} {isKg(tipoVenta) ? "kg" : "unidades"}
                     </span>
-                    <button onClick={() => handleQuantityChange(_id, tipoVenta, "increment")}>+</button>
+                    <button onClick={() => handleQuantityChange(_id, tipoVenta, "increment", kiloMinimo)}>+</button>
                   </div>
 
                   <p className={style.total}>

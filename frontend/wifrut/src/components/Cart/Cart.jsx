@@ -429,7 +429,7 @@ export default function Cart() {
               <p>Elegir el horario de envio ⏰</p>
               <div>
                 <div className={style.mañanaTardeContainer}> 
-                  <label htmlFor="mañana">mañana: 10 a 13</label>
+                  <label htmlFor="mañana">mañana: 10:30 a 13:30</label>
                   <input
                     type="radio"
                     id="mañana"
@@ -439,7 +439,7 @@ export default function Cart() {
                   />
                 </div>
                 <div className={style.mañanaTardeContainer}>
-                  <label htmlFor="tarde">tarde: 10 a 13</label>
+                  <label htmlFor="tarde">tarde: 14:00 a 1</label>
                   <input
                     type="radio"
                     value="tarde"
