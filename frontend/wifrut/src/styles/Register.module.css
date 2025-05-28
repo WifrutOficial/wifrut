@@ -31,7 +31,7 @@
 }
 
 .container {
-  background-image: url("../../backG.png");
+  background-image: url("public/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -44,7 +44,7 @@
   align-items: center;
 }
 .containerLogin {
-  background-image: url("../../backG.png");
+  background-image: url("public/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
