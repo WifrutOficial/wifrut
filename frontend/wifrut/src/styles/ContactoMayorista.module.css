@@ -79,6 +79,6 @@
 
 @media (max-width: 790px) {
   .container {
-    background-image: url("../../fondoM.png");
+    background-image: url("public/fondoM.png");
   }
 }

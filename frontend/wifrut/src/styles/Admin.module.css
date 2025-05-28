@@ -1,5 +1,5 @@
 .container {
-  background-image: url("../../backG.png");
+  background-image: url("public/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -102,7 +102,7 @@ span{
     top: -40px;
   }
   .container {
-  background-image: url("../../fondoM.png");
+  background-image: url("public/fondoM.png");
 
   
 }
