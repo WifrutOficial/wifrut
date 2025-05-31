@@ -23,7 +23,7 @@ console.log("NODE_ENV:", process.env.NODE_ENV);
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      "https://wifrut.com",
+      "https://www.wifrut.com",
       "http://localhost:5173",
     ];
     console.log("Solicitud desde:", origin); // para depurar
