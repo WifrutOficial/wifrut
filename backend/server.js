@@ -11,56 +11,53 @@ import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
-import path from "path"
-import { fileURLToPath } from 'url';
-
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
-
 const app = express();
-console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log("NODE_ENV:", process.env.NODE_ENV);
 
 // Configuración de CORS
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      const allowedOrigins = [
-        "https://wifrut-frontend.vercel.app", 
-        "http://localhost:5173", 
-      ];
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("No permitido por CORS"));
-      }
-    },
-    credentials: true, 
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://wifrut.com",
+      "http://localhost:5173",
+    ];
+    console.log("Solicitud desde:", origin); // para depurar
 
-// Responder a solicitudes OPTIONS
-app.options('*', cors());
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+  credentials: true,
+};
 
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // aplicar CORS también a preflight (OPTIONS)
 
-// Middleware para el manejo de JSON
+// Middleware para el manejo de JSON y formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Obtener el directorio del archivo actual
+// Obtener el directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use( express.static(path.resolve(__dirname, '../frontend/wifrut/public')));
 
+// Servir archivos estáticos del frontend
+app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
 
-
-
+// Conexión a la base de datos
 connectDB();
 
-
+// Middleware para cookies
 app.use(cookieParser());
 
-// Rutas del backend
+// Rutas
 app.use("/api", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/mayorista", mayoristaRoutes);
@@ -73,13 +70,10 @@ app.use("/api/mercadopago", mercadoPagoRoutes);
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-
-const PORT = process.env.PORT || 3000; 
-
-// Iniciar el servidor
+// Iniciar servidor
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
-
 
 export default app;
