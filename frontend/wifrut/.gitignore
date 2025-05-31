@@ -23,7 +23,6 @@ notas.txt
 *.njsproj
 *.sln
 *.sw?
-#.env
 .vercel
 
 frontend/wifrut/public/data.zip
