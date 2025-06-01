@@ -2,18 +2,15 @@ import { Order } from "../models/order.js";
 import { Product } from "../models/products.js";
 import Register from "../models/register.js";
 import nodemailer from "nodemailer";
-import Pedido from "../models/repeticionOrder.js";
 import dotenv from "dotenv";
 dotenv.config();
-
-
 
 // Genera un número de pedido tipo "20250429-001"
 const generarNumeroDePedido = async () => {
   const hoy = new Date();
   const fechaStr = hoy.toISOString().slice(0, 10).replace(/-/g, ""); // "20250429"
 
-  // Contar pedidos ya realizados hoy
+ 
   const pedidosHoy = await Order.countDocuments({
     createdAt: {
       $gte: new Date(hoy.setHours(0, 0, 0, 0)),
@@ -22,10 +19,9 @@ const generarNumeroDePedido = async () => {
   });
 
   const numeroSecuencia = String(pedidosHoy + 1).padStart(3, "0");
-  return `${fechaStr}-${numeroSecuencia}`; // Corregido
+  return `${fechaStr}-${numeroSecuencia}`; 
 };
 
-// Controlador principal
 export const postProduct = async (req, res) => {
   try {
     const { items, total, direccion, metodoPago, costoEnvio, turno } = req.body;
@@ -110,7 +106,6 @@ export const postProduct = async (req, res) => {
   }
 };
 
-// Envío de correo actualizado con número de pedido
 export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -132,6 +127,7 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
      <p>Resumen del pedido:</p>
      <ul>${productosHTML}</ul>
      <p><strong>Total:</strong> $${orderData.total}</p>
+     <p>*Info:El total incluye el costo de envío y refleja automáticamente cualquier descuento aplicado si se abona en efectivo<p/> 
      <p><strong>Dirección de entrega:</strong> ${orderData.direccion}</p>
      <p><strong>Método de pago:</strong> ${orderData.metodoPago}</p>
      <p>¡Gracias por tu compra! Nos aseguraremos de que tu pedido llegue lo antes posible.</p>
@@ -149,12 +145,11 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
     console.log("Correo enviado a", destinatarioEmail);
   } catch (error) {
     console.error("Error al enviar el correo:", error);
-    throw error; // Opcional: manejar en el controlador
+    throw error; 
   }
 };
 
 
-//REPETIR PEDIDOS
 export const getUserOrders = async (req, res) => {
   try {
     const userId = req.user?.userId;

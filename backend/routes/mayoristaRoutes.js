@@ -2,7 +2,7 @@ import { Router } from "express";
 import { isMayorista } from "../middlewares/isMayorista.js";
 //import {isAprobado} from "../middlewares/isAprobado.js"
 import { authRequired } from "../middlewares/authRequired.js";
-import { guardarDatosMayorista } from "../controllers/mayoristaController.js";
+//import { guardarDatosMayorista } from "../controllers/mayoristaController.js";
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.post(
   "/guardar-datos-mayorista",
   authRequired,
   isMayorista,
-  guardarDatosMayorista
+
 );
 
 export default router;

@@ -4,7 +4,7 @@ import { MercadoPagoToken } from "../models/mercadoPagoToken.js";
 import { Order } from "../models/order.js";
 import mongoose from "mongoose";
 
-// Redirige al dueño para que autorice la app una vez
+
 export const redirectToMercadoPago = (req, res) => {
   const redirect_uri = process.env.MP_REDIRECT_URI;
   const client_id = process.env.MP_CLIENT_ID;
@@ -13,7 +13,7 @@ export const redirectToMercadoPago = (req, res) => {
   res.redirect(authUrl);
 };
 
-// Callback que se ejecuta UNA SOLA VEZ cuando el dueño autoriza la app
+
 export const mercadoPagoCallback = async (req, res) => {
   const { code } = req.query;
 
@@ -33,8 +33,7 @@ export const mercadoPagoCallback = async (req, res) => {
     console.log("✅ Access Token:", access_token);
     console.log("🔁 Refresh Token:", refresh_token);
 
-    // 👉 Guardá access_token y refresh_token en tu base de datos o archivo seguro
-    // Por ahora, simplemente redirigimos o mostramos un mensaje
+   
     res.send("✅ Cuenta de Mercado Pago vinculada correctamente.");
   } catch (error) {
     console.error("❌ Error al obtener el token:", error?.response?.data || error);
@@ -42,7 +41,7 @@ export const mercadoPagoCallback = async (req, res) => {
   }
 };
 
-// ✅ Crear orden de pago con el token guardado del dueño
+
 export const createOrderAndPreference = async (req, res) => {
   const { orderId } = req.body;
 
@@ -59,7 +58,7 @@ export const createOrderAndPreference = async (req, res) => {
       return res.status(404).json({ error: "Orden no encontrada" });
     }
 
-    const mpToken = await MercadoPagoToken.findOne(); // asumimos que hay solo uno
+    const mpToken = await MercadoPagoToken.findOne(); 
 
     if (!mpToken || !mpToken.access_token) {
       return res.status(500).json({ message: "No hay token de Mercado Pago configurado" });
@@ -87,7 +86,7 @@ export const createOrderAndPreference = async (req, res) => {
   }
 };
 
-// ✅ Este endpoint lo llamás manualmente una vez con el code y se guarda el token del dueño
+
 export const saveMercadoPagoToken = async (req, res) => {
   const { code } = req.body;
 

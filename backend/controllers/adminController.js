@@ -1,13 +1,9 @@
 import Register from "../models/register.js";
 import MayoristaData from "../models/mayoristaData.js";
-import mongoose from "mongoose"; // Asegúrate de importar mongoose
+import mongoose from "mongoose";
 
-
-// cambia el estado cuenta del usuario mayorista de pendiente a aprobado 
 export const cambiarEstadoAprobado = async (req, res) => {
   try {
-    console.log("ID recibido:", req.params);  // <-- Agregar esto para depuración
-
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -20,9 +16,13 @@ export const cambiarEstadoAprobado = async (req, res) => {
     );
 
     if (updateResult.modifiedCount > 0) {
-      return res.json({ message: "Estado de cuenta cambiado a aprobado correctamente." });
+      return res.json({
+        message: "Estado de cuenta cambiado a aprobado correctamente.",
+      });
     } else {
-      return res.status(404).json({ message: "No se encontró ningún registro para actualizar." });
+      return res
+        .status(404)
+        .json({ message: "No se encontró ningún registro para actualizar." });
     }
   } catch (error) {
     console.error("Error al cambiar estado de cuenta:", error);
@@ -30,18 +30,14 @@ export const cambiarEstadoAprobado = async (req, res) => {
   }
 };
 
-
-// Endpoint para obtener los mayoristas aprobados NO LO ESTOY USANDO??
 export const getMayoristasAprobados = async (req, res) => {
   try {
-    // Filtrar mayoristas con estadoCuenta 'aprobado'
     const mayoristas = await MayoristaData.find()
-      .populate('userId', 'nombre email estadoCuenta') // Llenar los datos de `userId` (modelo Register)
+      .populate("userId", "nombre email estadoCuenta")
       .exec();
 
-    // Filtrar solo los mayoristas cuyo estadoCuenta es 'aprobado'
     const mayoristasAprobados = mayoristas.filter(
-      (mayorista) => mayorista.userId.estadoCuenta === 'aprobado'
+      (mayorista) => mayorista.userId.estadoCuenta === "aprobado"
     );
 
     res.status(200).json(mayoristasAprobados);
@@ -51,7 +47,6 @@ export const getMayoristasAprobados = async (req, res) => {
   }
 };
 
-// Obtener lista de usuarios que solicitaron ser mayoristas y no han sido aprobados
 export const obtenerSolicitudesMayoristas = async (req, res) => {
   try {
     const usuarios = await Register.find({
@@ -65,32 +60,31 @@ export const obtenerSolicitudesMayoristas = async (req, res) => {
   }
 };
 
-
 export const obtenerDatosMayorista = async (req, res) => {
   try {
-    console.log("Tipo de usuario:", req.user.tipoUsuario); // Verifica el usuario que hace la solicitud
-
-    // Obtener los mayoristas con estado de cuenta "pendiente"
     const mayoristas = await MayoristaData.find()
       .populate({
         path: "userId",
-        select: "nombre email phone tipoUsuario estadoCuenta", // Asegúrate de incluir el campo estadoCuenta
-        match: { estadoCuenta: "pendiente" }, // Filtra por estado de cuenta "pendiente"
+        select: "nombre email phone tipoUsuario estadoCuenta",
+        match: { estadoCuenta: "pendiente" },
       })
       .exec();
 
-    // Filtrar los mayoristas que realmente tengan el estado "pendiente"
-    const mayoristasPendientes = mayoristas.filter(mayorista => mayorista.userId);
-
-    console.log("Datos encontrados:", mayoristasPendientes);
+    const mayoristasPendientes = mayoristas.filter(
+      (mayorista) => mayorista.userId
+    );
 
     if (mayoristasPendientes.length === 0) {
-      return res.status(404).json({ message: "No se encontraron mayoristas pendientes." });
+      return res
+        .status(404)
+        .json({ message: "No se encontraron mayoristas pendientes." });
     }
 
     res.status(200).json(mayoristasPendientes);
   } catch (error) {
     console.error("Error en obtenerDatosMayorista:", error);
-    res.status(500).json({ message: "Error al obtener los datos.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error al obtener los datos.", error: error.message });
   }
 };

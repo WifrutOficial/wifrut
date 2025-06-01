@@ -5,21 +5,21 @@ export const postRegister = async (req, res) => {
   try {
     const { nombre, email, phone, password, tipoUsuario } = req.body;
 
-    // 1️⃣ Campos obligatorios
+  
     if (!nombre || !email || !phone || !password || !tipoUsuario) {
       return res.status(400).json({
         errors: { general: "Todos los campos son obligatorios" },
       });
     }
 
-    // 2️⃣ Email duplicado
+
     if (await Register.findOne({ email })) {
       return res.status(409).json({
         errors: { email: "El email ya está registrado" },
       });
     }
 
-    // 3️⃣ Crear usuario
+ 
     const user = new Register({
       nombre,
       email,
@@ -30,7 +30,6 @@ export const postRegister = async (req, res) => {
     });
     await user.save();
 
-    // 4️⃣ Respuesta exitosa
     return res.status(201).json({
       message: "Registro exitoso",
       user: {
@@ -41,9 +40,8 @@ export const postRegister = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error en /api/register:", error);
 
-    // 5️⃣ Errores de validación de Mongoose
+
     if (error.name === "ValidationError") {
       const errors = Object.values(error.errors).reduce((acc, err) => {
         acc[err.path] = err.message;
@@ -52,7 +50,7 @@ export const postRegister = async (req, res) => {
       return res.status(400).json({ errors });
     }
 
-    // 6️⃣ Error de índice único
+
     if (error.code === 11000) {
       const field = Object.keys(error.keyPattern)[0];
       return res.status(409).json({
@@ -60,23 +58,23 @@ export const postRegister = async (req, res) => {
       });
     }
 
-    // 7️⃣ Cualquier otro
+
     return res.status(500).json({
       errors: { general: "Error interno del servidor" },
     });
   }
 };
 
-export const getMayoristas = async (req, res) => {
-  try {
-    const filtro = { tipoUsuario: "mayorista" };
-    const mayoristas = await Register.find(filtro).select("-password -__v");
-    res.json(mayoristas);
-  } catch (error) {
-    console.error("Error al obtener mayoristas:", error);
-    res.status(500).json({ message: "Error de servidor al obtener mayoristas" });
-  }
-};
+// export const getMayoristas = async (req, res) => {
+//   try {
+//     const filtro = { tipoUsuario: "mayorista" };
+//     const mayoristas = await Register.find(filtro).select("-password -__v");
+//     res.json(mayoristas);
+//   } catch (error) {
+//     console.error("Error al obtener mayoristas:", error);
+//     res.status(500).json({ message: "Error de servidor al obtener mayoristas" });
+//   }
+// };
 
 export const postLogin = async (req, res) => {
   try {

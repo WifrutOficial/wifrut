@@ -19,14 +19,14 @@ dotenv.config();
 const app = express();
 console.log("NODE_ENV:", process.env.NODE_ENV);
 
-// Configuración de CORS
+
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       "https://www.wifrut.com",
       "http://localhost:5173",
     ];
-    console.log("Solicitud desde:", origin); // para depurar
+
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -38,23 +38,23 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // aplicar CORS también a preflight (OPTIONS)
+app.options("*", cors(corsOptions));
 
-// Middleware para el manejo de JSON y formularios
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Obtener el directorio actual
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Servir archivos estáticos del frontend
+
 app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
 
-// Conexión a la base de datos
+
 connectDB();
 
-// Middleware para cookies
+
 app.use(cookieParser());
 
 // Rutas
