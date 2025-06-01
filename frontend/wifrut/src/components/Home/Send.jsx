@@ -111,7 +111,7 @@ function Send() {
           ← Regresar a la página principal
         </button>
       </div>
-      {/* Mostrar botón si vino desde el carrito */}
+ 
       {fromCart && (
         <div className={style.backHomeContainer}>
           <button className={style.backHomeButton} onClick={handleGoCart}>

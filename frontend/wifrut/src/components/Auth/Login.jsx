@@ -25,11 +25,11 @@ function Login() {
   const formHandle = async (e) => {
     e.preventDefault();
     setErrors({});
-    setLoading(true); // ⏳ Activar loading al iniciar
+    setLoading(true);  
 
     if (!loginData.email || !loginData.password) {
       setErrors({ general: "Error, todos los campos son obligatorios" });
-      setLoading(false); // ❌ Desactivar si hay error de campos vacíos
+      setLoading(false); 
       return;
     }
 
@@ -42,11 +42,11 @@ function Login() {
         (user.tipoUsuario === "mayorista" && !user.estadoCuenta)
       ) {
         setErrors({ general: "Error: Datos del usuario incorrectos" });
-        setLoading(false); // ❌ Desactivar si hay error en datos
+        setLoading(false); 
         return;
       }
 
-      // ✅ Redirección correcta, sin necesidad de setLoading(false)
+   
       if (user.tipoUsuario === "admin") {
         navigate("/admin");
       } else if (
@@ -74,7 +74,7 @@ function Login() {
         });
       }
     } finally {
-      setLoading(false); // ✅ Siempre se desactiva al final
+      setLoading(false); 
     }
   };
 

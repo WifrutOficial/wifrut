@@ -16,7 +16,7 @@ function ProtectedRouter({ allowedRoles = [] }) {
     user?.tipoUsuario === "mayorista" &&
     user?.estadoCuenta === "pendiente" &&
     location.pathname !== "/contacto-mayorista" &&
-    location.pathname !== "/paginadeespera" //Evitamos un bucle
+    location.pathname !== "/paginadeespera" 
   ) {
 
     return <Navigate to="/contacto-mayorista" replace />;

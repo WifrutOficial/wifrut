@@ -43,7 +43,7 @@ function Home() {
         },
       });
 
-      // Guardar el momento actual como última visita
+
       localStorage.setItem(key, now.toString());
     }
   }, []);

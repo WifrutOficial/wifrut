@@ -34,7 +34,7 @@ function Register() {
 
     let newErrors = {};
 
-    // Validaciones locales
+ 
     if (
       !registerData.nombre ||
       !registerData.email ||

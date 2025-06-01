@@ -14,15 +14,15 @@ function MayoristasAprobados2() {
           { withCredentials: true }
         );
 
-        // 1. Ver qué llega del backend:
+      
         console.log("👉 mayoristas desde backend:", res.data);
 
-        // 2. Filtrar solo los pendientes:
+      
         const solicitudesPendientes = res.data.filter(
           (u) => u.estadoCuenta === "pendiente"
         );
 
-        // 3. Guardar en el estado:
+      
         setSolicitudes(solicitudesPendientes);
       } catch (error) {
         console.error("Error al obtener solicitudes:", error);
@@ -30,7 +30,7 @@ function MayoristasAprobados2() {
     };
 
     fetchSolicitudes();
-  }, []); // <-- array de dependencias vacío para que solo se ejecute una vez
+  }, []); 
 
   return (
     <div>

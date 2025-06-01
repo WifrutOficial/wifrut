@@ -25,7 +25,7 @@
 }
 
 .container {
-  background-image: url("public/backG.png");
+  background-image: url("/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -79,6 +79,6 @@
 
 @media (max-width: 790px) {
   .container {
-    background-image: url("public/fondoM.png");
+    background-image: url("/fondoM.png");
   }
 }

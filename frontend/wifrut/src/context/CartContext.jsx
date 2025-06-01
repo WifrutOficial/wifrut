@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
   const [tipoVenta, setTipoVenta] = useState("");
   const { user } = useAuth();
 
-  // Agregar productos al carrito
+ 
   const addToCart = (product, quantity = 1) => {
     console.log("Producto a agregar al carrito:", product);
     console.log("Tipo de venta:", product.tipoVenta);
@@ -46,7 +46,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Eliminar productos del carrito con SweetAlert2
+
   const removeFromCart = (productId) => {
     Swal.fire({
       title: "¿Seguro deseas eliminar el producto?",
@@ -81,12 +81,12 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Vaciar carrito
+
   const clearCart = () => {
     setCart([]);
   };
 
-  // Función para enviar pedido al backend
+
   const checkout = async (
     direccion,
     metodoPago,
@@ -147,12 +147,11 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Calcular cantidad total de productos
+
   const getTotalProductos = () => {
     return cart.reduce((acc, { quantity }) => acc + quantity, 0);
   };
 
-  // Calcular el total general
   const getTotal = () => {
     return cart.reduce((acc, { quantity, precio, precioConDescuento }) => {
       const precioFinal =

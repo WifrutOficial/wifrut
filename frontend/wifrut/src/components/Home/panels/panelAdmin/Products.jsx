@@ -52,7 +52,7 @@ function Products() {
 
   return (
     <div className={style.container1}>
-      {/* Carga de Productos Minoristas */}
+   
       <div className={style.containerGlass}>
         <p className={style.title}>Carga de Productos Minoristas</p>
         <div className={style.container}>

@@ -7,7 +7,7 @@ function DiscountedProducts({
   handleQuantityChange,
   handleAddToCart,
 }) {
-  // función para detectar cualquier variante de "kilo" en tipoVenta
+
   const isKg = (tipoVenta) =>
     String(tipoVenta || "")
       .toLowerCase()
@@ -39,7 +39,7 @@ function DiscountedProducts({
       </div>
 
       <div className={style.descuento}>
-        {/* Flecha izquierda */}
+   
         <button
           className={style.arrowLeft}
           onClick={() => {
@@ -53,7 +53,7 @@ function DiscountedProducts({
           />
         </button>
 
-        {/* Contenedor scrollable */}
+    
         <div id="scroll-ofertas" className={style.container}>
           {discountedProducts.map(
             ({
@@ -68,7 +68,7 @@ function DiscountedProducts({
               <div key={_id} className={style.cartContainer}>
                 <img className={style.img} src={`/${imagen}`} alt={nombre} />
 
-                {/* badge de descuento */}
+          
                 <div className={style.discountBadge}>{descuento}%</div>
 
                 <div className={style.sale}>
@@ -136,8 +136,7 @@ function DiscountedProducts({
             )
           )}
         </div>
-
-        {/* Flecha derecha */}
+   
         <button
           className={style.arrowRight}
           onClick={() => {

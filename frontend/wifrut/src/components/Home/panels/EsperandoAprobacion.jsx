@@ -13,7 +13,7 @@ function EsperandoAprobacion() {
     aniosActividad: "",
   });
   
-// Manejar cambios en los inputs
+
   const handleChange = (e) => {
     setMayoristaData({
       ...mayoristaData,
@@ -21,7 +21,7 @@ function EsperandoAprobacion() {
     });
   };
 
-   // Verificar si el usuario ya completó el formulario
+   
    useEffect(() => {
     const verificarDatos = async () => {
       try {
@@ -33,9 +33,9 @@ function EsperandoAprobacion() {
         console.log("🔍 Respuesta del backend:", response.data);
   
         if (response.data.data) {
-          // Verificar si el ID del usuario en los datos coincide con el autenticado
+         
           const usuarioActual = response.data.data.userId;
-          const usuarioAutenticado = authStatus.user.id; // Ajusta esto según cómo obtienes el usuario autenticado en el frontend
+          const usuarioAutenticado = authStatus.user.id;
   
           console.log("✅ ID en base de datos:", usuarioActual);
           console.log("✅ ID usuario autenticado:", usuarioAutenticado);
@@ -53,7 +53,7 @@ function EsperandoAprobacion() {
   }, [navigate]);
   
   
- // Manejar el envío del formulario
+
   const formHandle = async (e) => {
     e.preventDefault();
     console.log("Datos enviados:", mayoristaData);

@@ -25,7 +25,6 @@ function BuscarPedidos() {
     }
   };
 
-  // Resumen de productos y total del día
   const resumenProductos = {};
   let totalDelDia = 0;
 
@@ -74,7 +73,7 @@ function BuscarPedidos() {
               >
              
 
-                {/* Información del pedido */}
+             
                 <div className={style.infoPedido}>
                   <div className={style.info1}>
                     <p><span>Total:</span> ${total.toFixed(2)}</p>
@@ -88,7 +87,7 @@ function BuscarPedidos() {
                   </div>
                 </div>
 
-                {/* Detalles de productos por pedido */}
+           
                 <div className={style.productosPedido}>
                   <p className={style.title}>Productos del pedido:</p>
                   <ul className={style.infoProducto} >
@@ -107,7 +106,7 @@ function BuscarPedidos() {
         )}
       </div>
 
-      {/* Resumen del día */}
+    
       {orders.length > 0 && (
         <div className={style.resumen}>
           <h3 className={style.title}>Total de Productos:</h3>

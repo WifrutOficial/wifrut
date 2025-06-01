@@ -31,7 +31,7 @@
 }
 
 .container {
-  background-image: url("public/backG.png");
+  background-image: url("/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -44,7 +44,7 @@
   align-items: center;
 }
 .containerLogin {
-  background-image: url("public/backG.png");
+  background-image: url("/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -247,10 +247,10 @@ span button {
     height: 110px;
   }
   .container {
-    background-image: url("public/fondoM.png");
+    background-image: url("/fondoM.png");
   }
   .containerLogin {
-    background-image: url("public/fondoM.png");
+    background-image: url("/fondoM.png");
   }
   .customAlert {
     font-size: 10px;

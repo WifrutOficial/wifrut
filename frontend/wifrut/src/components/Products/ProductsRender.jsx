@@ -47,28 +47,27 @@ function ProductsRender() {
   };
 
 const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
-  const minimo = Number(kiloMinimo) || 0.5;  // Usa kiloMinimo, si no tiene valor usa 0.5
+  const minimo = Number(kiloMinimo) || 0.5;  
 
   setQuantities((prev) => {
     const currentQty = prev[productId] || 0;
     let newQty = currentQty;
 
-    // Si el tipo de venta es por kilo, usa kiloMinimo para incrementar o decrementar
     if (isKg(tipoVenta)) {
       if (action === "increment") {
-        newQty = currentQty + minimo;  // Incrementa según kiloMinimo
+        newQty = currentQty + minimo;  
       } else if (action === "decrement") {
         if (currentQty - minimo >= minimo) {
-          newQty = currentQty - minimo;  // Decrementa según kiloMinimo
+          newQty = currentQty - minimo; 
         }
       }
     } else {
-      // Si no es por kilo, la cantidad se incrementa o decrementa por 1 unidad
+  
       if (action === "increment") {
-        newQty = currentQty + 1;  // Incrementa 1 unidad
+        newQty = currentQty + 1;  
       } else if (action === "decrement") {
         if (currentQty > 1) {
-          newQty = currentQty - 1;  // Decrementa 1 unidad
+          newQty = currentQty - 1; 
         }
       }
     }
@@ -132,7 +131,7 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
     }
   }, [searchQuery]);
 
-  // Filtro por búsqueda
+
   const filteredProducts = products.filter((product) => {
     const q = searchQuery?.toLowerCase();
     return !q ||
@@ -140,10 +139,10 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
       product.nombre?.toLowerCase().includes(q);
   });
 
-  // Productos sin descuento
+
   const productsWithoutDiscount = filteredProducts.filter((p) => !p.descuento);
 
-  // Agrupar por categoría los que NO tienen descuento
+
   const categories = {};
   productsWithoutDiscount.forEach((product) => {
     const cat = product.categoria || "Otro";
@@ -165,7 +164,7 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
     <>
       <div ref={productsContainerRef} />
 
-      {/* Productos con descuento */}
+  
       <DiscountedProducts
         products={filteredProducts.filter((p) => p.descuento)}
         handleAddToCart={handleAddToCart}
@@ -173,7 +172,7 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
         handleQuantityChange={handleQuantityChange}
       />
 
-      {/* Productos normales */}
+
       {Object.entries(categories).map(([categoria, items]) => (
         <section key={categoria} className={style.categorySection}>
           <div className={style.categoryContainer}>

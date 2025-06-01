@@ -25,7 +25,7 @@ export default function Cart() {
   const [isLoadingZona, setIsLoadingZona] = useState(false);
   const [loading, setLoading] = useState(false);
   const [turno, setTurno] = useState("");
-  // useEffect 1: setea los valores desde location.state
+
   useEffect(() => {
     if (location.state) {
       if (location.state.direccion) setDireccion(location.state.direccion);
@@ -382,7 +382,7 @@ export default function Cart() {
               return (
                 <li key={item._id || index} className={style.cartItem}>
                   <img
-                    src={`../../../${item.imagen}`} // Ajusta según la estructura de tu servidor
+                    src={`../../../${item.imagen}`} // 
                     alt={item.nombre}
                     className={style.miniImage}
                   />

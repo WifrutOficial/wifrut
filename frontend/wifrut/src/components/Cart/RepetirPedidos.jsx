@@ -38,7 +38,7 @@ function RepetirPedidos() {
               return {
                 ...item,
                 imagen: productoEncontrado?.imagen || "",
-                _id: productoEncontrado?._id || "", // ✅ se agrega el _id
+                _id: productoEncontrado?._id || "",  
               };
             }),
           }));
@@ -55,7 +55,7 @@ function RepetirPedidos() {
 
   const handleRepetir = (pedido) => {
     const itemsConNumeros = pedido.items.map((item) => ({
-      _id: item._id, // ✅ se incluye el _id para evitar errores en el backend
+      _id: item._id, 
       nombre: item.nombre,
       precio: Number(item.precio),
       quantity: Number(item.cantidad ?? item.quantity ?? 1),

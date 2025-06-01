@@ -131,7 +131,7 @@
   align-items: center;
   padding: 20px 0;
 }
-/* Wrapper del carrusel */
+
 .carouselWrapper {
   position: relative;
   display: flex;
@@ -139,7 +139,7 @@
   justify-content: center;
   gap: 5px;
 }
-/* Otros contenedores y estilos */
+
 .descuento {
   position: relative;
   display: flex;
@@ -147,7 +147,6 @@
   justify-content: center;
   gap: 5px;
 }
-/* Flechas */
 .arrowLeft,
 .arrowRight {
   background: transparent;
@@ -170,7 +169,6 @@
   text-transform: uppercase;text-align: center;
 }
 
-/* Contenedor de productos (carrusel) */
 .container {
   display: flex;
   overflow-x: auto;
@@ -183,7 +181,7 @@
   display: none;
 }
 
-/* Tarjeta de producto */
+
 .cartContainer {
   display: flex;
   flex-direction: column;
@@ -198,7 +196,7 @@
   position: relative;
 }
 
-/* Etiqueta de descuento */
+
 .sale {
   position: absolute;
   top: -15px;
@@ -216,7 +214,7 @@
   font-size: 20px;
 }
 
-/* Precio por unidad */
+
 .priceUnit {
   background-color: #ffb83b;
   width: 100%;
@@ -358,9 +356,9 @@
   height: 25px;
 }
 
-/* Estilos responsivos */
+
 @media (max-width: 768px) {
-  /* Ocultar flechas en móvil */
+
   .arrowLeft,
   .arrowRight {
     display: none;

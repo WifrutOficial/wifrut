@@ -1,5 +1,5 @@
 .container {
-  background-image: url("public/backG.png");
+  background-image: url("/backG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -52,18 +52,18 @@
   scrollbar-color: #444 transparent; 
 }
 
-/* Chrome, Edge, Safari */
+
 .containerTotal::-webkit-scrollbar {
   width: 6px;
 }
 
 .containerTotal::-webkit-scrollbar-thumb {
-  background-color: #444;       /* color de la barra */
+  background-color: #444;      
   border-radius: 10px;
 }
 
 .containerTotal::-webkit-scrollbar-track {
-  background: transparent;      /* fondo transparente */
+  background: transparent;      
 }
 .containerPedido {
   backdrop-filter: blur(20px);

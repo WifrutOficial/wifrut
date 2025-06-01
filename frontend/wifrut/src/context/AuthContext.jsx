@@ -3,12 +3,12 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
-// Proveedor del contexto de autenticación
+
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
-  // Verificacion de token en las cookies
+
   const checkAuthStatus = async () => {
     try {
       const response = await axios.get(
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  // FUNCIÓN LOGIN
+
   const login = async (email, password) => {
     try {
       const response = await axios.post(
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //FUNCIÓN LOGOUT
+  
   const logout = async () => {
     try {
       await axios.post(
