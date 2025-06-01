@@ -1,22 +1,25 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-//conexion a la base de datos 
-
-export const connectDB = async ()=>{
+// conexión a la base de datos
+export const connectDB = async () => {
     try {
         const mongoURI = process.env.NODE_ENV === "production"
-        ? process.env.MONGO_URI
-        : process.env.MONGO_URI_DEV
-        console.log('Conectando a MongoDB...');
-        await mongoose.connect(mongoURI,{
-          
+            ? process.env.MONGO_URI
+            : process.env.MONGO_URI_DEV;
+
+        // 🟡 Agrega estos logs para depuración
+        console.log("🧪 Modo de ejecución:", process.env.NODE_ENV);
+        console.log("🧪 URI que se está usando: [" + mongoURI + "]");
+
+
+        console.log("⏳ Conectando a MongoDB...");
+        await mongoose.connect(mongoURI, {
             serverSelectionTimeoutMS: 10000,
-        })
-        console.log(`Conectado a la base de datos en modo ${process.env.NODE_ENV}`)
-        
+        });
+
+        console.log(`✅ Conectado a la base de datos en modo ${process.env.NODE_ENV}`);
     } catch (error) {
-        console.log(error);
-        Error("Error al conectarse a la base de datos")
-        process.exit(1)
+        console.error("❌ Error al conectarse a MongoDB:", error);
+        process.exit(1);
     }
 };
