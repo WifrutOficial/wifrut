@@ -382,7 +382,7 @@ export default function Cart() {
               return (
                 <li key={item._id || index} className={style.cartItem}>
                   <img
-                    src={`/${item.imagen}`} // 
+                    src={`/${item.imagen}`} 
                     alt={item.nombre}
                     className={style.miniImage}
                   />

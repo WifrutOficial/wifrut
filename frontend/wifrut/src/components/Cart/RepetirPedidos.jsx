@@ -59,6 +59,7 @@ function RepetirPedidos() {
       nombre: item.nombre,
       precio: Number(item.precio),
       quantity: Number(item.cantidad ?? item.quantity ?? 1),
+      imagen: item.imagen
     }));
 
     setCart(itemsConNumeros);

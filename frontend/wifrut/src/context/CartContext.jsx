@@ -124,7 +124,7 @@ export const CartProvider = ({ children }) => {
           items: cart.map((item) => ({
             productId: item._id,
             nombre: item.nombre,
-            cantidad: item.cantidad,
+            cantidad: item.quantity,
             precio: item.precioConDescuento ?? item.precio,
           })),
           total: totalFinal,
