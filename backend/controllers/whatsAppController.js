@@ -11,10 +11,6 @@ const TWILIO_SANDBOX_NUMBER = "whatsapp:+14155238886"; // Número de pruebas de 
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 
-mongoose
-  .connect(MONGO_URI_DEV)
-  .then(() => console.log(" Conectado a MongoDB "))
-  .catch((err) => console.error(" Error al conectar con MongoDB:", err));
 
 export const sendWhatsAppMessage = async (to, message) => {
   try {

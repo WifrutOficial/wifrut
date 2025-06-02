@@ -19,14 +19,14 @@ dotenv.config();
 const app = express();
 console.log("NODE_ENV:", process.env.NODE_ENV);
 
-
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
+      "https://wifrut-backend.vercel.app",
       "https://www.wifrut.com",
+      "https://wifrut.com",
       "http://localhost:5173",
     ];
-
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -35,25 +35,22 @@ const corsOptions = {
     }
   },
   credentials: true,
+   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+  allowedHeaders: ["Content-Type", "Authorization"], 
 };
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
 
-
 connectDB();
-
 
 app.use(cookieParser());
 
@@ -71,9 +68,9 @@ app.use("/api/mercadopago", mercadoPagoRoutes);
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+//const PORT = process.env.PORT || 3000;
+//app.listen(PORT, () => {
+//console.log(`Servidor corriendo en el puerto ${PORT}`);
+//});
 
 export default app;
