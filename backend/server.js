@@ -11,46 +11,36 @@ import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
-console.log("NODE_ENV:", process.env.NODE_ENV);
 
+// ✅ CORS simplificado para Vercel
 const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "https://wifrut-backend.vercel.app",
-      "https://www.wifrut.com",
-      "https://wifrut.com",
-    ];
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("No permitido por CORS"));
-    }
-  },
+  origin: [
+    "https://www.wifrut.com",
+    "https://wifrut.com",
+  ],
   credentials: true,
-   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-  allowedHeaders: ["Content-Type", "Authorization","Cookie"], 
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
+// ✅ Solo necesario en desarrollo local, no en Vercel (puedes eliminar o comentar)
+// import path from "path";
+// import { fileURLToPath } from "url";
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// app.use(express.static(path.resolve(__dirname, "../frontend/wifrut/public")));
 
 connectDB();
-
 app.use(cookieParser());
 
 // Rutas
@@ -64,12 +54,12 @@ app.use("/api/whatsapp", whatsAppRoutes);
 app.use("/api/mercadopago", mercadoPagoRoutes);
 
 // Ruta raíz
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => res.send("Express en Vercel funcionando correctamente"));
 
-// Iniciar servidor
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, () => {
-//console.log(`Servidor corriendo en el puerto ${PORT}`);
-//});
+// ❌ No usar app.listen en Vercel
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Servidor corriendo en el puerto ${PORT}`);
+// });
 
 export default app;
