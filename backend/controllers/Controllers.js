@@ -100,12 +100,14 @@ export const postLogin = async (req, res) => {
 
     const token = await createAccessToken(payload);
 
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // Siempre true en producción
-      sameSite: "None", // Necesario para solicitudes entre dominios
+      secure: isProd,
+      sameSite: isProd ? "None" : "Lax",
       path: "/",
-      maxAge: 5 * 24 * 60 * 60 * 1000, // 5 días
+      maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
@@ -124,6 +126,7 @@ export const postLogin = async (req, res) => {
     return res.status(500).json({ message: "Error en el servidor" });
   }
 };
+
 
 export const logout = async (req, res) => {
   res.clearCookie("token", {
