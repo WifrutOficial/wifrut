@@ -135,6 +135,7 @@ export const CartProvider = ({ children }) => {
         },
         {
           withCredentials: true,
+          sameSite: "none",
         }
       );
 

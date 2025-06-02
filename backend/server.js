@@ -20,23 +20,11 @@ const app = express();
 console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "https://wifrut-backend.vercel.app",
-      "https://www.wifrut.com",
-      "https://wifrut.com",
-      "http://localhost:5173",
-    ];
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("No permitido por CORS"));
-    }
-  },
+  origin: true,
   credentials: true,
-   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-  allowedHeaders: ["Content-Type", "Authorization","Cookie"], 
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie", "Set-Cookie"],
 };
 
 app.use(cors(corsOptions));
