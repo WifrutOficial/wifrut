@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data?.user) {
         const u = response.data.user;
-         console.log("Usuario recibido DONDE TENDRIA QUE ESTAR TELEFONO:", u);
+       
         setIsAuthenticated(true);
         setUser({
           ...u,
