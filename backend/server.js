@@ -25,7 +25,6 @@ const corsOptions = {
       "https://wifrut-backend.vercel.app",
       "https://www.wifrut.com",
       "https://wifrut.com",
-      "http://localhost:5173",
     ];
 
     if (!origin || allowedOrigins.includes(origin)) {
