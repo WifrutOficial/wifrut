@@ -103,7 +103,7 @@ export const postLogin = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true, // Siempre true en producción
-   
+      sameSite: "Strict", // Necesario para solicitudes entre dominios
       path: "/",
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 días
     });
