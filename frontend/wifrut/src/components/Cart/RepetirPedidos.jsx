@@ -22,7 +22,9 @@ function RepetirPedidos() {
               withCredentials: true,
             }
           ),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/products/productos`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/products/productos`), {
+              withCredentials: true,
+            }
         ]);
 
         if (
