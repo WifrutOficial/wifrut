@@ -23,7 +23,7 @@ function Footer() {
           </div>
           <div className={style.Info}>
             <FaMapMarkerAlt />
-            <p>calle verduleria 83745</p>
+            <p>Galpón número 9 anexo nave sur</p>
           </div>
         </div>
         <div className={style.containerContact}>

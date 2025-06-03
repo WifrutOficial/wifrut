@@ -33,6 +33,7 @@ function Home() {
                 <strong>PARA MÁS INFORMACIÓN:</strong><br />
                 consulte el apartado de <em>envíos</em>
               </p>
+              <p>las imágenes son ilustraciones y no representan la realidad"
             </div>
           </div>
         `,

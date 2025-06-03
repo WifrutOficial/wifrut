@@ -181,10 +181,16 @@ padding: 5px 5px;
   min-height: 100vh;
 }
 .title {
-  color: #000;
-  font-weight: 400;
+  font-weight: 800;
+  font-size: 30px;
   text-align: center;
-  padding: 20px 0;
+  color: #005234;
+  letter-spacing: 2px;
+  transition: transform 0.3s ease;
+}
+
+.title:hover {
+  transform: scale(1.08);
 }
 .containerCart {
   background-color: #d4d4d415;
