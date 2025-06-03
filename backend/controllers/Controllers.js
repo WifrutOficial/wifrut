@@ -5,13 +5,11 @@ export const postRegister = async (req, res) => {
   try {
     const { nombre, email, phone, password, tipoUsuario } = req.body;
 
-  
     if (!nombre || !email || !phone || !password || !tipoUsuario) {
       return res.status(400).json({
         errors: { general: "Todos los campos son obligatorios" },
       });
     }
-
 
     if (await Register.findOne({ email })) {
       return res.status(409).json({
@@ -19,7 +17,6 @@ export const postRegister = async (req, res) => {
       });
     }
 
- 
     const user = new Register({
       nombre,
       email,
@@ -40,8 +37,6 @@ export const postRegister = async (req, res) => {
       },
     });
   } catch (error) {
-
-
     if (error.name === "ValidationError") {
       const errors = Object.values(error.errors).reduce((acc, err) => {
         acc[err.path] = err.message;
@@ -50,14 +45,12 @@ export const postRegister = async (req, res) => {
       return res.status(400).json({ errors });
     }
 
-
     if (error.code === 11000) {
       const field = Object.keys(error.keyPattern)[0];
       return res.status(409).json({
         errors: { [field]: `El ${field} ya está registrado` },
       });
     }
-
 
     return res.status(500).json({
       errors: { general: "Error interno del servidor" },
@@ -78,6 +71,7 @@ export const postRegister = async (req, res) => {
 
 export const postLogin = async (req, res) => {
   try {
+    console.log("Datos de inicio de sesión:", req.body);
     const { email, password } = req.body;
 
     const user = await Register.findOne({ email }).select("+password +phone");
@@ -102,6 +96,8 @@ export const postLogin = async (req, res) => {
 
     const isProd = process.env.NODE_ENV === "production";
 
+    // Set secure cookie for production, use non-secure for local dev
+    // const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProd,
@@ -112,6 +108,7 @@ export const postLogin = async (req, res) => {
 
     res.json({
       message: "Inicio de sesión exitoso",
+      token: token, // Include token in the response for browsers that block cookies
       user: {
         id: user._id,
         nombre: user.nombre,
@@ -127,11 +124,13 @@ export const postLogin = async (req, res) => {
   }
 };
 
-
 export const logout = async (req, res) => {
+  const isProd = process.env.NODE_ENV === "production";
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProd,
+    sameSite: isProd ? "None" : "Lax",
+    path: "/",
   });
   res.json({ message: "Logout exitoso" });
 };

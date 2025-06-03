@@ -5,7 +5,7 @@ import { isMinorista } from "../middlewares/isMinorista.js";
 
 
 const router = Router()
-router.post("/create",authRequired , isMinorista, postProduct)
+router.post("/create", authRequired , isMinorista, postProduct)
 router.get("/repetir-pedido",authRequired , isMinorista, getUserOrders )
 
 

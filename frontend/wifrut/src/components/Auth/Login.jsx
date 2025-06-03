@@ -46,7 +46,7 @@ function Login() {
         return;
       }
 
-   
+      // Store user info and navigate based on user type
       if (user.tipoUsuario === "admin") {
         navigate("/admin");
       } else if (

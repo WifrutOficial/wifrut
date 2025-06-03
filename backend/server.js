@@ -13,6 +13,8 @@ import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import http from "http";
+import { error } from "console";
 
 dotenv.config();
 
@@ -20,8 +22,9 @@ const app = express();
 console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const corsOptions = {
-  origin: true,
-  credentials: true,
+  origin: (origin, callback) => {
+    callback(null, origin);
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Cookie", "Set-Cookie"],
@@ -60,5 +63,41 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 //app.listen(PORT, () => {
 //console.log(`Servidor corriendo en el puerto ${PORT}`);
 //});
+
+const port = process.env.PORT || 3000;
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+// app.attach(server);
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Server is running on http://0.0.0.0:${port}`);
+});
+server.on("error", (error) => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
+  switch (error.code) {
+    case "EACCES":
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+});
 
 export default app;

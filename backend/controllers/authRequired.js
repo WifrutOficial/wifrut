@@ -10,6 +10,7 @@ export const authRequired = (req, res, next) => {
   let token = req.cookies && req.cookies.token;
   
   // If token is not in cookies, check if it's in the Authorization header
+  // This is a fallback for when cookies aren't being sent by the browser
   if (!token && req.headers.authorization) {
     const authHeader = req.headers.authorization;
     if (authHeader.startsWith('Bearer ')) {
