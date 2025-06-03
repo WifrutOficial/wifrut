@@ -64,40 +64,40 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 //console.log(`Servidor corriendo en el puerto ${PORT}`);
 //});
 
-const port = process.env.PORT || 3000;
-app.set("port", port);
+// const port = process.env.PORT || 3000;
+// app.set("port", port);
 
 /**
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+// /**
+//  * Listen on provided port, on all network interfaces.
+//  */
 
-// app.attach(server);
-server.listen(port, "0.0.0.0", () => {
-  console.log(`Server is running on http://0.0.0.0:${port}`);
-});
-server.on("error", (error) => {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
-  switch (error.code) {
-    case "EACCES":
-      console.error(`${bind} requires elevated privileges`);
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(`${bind} is already in use`);
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-});
+// // app.attach(server);
+// server.listen(port, "0.0.0.0", () => {
+//   console.log(`Server is running on http://0.0.0.0:${port}`);
+// });
+// server.on("error", (error) => {
+//   if (error.syscall !== "listen") {
+//     throw error;
+//   }
+//   const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
+//   switch (error.code) {
+//     case "EACCES":
+//       console.error(`${bind} requires elevated privileges`);
+//       process.exit(1);
+//       break;
+//     case "EADDRINUSE":
+//       console.error(`${bind} is already in use`);
+//       process.exit(1);
+//       break;
+//     default:
+//       throw error;
+//   }
+// });
 
 export default app;

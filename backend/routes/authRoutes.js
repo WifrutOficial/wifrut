@@ -8,5 +8,5 @@ router.post("/register", postRegister);
 //router.get("/register/mayoristas", getMayoristas);
 router.post("/login", postLogin);
 router.post("/logout", logout);
-
+ 
 export default router;
