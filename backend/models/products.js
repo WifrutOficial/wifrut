@@ -39,7 +39,7 @@ const productSchema = new mongoose.Schema({
   },
   kiloMinimo:{
     type:Number,
-    enum: ["0.5", "1"],
+     enum: [0.5, 1],
     trim: true,
 
   },

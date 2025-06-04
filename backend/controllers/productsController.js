@@ -49,6 +49,7 @@ export const uploadExcel = async (req, res) => {
           ? product.descripcion
           : null;
 
+      // ✅ Precio con o sin descuento
       if (!isNaN(precio) && !isNaN(descuento) && descuento > 0) {
         updateFields.precioConDescuento = precio - (precio * descuento) / 100;
         console.log(
@@ -59,6 +60,18 @@ export const uploadExcel = async (req, res) => {
         console.log(
           `No se aplica descuento, precioConDescuento: ${updateFields.precioConDescuento}`
         );
+      }
+
+      // ✅ Nuevo: Conversión y validación de kiloMinimo
+      if (product.kiloMinimo !== undefined) {
+        const kiloMin = Number(product.kiloMinimo);
+        if ([0.5, 1].includes(kiloMin)) {
+          updateFields.kiloMinimo = kiloMin;
+        } else {
+          console.warn(
+            `Valor de kiloMinimo no válido para ${product.nombre}: ${product.kiloMinimo}`
+          );
+        }
       }
 
       return {

@@ -1,4 +1,3 @@
-import React from "react";
 //import { useNavigate } from "react-router-dom";
 import style from "../../../../styles/Admin.module.css";
 import { useState } from "react";
@@ -8,15 +7,22 @@ import Products from "./Products";
 import MayoristasAprobados2 from "./MayoristasAprobados2";
 import { GoArrowUp } from "react-icons/go";
 import BuscarPedidos from "./BuscarPedidos";
-
+import { useAuth } from "../../../../context/AuthContext";
 function PanelAdmin() {
- // const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [activeComponent, setActiveComponent] = useState(null);
-
+  const { logout } = useAuth();
   return (
     <div className={style.container}>
       <p className={style.title}>Panel administrador</p>
+      <div className={style.btnLogout}>
+        <img className={style.logoutbtn} src="/cerrar-sesion.png" alt="" />
+        <button  onClick={logout}>
+          Cerrar Sesion
+        </button>
+      </div>
+
       <div className={style.panelContainer}>
         <div className={style.nav}>
           <div className={style.navContent}>
@@ -30,14 +36,14 @@ function PanelAdmin() {
               <button onClick={() => setActiveComponent(<Products></Products>)}>
                 Carga de Productos
               </button>
-            {/*   <button
+              {/*   <button
                 onClick={() =>
                   setActiveComponent(<PanelMasyorista></PanelMayorista>)
                 }
               >
                 Solicitudes Pendientes
               </button> */}
-            {/*   <button
+              {/*   <button
                 onClick={() =>
                   setActiveComponent(
                     <MayoristasAprobados></MayoristasAprobados>
@@ -46,7 +52,7 @@ function PanelAdmin() {
               >
                 Lista Clientes Mayoristas
               </button> */}
-                <button
+              <button
                 onClick={() =>
                   setActiveComponent(
                     <MayoristasAprobados2></MayoristasAprobados2>
@@ -54,7 +60,7 @@ function PanelAdmin() {
                 }
               >
                 Lista Clientes Mayoristas
-              </button> 
+              </button>
               <button
                 onClick={() =>
                   setActiveComponent(<BuscarPedidos></BuscarPedidos>)

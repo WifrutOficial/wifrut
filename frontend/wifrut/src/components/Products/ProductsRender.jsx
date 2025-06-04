@@ -18,11 +18,41 @@ function ProductsRender() {
   const productsContainerRef = useRef(null);
 
   const categoryIcons = {
-    Frutas: <img src="../../../apple.png" alt="frutas" className={style.iconCategories} />,
-    Verduras: <img src="../../../vegetable.png" alt="verduras" className={style.iconCategories} />,
-    Hortalizas: <img src="../../../carrot.png" alt="Hortalizas" className={style.iconCategories} />,
-    Gourmet: <img src="../../../mushrooms.png" alt="Gourmet" className={style.iconCategories} />,
-    Congelados: <img src="../../../congelados.png" alt="Congelados" className={style.iconCategories} />,
+    Frutas: (
+      <img
+        src="../../../apple.png"
+        alt="frutas"
+        className={style.iconCategories}
+      />
+    ),
+    Verduras: (
+      <img
+        src="../../../vegetable.png"
+        alt="verduras"
+        className={style.iconCategories}
+      />
+    ),
+    Hortalizas: (
+      <img
+        src="../../../carrot.png"
+        alt="Hortalizas"
+        className={style.iconCategories}
+      />
+    ),
+    Gourmet: (
+      <img
+        src="../../../mushrooms.png"
+        alt="Gourmet"
+        className={style.iconCategories}
+      />
+    ),
+    Congelados: (
+      <img
+        src="../../../congelados.png"
+        alt="Congelados"
+        className={style.iconCategories}
+      />
+    ),
   };
 
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
@@ -46,35 +76,34 @@ function ProductsRender() {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
   };
 
-const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
-  const minimo = Number(kiloMinimo) || 0.5;  
+  const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
+    const minimo = Number(kiloMinimo) || 0.5;
 
-  setQuantities((prev) => {
-    const currentQty = prev[productId] || 0;
-    let newQty = currentQty;
+    setQuantities((prev) => {
+      const currentQty = prev[productId] || 0;
+      let newQty = currentQty;
 
-    if (isKg(tipoVenta)) {
-      if (action === "increment") {
-        newQty = currentQty + minimo;  
-      } else if (action === "decrement") {
-        if (currentQty - minimo >= minimo) {
-          newQty = currentQty - minimo; 
+      if (isKg(tipoVenta)) {
+        if (action === "increment") {
+          newQty = currentQty + minimo;
+        } else if (action === "decrement") {
+          if (currentQty - minimo >= minimo) {
+            newQty = currentQty - minimo;
+          }
+        }
+      } else {
+        if (action === "increment") {
+          newQty = currentQty + 1;
+        } else if (action === "decrement") {
+          if (currentQty > 1) {
+            newQty = currentQty - 1;
+          }
         }
       }
-    } else {
-  
-      if (action === "increment") {
-        newQty = currentQty + 1;  
-      } else if (action === "decrement") {
-        if (currentQty > 1) {
-          newQty = currentQty - 1; 
-        }
-      }
-    }
 
-    return { ...prev, [productId]: newQty };
-  });
-};
+      return { ...prev, [productId]: newQty };
+    });
+  };
 
   const handleAddToCart = (product) => {
     if (!isAuthenticated) {
@@ -110,7 +139,10 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
       return;
     }
 
-    addToCart({ ...product, tipoVenta: product.tipoVenta || "Unidad" }, cantidad);
+    addToCart(
+      { ...product, tipoVenta: product.tipoVenta || "Unidad" },
+      cantidad
+    );
     Swal.fire({
       text: "Producto agregado al carrito",
       icon: "success",
@@ -127,21 +159,23 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
 
   useEffect(() => {
     if (searchQuery && productsContainerRef.current) {
-      productsContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      productsContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, [searchQuery]);
 
-
   const filteredProducts = products.filter((product) => {
     const q = searchQuery?.toLowerCase();
-    return !q ||
+    return (
+      !q ||
       product.descripcion?.toLowerCase().includes(q) ||
-      product.nombre?.toLowerCase().includes(q);
+      product.nombre?.toLowerCase().includes(q)
+    );
   });
 
-
   const productsWithoutDiscount = filteredProducts.filter((p) => !p.descuento);
-
 
   const categories = {};
   productsWithoutDiscount.forEach((product) => {
@@ -164,14 +198,12 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
     <>
       <div ref={productsContainerRef} />
 
-  
       <DiscountedProducts
         products={filteredProducts.filter((p) => p.descuento)}
         handleAddToCart={handleAddToCart}
         quantities={quantities}
         handleQuantityChange={handleQuantityChange}
       />
-
 
       {Object.entries(categories).map(([categoria, items]) => (
         <section key={categoria} className={style.categorySection}>
@@ -183,46 +215,114 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
           <div className={style.carouselWrapper}>
             <button
               className={style.arrowLeft}
-              onClick={() => document.getElementById(`scroll-${categoria}`).scrollBy({ left: -300, behavior: "smooth" })}
+              onClick={() =>
+                document
+                  .getElementById(`scroll-${categoria}`)
+                  .scrollBy({ left: -300, behavior: "smooth" })
+              }
             >
-              <IoIosArrowForward className={style.arrowIcon} style={{ transform: "rotate(180deg)" }} />
+              <IoIosArrowForward
+                className={style.arrowIcon}
+                style={{ transform: "rotate(180deg)" }}
+              />
             </button>
 
             <div className={style.container} id={`scroll-${categoria}`}>
-              {items.map(({ _id, nombre, precio, descripcion, tipoVenta, imagen , kiloMinimo}) => (
-                <div key={_id} className={style.cartContainer}>
-                  <img className={style.img} src={`/${imagen}`} alt={nombre} />
+              {items.map(
+                ({
+                  _id,
+                  nombre,
+                  precio,
+                  descripcion,
+                  tipoVenta,
+                  imagen,
+                  kiloMinimo,
+                }) => (
+                  <div key={_id} className={style.cartContainer}>
+                    <img
+                      className={style.img}
+                      src={`/${imagen}`}
+                      alt={nombre}
+                    />
 
-                  <p className={style.priceUnit}>
-                    Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
-                  </p>
+                    <p className={style.priceUnit}>
+                      Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
+                    </p>
 
-                  <p className={style.productName}>{nombre}</p>
-                  {descripcion && <p className={style.description}>{descripcion}</p>}
+                    <p className={style.productName}>{nombre}</p>
+                    {descripcion && (
+                      <p className={style.description}>{descripcion}</p>
+                    )}
 
-                  <p className={style.quantitySelection}>Selecciona la cantidad:</p>
-                  <div className={style.quantityContainer}>
-                    <button onClick={() => handleQuantityChange(_id, tipoVenta,  "decrement", kiloMinimo)}>-</button>
-                    <span>
-                      {quantities[_id] || 0} {isKg(tipoVenta) ? "kg" : "unidades"}
-                    </span>
-                    <button onClick={() => handleQuantityChange(_id, tipoVenta, "increment", kiloMinimo)}>+</button>
+                    <p className={style.quantitySelection}>
+                      Selecciona la cantidad:
+                    </p>
+                    <div className={style.quantityContainer}>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            _id,
+                            tipoVenta,
+                            "decrement",
+                            kiloMinimo
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <span>
+                        {quantities[_id] !== undefined
+                          ? quantities[_id]
+                          : isKg(tipoVenta)
+                          ? kiloMinimo || 0.5
+                          : 0}{" "}
+                        {isKg(tipoVenta) ? "kg" : "unidades"}
+                      </span>
+
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            _id,
+                            tipoVenta,
+                            "increment",
+                            kiloMinimo
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <p className={style.total}>
+                      Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+                    </p>
+
+                    <button
+                      className={style.addCart}
+                      onClick={() =>
+                        handleAddToCart({
+                          _id,
+                          nombre,
+                          precio,
+                          tipoVenta,
+                          imagen,
+                        })
+                      }
+                    >
+                      Añadir a carrito
+                    </button>
                   </div>
-
-                  <p className={style.total}>
-                    Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
-                  </p>
-
-                  <button className={style.addCart} onClick={() => handleAddToCart({ _id, nombre, precio, tipoVenta, imagen })}>
-                    Añadir a carrito
-                  </button>
-                </div>
-              ))}
+                )
+              )}
             </div>
 
             <button
               className={style.arrowRight}
-              onClick={() => document.getElementById(`scroll-${categoria}`).scrollBy({ left: 300, behavior: "smooth" })}
+              onClick={() =>
+                document
+                  .getElementById(`scroll-${categoria}`)
+                  .scrollBy({ left: 300, behavior: "smooth" })
+              }
             >
               <IoIosArrowForward className={style.arrowIcon} />
             </button>

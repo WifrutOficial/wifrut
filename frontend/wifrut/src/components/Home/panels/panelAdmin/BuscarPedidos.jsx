@@ -7,10 +7,12 @@ function BuscarPedidos() {
   const [date, setDate] = useState("");
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");
-
+setLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`,
@@ -22,7 +24,9 @@ function BuscarPedidos() {
     } catch (error) {
       console.error("Error al obtener pedidos:", error);
       alert("Error al obtener pedidos");
-    }
+    } finally {
+    setLoading(false); 
+  }
   };
 
   const resumenProductos = {};
@@ -56,55 +60,57 @@ function BuscarPedidos() {
         <button onClick={fetchOrdersByDate}>Buscar</button>
       </div>
 
+
       <h3 className={style.title}>Resultados</h3>
 
-      <div className={style.containerInfo}>
-        {orders.length > 0 ? (
-          orders.map((order) => {
-            const { total, direccion, metodoPago, status, createdAt, items } = order;
-            const phone = order?.userId?.phone || "No disponible";
-            const isSelected = selectedOrder?._id === order._id;
+<div className={style.containerInfo}>
+  {loading ? (
+  <div className={style.spinner}></div>
+  ) : orders.length > 0 ? (
+    orders.map((order) => {
+      const { total, direccion, metodoPago, status, createdAt, items, turno } = order;
+      const phone = order?.userId?.phone || "No disponible";
+      const isSelected = selectedOrder?._id === order._id;
 
-            return (
-              <div
-                className={style.containerItems}
-                key={order._id}
-                onClick={() => !selectedOrder && setSelectedOrder(order)}
-              >
-             
+      return (
+        <div
+          className={style.containerItems}
+          key={order._id}
+          onClick={() => !selectedOrder && setSelectedOrder(order)}
+        >
+          <div className={style.infoPedido}>
+            <div className={style.info1}>
+              <p><span>Total:</span> ${total.toFixed(2)}</p>
+              <p><span>Dirección:</span> {direccion}</p>
+              <p><span>Pago:</span> {metodoPago}</p>
+              <p><span>Turno:</span> {turno}</p>
+            </div>
+            <div className={style.info1}>
+              <p><span>Estado:</span> {status}</p>
+              <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
+              <p><span>Teléfono:</span> {phone}</p>
+            </div>
+          </div>
 
-             
-                <div className={style.infoPedido}>
-                  <div className={style.info1}>
-                    <p><span>Total:</span> ${total.toFixed(2)}</p>
-                    <p><span>Dirección:</span> {direccion}</p>
-                    <p><span>Pago:</span> {metodoPago}</p>
-                  </div>
-                  <div className={style.info1}>
-                    <p><span>Estado:</span> {status}</p>
-                    <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
-                    <p><span>Teléfono:</span> {phone}</p>
-                  </div>
-                </div>
+          <div className={style.productosPedido}>
+            <p className={style.title}>Productos del pedido:</p>
+            <ul className={style.infoProducto}>
+              {items.map((item, index) => (
+                <li key={index}>
+                  {item.productId?.nombre || "desconocido"}: {item.cantidad}{" "}
+                  {item.productId?.tipo || "unidades"}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <p>No hay pedidos para esta fecha.</p>
+  )}
+</div>
 
-           
-                <div className={style.productosPedido}>
-                  <p className={style.title}>Productos del pedido:</p>
-                  <ul className={style.infoProducto} >
-                    {items.map((item, index) => (
-                      <li key={index}>
-                        {item.productId?.nombre || "desconocido"}: {item.cantidad} {item.productId?.tipo || "unidades"}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <p className={style.none}>No hay pedidos para esta fecha</p>
-        )}
-      </div>
 
     
       {orders.length > 0 && (

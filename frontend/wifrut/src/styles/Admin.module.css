@@ -3,9 +3,8 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-   max-height: fit-content;
+  max-height: fit-content;
   min-height: 100vh;
-  
 }
 
 .logo {
@@ -22,8 +21,6 @@
   color: #000;
   font-size: 20px;
   margin-bottom: 60px;
-  
-
 }
 
 .navContent {
@@ -39,7 +36,6 @@
   padding: 45px 0 20px 0;
   margin: 10px auto;
   max-width: 900px;
-
 }
 
 .buttons {
@@ -58,7 +54,6 @@
   border-radius: 10px;
   padding: 5px 5px;
   cursor: pointer;
-
 }
 
 .inicialContainer {
@@ -77,11 +72,30 @@
   max-width: 900px;
   color: #000;
 }
-span{
+span {
   color: #000;
   font-weight: 600;
 }
-/* 📱 Ajuste para pantallas pequeñas */
+
+.btnLogout {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  margin: 20px auto;
+  width: 80%;
+}
+.btnLogout button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.logoutbtn {
+  width: 12px;
+  height: 12px;
+}
+
+
 @media (max-width: 1000px) {
   .buttons button {
     font-size: 9px;
@@ -102,15 +116,9 @@ span{
     top: -40px;
   }
   .container {
-  background-image: url("public/fondoM.png");
-
-  
-}
-.title {
-  padding-top: 200px;
-
-  
-
-}
-
+    background-image: url("public/fondoM.png");
+  }
+  .title {
+    padding-top: 200px;
+  }
 }
