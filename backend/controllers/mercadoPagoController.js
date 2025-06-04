@@ -77,9 +77,24 @@ export const createOrderAndPreference = async (req, res) => {
     });
 
     const preference = new Preference(client);
-    const createdPreference = await preference.create({ body: { items } });
 
-    res.json({ orderId: order._id, init_point: createdPreference.init_point });
+    // Aquí es donde defines las URL de redirección
+    const createdPreference = await preference.create({
+      body: {
+        items,
+        back_urls: {
+          success: 'https://wifrut.com/checkout/success',   
+          failure: 'https://wifrut.com/checkout/failure',   
+          pending: 'https://wifrut.com/checkout/pending',   
+        },
+        auto_return: 'approved', 
+      }
+    });
+
+    res.json({
+      orderId: order._id,
+      init_point: createdPreference.init_point,
+    });
   } catch (error) {
     console.error("❌ Error al crear preferencia:", error);
     res.status(500).json({ message: "Error al procesar el pago" });
