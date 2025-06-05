@@ -1,46 +1,6 @@
-import axios from "axios";
 import { MercadoPagoConfig, Preference } from "mercadopago";
-import { MercadoPagoToken } from "../models/mercadoPagoToken.js";
 import { Order } from "../models/order.js";
 import mongoose from "mongoose";
-
-
-export const redirectToMercadoPago = (req, res) => {
-  const redirect_uri = process.env.MP_REDIRECT_URI;
-  const client_id = process.env.MP_CLIENT_ID;
-
-  const authUrl = `https://auth.mercadopago.com.ar/authorization?client_id=${client_id}&response_type=code&platform_id=mp&redirect_uri=${redirect_uri}`;
-  res.redirect(authUrl);
-};
-
-
-export const mercadoPagoCallback = async (req, res) => {
-  const { code } = req.query;
-
-  try {
-    const response = await axios.post("https://api.mercadopago.com/oauth/token", {
-      grant_type: "authorization_code",
-      client_id: process.env.MP_CLIENT_ID,
-      client_secret: process.env.MP_CLIENT_SECRET,
-      code,
-      redirect_uri: process.env.MP_REDIRECT_URI,
-    }, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const { access_token, refresh_token, expires_in, user_id } = response.data;
-
-    console.log("✅ Access Token:", access_token);
-    console.log("🔁 Refresh Token:", refresh_token);
-
-   
-    res.send("✅ Cuenta de Mercado Pago vinculada correctamente.");
-  } catch (error) {
-    console.error("❌ Error al obtener el token:", error?.response?.data || error);
-    res.status(500).send("Error al obtener el access_token");
-  }
-};
-
 
 export const createOrderAndPreference = async (req, res) => {
   const { orderId } = req.body;
@@ -58,10 +18,10 @@ export const createOrderAndPreference = async (req, res) => {
       return res.status(404).json({ error: "Orden no encontrada" });
     }
 
-    const mpToken = await MercadoPagoToken.findOne(); 
+    const access_token = process.env.MP_ACCESS_TOKEN;  // Token fijo de tu app en Mercado Pago (sandbox o prod)
 
-    if (!mpToken || !mpToken.access_token) {
-      return res.status(500).json({ message: "No hay token de Mercado Pago configurado" });
+    if (!access_token) {
+      return res.status(500).json({ message: "Access token de Mercado Pago no configurado" });
     }
 
     const items = order.items.map((item) => ({
@@ -72,22 +32,21 @@ export const createOrderAndPreference = async (req, res) => {
     }));
 
     const client = new MercadoPagoConfig({
-      accessToken: mpToken.access_token,
+      accessToken: access_token,
       options: { timeout: 5000, idempotencyKey: orderId },
     });
 
     const preference = new Preference(client);
 
-    // Aquí es donde defines las URL de redirección
     const createdPreference = await preference.create({
       body: {
         items,
         back_urls: {
-          success: 'https://wifrut.com/checkout/success',   
-          failure: 'https://wifrut.com/checkout/failure',   
-          pending: 'https://wifrut.com/checkout/pending',   
+          success: 'https://wifrut.com/checkout/success',
+          failure: 'https://wifrut.com/checkout/failure',
+          pending: 'https://wifrut.com/checkout/pending',
         },
-        auto_return: 'approved', 
+        auto_return: 'approved',
       }
     });
 
@@ -95,43 +54,9 @@ export const createOrderAndPreference = async (req, res) => {
       orderId: order._id,
       init_point: createdPreference.init_point,
     });
+
   } catch (error) {
     console.error("❌ Error al crear preferencia:", error);
     res.status(500).json({ message: "Error al procesar el pago" });
-  }
-};
-
-
-export const saveMercadoPagoToken = async (req, res) => {
-  const { code } = req.body;
-
-  try {
-    const response = await axios.post("https://api.mercadopago.com/oauth/token", {
-      grant_type: "authorization_code",
-      client_id: process.env.MP_CLIENT_ID,
-      client_secret: process.env.MP_CLIENT_SECRET,
-      code,
-      redirect_uri: process.env.MP_REDIRECT_URI,
-    }, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const { access_token, refresh_token, expires_in, user_id } = response.data;
-
-    await MercadoPagoToken.findOneAndUpdate(
-      { userId: user_id },
-      {
-        access_token,
-        refresh_token,
-        expires_in,
-        obtained_at: new Date(),
-      },
-      { upsert: true, new: true }
-    );
-
-    res.json({ message: "✅ Token guardado correctamente en la base de datos." });
-  } catch (error) {
-    console.error("❌ Error al guardar el token:", error?.response?.data || error);
-    res.status(500).json({ message: "Error al guardar token" });
   }
 };
