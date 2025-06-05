@@ -21,9 +21,9 @@ import Send from "./components/Home/Send";
 import 'leaflet/dist/leaflet.css';
 import ContactoMayorista from "./components/Home/panels/panelAdmin/ContactoMayorista";
 import RepetirPedidos from "./components/Cart/RepetirPedidos";
-import Success from "./components/Auth/Success";
-import Failure from "./components/Auth/Failure";
-import Pending from "./components/Auth/Pending";
+import Success from "./components/Auth/SuccessPage";
+import Failure from "./components/Auth/FailurePage";
+import Pending from "./components/Auth/PendingPage";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>

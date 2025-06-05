@@ -3,13 +3,14 @@ import { Order } from "../models/order.js";
 import mongoose from "mongoose";
 
 export const createOrderAndPreference = async (req, res) => {
-  const { orderId } = req.body;
+  console.log("📩 Llamada recibida en /api/mercadopago/preference");
 
-  console.log("📦 Iniciando creación de preferencia con orderId:", orderId);
+  const { orderId } = req.body;
+  console.log("🆔 Order ID recibido:", orderId);
 
   try {
     if (!mongoose.Types.ObjectId.isValid(orderId)) {
-      console.error("❌ orderId inválido:", orderId);
+      console.error("❌ ID no válido");
       return res.status(400).json({ error: "ID de orden no válido" });
     }
 
@@ -18,19 +19,15 @@ export const createOrderAndPreference = async (req, res) => {
       .populate("userId");
 
     if (!order) {
-      console.error("❌ Orden no encontrada con ID:", orderId);
+      console.error("❌ Orden no encontrada");
       return res.status(404).json({ error: "Orden no encontrada" });
     }
 
-    console.log("✅ Orden encontrada:", order._id);
-    console.log("🛒 Items de la orden:", order.items);
-    console.log("👤 Usuario:", order.userId?.email || "Sin email");
-
     const access_token = process.env.MP_ACCESS_TOKEN;
+    console.log("🔐 Token comienza con:", access_token?.slice(0, 10));
 
     if (!access_token) {
-      console.error("❌ Access token de Mercado Pago no está configurado");
-      return res.status(500).json({ message: "Access token no configurado" });
+      return res.status(500).json({ message: "Access token de Mercado Pago no configurado" });
     }
 
     const items = order.items.map((item) => ({
@@ -40,8 +37,6 @@ export const createOrderAndPreference = async (req, res) => {
       currency_id: "ARS",
     }));
 
-    console.log("🧾 Items para MP:", items);
-
     const client = new MercadoPagoConfig({
       accessToken: access_token,
       options: { timeout: 5000, idempotencyKey: orderId },
@@ -49,7 +44,7 @@ export const createOrderAndPreference = async (req, res) => {
 
     const preference = new Preference(client);
 
-    const preferenceData = {
+    const createdPreference = await preference.create({
       body: {
         items,
         back_urls: {
@@ -59,13 +54,9 @@ export const createOrderAndPreference = async (req, res) => {
         },
         auto_return: 'approved',
       }
-    };
+    });
 
-    console.log("📨 Enviando preferencia a MP:", preferenceData);
-
-    const createdPreference = await preference.create(preferenceData);
-
-    console.log("✅ Preferencia creada:", createdPreference.id || createdPreference);
+    console.log("✅ Preferencia creada:", createdPreference);
 
     res.json({
       orderId: order._id,
@@ -73,7 +64,7 @@ export const createOrderAndPreference = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("❌ Error al crear preferencia:", error.response?.data || error.message || error);
+    console.error("❌ Error general:", error?.response?.data || error.message || error);
     res.status(500).json({ message: "Error al procesar el pago" });
   }
 };
