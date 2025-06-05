@@ -21,7 +21,9 @@ import Send from "./components/Home/Send";
 import 'leaflet/dist/leaflet.css';
 import ContactoMayorista from "./components/Home/panels/panelAdmin/ContactoMayorista";
 import RepetirPedidos from "./components/Cart/RepetirPedidos";
-
+import Success from "./components/Auth/Success";
+import Failure from "./components/Auth/Failure";
+import Pending from "./components/Auth/Pending";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -29,11 +31,17 @@ createRoot(document.getElementById("root")).render(
       <SearchProvider>
         <Router>
           <Routes>
+            
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/footer" element={<Footer></Footer>}></Route>
             <Route path="/send" element={<Send/>} />
+
+              {/* 👇 NUEVAS RUTAS DE MERCADO PAGO */}
+  <Route path="/checkout/success" element={<Success />} />
+  <Route path="/checkout/failure" element={<Failure />} />
+  <Route path="/checkout/pending" element={<Pending />} />
 
             <Route element={<ProtectedRouter allowedRoles={["admin"]} />}>
               <Route path="/admin" element={<PanelAdmin />} />
