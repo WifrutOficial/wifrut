@@ -47,12 +47,14 @@ export const createOrderAndPreference = async (req, res) => {
     const createdPreference = await preference.create({
       body: {
         items,
+        external_reference: order._id.toString(), // referencia externa para correlacionar
         back_urls: {
           success: 'https://wifrut.com/checkout/success',
           failure: 'https://wifrut.com/checkout/failure',
           pending: 'https://wifrut.com/checkout/pending',
         },
         auto_return: 'approved',
+        notification_url: 'https://wifrut.com/api/mercadopago/webhook', // endpoint webhook accesible desde internet
       }
     });
 
@@ -66,5 +68,31 @@ export const createOrderAndPreference = async (req, res) => {
   } catch (error) {
     console.error("❌ Error general:", error?.response?.data || error.message || error);
     res.status(500).json({ message: "Error al procesar el pago" });
+  }
+};
+
+
+export const mercadoPagoWebhook = async (req, res) => {
+  try {
+    const payment = req.body;
+    console.log("📩 Notificación webhook recibida:", payment);
+
+    // Obtiene external_reference desde la data que Mercado Pago envía
+    const external_reference = payment.external_reference || payment.data?.external_reference;
+
+    if (!external_reference) {
+      console.error("❌ No se recibió external_reference en el webhook");
+      return res.status(400).send("external_reference missing");
+    }
+
+    // Ejemplo: actualizar estado de la orden según el estado del pago
+    const paymentStatus = payment.status || payment.data?.status || 'pendiente';
+
+    await Order.findByIdAndUpdate(external_reference, { statusPago: paymentStatus });
+
+    res.status(200).send("OK");
+  } catch (error) {
+    console.error("❌ Error en webhook:", error);
+    res.status(500).send("Error en webhook");
   }
 };
