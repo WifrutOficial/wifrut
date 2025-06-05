@@ -24,6 +24,7 @@ export const createOrderAndPreference = async (req, res) => {
     }
 
     const access_token = process.env.MP_ACCESS_TOKEN;
+    console.log("🔐 Token está presente:", !!access_token);
     console.log("🔐 Token comienza con:", access_token?.slice(0, 10));
 
     if (!access_token) {
@@ -71,7 +72,6 @@ export const createOrderAndPreference = async (req, res) => {
   }
 };
 
-
 export const mercadoPagoWebhook = async (req, res) => {
   try {
     const payment = req.body;
@@ -88,7 +88,7 @@ export const mercadoPagoWebhook = async (req, res) => {
     // Ejemplo: actualizar estado de la orden según el estado del pago
     const paymentStatus = payment.status || payment.data?.status || 'pendiente';
 
-    await Order.findByIdAndUpdate(external_reference, { statusPago: paymentStatus });
+    await Order.findByIdAndUpdate(external_reference, { paymentStatus: paymentStatus });
 
     res.status(200).send("OK");
   } catch (error) {
@@ -96,3 +96,5 @@ export const mercadoPagoWebhook = async (req, res) => {
     res.status(500).send("Error en webhook");
   }
 };
+
+
