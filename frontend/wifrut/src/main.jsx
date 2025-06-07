@@ -31,17 +31,15 @@ createRoot(document.getElementById("root")).render(
       <SearchProvider>
         <Router>
           <Routes>
-            
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/footer" element={<Footer></Footer>}></Route>
-            <Route path="/send" element={<Send/>} />
-
-              {/* 👇 NUEVAS RUTAS DE MERCADO PAGO */}
-  <Route path="/checkout/success" element={<Success />} />
-  <Route path="/checkout/failure" element={<Failure />} />
-  <Route path="/checkout/pending" element={<Pending />} />
+            <Route path="/send" element={<Send />} />
+            <Route path="/checkout/success" element={<Success />} />
+            <Route path="/checkout/failure" element={<Failure />} />
+            <Route path="/checkout/pending" element={<Pending />} />
 
             <Route element={<ProtectedRouter allowedRoles={["admin"]} />}>
               <Route path="/admin" element={<PanelAdmin />} />
@@ -54,13 +52,13 @@ createRoot(document.getElementById("root")).render(
                 path="/esperando-aprobacion"
                 element={<EsperandoAprobacion />}
               />
-                 <Route
+              <Route
                 path="/contacto-mayorista"
-                element={<ContactoMayorista/>}
+                element={<ContactoMayorista />}
               />
               <Route path="/paginadeespera" element={<PaginaDeEspera />} />
             </Route>
-            
+
             {/* Ruta accesible tanto para mayoristas como minoristas */}
             <Route
               element={
@@ -68,7 +66,7 @@ createRoot(document.getElementById("root")).render(
               }
             >
               <Route path="/cart" element={<Cart />} />
-                <Route path="/repetir-pedido" element={<RepetirPedidos />} />
+              <Route path="/repetir-pedido" element={<RepetirPedidos />} />
             </Route>
             <Route element={<ProtectedRouter allowedRoles={["mayorista"]} />}>
               <Route path="/mayorista" element={<Mayorista />} />

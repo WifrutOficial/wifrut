@@ -31,11 +31,23 @@ export const createOrderAndPreference = async (req, res) => {
       return res.status(500).json({ message: "Access token de Mercado Pago no configurado" });
     }
 
-    const items = order.items.map((item) => ({
-      title: item.nombre,
-      quantity: item.cantidad,
-      unit_price: item.precio,
-      currency_id: "ARS",
+    // Crear un solo ítem con el total
+    const items = [
+      {
+        title: `Compra en WiFrut - Pedido ${order.numeroPedido}`,
+        quantity: 1,
+        unit_price: Number(order.total),
+        currency_id: "ARS",
+      }
+    ];
+
+    
+    // Armar desglose para metadata
+    const orderDetails = order.items.map(item => ({
+      nombre: item.nombre,
+      cantidad: item.cantidad,
+      precioUnitario: item.precio,
+      subtotal: item.cantidad * item.precio,
     }));
 
     const client = new MercadoPagoConfig({
@@ -48,14 +60,22 @@ export const createOrderAndPreference = async (req, res) => {
     const createdPreference = await preference.create({
       body: {
         items,
-        external_reference: order._id.toString(), // referencia externa para correlacionar
+        external_reference: order._id.toString(),
         back_urls: {
           success: 'https://wifrut.com/checkout/success',
           failure: 'https://wifrut.com/checkout/failure',
           pending: 'https://wifrut.com/checkout/pending',
         },
         auto_return: 'approved',
-        notification_url: 'https://wifrut.com/api/mercadopago/webhook', // endpoint webhook accesible desde internet
+        notification_url: 'https://wifrut.com/api/mercadopago/webhook',
+        metadata: {
+          numeroPedido: order.numeroPedido,
+          userId: order.userId._id.toString(),
+          productos: orderDetails,
+          total: order.total,
+          direccion: order.direccion,
+          turno: order.turno,
+        }
       }
     });
 
@@ -71,6 +91,7 @@ export const createOrderAndPreference = async (req, res) => {
     res.status(500).json({ message: "Error al procesar el pago" });
   }
 };
+
 
 export const mercadoPagoWebhook = async (req, res) => {
   try {
