@@ -1,28 +1,27 @@
 import twilio from "twilio";
-import mongoose from "mongoose";
 import { Order } from "../models/order.js";
 
-
-
-
-const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, MONGO_URI_DEV } = process.env;
-const TWILIO_SANDBOX_NUMBER = "whatsapp:+14155238886"; // Número de pruebas de Twilio
+const { 
+  TWILIO_ACCOUNT_SID, 
+  TWILIO_AUTH_TOKEN,
+  TWILIO_PROD_NUMBER,
+  OWNER_PHONE_NUMBERS
+} = process.env;
 
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
+const authorizedNumbers = OWNER_PHONE_NUMBERS ? OWNER_PHONE_NUMBERS.split(',') : [];
 
+// --- FUNCIONES EXPORTADAS PARA EL ROUTER ---
 
 export const sendWhatsAppMessage = async (to, message) => {
   try {
-    const formattedTo = to.startsWith("whatsapp:") ? to : `whatsapp:${to}`;
-
     const msg = await client.messages.create({
       body: message,
-      from: TWILIO_SANDBOX_NUMBER,
-      to: formattedTo,
+      from: TWILIO_PROD_NUMBER,
+      to: to,
     });
-
-    console.log(`📩 Mensaje enviado a ${formattedTo}:`, msg.sid);
+    console.log(`📩 Mensaje enviado a ${to}:`, msg.sid);
     return true;
   } catch (error) {
     console.error("❌ Error al enviar mensaje de WhatsApp:", error);
@@ -30,207 +29,149 @@ export const sendWhatsAppMessage = async (to, message) => {
   }
 };
 
+export const handleWhatsAppWebhook = async (req, res) => {
+  const from = req.body.From;
+  const body = req.body.Body?.trim().toLowerCase();
 
+  if (!authorizedNumbers.includes(from)) {
+    console.warn(`⚠️ Intento de acceso no autorizado desde ${from}`);
+    return res.status(200).send("OK");
+  }
+
+  try {
+    if (body.startsWith("pedidos")) {
+      await handleGetOrders(from, body);
+    } else if (body.startsWith("total productos")) {
+      await handleGetTotalProducts(from, body);
+    } else {
+      await sendWhatsAppMessage(
+        from,
+        "👋 ¡Hola! Comandos disponibles:\n\n1️⃣ `pedidos AAAA-MM-DD`\n2️⃣ `total productos AAAA-MM-DD`"
+      );
+    }
+    res.status(200).send("✅ Petición procesada");
+  } catch (error) {
+    console.error("❌ Error procesando el webhook:", error);
+    await sendWhatsAppMessage(from, "🤖 Ups, ocurrió un error en el servidor.");
+    res.status(500).send("Error interno");
+  }
+};
+
+// ==> FUNCIÓN AÑADIDA QUE FALTABA <==
+// Esta función es para que Twilio verifique tu URL con una petición GET.
+export const verifyTwilioWebhook = (req, res) => {
+  const twilioChallenge = req.query['hub.challenge'];
+  if (twilioChallenge) {
+    console.log("✅ Webhook de Twilio verificado.");
+    res.status(200).send(twilioChallenge);
+  } else {
+    console.error("❌ Falló la verificación del webhook de Twilio.");
+    res.status(400).send("Error: Desafío no encontrado.");
+  }
+};
+
+// ==> FUNCIÓN AÑADIDA PARA TU RUTA DE PRUEBA <==
 export const getWhatsAppSend = async (req, res) => {
   const toPhoneNumber = req.query.to;
   if (!toPhoneNumber) {
-    return res.status(400).send("❌ Debes proporcionar un número de WhatsApp.");
+    return res.status(400).send("❌ Debes proporcionar un número de WhatsApp en la query string (?to=whatsapp:+549...).");
   }
 
-  const message =
-    "👋 Hola! Este es un mensaje de prueba de Twilio con WhatsApp.";
-  const success = await sendWhatsAppMessage(toPhoneNumber, message);
+  const message = `👋 Hola! Este es un mensaje de prueba enviado hoy, ${new Date().toLocaleDateString('es-AR')}.`;
+  const success = await sendWhatsAppMessage(`whatsapp:${toPhoneNumber}`, message);
 
   if (success) {
-    res.status(200).send(`✅ Mensaje enviado a ${toPhoneNumber}`);
+    res.status(200).send(`✅ Mensaje de prueba enviado a ${toPhoneNumber}`);
   } else {
-    res.status(500).send("❌ Error al enviar el mensaje.");
+    res.status(500).send("❌ Error al enviar el mensaje de prueba.");
   }
 };
 
-
-export const getOrdersByDate = async (req, res) => {
-  const from = req.body.From; // Número de WhatsApp del usuario
-  const body = req.body.Body?.trim(); // Mensaje recibido
-
-  console.log("📩 Mensaje recibido:", { from, body });
-
- 
-  const dateRegex = /^pedidos\s(\d{4}-\d{2}-\d{2})$/;
-  const match = body?.match(dateRegex);
-
-  if (!match) {
-    await sendWhatsAppMessage(
-      from,
-      "⚠️ Formato incorrecto. Usa: 'pedidos YYYY-MM-DD'."
-    );
-    return res.status(400).send("Formato incorrecto");
-  }
-
-  const orderDate = new Date(match[1]);
-  if (isNaN(orderDate)) {
-    await sendWhatsAppMessage(
-      from,
-      "⚠️ Fecha inválida. Usa el formato 'YYYY-MM-DD'."
-    );
-    return res.status(400).send("Fecha inválida");
-  }
-
-  try {
-    const startOfDay = new Date(orderDate);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date(orderDate);
-    endOfDay.setHours(23, 59, 59, 999);
-
-   
-    const orders = await Order.find({
-      createdAt: { $gte: startOfDay, $lt: endOfDay },
-    }).populate("userId", "telefono");
-
-    let responseMessage = `📅 No hay pedidos para ${match[1]}.`;
-
-    if (orders.length > 0) {
-      responseMessage = `📦 Pedidos del ${match[1]}:\n\n`;
-      orders.forEach((order) => {
-        responseMessage += `🛒 Pedido  - Total: $${order.total} - Dirección: ${order.direccion} - Estado: ${order.status} - Teléfono: ${order.userId.telefono} - Metodo de Pago: ${order.userId.metodoPago} \n `;
-      });
-    }
-
-
-    await sendWhatsAppMessage(from, responseMessage);
-    res.status(200).send("✅ Consulta procesada");
-  } catch (error) {
-    console.error("❌ Error en la consulta:", error);
-    await sendWhatsAppMessage(
-      from,
-      "⚠️ Error en el servidor. Inténtalo más tarde."
-    );
-    res.status(500).send("Error en el servidor");
-  }
-};
-
-export const getTotalProductsByDate = async (req, res) => {
-  const from = req.body.From; 
-  const body = req.body.Body?.trim(); 
-
-
-
-
-  const dateRegex = /^total\sproductos\s(\d{4}-\d{2}-\d{2})$/;
-  const match = body?.match(dateRegex);
-
-  if (!match) {
-    await sendWhatsAppMessage(
-      from,
-      "⚠️ Formato incorrecto. Usa: 'total productos YYYY-MM-DD'."
-    );
-    return res.status(400).send("Formato incorrecto");
-  }
-
-  const orderDate = new Date(match[1]);
-  if (isNaN(orderDate)) {
-    await sendWhatsAppMessage(
-      from,
-      "⚠️ Fecha inválida. Usa el formato 'YYYY-MM-DD'."
-    );
-    return res.status(400).send("Fecha inválida");
-  }
-
-  try {
-    const startOfDay = new Date(orderDate);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date(orderDate);
-    endOfDay.setHours(23, 59, 59, 999);
-
-  
-    const orders = await Order.find({
-      createdAt: { $gte: startOfDay, $lt: endOfDay },
-    });
-
- 
-    const productTotals = {};
-
-    orders.forEach((order) => {
-      order.items.forEach((item) => {
-        const productName = item.nombre.toLowerCase(); 
-        const productQuantity = item.cantidad; 
-
-       
-        if (productTotals[productName]) {
-          productTotals[productName] += productQuantity;
-        } else {
-         
-          productTotals[productName] = productQuantity;
-        }
-      });
-    });
-
-
-    let responseMessage = `📅 Total de productos vendidos el ${match[1]}:\n\n`;
-
-    if (Object.keys(productTotals).length === 0) {
-      responseMessage = `📅 No se encontraron pedidos para ${match[1]}.`;
-    } else {
- 
-      for (let productName in productTotals) {
-        responseMessage += `🛒 ${productName.charAt(0).toUpperCase() + productName.slice(1)}: ${productTotals[productName]} unidades\n`;
-      }
-    }
-
- 
-    await sendWhatsAppMessage(from, responseMessage);
-    res.status(200).send(" Consulta procesada");
-  } catch (error) {
-    console.error("❌ Error en la consulta:", error);
-    await sendWhatsAppMessage(
-      from,
-      " Error en el servidor. Inténtalo más tarde."
-    );
-    res.status(500).send("Error en el servidor");
-  }
-};
-
-
-export const verifyTwilioWebhook = (req, res) => {
-  const challenge = req.query["hub.challenge"];
-  if (challenge) {
-    return res.status(200).send(challenge);
-  }
-  return res.status(400).send("Desafío no encontrado");
-};
-
-// Para el frontend de la web
 export const getOrdersByDateWeb = async (req, res) => {
   try {
     const { date } = req.query;
-    if (!date) {
-      return res.status(400).json({ message: "Se requiere una fecha válida" });
-    }
+    if (!date) return res.status(400).json({ message: "Se requiere una fecha válida" });
 
-    const startDate = new Date(`${date}T00:00:00.000Z`);
-    const endDate = new Date(`${date}T23:59:59.999Z`);
+    const startDate = new Date(`${date}T00:00:00.000-03:00`); // Especifica zona horaria de Argentina
+    const endDate = new Date(`${date}T23:59:59.999-03:00`);
 
-   
-    const orders = await Order.find({
-      createdAt: { $gte: startDate, $lte: endDate },
-    })
-      .populate({
-        path: 'userId',    
-        select: 'phone',   
-      })
-      .populate({
-        path: 'items.productId',  
-        select: 'nombre tipoVenta',  
-      });
-    
- 
-    
+    const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
+      .populate('userId', 'telefono')
+      .sort({ createdAt: -1 });
 
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error al obtener pedidos (web):", error);
     res.status(500).json({ message: "Error al obtener pedidos" });
   }
+};
+
+// --- FUNCIONES INTERNAS (NO SE EXPORTAN) ---
+
+const handleGetOrders = async (from, body) => {
+  const match = body.match(/^pedidos\s(\d{4}-\d{2}-\d{2})$/);
+  if (!match) {
+    await sendWhatsAppMessage(from, "⚠️ Formato incorrecto. Usa: 'pedidos AAAA-MM-DD'.");
+    return;
+  }
+  
+  const dateStr = match[1];
+  const startOfDay = new Date(`${dateStr}T00:00:00.000-03:00`);
+  const endOfDay = new Date(`${dateStr}T23:59:59.999-03:00`);
+
+  if (isNaN(startOfDay.getTime())) {
+    await sendWhatsAppMessage(from, "⚠️ Fecha inválida.");
+    return;
+  }
+
+  const orders = await Order.find({ createdAt: { $gte: startOfDay, $lte: endOfDay } }).populate("userId", "phone metodoPago");
+  
+  let responseMessage = `📅 No hay pedidos para ${dateStr}.`;
+  if (orders.length > 0) {
+    responseMessage = `📦 Pedidos del ${dateStr}:\n`;
+    orders.forEach((order, index) => {
+      responseMessage += `\n*${index + 1}.* Total: $${order.total}\nDireccion: ${order.direccion}\nTelefono: ${order.userId.phone}\nPago: ${order.metodoPago || 'N/A'}\nTurno: ${order.turno}\n`;
+    });
+  }
+  await sendWhatsAppMessage(from, responseMessage);
+};
+
+const handleGetTotalProducts = async (from, body) => {
+  const match = body.match(/^total\sproductos\s(\d{4}-\d{2}-\d{2})$/);
+  if (!match) {
+    await sendWhatsAppMessage(from, "⚠️ Formato incorrecto. Usa: 'total productos AAAA-MM-DD'.");
+    return;
+  }
+  
+  const dateStr = match[1];
+  const startOfDay = new Date(`${dateStr}T00:00:00.000-03:00`);
+  const endOfDay = new Date(`${dateStr}T23:59:59.999-03:00`);
+
+  if (isNaN(startOfDay.getTime())) {
+    await sendWhatsAppMessage(from, "⚠️ Fecha inválida.");
+    return;
+  }
+
+  const productTotals = await Order.aggregate([
+    { $match: { createdAt: { $gte: startOfDay, $lte: endOfDay } } },
+    { $unwind: "$items" },
+    { $group: {
+        _id: { $toLower: "$items.nombre" },
+        totalQuantity: { $sum: "$items.cantidad" }
+    }},
+    { $sort: { _id: 1 } }
+  ]);
+
+  if (productTotals.length === 0) {
+    await sendWhatsAppMessage(from, `📅 No se vendió ningún producto el ${dateStr}.`);
+    return;
+  }
+  
+  let responseMessage = `📊 Total de productos vendidos el ${dateStr}:\n\n`;
+  productTotals.forEach(product => {
+    const productName = product._id.charAt(0).toUpperCase() + product._id.slice(1);
+    responseMessage += `🛒 *${productName}*: ${product.totalQuantity} unidades\n`;
+  });
+
+  await sendWhatsAppMessage(from, responseMessage);
 };

@@ -19,6 +19,8 @@ import { error } from "console";
 dotenv.config();
 
 const app = express();
+// ==> AÑADE ESTA LÍNEA EXACTAMENTE AQUÍ <==
+app.set('trust proxy', 1);
 console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const corsOptions = {
@@ -59,10 +61,10 @@ app.use("/api/mercadopago", mercadoPagoRoutes);
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+//const PORT = process.env.PORT || 3000;
+//app.listen(PORT, () => {
+//console.log(`Servidor corriendo en el puerto ${PORT}`);
+//});
 
 // const port = process.env.PORT || 3000;
 // app.set("port", port);

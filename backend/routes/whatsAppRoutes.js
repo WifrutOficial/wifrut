@@ -1,47 +1,29 @@
 import { Router } from "express";
+import twilio from "twilio";
 import {
   getWhatsAppSend,
-  getOrdersByDate,
+  handleWhatsAppWebhook,
   verifyTwilioWebhook,
-  getTotalProductsByDate,
-  sendWhatsAppMessage,
   getOrdersByDateWeb
-
 } from "../controllers/whatsAppController.js";
-
-
-
 
 const router = Router();
 
-// Ruta para enviar mensajes de prueba (GET)
-router.get("/send-whatsapp", getWhatsAppSend);
+const twilioWebhookValidator = twilio.webhook({
+  accountSid: process.env.TWILIO_ACCOUNT_SID,
+  authToken: process.env.TWILIO_AUTH_TOKEN
+});
 
-// Ruta para la verificación de Twilio (GET)
+// --- RUTAS DE PRUEBA Y PARA TU FRONTEND ---
+router.get("/send-whatsapp", getWhatsAppSend);
+router.get("/ordersByDate", getOrdersByDateWeb);
+
+// --- RUTAS DE WEBHOOK DE TWILIO ---
+
+// Twilio usa esta ruta con GET para verificar la URL
 router.get("/webhook", verifyTwilioWebhook);
 
-// Ruta para manejar todos los mensajes de WhatsApp y redirigir según el contenido (POST)
-router.post("/webhook", async (req, res) => {
-  const body = req.body.Body?.trim();
-
-  // Validar si es un mensaje de tipo 'pedidos YYYY-MM-DD'
-  const ordersDateRegex = /^pedidos\s(\d{4}-\d{2}-\d{2})$/;
-  const matchOrders = body?.match(ordersDateRegex);
-  if (matchOrders) {
-    return getOrdersByDate(req, res); // Redirigir a la función que obtiene los pedidos por fecha
-  }
-
-  // Validar si es un mensaje de tipo 'total productos YYYY-MM-DD'
-  const totalProductsRegex = /^total\sproductos\s(\d{4}-\d{2}-\d{2})$/;
-  const matchTotalProducts = body?.match(totalProductsRegex);
-  if (matchTotalProducts) {
-    return getTotalProductsByDate(req, res); // Redirigir a la función que obtiene el total de productos vendidos por fecha
-  }
-
-  // Si el formato no coincide con ninguno, enviar mensaje de error
-  await sendWhatsAppMessage(req.body.From, " Formato desconocido. Usa 'pedidos YYYY-MM-DD' o 'total productos YYYY-MM-DD'.");
-  res.status(400).send("Formato desconocido");
-});
-router.get("/ordersByDate", getOrdersByDateWeb);
+// Todas las peticiones POST de Twilio ahora van aquí
+router.post("/webhook", twilioWebhookValidator, handleWhatsAppWebhook);
 
 export default router;
