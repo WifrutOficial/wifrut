@@ -20,8 +20,8 @@ dotenv.config();
 
 const app = express();
 // ==> AÑADE ESTA LÍNEA EXACTAMENTE AQUÍ <==
-app.set('trust proxy', 1);
-console.log("NODE_ENV:", process.env.NODE_ENV);
+//app.set('trust proxy', 1);
+//console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const corsOptions = {
   origin: (origin, callback) => {
