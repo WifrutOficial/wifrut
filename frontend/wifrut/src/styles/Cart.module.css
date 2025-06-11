@@ -233,6 +233,7 @@ padding: 5px 5px;
 
 .cartItem p {
   flex: 1;
+  font-weight: 600;
 }
 
 .total {

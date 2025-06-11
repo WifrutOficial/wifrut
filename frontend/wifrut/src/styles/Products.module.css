@@ -332,6 +332,7 @@
   color: black;
   font-weight: 500;
   padding-top: 0;
+  font-size: 46px;
 }
 .titleOfertas {
   font-weight: 800;
@@ -348,17 +349,22 @@
 .categoryContainer {
   display: flex;
   align-items: center;
-  padding: 10px 0 10px 100px;
+  justify-content: center;
+  padding: 10px 0 10px 0;
   gap: 10px;
 }
 .iconCategories {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
 }
 
 
 @media (max-width: 768px) {
-
+  .iconCategories {
+    width: 25px;
+    height: 25px;
+  }
+  
   .arrowLeft,
   .arrowRight {
     display: none;
@@ -373,7 +379,7 @@
     padding: 15px 0 20px 0;
   }
   .categoryTitle {
-    font-size: 15px;
+    font-size: 30px;
   }
   .categoryContainer {
     padding: 10px 0 0 10px;

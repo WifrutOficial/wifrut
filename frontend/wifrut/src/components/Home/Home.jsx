@@ -18,7 +18,7 @@ function Home() {
     if (!lastVisit || now - parseInt(lastVisit, 10) > oneDay) {
       Swal.fire({
         html: `
-          <div style="display: flex; flex-direction: column; align-items: center;">
+          <div style="display: flex; flex-direction: column; align-items: center; ">
             <h2 style="margin: 0;  font-size: 16px"> 🚚 🕘 ¡HORARIOS Y DÍAS DE ENTREGA!</h2>
             <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
               <p style="margin-bottom: 20px;">
@@ -29,11 +29,13 @@ function Home() {
                 <strong>HORARIOS DE ENTREGA:</strong><br />
                 10:30 a 13:30 y de 14:00 a 18:00
               </p>
-              <p>
+             <p>
                 <strong>PARA MÁS INFORMACIÓN:</strong><br />
-                consulte el apartado de <em>envíos</em>
+                 <br/>
+                 <br/>
+                Consulte el apartado de <em>envíos.</em>
               </p>
-             <small>las imágenes son ilustraciones y no representan la realidad</small>
+             <small style="font-weight:bold">"Las imágenes son ilustraciones y no representan la realidad"</small>
 
             </div>
           </div>

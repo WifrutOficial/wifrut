@@ -52,6 +52,12 @@ function ProductsRender() {
         alt="Congelados"
         className={style.iconCategories}
       />
+    ), Canastas: (
+      <img
+        src="../../../canasta.png"
+        alt="Canastas"
+        className={style.iconCategories}
+      />
     ),
   };
 
