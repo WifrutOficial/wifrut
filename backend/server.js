@@ -106,5 +106,8 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 //       throw error;
 //   }
 // });
-
+// AÑADE ESTA RUTA DE PRUEBA DIRECTA
+app.get("/api/test-directo", (req, res) => {
+  res.status(200).send("Esta ruta directa en server.js SÍ funciona.");
+});
 export default app;
