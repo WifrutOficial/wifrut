@@ -1,11 +1,15 @@
-// routes/geocodingRoutes.js
-import { Router } from 'express';
-import { buscarDireccion } from '../controllers/geocodingController.js';
-//import { authRequired } from '../middlewares/authRequired.js';
+// Archivo: routes/geocodingRoutes.js
+import express from "express";
+import { buscarDireccion } from "../controllers/geocodingController.js";
 
-const router = Router();
+const router = express.Router();
 
+// RUTA ORIGINAL
+router.get("/buscar", buscarDireccion);
 
-router.get('/buscar',  buscarDireccion);
+// AÑADE ESTA RUTA DE PRUEBA
+router.get("/test", (req, res) => {
+  res.status(200).send("¡La ruta de geocoding SÍ funciona!");
+});
 
 export default router;
