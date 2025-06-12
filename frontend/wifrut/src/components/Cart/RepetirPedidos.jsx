@@ -43,6 +43,7 @@ function RepetirPedidos() {
                 ...item,
                 imagen: productoEncontrado?.imagen || "",
                 _id: productoEncontrado?._id || "",
+                tipoVenta: productoEncontrado?.tipoVenta || 'Unidad',
               };
             }),
           }));
@@ -66,6 +67,7 @@ function RepetirPedidos() {
       precio: Number(item.precio),
       quantity: Number(item.cantidad ?? item.quantity ?? 1),
       imagen: item.imagen,
+      tipoVenta: item.tipoVenta, 
     }));
 
     setCart(itemsConNumeros);

@@ -316,7 +316,7 @@
   color: #000;
   font-size: 12px;
   display: flex;
-  height: 350px;
+  height: 400px;
 }
 .customIconSuc {
   font-size: 10px;
@@ -358,7 +358,34 @@
   height: 40px;
 }
 
+/* Pega esto al final de tu archivo Products.module.css */
 
+/* Estilo para el contenedor del producto cuando no hay stock */
+.disabledProduct {
+  opacity: 0.6;
+  filter: grayscale(80%); /* Lo pone en escala de grises para que se note más */
+}
+
+/* Contenedor para el texto "SIN STOCK" */
+.sinStockContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto; /* Empuja el cartel hacia abajo */
+  padding: 20px 0;
+  width: 100%;
+}
+
+/* Estilo del texto "SIN STOCK" */
+.sinStockText {
+  font-weight: bold;
+  color: #c0392b; /* Un color rojo */
+  border: 2px solid #c0392b;
+  padding: 8px 16px;
+  border-radius: 5px;
+  background-color: rgba(192, 57, 43, 0.1);
+  font-size: 1rem;
+}
 @media (max-width: 768px) {
   .iconCategories {
     width: 25px;

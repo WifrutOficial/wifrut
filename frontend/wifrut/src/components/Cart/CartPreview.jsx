@@ -44,6 +44,10 @@ function CartPreview() {
     );
   }
 
+  const isKg = (tipoVenta) => {
+    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
+  };
+
   return (
     <>
       {open ? (
@@ -94,9 +98,10 @@ function CartPreview() {
                         className={style.miniImage}
                       />
                       <p>{item.nombre}</p>
-                      <p>
-                        {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
-                      </p>
+                                
+<p>
+  {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+</p>
                       <p>
                         $
                         {(

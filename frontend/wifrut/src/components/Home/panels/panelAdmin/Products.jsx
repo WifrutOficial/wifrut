@@ -59,7 +59,7 @@ function Products() {
           
           <input
             type="file"
-            accept=".xlsx, .xls"
+            accept=".xlsx, .xls, .csv"
             id="file-upload-retail"
             onChange={(e) => handleFileChange(e, "retail")}
             className={style.hiddenInput}

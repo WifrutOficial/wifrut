@@ -50,12 +50,33 @@ export default function Cart() {
   });
 
   const total = getTotal();
+  // <== CAMBIO: Se crea la variable 'envioFinal' con la nueva lógica ==>
+  const envioFinal = total >= 80000 ? 0 : costoEnvio;
+  
   const totalConDescuento = metodoPago === "Efectivo" ? total * 0.9 : total;
-  const totalFinal = totalConDescuento + (costoEnvio || 0);
+  
+  // <== CAMBIO: El total final ahora usa 'envioFinal' ==>
+  const totalFinal = totalConDescuento + (envioFinal || 0);
 
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
   const handleNextStep = () => {
+    // <== NUEVA VALIDACIÓN: Se verifica que la compra sea mayor a $25.000 ==>
+    if (total < 25000) {
+      Swal.fire({
+        title: "Compra mínima",
+        text: "El monto mínimo de compra es de $25.000 para poder continuar.",
+        icon: "info",
+        timer: 3000,
+        showConfirmButton: false,
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIcon,
+        },
+      });
+      return; 
+    }
+
     if (!direccion.trim() || !zonaSeleccionada) {
       Swal.fire({
         title: false,
@@ -217,96 +238,72 @@ export default function Cart() {
     }
   };
 
-  const buscarZona = useCallback(
-    debounce(async (nuevaDireccion) => {
-      if (nuevaDireccion.length < 5) {
+
+
+const buscarZona = useCallback(
+  debounce(async (nuevaDireccion) => {
+    if (nuevaDireccion.length < 5) {
+      setZonaSeleccionada("");
+      setCostoEnvio(0);
+      setZonaDetectadaMsg("");
+      setIsLoadingZona(false);
+      return;
+    }
+
+    setIsLoadingZona(true);
+
+    try {
+      const url = `${import.meta.env.VITE_API_URL}/api/geocode/buscar`;
+
+      // ✨ Usamos axios.get en lugar de fetch ✨
+      // No necesitamos 'withCredentials' aquí porque ya está configurado globalmente.
+      const response = await axios.get(url, {
+        params: {
+          direccion: nuevaDireccion // Axios maneja la codificación de la URL por nosotros
+        }
+      });
+
+      // Con axios, la respuesta exitosa está en response.data
+      const data = response.data;
+
+      if (!data || data.length === 0) {
         setZonaSeleccionada("");
         setCostoEnvio(0);
-        setZonaDetectadaMsg("");
+        setZonaDetectadaMsg("⚠️ No se pudo encontrar la dirección ingresada.");
         setIsLoadingZona(false);
         return;
       }
 
-      setIsLoadingZona(true);
+      const { lat, lon } = data[0];
+      const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
+      const zona = zonasGeo.features.find((feature) =>
+        turf.booleanPointInPolygon(punto, feature)
+      );
 
-      try {
-        const direccionCompleta = `${nuevaDireccion}, Neuquén, Argentina`;
-        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          direccionCompleta
-        )}&addressdetails=1&limit=1`;
-
-        const response = await fetch(url, {
-          headers: {
-            "User-Agent": "TuApp/1.0 (contacto@tuapp.com)",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Error HTTP: ${response.status} ${response.statusText}`
-          );
-        }
-
-        const data = await response.json();
-
-        if (!data.length) {
-          setZonaSeleccionada("");
-          setCostoEnvio(0);
-          setZonaDetectadaMsg(
-            "⚠️ No se pudo encontrar la dirección ingresada."
-          );
-          setIsLoadingZona(false);
-          return;
-        }
-
-        const { lat, lon } = data[0];
-        const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
-
-        const zona = zonasGeo.features.find((feature) =>
-          turf.booleanPointInPolygon(punto, feature)
-        );
-
-        if (zona) {
-          const nombreZona =
-            zona.properties.name?.trim().replace(/\n/g, "") ||
-            "Zona desconocida";
-          const desc = zona.properties.description || "";
-          const match = desc.match(/\d+/);
-          const precio = match ? parseInt(match[0]) : 0;
-
-          setZonaSeleccionada(nombreZona);
-          setCostoEnvio(precio);
-          setZonaDetectadaMsg(
-            `🗺️ Zona detectada automáticamente: ${nombreZona} ($${precio})`
-          );
-        } else {
-          setZonaSeleccionada("");
-          setCostoEnvio(0);
-          setZonaDetectadaMsg(
-            "⚠️ Dirección fuera de las zonas de envío definidas."
-          );
-        }
-      } catch (error) {
-        console.error("Error al detectar zona:", error);
-        let errorMsg = "⚠️ Error al procesar la dirección.";
-        if (error.message.includes("Failed to fetch")) {
-          errorMsg =
-            "⚠️ No se pudo conectar con el servicio de geolocalización. Por favor, selecciona una zona manualmente.";
-        } else if (error.message.includes("403")) {
-          errorMsg =
-            "⚠️ Acceso denegado por el servicio de geolocalización. Por favor, selecciona una zona manualmente.";
-        } else if (error.message.includes("429")) {
-          errorMsg =
-            "⚠️ Demasiadas solicitudes al servicio de geolocalización. Intenta de nuevo en unos segundos.";
-        }
-        setZonaDetectadaMsg(errorMsg);
-      } finally {
-        setIsLoadingZona(false);
+      if (zona) {
+        const nombreZona = zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
+        const desc = zona.properties.description || "";
+        const match = desc.match(/\d+/);
+        const precio = match ? parseInt(match[0]) : 0;
+        setZonaSeleccionada(nombreZona);
+        setCostoEnvio(precio);
+        setZonaDetectadaMsg(`🗺️ Zona detectada: ${nombreZona} ($${precio})`);
+      } else {
+        setZonaSeleccionada("");
+        setCostoEnvio(0);
+        setZonaDetectadaMsg("⚠️ Dirección fuera de las zonas de envío.");
       }
-    }, 1000),
-    []
-  );
-
+    } catch (error) {
+      // Axios pone los detalles del error en 'error.response'
+      console.error("Error al detectar zona:", error);
+      const errorMessage = error.response?.data?.message || error.message;
+      setZonaDetectadaMsg(`⚠️ ${errorMessage}`);
+    } finally {
+      setIsLoadingZona(false);
+    }
+  }, 1000),
+  []
+);
   const handleDireccionChange = (e) => {
     const nuevaDireccion = e.target.value;
     setDireccion(nuevaDireccion);
@@ -321,6 +318,9 @@ export default function Cart() {
       setIsLoadingZona(false);
     }
   }, [direccion]);
+  const isKg = (tipoVenta) => {
+    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
+};
 
   return (
     <div className={style.container}>
@@ -382,14 +382,15 @@ export default function Cart() {
               return (
                 <li key={item._id || index} className={style.cartItem}>
                   <img
-                    src={`/${item.imagen}`} 
+                    src={`/${item.imagen}`}
                     alt={item.nombre}
                     className={style.miniImage}
                   />
                   <p>{item.nombre}</p>
-                  <p>
-                    {item.quantity} {item.tipoVenta === "kg" ? "kg" : "u."}
-                  </p>
+              
+<p>
+  {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+</p>
                   <p className={style.priceTotal}>
                     ${(precioFinal * item.quantity).toFixed(2)}
                   </p>
@@ -406,12 +407,20 @@ export default function Cart() {
           </ul>
 
           <hr />
+          {/* <== CAMBIO: Se modifica la sección de totales para mostrar el envío gratis ==> */}
           <div className={style.total}>
-            <p>Costo Envío: ${costoEnvio || 0}</p>
-            Total productos: $
-            {metodoPago === "Efectivo"
-              ? (total * 0.9).toFixed(2)
-              : total.toFixed(2)}
+            {total >= 80000 && (
+              <p className={style.envioGratis}>
+                🎉 ¡Felicidades! Tu envío es gratis.
+              </p>
+            )}
+            <p>Costo Envío: ${envioFinal || 0}</p>
+            <p>
+              Total productos: $
+              {metodoPago === "Efectivo"
+                ? (total * 0.9).toFixed(2)
+                : total.toFixed(2)}
+            </p>
           </div>
 
           <div className={style.envio}>
@@ -428,7 +437,7 @@ export default function Cart() {
               </div>
               <p>Elegir el horario de envio ⏰</p>
               <div>
-                <div className={style.mañanaTardeContainer}> 
+                <div className={style.mañanaTardeContainer}>
                   <label htmlFor="mañana">mañana: 10:30 a 13:30</label>
                   <input
                     type="radio"
@@ -467,11 +476,12 @@ export default function Cart() {
                   aria-label="Seleccionar zona de envío"
                 >
                   <option value="">Selecciona una zona</option>
-                  {zonasEnvio.map((zona) => (
-                    <option key={zona.nombre} value={zona.nombre}>
-                      {zona.nombre} - ${zona.precio}
-                    </option>
-                  ))}
+                  // CÓDIGO NUEVO Y CORREGIDO ✨
+{zonasEnvio.map((zona, index) => (
+    <option key={`${zona.nombre}-${index}`} value={zona.nombre}>
+      {zona.nombre} - ${zona.precio}
+    </option>
+))}
                 </select>
               </div>
             </div>

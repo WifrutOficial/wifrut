@@ -52,7 +52,8 @@ function ProductsRender() {
         alt="Congelados"
         className={style.iconCategories}
       />
-    ), Canastas: (
+    ), 
+    Canastas: (
       <img
         src="../../../canasta.png"
         alt="Canastas"
@@ -234,93 +235,106 @@ function ProductsRender() {
             </button>
 
             <div className={style.container} id={`scroll-${categoria}`}>
-              {items.map(
-                ({
-                  _id,
-                  nombre,
-                  precio,
-                  descripcion,
-                  tipoVenta,
-                  imagen,
-                  kiloMinimo,
-                }) => (
-                  <div key={_id} className={style.cartContainer}>
-                    <img
-                      className={style.img}
-                      src={`/${imagen}`}
-                      alt={nombre}
-                    />
+    {items.map(
+    ({
+        _id,
+        nombre,
+        precio,
+        descripcion,
+        tipoVenta,
+        imagen,
+        kiloMinimo,
+        stock,
+    }) => (
+        <div key={_id} className={`${style.cartContainer} ${stock === 0 ? style.disabledProduct : ''}`}>
+        <img
+            className={style.img}
+            src={`/${imagen}`}
+            alt={nombre}
+        />
 
-                    <p className={style.priceUnit}>
-                      Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
-                    </p>
+        <p className={style.priceUnit}>
+            Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
+        </p>
 
-                    <p className={style.productName}>{nombre}</p>
-                    {descripcion && (
-                      <p className={style.description}>{descripcion}</p>
-                    )}
+        <p className={style.productName}>{nombre}</p>
+        {descripcion && (
+            <p className={style.description}>{descripcion}</p>
+        )}
 
-                    <p className={style.quantitySelection}>
-                      Selecciona la cantidad:
-                    </p>
-                    <div className={style.quantityContainer}>
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(
-                            _id,
-                            tipoVenta,
-                            "decrement",
-                            kiloMinimo
-                          )
-                        }
-                      >
-                        -
-                      </button>
-                      <span>
-                        {quantities[_id] !== undefined
-                          ? quantities[_id]
-                          : isKg(tipoVenta)
-                          ? kiloMinimo || 0.5
-                          : 0}{" "}
-                        {isKg(tipoVenta) ? "kg" : "unidades"}
-                      </span>
-
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(
-                            _id,
-                            tipoVenta,
-                            "increment",
-                            kiloMinimo
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-
-                    <p className={style.total}>
-                      Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
-                    </p>
-
-                    <button
-                      className={style.addCart}
-                      onClick={() =>
-                        handleAddToCart({
-                          _id,
-                          nombre,
-                          precio,
-                          tipoVenta,
-                          imagen,
-                        })
-                      }
-                    >
-                      Añadir a carrito
-                    </button>
-                  </div>
-                )
-              )}
+        {/* ================================================================ */}
+        {/* AQUÍ COMIENZA LA MODIFICACIÓN: LÓGICA CONDICIONAL PARA EL STOCK   */}
+        {/* ================================================================ */}
+        {stock > 0 ? (
+            // Bloque 1: Si HAY stock, se muestra la parte de compra
+            <>
+            <p className={style.quantitySelection}>
+                Selecciona la cantidad:
+            </p>
+            <div className={style.quantityContainer}>
+                <button
+                onClick={() =>
+                    handleQuantityChange(
+                    _id,
+                    tipoVenta,
+                    "decrement",
+                    kiloMinimo
+                    )
+                }
+                >
+                -
+                </button>
+                <span>
+                {quantities[_id] !== undefined
+                    ? quantities[_id]
+                    : isKg(tipoVenta)
+                    ? kiloMinimo || 0.5
+                    : 0}{" "}
+                {isKg(tipoVenta) ? "kg" : "unidades"}
+                </span>
+                <button
+                onClick={() =>
+                    handleQuantityChange(
+                    _id,
+                    tipoVenta,
+                    "increment",
+                    kiloMinimo
+                    )
+                }
+                >
+                +
+                </button>
             </div>
+
+            <p className={style.total}>
+                Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+            </p>
+
+            <button
+                className={style.addCart}
+                onClick={() =>
+                handleAddToCart({
+                    _id,
+                    nombre,
+                    precio,
+                    tipoVenta,
+                    imagen,
+                })
+                }
+            >
+                Añadir a carrito
+            </button>
+            </>
+        ) : (
+            // Bloque 2: Si NO HAY stock, se muestra el cartel
+            <div className={style.sinStockContainer}>
+            <p className={style.sinStockText}>SIN STOCK</p>
+            </div>
+        )}
+        </div>
+    )
+    )}
+</div>
 
             <button
               className={style.arrowRight}

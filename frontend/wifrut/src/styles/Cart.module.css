@@ -242,6 +242,8 @@ padding: 5px 5px;
   padding: 10px 40px;
   color: #000;
   gap: 20px;
+  font-size: 12px;
+text-align: center;
 }
 .containerDescuento{
   text-align: center;
@@ -538,5 +540,9 @@ hr {
 
   .shopButton:hover {
     background-color: #138496;
+  }
+
+  .envioGratis{
+    font-size: 12px;
   }
 }
