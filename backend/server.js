@@ -11,6 +11,7 @@ import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
 import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
+import geocodingRoutes from "./routes/geocodingRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import http from "http";
@@ -56,15 +57,16 @@ app.use("/api/products", productsRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/whatsapp", whatsAppRoutes);
 app.use("/api/mercadopago", mercadoPagoRoutes);
+app.use("/api/geocode", geocodingRoutes);
 
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+//const PORT = process.env.PORT || 3000;
+//app.listen(PORT, () => {
+//console.log(`Servidor corriendo en el puerto ${PORT}`);
+//});
 
 // const port = process.env.PORT || 3000;
 // app.set("port", port);
