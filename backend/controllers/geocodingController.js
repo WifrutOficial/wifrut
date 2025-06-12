@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const buscarDireccion = async (req, res) => {
+  console.log("--- ¡CONTROLADOR DE GEOCODING EJECUTADO! ---"); 
   const { direccion } = req.query;
 
   if (!direccion) {

@@ -16,7 +16,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import http from "http";
 import { error } from "console";
-
+console.log("--- ¡VERSIÓN DEL SERVIDOR: 12.06 - 6:00 PM! ---"); 
 dotenv.config();
 
 const app = express();
