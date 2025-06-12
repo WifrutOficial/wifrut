@@ -16,9 +16,14 @@ import path from "path";
 import { fileURLToPath } from "url";
 import http from "http";
 import { error } from "console";
-console.log("--- ¡VERSIÓN DEL SERVIDOR: 12.06 - 6:00 PM! ---"); 
+
+
+// ✨ LA LÍNEA MÁS IMPORTANTE: Cargamos las variables de entorno PRIMERO ✨
 dotenv.config();
 
+// Ahora sí, podemos usar console.log o cualquier otra cosa
+console.log("--- ¡VERSIÓN DEL SERVIDOR: 12.06 - 6:30 PM! ---");
+console.log("MONGO_URI check:", process.env.MONGO_URI ? "Cargada" : "NO Cargada");
 const app = express();
 // ==> AÑADE ESTA LÍNEA EXACTAMENTE AQUÍ <==
 //app.set('trust proxy', 1);
