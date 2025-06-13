@@ -1,17 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/Cart.module.css";
 import { IoTrashOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { IoIosArrowDropleft } from "react-icons/io";
 import Swal from "sweetalert2";
 import zonasGeo from "../../data/envios.json";
-import * as turf from "@turf/turf";
-import debounce from "lodash/debounce";
 import { TiShoppingCart } from "react-icons/ti";
 import { useAuth } from "../../context/AuthContext";
-
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -21,8 +17,6 @@ export default function Cart() {
   const [step, setStep] = useState(1);
   const [zonaSeleccionada, setZonaSeleccionada] = useState("");
   const [costoEnvio, setCostoEnvio] = useState(0);
-  const [zonaDetectadaMsg, setZonaDetectadaMsg] = useState("");
-  const [isLoadingZona, setIsLoadingZona] = useState(false);
   const [loading, setLoading] = useState(false);
   const [turno, setTurno] = useState("");
 
@@ -40,28 +34,25 @@ export default function Cart() {
     setTurno(e.target.value);
   };
 
-  const zonasEnvio = zonasGeo.features.map((feature) => {
-    const name =
-      feature.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
-    const desc = feature.properties.description || "";
-    const match = desc.match(/\d+/);
-    const precio = match ? parseInt(match[0]) : 0;
-    return { nombre: name, precio };
-  });
+  const zonasEnvio = zonasGeo.features
+    .filter(feature => feature.geometry.type === "Polygon")
+    .map((feature) => {
+      const name =
+        feature.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
+      const desc = feature.properties.description || "";
+      const match = desc.match(/\d+/);
+      const precio = match ? parseInt(match[0]) : 0;
+      return { nombre: name, precio };
+    });
 
   const total = getTotal();
-  // <== CAMBIO: Se crea la variable 'envioFinal' con la nueva lógica ==>
   const envioFinal = total >= 80000 ? 0 : costoEnvio;
-  
   const totalConDescuento = metodoPago === "Efectivo" ? total * 0.9 : total;
-  
-  // <== CAMBIO: El total final ahora usa 'envioFinal' ==>
   const totalFinal = totalConDescuento + (envioFinal || 0);
 
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
   const handleNextStep = () => {
-    // <== NUEVA VALIDACIÓN: Se verifica que la compra sea mayor a $25.000 ==>
     if (total < 25000) {
       Swal.fire({
         title: "Compra mínima",
@@ -69,12 +60,9 @@ export default function Cart() {
         icon: "info",
         timer: 3000,
         showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIcon,
-        },
+        customClass: { popup: style.customAlert, icon: style.customIcon },
       });
-      return; 
+      return;
     }
 
     if (!direccion.trim() || !zonaSeleccionada) {
@@ -84,10 +72,7 @@ export default function Cart() {
         icon: "warning",
         timer: 2500,
         showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIcon,
-        },
+        customClass: { popup: style.customAlert, icon: style.customIcon },
       });
       return;
     }
@@ -136,10 +121,6 @@ export default function Cart() {
           navigate("/");
         });
 
-        const orderId = response.data.order?._id;
-        if (orderId && metodoPago === "Mercado Pago") {
-          createMercadoPagoPreference(orderId);
-        }
       } else {
         Swal.fire({
           title: "Error",
@@ -155,36 +136,19 @@ export default function Cart() {
       }
     } catch (error) {
       console.error("Error en el checkout:", error);
-      if (
-        error.message === "Debes estar autenticado para realizar un pedido."
-      ) {
-        Swal.fire({
-          title: "Inicia sesión",
-          text: "Por favor, inicia sesión para realizar el pedido.",
-          icon: "warning",
-          confirmButtonText: "Ir al login",
-          customClass: {
-            popup: style.customAlert,
-            icon: style.customIcon,
-          },
-        }).then(() => {
-          navigate("/login");
-        });
-      } else {
-        Swal.fire({
-          title: "Error",
-          text:
-            error.response?.data?.message ||
-            "Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.",
-          icon: "error",
-          timer: 3000,
-          showConfirmButton: false,
-          customClass: {
-            popup: style.customAlert,
-            icon: style.customIcon,
-          },
-        });
-      }
+      Swal.fire({
+        title: "Error",
+        text:
+          error.response?.data?.message ||
+          "Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.",
+        icon: "error",
+        timer: 3000,
+        showConfirmButton: false,
+        customClass: {
+          popup: style.customAlert,
+          icon: style.customIcon,
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -212,115 +176,9 @@ export default function Cart() {
     });
   };
 
-  const createMercadoPagoPreference = async (orderId) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
-        { orderId },
-        { withCredentials: true }
-      );
-      if (response.data.init_point) {
-        window.location.href = response.data.init_point;
-      }
-    } catch (error) {
-      console.error("Error al crear la preferencia de pago:", error);
-      Swal.fire({
-        title: "Error",
-        text: "No se pudo iniciar el pago con Mercado Pago.",
-        icon: "error",
-        timer: 2500,
-        showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIcon,
-        },
-      });
-    }
-  };
-
-
-
-const buscarZona = useCallback(
-  debounce(async (nuevaDireccion) => {
-    if (nuevaDireccion.length < 5) {
-      setZonaSeleccionada("");
-      setCostoEnvio(0);
-      setZonaDetectadaMsg("");
-      setIsLoadingZona(false);
-      return;
-    }
-
-    setIsLoadingZona(true);
-
-    try {
-      const url = `${import.meta.env.VITE_API_URL}/api/geocode/buscar`;
-
-      // ✨ Usamos axios.get en lugar de fetch ✨
-      // No necesitamos 'withCredentials' aquí porque ya está configurado globalmente.
-      const response = await axios.get(url, {
-        params: {
-          direccion: nuevaDireccion // Axios maneja la codificación de la URL por nosotros
-        }
-      });
-
-      // Con axios, la respuesta exitosa está en response.data
-      const data = response.data;
-
-      if (!data || data.length === 0) {
-        setZonaSeleccionada("");
-        setCostoEnvio(0);
-        setZonaDetectadaMsg("⚠️ No se pudo encontrar la dirección ingresada.");
-        setIsLoadingZona(false);
-        return;
-      }
-
-      const { lat, lon } = data[0];
-      const punto = turf.point([parseFloat(lon), parseFloat(lat)]);
-      const zona = zonasGeo.features.find((feature) =>
-        turf.booleanPointInPolygon(punto, feature)
-      );
-
-      if (zona) {
-        const nombreZona = zona.properties.name?.trim().replace(/\n/g, "") || "Zona desconocida";
-        const desc = zona.properties.description || "";
-        const match = desc.match(/\d+/);
-        const precio = match ? parseInt(match[0]) : 0;
-        setZonaSeleccionada(nombreZona);
-        setCostoEnvio(precio);
-        setZonaDetectadaMsg(`🗺️ Zona detectada: ${nombreZona} ($${precio})`);
-      } else {
-        setZonaSeleccionada("");
-        setCostoEnvio(0);
-        setZonaDetectadaMsg("⚠️ Dirección fuera de las zonas de envío.");
-      }
-    } catch (error) {
-      // Axios pone los detalles del error en 'error.response'
-      console.error("Error al detectar zona:", error);
-      const errorMessage = error.response?.data?.message || error.message;
-      setZonaDetectadaMsg(`⚠️ ${errorMessage}`);
-    } finally {
-      setIsLoadingZona(false);
-    }
-  }, 1000),
-  []
-);
-  const handleDireccionChange = (e) => {
-    const nuevaDireccion = e.target.value;
-    setDireccion(nuevaDireccion);
-    buscarZona(nuevaDireccion);
-  };
-
-  useEffect(() => {
-    if (!direccion.trim()) {
-      setZonaSeleccionada("");
-      setCostoEnvio(0);
-      setZonaDetectadaMsg("");
-      setIsLoadingZona(false);
-    }
-  }, [direccion]);
   const isKg = (tipoVenta) => {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
-};
+  };
 
   return (
     <div className={style.container}>
@@ -333,7 +191,7 @@ const buscarZona = useCallback(
           </div>
           <div
             className={`${style.step} ${
-              direccion.trim() ? style.completed : ""
+              direccion.trim() && zonaSeleccionada ? style.completed : ""
             }`}
           >
             <span className={style.stepNumber}>2</span>
@@ -387,10 +245,9 @@ const buscarZona = useCallback(
                     className={style.miniImage}
                   />
                   <p>{item.nombre}</p>
-              
-<p>
-  {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
-</p>
+                  <p>
+                    {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+                  </p>
                   <p className={style.priceTotal}>
                     ${(precioFinal * item.quantity).toFixed(2)}
                   </p>
@@ -407,7 +264,7 @@ const buscarZona = useCallback(
           </ul>
 
           <hr />
-          {/* <== CAMBIO: Se modifica la sección de totales para mostrar el envío gratis ==> */}
+          
           <div className={style.total}>
             {total >= 80000 && (
               <p className={style.envioGratis}>
@@ -425,91 +282,68 @@ const buscarZona = useCallback(
 
           <div className={style.envio}>
             <div className={style.Envio}>
-              <div className={style.inputEnvio}>
-                <p>Dirección de envío:</p>
-                <input
-                  type="text"
-                  placeholder="Escribe tu dirección"
-                  value={direccion}
-                  onChange={handleDireccionChange}
-                  aria-label="Dirección de envío"
-                />
-              </div>
-              <p>Elegir el horario de envio ⏰</p>
-              <div>
-                <div className={style.mañanaTardeContainer}>
-                  <label htmlFor="mañana">mañana: 10:30 a 13:30</label>
-                  <input
-                    type="radio"
-                    id="mañana"
-                    name="turno"
-                    value="mañana"
-                    onChange={handleChange}
-                  />
+                <div className={style.inputEnvio}>
+                    <p>Dirección completa de envío:</p>
+                    <input
+                      type="text"
+                      placeholder="Ej: Av. Argentina 123, Piso 4, Dpto B"
+                      value={direccion}
+                      onChange={(e) => setDireccion(e.target.value)}
+                      aria-label="Dirección de envío"
+                    />
                 </div>
-                <div className={style.mañanaTardeContainer}>
-                  <label htmlFor="tarde">tarde: 14:00 a 18:00</label>
-                  <input
-                    type="radio"
-                    value="tarde"
-                    name="turno"
-                    id="tarde"
-                    onChange={handleChange}
-                  />
+
+                <div className={style.inputEnvio}>
+                  <p>Selecciona tu zona de envío:</p>
+                  <select   className={style.zonaSelect} 
+                    value={zonaSeleccionada}
+                    onChange={(e) => {
+                      const nombreZonaSeleccionada = e.target.value;
+                      const zona = zonasEnvio.find(z => z.nombre === nombreZonaSeleccionada);
+                      if (zona) {
+                        setZonaSeleccionada(zona.nombre);
+                        setCostoEnvio(zona.precio);
+                      } else {
+                        setZonaSeleccionada("");
+                        setCostoEnvio(0);
+                      }
+                    }}
+                    aria-label="Seleccionar zona de envío"
+                  >
+                    <option value="">-- Elige tu zona --</option>
+                    {zonasEnvio.map((zona, index) => (
+                      <option key={`${zona.nombre}-${index}`} value={zona.nombre}>
+                        {zona.nombre} - ${zona.precio}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              </div>
-              <div className={style.inputEnvio}>
-                <select
-                  value={zonaSeleccionada}
-                  onChange={(e) => {
-                    const zona = zonasEnvio.find(
-                      (z) => z.nombre === e.target.value
-                    );
-                    if (zona) {
-                      setZonaSeleccionada(zona.nombre);
-                      setCostoEnvio(zona.precio);
-                      setZonaDetectadaMsg(
-                        `🖐️ Zona seleccionada manualmente: ${zona.nombre} ($${zona.precio})`
-                      );
-                    }
-                  }}
-                  aria-label="Seleccionar zona de envío"
-                >
-                  <option value="">Selecciona una zona</option>
-                  // CÓDIGO NUEVO Y CORREGIDO ✨
-{zonasEnvio.map((zona, index) => (
-    <option key={`${zona.nombre}-${index}`} value={zona.nombre}>
-      {zona.nombre} - ${zona.precio}
-    </option>
-))}
-                </select>
-              </div>
+
+                <div className={style.containerEnvio}>
+                  <p className={style.infoEnvio}>
+                    ¿No sabes cuál es tu zona? Consulta nuestro
+                    <span
+                      className={style.spanm}
+                      onClick={() => navigate("/send")}
+                      role="button"
+                    >
+                      &nbsp;Mapa de Envíos
+                    </span>
+                  </p>
+                </div>
+
+                <p>Elegir el horario de envío ⏰</p>
+                <div>
+                  <div className={style.mañanaTardeContainer}>
+                    <label htmlFor="mañana">Mañana: 10:30 a 13:30</label>
+                    <input type="radio" id="mañana" name="turno" value="mañana" onChange={handleChange} />
+                  </div>
+                  <div className={style.mañanaTardeContainer}>
+                    <label htmlFor="tarde">Tarde: 14:00 a 18:00</label>
+                    <input type="radio" id="tarde" name="turno" value="tarde" onChange={handleChange} />
+                  </div>
+                </div>
             </div>
-            <div className={style.containerEnvio}>
-              <p className={style.infoEnvio}>
-                Para más información sobre las zonas de envío visite:
-                <span
-                  className={style.spanm}
-                  onClick={() =>
-                    navigate("/send", { state: { fromCart: true } })
-                  }
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" &&
-                    navigate("/send", { state: { fromCart: true } })
-                  }
-                >
-                  Envíos
-                </span>
-              </p>
-            </div>
-            {isLoadingZona && (
-              <p className={style.zonaDetectada}>⏳ Buscando zona...</p>
-            )}
-            {zonaDetectadaMsg && !isLoadingZona && (
-              <p className={style.zonaDetectada}>{zonaDetectadaMsg}</p>
-            )}
           </div>
 
           {step === 1 && (
