@@ -1,7 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
 import style from "../../../../styles/BuscarPedidos.module.css";
 import axios from "axios";
-
 
 function BuscarPedidos() {
   const [date, setDate] = useState("");
@@ -9,6 +8,10 @@ function BuscarPedidos() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // --- ✅ PASO 1: AÑADIR LA FUNCIÓN isKg ---
+  const isKg = (tipoVenta) => {
+    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
+  };
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");
@@ -17,7 +20,7 @@ function BuscarPedidos() {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`,
         {
-          withCredentials: true       
+          withCredentials: true,
         }
       );
       setOrders(response.data);
@@ -25,12 +28,10 @@ function BuscarPedidos() {
       console.error("Error al obtener pedidos:", error);
       alert("Error al obtener pedidos");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-  // --- MODIFICACIÓN #1 ---
-  // Se lee el nombre y tipo directamente del item
   const resumenProductos = {};
   let totalDelDia = 0;
 
@@ -39,7 +40,8 @@ function BuscarPedidos() {
 
     order.items.forEach((item) => {
       const nombre = item.nombre || "desconocido";
-      const tipo = item.tipoVenta || "unidades";
+      // --- ✅ PASO 2: USAR isKg PARA EL RESUMEN ---
+      const tipo = isKg(item.tipoVenta) ? "kg" : "u.";
       const key = `${nombre}__${tipo}`;
 
       resumenProductos[key] = (resumenProductos[key] || 0) + item.cantidad;
@@ -47,11 +49,9 @@ function BuscarPedidos() {
   });
 
   return (
-
     <div>
       <h2 className={style.title}>Buscar pedidos por fecha</h2>
       <div className={style.container}>
-   
         <div className={style.search}>
           <input
             type="date"
@@ -68,8 +68,16 @@ function BuscarPedidos() {
             <div className={style.spinner}></div>
           ) : orders.length > 0 ? (
             orders.map((order) => {
-              const { total, direccion, metodoPago, status, createdAt, items, turno } = order;
-              const phone = order?.userId?.telefono || "No disponible"; // Se mantiene 'telefono' porque viene del 'userId' populado
+              const {
+                total,
+                direccion,
+                metodoPago,
+                status,
+                createdAt,
+                items,
+                turno,
+              } = order;
+              const phone = order?.userId?.telefono || "No disponible";
               const isSelected = selectedOrder?._id === order._id;
 
               return (
@@ -80,27 +88,41 @@ function BuscarPedidos() {
                 >
                   <div className={style.infoPedido}>
                     <div className={style.info1}>
-                      <p><span>Total:</span> ${total.toFixed(2)}</p>
-                      <p><span>Dirección:</span> {direccion}</p>
-                      <p><span>Pago:</span> {metodoPago}</p>
-                      <p><span>Turno:</span> {turno}</p>
+                      <p>
+                        <span>Total:</span> ${total.toFixed(2)}
+                      </p>
+                      <p>
+                        <span>Dirección:</span> {direccion}
+                      </p>
+                      <p>
+                        <span>Pago:</span> {metodoPago}
+                      </p>
+                      <p>
+                        <span>Turno:</span> {turno}
+                      </p>
                     </div>
                     <div className={style.info1}>
-                      <p><span>Estado:</span> {status}</p>
-                      <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
-                      <p><span>Teléfono:</span> {phone}</p>
+                      <p>
+                        <span>Estado:</span> {status}
+                      </p>
+                      <p>
+                        <span>Fecha:</span>{" "}
+                        {new Date(createdAt).toLocaleDateString()}
+                      </p>
+                      <p>
+                        <span>Teléfono:</span> {phone}
+                      </p>
                     </div>
                   </div>
 
-                  {/* --- MODIFICACIÓN #2 --- */}
-                  {/* Se lee el nombre y tipo directamente del item */}
                   <div className={style.productosPedido}>
                     <p className={style.title}>Productos del pedido:</p>
                     <ul className={style.infoProducto}>
                       {items.map((item, index) => (
                         <li key={index}>
                           {item.nombre || "desconocido"}: {item.cantidad}{" "}
-                          {item.tipoVenta || "unidades"}
+                          {/* --- ✅ PASO 2: USAR isKg EN EL DETALLE DEL PEDIDO --- */}
+                          {isKg(item.tipoVenta) ? "kg" : "u."}
                         </li>
                       ))}
                     </ul>
@@ -121,12 +143,16 @@ function BuscarPedidos() {
               return (
                 <div key={key} className={style.itemResumen}>
                   <span className={style.name}>{nombre}:</span>
-                  <p>{cantidad} {tipo}</p>
+                  <p>
+                    {cantidad} {tipo}
+                  </p>
                 </div>
               );
             })}
             <div className={style.itemResumen}>
-              <span><strong>Total vendido:</strong></span>
+              <span>
+                <strong>Total vendido:</strong>
+              </span>
               <span className={style.total}>${totalDelDia.toFixed(2)}</span>
             </div>
           </div>
