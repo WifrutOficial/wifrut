@@ -64,20 +64,38 @@ function ProductsRender() {
 
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
 
-  useEffect(() => {
-    const getProductsBD = async () => {
+// En ProductsRender.jsx
+
+useEffect(() => {
+  const getProductsBD = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get(url, { withCredentials: true });
-        setProducts(response.data);
+          setLoading(true);
+          const response = await axios.get(url, { withCredentials: true });
+          const fetchedProducts = response.data;
+          setProducts(fetchedProducts);
+
+          // --- ✅ NUEVO: INICIALIZAR LAS CANTIDADES POR DEFECTO ---
+          const initialQuantities = {};
+          fetchedProducts.forEach(product => {
+              // Si es por kilo, el valor inicial es kiloMinimo
+              if (product.tipoVenta && product.tipoVenta.toLowerCase().includes("kilo")) {
+                  initialQuantities[product._id] = product.kiloMinimo || 0.5;
+              } else {
+                  // Si es por unidad, el valor inicial es 1
+                  initialQuantities[product._id] = 1;
+              }
+          });
+          setQuantities(initialQuantities);
+          // --------------------------------------------------------
+
       } catch (error) {
-        console.error("Error al obtener productos:", error);
+          console.error("Error al obtener productos:", error);
       } finally {
-        setLoading(false);
+          setLoading(false);
       }
-    };
-    getProductsBD();
-  }, []);
+  };
+  getProductsBD();
+}, [url]); // Añadimos 'url' como dependencias
 
   const isKg = (tipoVenta) => {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
@@ -284,14 +302,11 @@ function ProductsRender() {
                 >
                 -
                 </button>
-                <span>
-                {quantities[_id] !== undefined
-                    ? quantities[_id]
-                    : isKg(tipoVenta)
-                    ? kiloMinimo || 0.5
-                    : 0}{" "}
-                {isKg(tipoVenta) ? "kg" : "unidades"}
-                </span>
+                  {/* ✅ LÓGICA SIMPLIFICADA */}
+    <span>
+        {quantities[_id] || 0}{" "}
+        {isKg(tipoVenta) ? "kg" : "unidades"}
+    </span>
                 <button
                 onClick={() =>
                     handleQuantityChange(

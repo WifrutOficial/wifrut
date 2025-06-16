@@ -7,7 +7,8 @@ export const uploadExcel = async (req, res) => {
       return res.status(400).json({ message: "No se ha subido ningún archivo" });
     }
 
-    const workbook = XLSX.read(req.file.buffer, { type: "buffer" });
+  // Código Corregido
+const workbook = XLSX.read(req.file.buffer, { type: "buffer", codepage: 65001 });
     
     // MEJORA: Verificar que el Excel tenga al menos una hoja.
     if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
@@ -63,7 +64,7 @@ export const uploadExcel = async (req, res) => {
       // Validación de kiloMinimo.
       if (product.kilominimo !== undefined) { // Clave en minúsculas por la normalización
         const kiloMin = Number(product.kilominimo);
-        if ([0.5, 1].includes(kiloMin)) {
+        if ([0.5, 0.25, 0.2, 1 , 2, 3].includes(kiloMin)) {
           updateFields.kiloMinimo = kiloMin;
         } else {
           console.warn(`Valor de kiloMinimo no válido para ${product.nombre}: ${product.kilominimo}`);

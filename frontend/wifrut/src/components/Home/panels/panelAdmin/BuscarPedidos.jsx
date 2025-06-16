@@ -12,7 +12,7 @@ function BuscarPedidos() {
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");
-setLoading(true);
+    setLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`,
@@ -25,10 +25,12 @@ setLoading(true);
       console.error("Error al obtener pedidos:", error);
       alert("Error al obtener pedidos");
     } finally {
-    setLoading(false); 
-  }
+      setLoading(false); 
+    }
   };
 
+  // --- MODIFICACIÓN #1 ---
+  // Se lee el nombre y tipo directamente del item
   const resumenProductos = {};
   let totalDelDia = 0;
 
@@ -36,8 +38,8 @@ setLoading(true);
     totalDelDia += order.total;
 
     order.items.forEach((item) => {
-      const nombre = item.productId?.nombre || "desconocido";
-      const tipo = item.productId?.tipoVenta || "unidades";
+      const nombre = item.nombre || "desconocido";
+      const tipo = item.tipoVenta || "unidades";
       const key = `${nombre}__${tipo}`;
 
       resumenProductos[key] = (resumenProductos[key] || 0) + item.cantidad;
@@ -47,91 +49,89 @@ setLoading(true);
   return (
 
     <div>
-         <h2 className={style.title}>Buscar pedidos por fecha</h2>
-    <div className={style.container}>
+      <h2 className={style.title}>Buscar pedidos por fecha</h2>
+      <div className={style.container}>
    
+        <div className={style.search}>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <button onClick={fetchOrdersByDate}>Buscar</button>
+        </div>
 
-      <div className={style.search}>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-        <button onClick={fetchOrdersByDate}>Buscar</button>
+        <h3 className={style.title}>Resultados</h3>
+
+        <div className={style.containerInfo}>
+          {loading ? (
+            <div className={style.spinner}></div>
+          ) : orders.length > 0 ? (
+            orders.map((order) => {
+              const { total, direccion, metodoPago, status, createdAt, items, turno } = order;
+              const phone = order?.userId?.telefono || "No disponible"; // Se mantiene 'telefono' porque viene del 'userId' populado
+              const isSelected = selectedOrder?._id === order._id;
+
+              return (
+                <div
+                  className={style.containerItems}
+                  key={order._id}
+                  onClick={() => !selectedOrder && setSelectedOrder(order)}
+                >
+                  <div className={style.infoPedido}>
+                    <div className={style.info1}>
+                      <p><span>Total:</span> ${total.toFixed(2)}</p>
+                      <p><span>Dirección:</span> {direccion}</p>
+                      <p><span>Pago:</span> {metodoPago}</p>
+                      <p><span>Turno:</span> {turno}</p>
+                    </div>
+                    <div className={style.info1}>
+                      <p><span>Estado:</span> {status}</p>
+                      <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
+                      <p><span>Teléfono:</span> {phone}</p>
+                    </div>
+                  </div>
+
+                  {/* --- MODIFICACIÓN #2 --- */}
+                  {/* Se lee el nombre y tipo directamente del item */}
+                  <div className={style.productosPedido}>
+                    <p className={style.title}>Productos del pedido:</p>
+                    <ul className={style.infoProducto}>
+                      {items.map((item, index) => (
+                        <li key={index}>
+                          {item.nombre || "desconocido"}: {item.cantidad}{" "}
+                          {item.tipoVenta || "unidades"}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No hay pedidos para esta fecha.</p>
+          )}
+        </div>
+
+        {orders.length > 0 && (
+          <div className={style.resumen}>
+            <h3 className={style.title}>Total de Productos:</h3>
+            {Object.entries(resumenProductos).map(([key, cantidad]) => {
+              const [nombre, tipo] = key.split("__");
+              return (
+                <div key={key} className={style.itemResumen}>
+                  <span className={style.name}>{nombre}:</span>
+                  <p>{cantidad} {tipo}</p>
+                </div>
+              );
+            })}
+            <div className={style.itemResumen}>
+              <span><strong>Total vendido:</strong></span>
+              <span className={style.total}>${totalDelDia.toFixed(2)}</span>
+            </div>
+          </div>
+        )}
       </div>
-
-
-      <h3 className={style.title}>Resultados</h3>
-
-<div className={style.containerInfo}>
-  {loading ? (
-  <div className={style.spinner}></div>
-  ) : orders.length > 0 ? (
-    orders.map((order) => {
-      const { total, direccion, metodoPago, status, createdAt, items, turno } = order;
-      const phone = order?.userId?.phone || "No disponible";
-      const isSelected = selectedOrder?._id === order._id;
-
-      return (
-        <div
-          className={style.containerItems}
-          key={order._id}
-          onClick={() => !selectedOrder && setSelectedOrder(order)}
-        >
-          <div className={style.infoPedido}>
-            <div className={style.info1}>
-              <p><span>Total:</span> ${total.toFixed(2)}</p>
-              <p><span>Dirección:</span> {direccion}</p>
-              <p><span>Pago:</span> {metodoPago}</p>
-              <p><span>Turno:</span> {turno}</p>
-            </div>
-            <div className={style.info1}>
-              <p><span>Estado:</span> {status}</p>
-              <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
-              <p><span>Teléfono:</span> {phone}</p>
-            </div>
-          </div>
-
-          <div className={style.productosPedido}>
-            <p className={style.title}>Productos del pedido:</p>
-            <ul className={style.infoProducto}>
-              {items.map((item, index) => (
-                <li key={index}>
-                  {item.productId?.nombre || "desconocido"}: {item.cantidad}{" "}
-                  {item.productId?.tipo || "unidades"}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      );
-    })
-  ) : (
-    <p>No hay pedidos para esta fecha.</p>
-  )}
-</div>
-
-
-    
-      {orders.length > 0 && (
-        <div className={style.resumen}>
-          <h3 className={style.title}>Total de Productos:</h3>
-          {Object.entries(resumenProductos).map(([key, cantidad]) => {
-            const [nombre, tipo] = key.split("__");
-            return (
-              <div key={key} className={style.itemResumen}>
-                <span className={style.name}>{nombre}:</span>
-                <p>{cantidad} {tipo}</p>
-              </div>
-            );
-          })}
-          <div className={style.itemResumen}>
-            <span><strong>Total vendido:</strong></span>
-            <span className={style.total}>${totalDelDia.toFixed(2)}</span>
-          </div>
-        </div>
-      )}
-    </div>
     </div>
   );
 }

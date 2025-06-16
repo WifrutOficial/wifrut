@@ -57,8 +57,7 @@ export const handleWhatsAppWebhook = async (req, res) => {
   }
 };
 
-// ==> FUNCIÓN AÑADIDA QUE FALTABA <==
-// Esta función es para que Twilio verifique tu URL con una petición GET.
+
 export const verifyTwilioWebhook = (req, res) => {
   const twilioChallenge = req.query['hub.challenge'];
   if (twilioChallenge) {
@@ -92,12 +91,14 @@ export const getOrdersByDateWeb = async (req, res) => {
     const { date } = req.query;
     if (!date) return res.status(400).json({ message: "Se requiere una fecha válida" });
 
-    const startDate = new Date(`${date}T00:00:00.000-03:00`); // Especifica zona horaria de Argentina
+    const startDate = new Date(`${date}T00:00:00.000-03:00`); 
     const endDate = new Date(`${date}T23:59:59.999-03:00`);
 
-    const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
-      .populate('userId', 'telefono')
-      .sort({ createdAt: -1 });
+
+const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
+    .populate('userId', 'telefono')
+    .sort({ createdAt: -1 });
+
 
     res.status(200).json(orders);
   } catch (error) {
