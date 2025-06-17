@@ -1,8 +1,8 @@
 import twilio from "twilio";
 import { Order } from "../models/order.js";
 
-const { 
-  TWILIO_ACCOUNT_SID, 
+const {
+  TWILIO_ACCOUNT_SID,
   TWILIO_AUTH_TOKEN,
   TWILIO_PROD_NUMBER,
   OWNER_PHONE_NUMBERS
@@ -12,7 +12,7 @@ const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 const authorizedNumbers = OWNER_PHONE_NUMBERS ? OWNER_PHONE_NUMBERS.split(',') : [];
 
-// --- FUNCIONES EXPORTADAS PARA EL ROUTER ---
+
 
 export const sendWhatsAppMessage = async (to, message) => {
   try {
@@ -21,10 +21,10 @@ export const sendWhatsAppMessage = async (to, message) => {
       from: TWILIO_PROD_NUMBER,
       to: to,
     });
-    console.log(`📩 Mensaje enviado a ${to}:`, msg.sid);
+
     return true;
   } catch (error) {
-    console.error("❌ Error al enviar mensaje de WhatsApp:", error);
+
     return false;
   }
 };
@@ -51,7 +51,7 @@ export const handleWhatsAppWebhook = async (req, res) => {
     }
     res.status(200).send("✅ Petición procesada");
   } catch (error) {
-    console.error("❌ Error procesando el webhook:", error);
+
     await sendWhatsAppMessage(from, "🤖 Ups, ocurrió un error en el servidor.");
     res.status(500).send("Error interno");
   }
@@ -69,7 +69,6 @@ export const verifyTwilioWebhook = (req, res) => {
   }
 };
 
-// ==> FUNCIÓN AÑADIDA PARA TU RUTA DE PRUEBA <==
 export const getWhatsAppSend = async (req, res) => {
   const toPhoneNumber = req.query.to;
   if (!toPhoneNumber) {
@@ -91,13 +90,13 @@ export const getOrdersByDateWeb = async (req, res) => {
     const { date } = req.query;
     if (!date) return res.status(400).json({ message: "Se requiere una fecha válida" });
 
-    const startDate = new Date(`${date}T00:00:00.000-03:00`); 
+    const startDate = new Date(`${date}T00:00:00.000-03:00`);
     const endDate = new Date(`${date}T23:59:59.999-03:00`);
 
 
-const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
-    .populate('userId', 'telefono')
-    .sort({ createdAt: -1 });
+    const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
+      .populate('userId', 'telefono')
+      .sort({ createdAt: -1 });
 
 
     res.status(200).json(orders);
@@ -107,7 +106,7 @@ const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } 
   }
 };
 
-// --- FUNCIONES INTERNAS (NO SE EXPORTAN) ---
+
 
 const handleGetOrders = async (from, body) => {
   const match = body.match(/^pedidos\s(\d{4}-\d{2}-\d{2})$/);
@@ -115,7 +114,7 @@ const handleGetOrders = async (from, body) => {
     await sendWhatsAppMessage(from, "⚠️ Formato incorrecto. Usa: 'pedidos AAAA-MM-DD'.");
     return;
   }
-  
+
   const dateStr = match[1];
   const startOfDay = new Date(`${dateStr}T00:00:00.000-03:00`);
   const endOfDay = new Date(`${dateStr}T23:59:59.999-03:00`);
@@ -126,7 +125,7 @@ const handleGetOrders = async (from, body) => {
   }
 
   const orders = await Order.find({ createdAt: { $gte: startOfDay, $lte: endOfDay } }).populate("userId", "phone metodoPago");
-  
+
   let responseMessage = `📅 No hay pedidos para ${dateStr}.`;
   if (orders.length > 0) {
     responseMessage = `📦 Pedidos del ${dateStr}:\n`;
@@ -143,7 +142,7 @@ const handleGetTotalProducts = async (from, body) => {
     await sendWhatsAppMessage(from, "⚠️ Formato incorrecto. Usa: 'total productos AAAA-MM-DD'.");
     return;
   }
-  
+
   const dateStr = match[1];
   const startOfDay = new Date(`${dateStr}T00:00:00.000-03:00`);
   const endOfDay = new Date(`${dateStr}T23:59:59.999-03:00`);
@@ -156,10 +155,12 @@ const handleGetTotalProducts = async (from, body) => {
   const productTotals = await Order.aggregate([
     { $match: { createdAt: { $gte: startOfDay, $lte: endOfDay } } },
     { $unwind: "$items" },
-    { $group: {
+    {
+      $group: {
         _id: { $toLower: "$items.nombre" },
         totalQuantity: { $sum: "$items.cantidad" }
-    }},
+      }
+    },
     { $sort: { _id: 1 } }
   ]);
 
@@ -167,7 +168,7 @@ const handleGetTotalProducts = async (from, body) => {
     await sendWhatsAppMessage(from, `📅 No se vendió ningún producto el ${dateStr}.`);
     return;
   }
-  
+
   let responseMessage = `📊 Total de productos vendidos el ${dateStr}:\n\n`;
   productTotals.forEach(product => {
     const productName = product._id.charAt(0).toUpperCase() + product._id.slice(1);

@@ -1,13 +1,12 @@
-// Archivo: components/MapaZonas.jsx
+
 
 import React from "react";
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from "react-leaflet";
-import L from 'leaflet'; // Necesitamos 'L' para crear el icono personalizado
+import L from 'leaflet';
 import zonas from "../../data/envios.json";
 import style from "../../styles/Send.module.css";
 
-// 1. CREAMOS EL ICONO PERSONALIZADO CON TU LOGO
-//    Asegúrate de que el archivo 'logo-wifrut.png' esté en tu carpeta /public
+
 const logoIcon = new L.Icon({
   iconUrl: '/logo.png',
   iconSize: [45, 45],
@@ -16,7 +15,7 @@ const logoIcon = new L.Icon({
 });
 
 const MapaZonas = () => {
-  // Tu función para dar estilo a los polígonos (zonas)
+
   const getZonaStyle = (feature) => {
     return {
       fillColor: feature.properties.fill || "#999999",
@@ -26,7 +25,7 @@ const MapaZonas = () => {
     };
   };
 
-  // Tu función para los popups de cada zona
+
   const onEachFeature = (feature, layer) => {
     const name = feature.properties.name?.trim() || "Zona sin nombre";
     const description = feature.properties.description || "Sin descripción";
@@ -45,9 +44,9 @@ const MapaZonas = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* 2. RECORREMOS LOS DATOS Y DIBUJAMOS CADA ELEMENTO POR SEPARADO */}
+
       {zonas.features.map((feature, index) => {
-        // Si el elemento es un PUNTO, dibujamos un MARCADOR con tu logo
+
         if (feature.geometry.type === "Point") {
           const pointCoords = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
           return (
@@ -56,8 +55,8 @@ const MapaZonas = () => {
             </Marker>
           );
         }
-        
-        // Si el elemento es un POLÍGONO, dibujamos la zona de color
+
+
         if (feature.geometry.type === "Polygon") {
           return (
             <GeoJSON
@@ -69,7 +68,7 @@ const MapaZonas = () => {
           );
         }
 
-        return null; // Ignoramos otros tipos de geometrías
+        return null;
       })}
     </MapContainer>
   );

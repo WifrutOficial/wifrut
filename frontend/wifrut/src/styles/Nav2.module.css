@@ -275,7 +275,7 @@
   }
 }
 
-/* Estilos para pantallas menores a 768px */
+
 @media (max-width: 966px) {
   .floatingArrow {
     bottom: 60px;

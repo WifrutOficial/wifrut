@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user data is in localStorage whenever the component mounts
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const storedToken = localStorage.getItem('token');
@@ -19,11 +19,11 @@ export const AuthProvider = ({ children }) => {
         setUser(parsedUser);
         setIsAuthenticated(true);
         
-        // Set default auth header for all future requests
+      
         axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-        console.log("Restored auth from localStorage:", parsedUser.nombre);
+      
       } catch (error) {
-        console.error("Error parsing stored user data:", error);
+     
         localStorage.removeItem('user');
         localStorage.removeItem('token');
       }
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthStatus = async () => {
     try {
-      // First try with cookies (normal flow)
+   
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/login`,
         { withCredentials: true }
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         localStorage.setItem('user', JSON.stringify(response.data.user));
       } else {
-        // If cookies don't work, check localStorage
+    
         const storedUser = localStorage.getItem('user');
         const storedToken = localStorage.getItem('token');
         
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      // Try with localStorage token as fallback
+    
       const storedUser = localStorage.getItem('user');
       const storedToken = localStorage.getItem('token');
       
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      console.log("Attempting login for:", email);
+   
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/login`,
         { email, password },
@@ -88,41 +88,41 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-      console.log("Login response:", response.data);
+  
 
       if (response.data?.user) {
         const u = response.data.user;
        
-        // IMPORTANT: Save token to localStorage for Safari fallback
+      
         if (response.data.token) {
-          console.log("Saving token to localStorage");
+        
           localStorage.setItem('token', response.data.token);
-          // Set default auth header for all future requests
+       
           axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         } else {
           console.warn("No token received in login response!");
         }
         
-        // Save user data to localStorage
+      
         const userData = {
           ...u,
           name: u.nombre,
           phone: u.phone,
         };
         
-        console.log("Saving user data to localStorage:", userData);
+      
         localStorage.setItem('user', JSON.stringify(userData));
         
         setIsAuthenticated(true);
         setUser(userData);
-        console.log("Authentication successful:", userData.nombre);
+       
         return userData;
       } else {
-        console.error("No user data in response:", response.data);
+       
         throw new Error("Usuario no recibido en la respuesta.");
       }
     } catch (error) {
-      console.error("Error en login:", error.response?.data || error.message);
+     
       throw error.response?.data?.msg || "Error en el servidor";
     }
   };

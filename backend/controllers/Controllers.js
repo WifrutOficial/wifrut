@@ -58,20 +58,11 @@ export const postRegister = async (req, res) => {
   }
 };
 
-// export const getMayoristas = async (req, res) => {
-//   try {
-//     const filtro = { tipoUsuario: "mayorista" };
-//     const mayoristas = await Register.find(filtro).select("-password -__v");
-//     res.json(mayoristas);
-//   } catch (error) {
-//     console.error("Error al obtener mayoristas:", error);
-//     res.status(500).json({ message: "Error de servidor al obtener mayoristas" });
-//   }
-// };
+
 
 export const postLogin = async (req, res) => {
   try {
-    console.log("Datos de inicio de sesión:", req.body);
+
     const { email, password } = req.body;
 
     const user = await Register.findOne({ email }).select("+password +phone");
@@ -96,8 +87,7 @@ export const postLogin = async (req, res) => {
 
     const isProd = process.env.NODE_ENV === "production";
 
-    // Set secure cookie for production, use non-secure for local dev
-    // const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProd,
@@ -108,7 +98,7 @@ export const postLogin = async (req, res) => {
 
     res.json({
       message: "Inicio de sesión exitoso",
-      token: token, // Include token in the response for browsers that block cookies
+      token: token,
       user: {
         id: user._id,
         nombre: user.nombre,
@@ -119,7 +109,7 @@ export const postLogin = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error en /api/login:", error);
+
     return res.status(500).json({ message: "Error en el servidor" });
   }
 };

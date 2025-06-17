@@ -5,12 +5,12 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Genera un número de pedido tipo "20250429-001"
+
 const generarNumeroDePedido = async () => {
   const hoy = new Date();
-  const fechaStr = hoy.toISOString().slice(0, 10).replace(/-/g, ""); // "20250429"
+  const fechaStr = hoy.toISOString().slice(0, 10).replace(/-/g, "");
 
- 
+
   const pedidosHoy = await Order.countDocuments({
     createdAt: {
       $gte: new Date(hoy.setHours(0, 0, 0, 0)),
@@ -19,7 +19,7 @@ const generarNumeroDePedido = async () => {
   });
 
   const numeroSecuencia = String(pedidosHoy + 1).padStart(3, "0");
-  return `${fechaStr}-${numeroSecuencia}`; 
+  return `${fechaStr}-${numeroSecuencia}`;
 };
 
 export const postProduct = async (req, res) => {
@@ -85,7 +85,7 @@ export const postProduct = async (req, res) => {
     const usuario = await Register.findById(userId);
     const emailCliente = usuario?.email;
     if (!emailCliente) {
-      console.warn("No se encontró email para el usuario:", userId);
+
       return res.status(201).json({
         message:
           "Pedido creado, pero no se pudo enviar el correo de confirmación.",
@@ -99,11 +99,11 @@ export const postProduct = async (req, res) => {
       .status(201)
       .json({ message: "Pedido creado exitosamente", order: newOrder });
   } catch (error) {
-     console.error("Error al crear el pedido:", error);
-  if (error.errors) console.error(error.errors);
 
-  // Solo una respuesta al cliente
-  return res.status(500).json({ message: error.message || "Error al procesar el pedido" });
+    if (error.errors) console.error(error.errors);
+
+    // Solo una respuesta al cliente
+    return res.status(500).json({ message: error.message || "Error al procesar el pedido" });
   }
 };
 
@@ -146,7 +146,7 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
     console.log("Correo enviado a", destinatarioEmail);
   } catch (error) {
     console.error("Error al enviar el correo:", error);
-    throw error; 
+    throw error;
   }
 };
 

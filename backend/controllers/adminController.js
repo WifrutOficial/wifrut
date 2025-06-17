@@ -25,12 +25,11 @@ export const cambiarEstadoAprobado = async (req, res) => {
         .json({ message: "No se encontró ningún registro para actualizar." });
     }
   } catch (error) {
-    console.error("Error al cambiar estado de cuenta:", error);
     res.status(500).json({ message: "Error del servidor" });
   }
 };
 
-export const getMayoristasAprobados = async (req, res) => {
+export const getMayoristasAprobados = async (res) => {
   try {
     const mayoristas = await MayoristaData.find()
       .populate("userId", "nombre email estadoCuenta")
@@ -47,7 +46,7 @@ export const getMayoristasAprobados = async (req, res) => {
   }
 };
 
-export const obtenerSolicitudesMayoristas = async (req, res) => {
+export const obtenerSolicitudesMayoristas = async (res) => {
   try {
     const usuarios = await Register.find({
       tipoUsuario: "mayorista",
@@ -60,7 +59,7 @@ export const obtenerSolicitudesMayoristas = async (req, res) => {
   }
 };
 
-export const obtenerDatosMayorista = async (req, res) => {
+export const obtenerDatosMayorista = async (res) => {
   try {
     const mayoristas = await MayoristaData.find()
       .populate({
@@ -82,7 +81,7 @@ export const obtenerDatosMayorista = async (req, res) => {
 
     res.status(200).json(mayoristasPendientes);
   } catch (error) {
-    console.error("Error en obtenerDatosMayorista:", error);
+
     res
       .status(500)
       .json({ message: "Error al obtener los datos.", error: error.message });

@@ -8,7 +8,7 @@ function BuscarPedidos() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // --- ✅ PASO 1: AÑADIR LA FUNCIÓN isKg ---
+
   const isKg = (tipoVenta) => {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
   };
@@ -40,7 +40,6 @@ function BuscarPedidos() {
 
     order.items.forEach((item) => {
       const nombre = item.nombre || "desconocido";
-      // --- ✅ PASO 2: USAR isKg PARA EL RESUMEN ---
       const tipo = isKg(item.tipoVenta) ? "kg" : "u.";
       const key = `${nombre}__${tipo}`;
 
@@ -121,7 +120,6 @@ function BuscarPedidos() {
                       {items.map((item, index) => (
                         <li key={index}>
                           {item.nombre || "desconocido"}: {item.cantidad}{" "}
-                          {/* --- ✅ PASO 2: USAR isKg EN EL DETALLE DEL PEDIDO --- */}
                           {isKg(item.tipoVenta) ? "kg" : "u."}
                         </li>
                       ))}

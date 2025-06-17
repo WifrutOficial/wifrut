@@ -45,7 +45,7 @@
   padding: 2px 5px;
 }
 
-/* 📱 Ajuste para pantallas pequeñas */
+
 @media (max-width: 1000px) {
 .title{
   font-size: 15px;

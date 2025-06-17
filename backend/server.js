@@ -14,18 +14,15 @@ import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
 import geocodingRoutes from "./routes/geocodingRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import http from "http";
-import { error } from "console";
+//import http from "http";
+//import { error } from "console";
 
 
-// ✨ LA LÍNEA MÁS IMPORTANTE: Cargamos las variables de entorno PRIMERO ✨
 dotenv.config();
 
 
 const app = express();
-// ==> AÑADE ESTA LÍNEA EXACTAMENTE AQUÍ <==
-//app.set('trust proxy', 1);
-//console.log("NODE_ENV:", process.env.NODE_ENV);
+
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -71,42 +68,7 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 //console.log(`Servidor corriendo en el puerto ${PORT}`);
 //});
 
-// const port = process.env.PORT || 3000;
-// app.set("port", port);
 
-/**
- * Create HTTP server.
- */
-
-// const server = http.createServer(app);
-
-// /**
-//  * Listen on provided port, on all network interfaces.
-//  */
-
-// // app.attach(server);
-// server.listen(port, "0.0.0.0", () => {
-//   console.log(`Server is running on http://0.0.0.0:${port}`);
-// });
-// server.on("error", (error) => {
-//   if (error.syscall !== "listen") {
-//     throw error;
-//   }
-//   const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
-//   switch (error.code) {
-//     case "EACCES":
-//       console.error(`${bind} requires elevated privileges`);
-//       process.exit(1);
-//       break;
-//     case "EADDRINUSE":
-//       console.error(`${bind} is already in use`);
-//       process.exit(1);
-//       break;
-//     default:
-//       throw error;
-//   }
-// });
-// AÑADE ESTA RUTA DE PRUEBA DIRECTA
 app.get("/api/test-directo", (req, res) => {
   res.status(200).send("Esta ruta directa en server.js SÍ funciona.");
 });

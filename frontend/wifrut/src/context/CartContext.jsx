@@ -17,7 +17,7 @@ export const CartProvider = ({ children }) => {
   const getStoredToken = () => {
     return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
   };
-  
+
   const addToCart = (product, quantity = 1) => {
     console.log("Producto a agregar al carrito:", product);
     console.log("Tipo de venta:", product.tipoVenta);
@@ -27,10 +27,10 @@ export const CartProvider = ({ children }) => {
         return prev.map((item) =>
           item._id === product._id
             ? {
-                ...item,
-                quantity: item.quantity + quantity,
-                tipoVenta: product.tipoVenta,
-              }
+              ...item,
+              quantity: item.quantity + quantity,
+              tipoVenta: product.tipoVenta,
+            }
             : item
         );
       } else {
@@ -121,15 +121,15 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      // Get token from localStorage
+
       const token = localStorage.getItem('token');
-      
-      // Prepare headers with Authorization if token exists
+
+
       const headers = {};
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
-      
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/order/create`,
         {

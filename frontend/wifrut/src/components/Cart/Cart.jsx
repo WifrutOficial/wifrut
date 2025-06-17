@@ -135,7 +135,7 @@ export default function Cart() {
         });
       }
     } catch (error) {
-      console.error("Error en el checkout:", error);
+    
       Swal.fire({
         title: "Error",
         text:

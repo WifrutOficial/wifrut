@@ -14,7 +14,7 @@ const twilioWebhookValidator = twilio.webhook({
   authToken: process.env.TWILIO_AUTH_TOKEN
 });
 
-// --- RUTAS DE PRUEBA Y PARA TU FRONTEND ---
+
 router.get("/send-whatsapp", getWhatsAppSend);
 router.get("/ordersByDate", getOrdersByDateWeb);
 
@@ -22,8 +22,6 @@ router.get("/ordersByDate", getOrdersByDateWeb);
 
 // Twilio usa esta ruta con GET para verificar la URL
 router.get("/webhook", verifyTwilioWebhook);
-
-// Todas las peticiones POST de Twilio ahora van aquí
 router.post("/webhook", twilioWebhookValidator, handleWhatsAppWebhook);
 
 export default router;

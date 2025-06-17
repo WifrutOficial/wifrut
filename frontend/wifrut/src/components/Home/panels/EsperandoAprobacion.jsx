@@ -30,15 +30,14 @@ function EsperandoAprobacion() {
           { withCredentials: true }
         );
   
-        console.log("🔍 Respuesta del backend:", response.data);
+       
   
         if (response.data.data) {
          
           const usuarioActual = response.data.data.userId;
           const usuarioAutenticado = authStatus.user.id;
   
-          console.log("✅ ID en base de datos:", usuarioActual);
-          console.log("✅ ID usuario autenticado:", usuarioAutenticado);
+      
   
           if (usuarioActual === usuarioAutenticado) {
             navigate("/paginadeespera");

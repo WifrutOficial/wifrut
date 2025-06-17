@@ -4,7 +4,7 @@ import style from "../../../../styles/ProductCarga.module.css";
 
 function Products() {
   const [retailFile, setRetailFile] = useState(null);
-  //const [wholesaleFile, setWholesaleFile] = useState(null);
+
 
   const handleFileChange = (e, type) => {
     if (type === "retail") {
@@ -22,13 +22,13 @@ function Products() {
       return;
     }
 
-    console.log("Archivo a subir:", file); 
+    console.log("Archivo a subir:", file);
     const formData = new FormData();
     formData.append("file", file);
 
     try {
       const response = await axios.post(
-       `${import.meta.env.VITE_API_URL}/api/products/${type}/upload`, 
+        `${import.meta.env.VITE_API_URL}/api/products/${type}/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -36,10 +36,10 @@ function Products() {
           timeout: 30000,
         }
       );
-      console.log("Respuesta del servidor:", response); 
+
       alert(response.data.message);
     } catch (error) {
-      console.error("Error al subir el archivo", error);
+
       if (error.response) {
         alert(`Error del servidor: ${error.response.data.message}`);
       } else if (error.request) {
@@ -52,11 +52,11 @@ function Products() {
 
   return (
     <div className={style.container1}>
-   
+
       <div className={style.containerGlass}>
         <p className={style.title}>Carga de Productos Minoristas</p>
         <div className={style.container}>
-          
+
           <input
             type="file"
             accept=".xlsx, .xls, .csv"
@@ -75,26 +75,9 @@ function Products() {
         </div>
       </div>
 
-     
+
       <div className={style.containerGlass}>
-       {/*  <div className={style.container}>
-          <p className={style.title}>Carga de Productos Mayoristas</p>
-          <input
-            type="file"
-            accept=".xlsx, .xls"
-            id="file-upload-wholesale"
-            onChange={(e) => handleFileChange(e, "wholesale")}
-            className={style.hiddenInput}
-          />
-          <div className={style.containerInfo}>
-            <label htmlFor="file-upload-wholesale" className={style.customFileButton}>
-              {wholesaleFile ? wholesaleFile.name : "Cargar Excel de Productos"}
-            </label>
-            <button className={style.btn} onClick={() => handleUpload(wholesaleFile, "wholesale")}>
-              Cargar Excel
-            </button>
-          </div>
-        </div> */}
+
       </div>
     </div>
   );

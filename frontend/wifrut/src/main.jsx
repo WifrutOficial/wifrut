@@ -46,7 +46,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/productos" element={<Products />} />
             </Route>
 
-            {/* Ruta protegida para usuarios pendientes */}
+          
             <Route element={<ProtectedRouter />}>
               <Route
                 path="/esperando-aprobacion"
@@ -59,7 +59,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/paginadeespera" element={<PaginaDeEspera />} />
             </Route>
 
-            {/* Ruta accesible tanto para mayoristas como minoristas */}
+          
             <Route
               element={
                 <ProtectedRouter allowedRoles={["minorista", "mayorista"]} />

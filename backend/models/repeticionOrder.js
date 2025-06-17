@@ -14,5 +14,5 @@ const repeticionOrderSchema = new mongoose.Schema({
   fecha: { type: Date, default: Date.now },
 });
 
-// Exportando el modelo como "default"
+
 export default mongoose.model('RepeticionOrder', repeticionOrderSchema);

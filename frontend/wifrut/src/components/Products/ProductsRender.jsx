@@ -64,7 +64,6 @@ function ProductsRender() {
 
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
 
-// En ProductsRender.jsx
 
 useEffect(() => {
   const getProductsBD = async () => {
@@ -74,19 +73,17 @@ useEffect(() => {
           const fetchedProducts = response.data;
           setProducts(fetchedProducts);
 
-          // --- ✅ NUEVO: INICIALIZAR LAS CANTIDADES POR DEFECTO ---
           const initialQuantities = {};
           fetchedProducts.forEach(product => {
-              // Si es por kilo, el valor inicial es kiloMinimo
               if (product.tipoVenta && product.tipoVenta.toLowerCase().includes("kilo")) {
                   initialQuantities[product._id] = product.kiloMinimo || 0.5;
               } else {
-                  // Si es por unidad, el valor inicial es 1
+                
                   initialQuantities[product._id] = 1;
               }
           });
           setQuantities(initialQuantities);
-          // --------------------------------------------------------
+        
 
       } catch (error) {
           console.error("Error al obtener productos:", error);
@@ -95,7 +92,7 @@ useEffect(() => {
       }
   };
   getProductsBD();
-}, [url]); // Añadimos 'url' como dependencias
+}, [url]);
 
   const isKg = (tipoVenta) => {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
@@ -280,11 +277,9 @@ useEffect(() => {
             <p className={style.description}>{descripcion}</p>
         )}
 
-        {/* ================================================================ */}
-        {/* AQUÍ COMIENZA LA MODIFICACIÓN: LÓGICA CONDICIONAL PARA EL STOCK   */}
-        {/* ================================================================ */}
+
         {stock > 0 ? (
-            // Bloque 1: Si HAY stock, se muestra la parte de compra
+         
             <>
             <p className={style.quantitySelection}>
                 Selecciona la cantidad:
@@ -302,7 +297,7 @@ useEffect(() => {
                 >
                 -
                 </button>
-                  {/* ✅ LÓGICA SIMPLIFICADA */}
+                 
     <span>
         {quantities[_id] || 0}{" "}
         {isKg(tipoVenta) ? "kg" : "unidades"}
@@ -341,7 +336,7 @@ useEffect(() => {
             </button>
             </>
         ) : (
-            // Bloque 2: Si NO HAY stock, se muestra el cartel
+           
             <div className={style.sinStockContainer}>
             <p className={style.sinStockText}>SIN STOCK</p>
             </div>

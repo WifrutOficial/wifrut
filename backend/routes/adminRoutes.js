@@ -8,10 +8,9 @@ import { obtenerDatosMayorista } from "../controllers/adminController.js";
 
 const router = Router();
 
-// Ruta para aprobar
 router.put("/aprobar-mayorista/:id", authRequired, isAdmin, cambiarEstadoAprobado);
 
-//ruta para obtener mayoristas SOLO LOS APROBADOS
+
 router.get(
   "/mayoristas-aprobados",
   authRequired,
@@ -19,7 +18,6 @@ router.get(
   getMayoristasAprobados
 );
 
-// Ruta para obtener las SOLICITUDES PENDIENTES de mayoristas
 router.get(
   "/solicitudes-mayoristas",
   authRequired,

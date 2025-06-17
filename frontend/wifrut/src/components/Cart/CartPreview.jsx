@@ -98,10 +98,10 @@ function CartPreview() {
                         className={style.miniImage}
                       />
                       <p>{item.nombre}</p>
-                                
-<p>
-  {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
-</p>
+
+                      <p>
+                        {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+                      </p>
                       <p>
                         $
                         {(

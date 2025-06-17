@@ -5,7 +5,7 @@ function ProtectedRouter({ allowedRoles = [] }) {
   const { isAuthenticated, user, loading } = useAuth();
   const location = useLocation();
 
-  // Show a loader while checking authentication
+ 
   if (loading) {
     return (
       <div style={{ 
@@ -43,16 +43,16 @@ function ProtectedRouter({ allowedRoles = [] }) {
     location.pathname !== "/contacto-mayorista" &&
     location.pathname !== "/paginadeespera" 
   ) {
-    console.log("Mayorista pending approval, redirecting to contact");
+
     return <Navigate to="/contacto-mayorista" replace />;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(user?.tipoUsuario)) {
-    console.log("User doesn't have required role:", user?.tipoUsuario);
+   
     return <Navigate to="/" replace />;
   }
 
-  console.log("Protected route access granted for:", user?.nombre);
+
   return <Outlet />;
 }
 

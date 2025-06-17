@@ -28,7 +28,7 @@
   scrollbar-color: #ccc transparent;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
-/* Estilos del scroll para navegadores WebKit (Chrome, Edge, etc.) */
+
 .Container::-webkit-scrollbar {
   width: 8px;
 }

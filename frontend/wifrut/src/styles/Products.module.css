@@ -358,28 +358,26 @@
   height: 40px;
 }
 
-/* Pega esto al final de tu archivo Products.module.css */
 
-/* Estilo para el contenedor del producto cuando no hay stock */
 .disabledProduct {
   opacity: 0.6;
-  filter: grayscale(80%); /* Lo pone en escala de grises para que se note más */
+  filter: grayscale(80%); 
 }
 
-/* Contenedor para el texto "SIN STOCK" */
+
 .sinStockContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: auto; /* Empuja el cartel hacia abajo */
+  margin-top: auto; 
   padding: 20px 0;
   width: 100%;
 }
 
-/* Estilo del texto "SIN STOCK" */
+
 .sinStockText {
   font-weight: bold;
-  color: #c0392b; /* Un color rojo */
+  color: #c0392b; 
   border: 2px solid #c0392b;
   padding: 8px 16px;
   border-radius: 5px;

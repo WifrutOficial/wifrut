@@ -31,7 +31,6 @@ const registerModel = new mongoose.Schema(
       minlength: 8,
       validate: {
         validator: function (value) {
-          // Asegurarse que la contraseña tenga al menos una mayúscula, un número y un símbolo
           const passwordRegex =
             /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
           return passwordRegex.test(value);
@@ -56,7 +55,7 @@ const registerModel = new mongoose.Schema(
   }
 );
 
-//cifrado de contraseña
+
 registerModel.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -69,7 +68,7 @@ registerModel.pre("save", async function (next) {
   }
 });
 
-// metodo de comparacion de contraseña
+
 registerModel.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
