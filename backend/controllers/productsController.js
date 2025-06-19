@@ -40,6 +40,7 @@ export const uploadExcel = async (req, res) => {
 
     const bulkOps = cleanProducts.map((product) => {
       const updateFields = { ...product };
+      
     if (product.tipoventa) {
       const tipoVentaRecibido = String(product.tipoventa).toLowerCase().trim();
 
@@ -56,6 +57,7 @@ export const uploadExcel = async (req, res) => {
       } else {
           updateFields.tipoVenta = "unidad";
       }
+      
       let precio = Number(product.precio);
       if (isNaN(precio)) {
         console.warn(`ADVERTENCIA: Precio inválido ('${product.precio}') para el producto '${product.nombre}'. Se establecerá en 0.`);
