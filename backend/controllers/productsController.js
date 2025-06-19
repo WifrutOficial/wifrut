@@ -40,7 +40,22 @@ export const uploadExcel = async (req, res) => {
 
     const bulkOps = cleanProducts.map((product) => {
       const updateFields = { ...product };
+    if (product.tipoventa) {
+      const tipoVentaRecibido = String(product.tipoventa).toLowerCase().trim();
 
+      if (tipoVentaRecibido.includes("kilo")) {
+          updateFields.tipoVenta = "kilo";
+      } else if (tipoVentaRecibido.includes("unidad")) {
+          updateFields.tipoVenta = "unidad";
+      } else if (tipoVentaRecibido.includes("litro")) {
+          updateFields.tipoVenta = "litro";
+      } else {
+          console.warn(`ADVERTENCIA: tipoVenta no reconocido ('${product.tipoventa}') para '${product.nombre}'. Se asignará 'unidad' por defecto.`);
+          updateFields.tipoVenta = "unidad";
+      }
+      } else {
+          updateFields.tipoVenta = "unidad";
+      }
       let precio = Number(product.precio);
       if (isNaN(precio)) {
         console.warn(`ADVERTENCIA: Precio inválido ('${product.precio}') para el producto '${product.nombre}'. Se establecerá en 0.`);

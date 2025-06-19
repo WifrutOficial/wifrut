@@ -37,7 +37,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 className={style.link} 
               >
-                WifrutOficial
+              Wifrut.Oficial
               </a>
             </p>
           </div>

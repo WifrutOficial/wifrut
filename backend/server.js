@@ -48,6 +48,10 @@ connectDB();
 
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
 // Rutas
 app.use("/api", authRoutes);
 app.use("/api/admin", adminRoutes);
