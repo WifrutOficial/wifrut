@@ -19,80 +19,52 @@ function ProductsRender() {
 
   const categoryIcons = {
     Frutas: (
-      <img
-        src="../../../apple.png"
-        alt="frutas"
-        className={style.iconCategories}
-      />
+      <img src="../../../apple.png" alt="frutas" className={style.iconCategories} />
     ),
     Verduras: (
-      <img
-        src="../../../vegetable.png"
-        alt="verduras"
-        className={style.iconCategories}
-      />
+      <img src="../../../vegetable.png" alt="verduras" className={style.iconCategories} />
     ),
     Hortalizas: (
-      <img
-        src="../../../carrot.png"
-        alt="Hortalizas"
-        className={style.iconCategories}
-      />
+      <img src="../../../carrot.png" alt="Hortalizas" className={style.iconCategories} />
     ),
     Gourmet: (
-      <img
-        src="../../../mushrooms.png"
-        alt="Gourmet"
-        className={style.iconCategories}
-      />
+      <img src="../../../mushrooms.png" alt="Gourmet" className={style.iconCategories} />
     ),
     Congelados: (
-      <img
-        src="../../../congelados.png"
-        alt="Congelados"
-        className={style.iconCategories}
-      />
-    ), 
+      <img src="../../../congelados.png" alt="Congelados" className={style.iconCategories} />
+    ),
     Canastas: (
-      <img
-        src="../../../canasta.png"
-        alt="Canastas"
-        className={style.iconCategories}
-      />
+      <img src="../../../canasta.png" alt="Canastas" className={style.iconCategories} />
     ),
   };
 
   const url = `${import.meta.env.VITE_API_URL}/api/products/productos`;
 
-
-useEffect(() => {
-  const getProductsBD = async () => {
+  useEffect(() => {
+    const getProductsBD = async () => {
       try {
-          setLoading(true);
-          const response = await axios.get(url, { withCredentials: true });
-          const fetchedProducts = response.data;
-          setProducts(fetchedProducts);
+        setLoading(true);
+        const response = await axios.get(url, { withCredentials: true });
+        const fetchedProducts = response.data;
+        setProducts(fetchedProducts);
 
-          const initialQuantities = {};
-          fetchedProducts.forEach(product => {
-              if (product.tipoVenta && product.tipoVenta.toLowerCase().includes("kilo")) {
-                  initialQuantities[product._id] = product.kiloMinimo || 0.5;
-              } else {
-                
-                  initialQuantities[product._id] = 1;
-              }
-          });
-          setQuantities(initialQuantities);
-        
-
+        const initialQuantities = {};
+        fetchedProducts.forEach(product => {
+          if (product.tipoVenta && product.tipoVenta.toLowerCase().includes("kilo")) {
+            initialQuantities[product._id] = product.kiloMinimo || 0.5;
+          } else {
+            initialQuantities[product._id] = 1;
+          }
+        });
+        setQuantities(initialQuantities);
       } catch (error) {
-          console.error("Error al obtener productos:", error);
+        console.error("Error al obtener productos:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
-  };
-  getProductsBD();
-}, [url]);
+    };
+    getProductsBD();
+  }, [url]);
 
   const isKg = (tipoVenta) => {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
@@ -250,101 +222,91 @@ useEffect(() => {
             </button>
 
             <div className={style.container} id={`scroll-${categoria}`}>
-    {items.map(
-    ({
-        _id,
-        nombre,
-        precio,
-        descripcion,
-        tipoVenta,
-        imagen,
-        kiloMinimo,
-        stock,
-    }) => (
-        <div key={_id} className={`${style.cartContainer} ${stock === 0 ? style.disabledProduct : ''}`}>
-        <img
-            className={style.img}
-            src={`/${imagen}`}
-            alt={nombre}
-        />
-
-        <p className={style.priceUnit}>
-            Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
-        </p>
-
-        <p className={style.productName}>{nombre}</p>
-        {descripcion && (
-            <p className={style.description}>{descripcion}</p>
-        )}
-
-
-        {stock > 0 ? (
-         
-            <>
-            <p className={style.quantitySelection}>
-                Selecciona la cantidad:
-            </p>
-            <div className={style.quantityContainer}>
-                <button
-                onClick={() =>
-                    handleQuantityChange(
-                    _id,
-                    tipoVenta,
-                    "decrement",
-                    kiloMinimo
-                    )
-                }
-                >
-                -
-                </button>
-                 
-    <span>
-        {quantities[_id] || 0}{" "}
-        {isKg(tipoVenta) ? "kg" : "unidades"}
-    </span>
-                <button
-                onClick={() =>
-                    handleQuantityChange(
-                    _id,
-                    tipoVenta,
-                    "increment",
-                    kiloMinimo
-                    )
-                }
-                >
-                +
-                </button>
-            </div>
-
-            <p className={style.total}>
-                Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
-            </p>
-
-            <button
-                className={style.addCart}
-                onClick={() =>
-                handleAddToCart({
+              {[...items]
+                .sort((a, b) => {
+                  if (a.stock === 0 && b.stock > 0) return 1;
+                  if (a.stock > 0 && b.stock === 0) return -1;
+                  return 0;
+                })
+                .map(
+                  ({
                     _id,
                     nombre,
                     precio,
+                    descripcion,
                     tipoVenta,
                     imagen,
-                })
-                }
-            >
-                Añadir a carrito
-            </button>
-            </>
-        ) : (
-           
-            <div className={style.sinStockContainer}>
-            <p className={style.sinStockText}>SIN STOCK</p>
+                    kiloMinimo,
+                    stock,
+                  }) => (
+                    <div key={_id} className={`${style.cartContainer} ${stock === 0 ? style.disabledProduct : ''}`}>
+                      <img className={style.img} src={`/${imagen}`} alt={nombre} />
+
+                      <p className={style.priceUnit}>
+                        Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
+                      </p>
+
+                      <p className={style.productName}>{nombre}</p>
+
+                      {descripcion && (
+                        <p className={style.description}>{descripcion}</p>
+                      )}
+
+                      {stock > 0 ? (
+                        <>
+                          <p className={style.quantitySelection}>
+                            Selecciona la cantidad:
+                          </p>
+                          <div className={style.quantityContainer}>
+                            <button
+                              onClick={() =>
+                                handleQuantityChange(_id, tipoVenta, "decrement", kiloMinimo)
+                              }
+                            >
+                              -
+                            </button>
+
+                            <span>
+                              {quantities[_id] || 0} {isKg(tipoVenta) ? "kg" : "unidades"}
+                            </span>
+
+                            <button
+                              onClick={() =>
+                                handleQuantityChange(_id, tipoVenta, "increment", kiloMinimo)
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <p className={style.total}>
+                            Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+                          </p>
+
+                          <button
+                            className={style.addCart}
+                            onClick={() =>
+                              handleAddToCart({
+                                _id,
+                                nombre,
+                                precio,
+                                tipoVenta,
+                                imagen,
+                              })
+                            }
+                          >
+                            Añadir a carrito
+                          </button>
+                        </>
+                      ) : (
+                        <div className={style.sinStockContainer}>
+                          <p className={style.sinStockText}>SIN STOCK</p>
+                        </div>
+                      )}
+                    </div>
+                  )
+                )}
             </div>
-        )}
-        </div>
-    )
-    )}
-</div>
 
             <button
               className={style.arrowRight}

@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+// Función para redondear a 2 decimales
+const redondear = (valor) => {
+  return Math.round(valor * 100) / 100;
+};
+
 const productSchema = new mongoose.Schema({
   nombre: {
     type: String,
@@ -10,13 +15,18 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
     trim: true,
+    set: redondear, // Redondea al guardar
   },
   descuento: {
     type: Number,
     trim: true,
     default: null,
+    set: redondear,
   },
-  precioConDescuento: Number,
+  precioConDescuento: {
+    type: Number,
+    set: redondear,
+  },
   categoria: {
     type: String,
     required: true,
@@ -37,15 +47,15 @@ const productSchema = new mongoose.Schema({
     enum: ["unidad", "litro", "kilo"],
     trim: true,
   },
-  kiloMinimo:{
-    type:Number,
-     enum: [0.5, 0.2, 0.25, 1, 2, 3],
+  kiloMinimo: {
+    type: Number,
+    enum: [0.5, 0.2, 0.25, 1, 2, 3],
     trim: true,
-
+    set: redondear,
   },
-  imagen:{
+  imagen: {
     type: String,
-    trim : true
+    trim: true,
   }
 });
 

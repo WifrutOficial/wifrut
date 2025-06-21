@@ -27,14 +27,13 @@ function Home() {
               </p>
               <p style="margin-bottom: 20px;">
                 <strong>HORARIOS DE ENTREGA:</strong><br />
-                10:30 a 13:30 y de 14:00 a 18:00
+                15:00 a 20:00
               </p>
-             <div style="margin-bottom:40px;">
+            <div style="margin-bottom:40px;">
                 <strong>PARA MÁS INFORMACIÓN:</strong>
                 <p> Consulte el apartado de envíos.</p>
-               
-              </div>
-             <small style="font-weight:bold">"Las imágenes son ilustraciones y no representan la realidad"</small>
+                            </div>
+            <small style="font-weight:bold">"Las imágenes son ilustraciones y no representan la realidad"</small>
           </div>
           </div>
         `,

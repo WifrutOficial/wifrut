@@ -60,20 +60,6 @@ function Footer() {
         <div className={style.contact}>
           <p>Copyright Wifrut - 2025. Todos los derechos reservados.</p>
         </div>
-        <div className={style.createBy}>
-          <p>Creado por </p>
-          <img
-            className={style.imgDev}
-            src="../../../LOGO COMPLETO.png"
-            alt="logoDev"
-          />
-          <p>{"< CODEX-Astra />"}</p>{" "}
-          <div className={style.contactDev}>
-            <a href="https://www.linkedin.com/in/maira-coria/">
-              <TbBrandLinktree />
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

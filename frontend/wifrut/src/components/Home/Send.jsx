@@ -84,12 +84,8 @@ function Send() {
             <div className={style.containerHorario}>
               {" "}
               <div className={style.continerHorio1}>
-                <p>Mañana:</p>
-                <p className={style.clockTime}>🚚 10:30 - 13:30 </p>
-              </div>
-              <div className={style.continerHorio1}>
                 <p>Tarde:</p>
-                <p className={style.clockTime}> 🚚 14:00 - 18:00</p>
+                <p className={style.clockTime}> 🚚 15:00 - 20:00</p>
               </div>
             </div>
           </div>
@@ -111,7 +107,6 @@ function Send() {
           ← Regresar a la página principal
         </button>
       </div>
- 
       {fromCart && (
         <div className={style.backHomeContainer}>
           <button className={style.backHomeButton} onClick={handleGoCart}>
@@ -126,3 +121,4 @@ function Send() {
 }
 
 export default Send;
+
