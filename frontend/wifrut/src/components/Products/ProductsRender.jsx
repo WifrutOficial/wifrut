@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import style from "../../styles/Products.module.css";
 
 function ProductsRender() {
+  const redondear = (valor) => Math.round(valor * 100) / 100;
   const [products, setProducts] = useState([]);
   const { isAuthenticated } = useAuth();
   const [quantities, setQuantities] = useState({});
@@ -70,34 +71,35 @@ function ProductsRender() {
     return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
   };
 
-  const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
-    const minimo = Number(kiloMinimo) || 0.5;
+const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
+  const minimo = Number(kiloMinimo) || 0.5;
 
-    setQuantities((prev) => {
-      const currentQty = prev[productId] || 0;
-      let newQty = currentQty;
+  setQuantities((prev) => {
+    const currentQty = prev[productId] || 0;
+    let newQty = currentQty;
 
-      if (isKg(tipoVenta)) {
-        if (action === "increment") {
-          newQty = currentQty + minimo;
-        } else if (action === "decrement") {
-          if (currentQty - minimo >= minimo) {
-            newQty = currentQty - minimo;
-          }
-        }
-      } else {
-        if (action === "increment") {
-          newQty = currentQty + 1;
-        } else if (action === "decrement") {
-          if (currentQty > 1) {
-            newQty = currentQty - 1;
-          }
+    if (isKg(tipoVenta)) {
+      if (action === "increment") {
+        newQty = redondear(currentQty + minimo);
+      } else if (action === "decrement") {
+        if (currentQty - minimo >= minimo) {
+          newQty = redondear(currentQty - minimo);
         }
       }
+    } else {
+      if (action === "increment") {
+        newQty = redondear(currentQty + 1);
+      } else if (action === "decrement") {
+        if (currentQty > 1) {
+          newQty = redondear(currentQty - 1);
+        }
+      }
+    }
 
-      return { ...prev, [productId]: newQty };
-    });
-  };
+    return { ...prev, [productId]: newQty };
+  });
+};
+
 
   const handleAddToCart = (product) => {
     if (!isAuthenticated) {

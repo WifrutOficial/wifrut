@@ -19,6 +19,29 @@ export default function Cart() {
   const [costoEnvio, setCostoEnvio] = useState(0);
   const [loading, setLoading] = useState(false);
   const [turno, setTurno] = useState("");
+  const [fechaEntrega, setFechaEntrega] = useState("");
+  const [diasDisponibles, setDiasDisponibles] = useState([]);
+
+  useEffect(() => {
+  const calcularDiasDisponibles = () => {
+    const hoy = new Date();
+    const dias = [];
+
+    for (let i = 1; dias.length < 5; i++) {
+      const fecha = new Date();
+      fecha.setDate(hoy.getDate() + i);
+      const diaSemana = fecha.getDay(); // 0 = domingo, 6 = sábado
+
+      if (diaSemana >= 1 && diaSemana <= 5) {
+        dias.push(fecha.toISOString().slice(0, 10)); // formato YYYY-MM-DD
+      }
+    }
+
+    setDiasDisponibles(dias);
+  };
+
+  calcularDiasDisponibles();
+}, []);
 
   useEffect(() => {
     if (location.state) {
@@ -81,30 +104,63 @@ export default function Cart() {
 
   const { user } = useAuth();
 
-  const handleCheckout = async () => {
-    if (!metodoPago) {
-      Swal.fire({
-        title: false,
-        text: "Por favor selecciona un método de pago.",
-        icon: "warning",
-        timer: 2500,
-        showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIcon,
-        },
-      });
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await checkout(
-        direccion,
-        metodoPago,
-        totalFinal,
-        costoEnvio,
-        turno
-      );
+ const handleCheckout = async () => {
+  if (!metodoPago) {
+    Swal.fire({
+      title: false,
+      text: "Por favor selecciona un método de pago.",
+      icon: "warning",
+      timer: 2500,
+      showConfirmButton: false,
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIcon,
+      },
+    });
+    return;
+  }
+
+  if (!turno) {
+    Swal.fire({
+      title: false,
+      text: "Por favor seleccioná un horario de entrega.",
+      icon: "warning",
+      timer: 2500,
+      showConfirmButton: false,
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIcon,
+      },
+    });
+    return;
+  }
+
+  if (!fechaEntrega) {
+    Swal.fire({
+      title: false,
+      text: "Por favor seleccioná un día de entrega.",
+      icon: "warning",
+      timer: 2500,
+      showConfirmButton: false,
+      customClass: {
+        popup: style.customAlert,
+        icon: style.customIcon,
+      },
+    });
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await checkout(
+      direccion,
+      metodoPago,
+      totalFinal,
+      costoEnvio,
+      turno,
+      fechaEntrega // <-- si querés mandarlo al backend
+    );
+
       if (response && response.status === 201) {
         Swal.fire({
           title: "¡Gracias por elegir Wifrut!",
@@ -331,18 +387,54 @@ export default function Cart() {
                     </span>
                   </p>
                 </div>
+<div className={style.bloqueEntrega}>
+  <h4 className={style.tituloBloqueEntrega}>📦 Día y horario de entrega</h4>
 
-                <p>Elegir el horario de envío ⏰</p>
-                <div>
-                  <div className={style.mañanaTardeContainer}>
-                    <label htmlFor="mañana">Mañana: 10:30 a 13:30</label>
-                    <input type="radio" id="mañana" name="turno" value="mañana" onChange={handleChange} />
-                  </div>
-                  <div className={style.mañanaTardeContainer}>
-                    <label htmlFor="tarde">Tarde: 14:00 a 18:00</label>
-                    <input type="radio" id="tarde" name="turno" value="tarde" onChange={handleChange} />
-                  </div>
-                </div>
+ <div className={style.inputEnvio}>
+  <p>Horario de entrega:</p>
+  <div className={style.opcionHorario}>
+    <span>Tarde: 15:00 a 20:00</span>
+    <input
+      type="radio"
+      id="tarde"
+      name="turno"
+      value="tarde"
+      checked={turno === "tarde"}
+      onChange={handleChange}
+    />
+  </div>
+</div>
+
+
+  {/* Día de entrega */}
+  <div className={style.inputEnvio}>
+    <p className={style.labelEntrega}>📅 Elegí el día de entrega</p>
+    {diasDisponibles.length > 0 ? (
+      <select
+        className={style.zonaSelect}
+        value={fechaEntrega}
+        onChange={(e) => setFechaEntrega(e.target.value)}
+      >
+        <option value="">-- Seleccioná un día --</option>
+        {diasDisponibles.map((fecha) => (
+          <option key={fecha} value={fecha}>
+            {new Date(fecha + "T00:00:00").toLocaleDateString("es-AR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}
+          </option>
+        ))}
+      </select>
+    ) : (
+      <p style={{ color: "red", fontSize: "0.95rem" }}>
+        No hay días disponibles para entrega en este momento.
+      </p>
+    )}
+  </div>
+</div>
+
+
             </div>
           </div>
 

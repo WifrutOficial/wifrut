@@ -18,37 +18,40 @@ export const CartProvider = ({ children }) => {
     return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
   };
 
-  const addToCart = (product, quantity = 1) => {
-    console.log("Producto a agregar al carrito:", product);
-    console.log("Tipo de venta:", product.tipoVenta);
-    setCart((prev) => {
-      const existingProduct = prev.find((item) => item._id === product._id);
-      if (existingProduct) {
-        return prev.map((item) =>
-          item._id === product._id
-            ? {
+ const addToCart = (product, quantity = 1) => {
+  console.log("Producto a agregar al carrito:", product);
+  console.log("Tipo de venta:", product.tipoVenta);
+
+  const redondear = (valor) => Math.round(valor * 100) / 100;
+
+  setCart((prev) => {
+    const existingProduct = prev.find((item) => item._id === product._id);
+    if (existingProduct) {
+      return prev.map((item) =>
+        item._id === product._id
+          ? {
               ...item,
-              quantity: item.quantity + quantity,
+              quantity: redondear(item.quantity + quantity),
               tipoVenta: product.tipoVenta,
             }
-            : item
-        );
-      } else {
-        return [
-          ...prev,
-          {
-            ...product,
-            quantity,
-            tipoVenta: product.tipoVenta,
-            precio: Number(product.precio),
-            precioConDescuento: isNaN(Number(product.precioConDescuento))
-              ? null
-              : Number(product.precioConDescuento),
-          },
-        ];
-      }
-    });
-  };
+          : item
+      );
+    } else {
+      return [
+        ...prev,
+        {
+          ...product,
+          quantity: redondear(quantity),
+          tipoVenta: product.tipoVenta,
+          precio: Number(product.precio),
+          precioConDescuento: isNaN(Number(product.precioConDescuento))
+            ? null
+            : redondear(Number(product.precioConDescuento)),
+        },
+      ];
+    }
+  });
+};
 
 
   const removeFromCart = (productId) => {

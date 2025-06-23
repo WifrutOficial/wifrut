@@ -122,17 +122,18 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
     )
     .join("");
 
-  const contenidoHTML = `
-     <h2>¡Gracias por elegir Wifrut!</h2>
-     <p><strong>Número de pedido:</strong> ${orderData.numeroPedido}</p>
-     <p>Resumen del pedido:</p>
-     <ul>${productosHTML}</ul>
-     <p><strong>Total:</strong> $${orderData.total}</p>
-     <p>*Info:El total incluye el costo de envío y refleja automáticamente cualquier descuento aplicado si se abona en efectivo<p/> 
-     <p><strong>Dirección de entrega:</strong> ${orderData.direccion}</p>
-     <p><strong>Método de pago:</strong> ${orderData.metodoPago}</p>
-     <p>¡Gracias por tu compra! Nos aseguraremos de que tu pedido llegue lo antes posible.</p>
-  `;
+const contenidoHTML = `
+  <h2>¡Gracias por elegir Wifrut!</h2>
+  <p><strong>Número de pedido:</strong> ${orderData.numeroPedido}</p>
+  <p>Resumen del pedido:</p>
+  <ul>${productosHTML}</ul>
+  <p><strong>Total:</strong> $${orderData.total}</p>
+  <p>*Info: El total incluye el costo de envío y refleja automáticamente cualquier descuento aplicado si se abona en efectivo.</p>
+  <p><strong>Dirección de entrega:</strong> ${orderData.direccion}</p>
+  <p><strong>Fecha de entrega:</strong> ${orderData.fechaEntrega}</p>
+  <p><strong>Método de pago:</strong> ${orderData.metodoPago}</p>
+  <p>¡Gracias por tu compra! Nos aseguraremos de que tu pedido llegue lo antes posible.</p>
+`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,

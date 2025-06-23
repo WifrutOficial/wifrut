@@ -44,7 +44,7 @@ function Nav2({ hideSearchAndCart = false }) {
   useEffect(() => {
     const intervalo = setInterval(() => {
       setIndice((prev) => (prev + 1) % mensajes.length);
-    }, 30000);
+    }, 15000);
 
     return () => clearInterval(intervalo);
   }, []);
