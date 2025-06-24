@@ -209,7 +209,6 @@ function Register() {
               onChange={(e) => handleChange("tipoUsuario", e.target.value)}
             >
               <option value="">Seleccionar tipo de usuario</option>
-              <option value="mayorista">Mayorista</option>
               <option value="minorista">Minorista</option>
             </select>
             {errors.tipoUsuario && (
