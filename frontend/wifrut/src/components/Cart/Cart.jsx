@@ -23,25 +23,24 @@ export default function Cart() {
   const [diasDisponibles, setDiasDisponibles] = useState([]);
 
   useEffect(() => {
-  const calcularDiasDisponibles = () => {
-    const hoy = new Date();
-    const dias = [];
+    const calcularDiasDisponibles = () => {
+      const hoy = new Date();
+      const dias = [];
 
-    for (let i = 1; dias.length < 5; i++) {
-      const fecha = new Date();
-      fecha.setDate(hoy.getDate() + i);
-      const diaSemana = fecha.getDay(); // 0 = domingo, 6 = sábado
-
-      if (diaSemana >= 1 && diaSemana <= 5) {
-        dias.push(fecha.toISOString().slice(0, 10)); // formato YYYY-MM-DD
+      for (let i = 1; dias.length < 5; i++) {
+        const fecha = new Date();
+        fecha.setDate(hoy.getDate() + i);
+        const diaSemana = fecha.getDay();
+        if (diaSemana >= 1 && diaSemana <= 5) {
+          dias.push(fecha.toISOString().slice(0, 10));
+        }
       }
-    }
 
-    setDiasDisponibles(dias);
-  };
+      setDiasDisponibles(dias);
+    };
 
-  calcularDiasDisponibles();
-}, []);
+    calcularDiasDisponibles();
+  }, []);
 
   useEffect(() => {
     if (location.state) {
@@ -53,16 +52,13 @@ export default function Cart() {
     }
   }, [location.state]);
 
-  const handleChange = (e) => {
-    setTurno(e.target.value);
-  };
+  const handleChange = (e) => setTurno(e.target.value);
 
   const zonasEnvio = zonasGeo.features
-    .filter(feature => feature.geometry.type === "Polygon")
-    .map((feature) => {
-      const name =
-        feature.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
-      const desc = feature.properties.description || "";
+    .filter((f) => f.geometry.type === "Polygon")
+    .map((f) => {
+      const name = f.properties.name?.trim().replace(/\n/g, "") || "Zona sin nombre";
+      const desc = f.properties.description || "";
       const match = desc.match(/\d+/);
       const precio = match ? parseInt(match[0]) : 0;
       return { nombre: name, precio };
@@ -76,7 +72,7 @@ export default function Cart() {
   const handlePagoChange = (metodo) => setMetodoPago(metodo);
 
   const handleNextStep = () => {
-    if (total < 25000) {
+    if (step === 1 && total < 25000) {
       Swal.fire({
         title: "Compra mínima",
         text: "El monto mínimo de compra es de $25.000 para poder continuar.",
@@ -88,7 +84,7 @@ export default function Cart() {
       return;
     }
 
-    if (!direccion.trim() || !zonaSeleccionada) {
+    if (step === 2 && (!direccion.trim() || !zonaSeleccionada)) {
       Swal.fire({
         title: false,
         text: "Por favor ingresa una dirección y selecciona una zona válida.",
@@ -99,111 +95,56 @@ export default function Cart() {
       });
       return;
     }
-    setStep(2);
+
+    if (step === 3 && (!turno || !fechaEntrega)) {
+      Swal.fire({
+        title: false,
+        text: "Por favor seleccioná un día y horario de entrega.",
+        icon: "warning",
+        timer: 2500,
+        showConfirmButton: false,
+        customClass: { popup: style.customAlert, icon: style.customIcon },
+      });
+      return;
+    }
+
+    setStep((prev) => prev + 1);
   };
 
   const { user } = useAuth();
 
- const handleCheckout = async () => {
-  if (!metodoPago) {
-    Swal.fire({
-      title: false,
-      text: "Por favor selecciona un método de pago.",
-      icon: "warning",
-      timer: 2500,
-      showConfirmButton: false,
-      customClass: {
-        popup: style.customAlert,
-        icon: style.customIcon,
-      },
-    });
-    return;
-  }
-
-  if (!turno) {
-    Swal.fire({
-      title: false,
-      text: "Por favor seleccioná un horario de entrega.",
-      icon: "warning",
-      timer: 2500,
-      showConfirmButton: false,
-      customClass: {
-        popup: style.customAlert,
-        icon: style.customIcon,
-      },
-    });
-    return;
-  }
-
-  if (!fechaEntrega) {
-    Swal.fire({
-      title: false,
-      text: "Por favor seleccioná un día de entrega.",
-      icon: "warning",
-      timer: 2500,
-      showConfirmButton: false,
-      customClass: {
-        popup: style.customAlert,
-        icon: style.customIcon,
-      },
-    });
-    return;
-  }
-
-  setLoading(true);
-  try {
-    const response = await checkout(
-      direccion,
-      metodoPago,
-      totalFinal,
-      costoEnvio,
-      turno,
-      fechaEntrega // <-- si querés mandarlo al backend
-    );
-
-      if (response && response.status === 201) {
+  const handleCheckout = async () => {
+    if (!metodoPago || !turno || !fechaEntrega) return;
+    setLoading(true);
+    try {
+      const response = await checkout(
+        direccion,
+        metodoPago,
+        totalFinal,
+        costoEnvio,
+        turno,
+        fechaEntrega
+      );
+      if (response?.status === 201) {
         Swal.fire({
           title: "¡Gracias por elegir Wifrut!",
-          text: `Tu pedido nº ${response.data.order.numeroPedido}. ha sido recibido. Te enviamos un mail con el detalle de tu compra a ${user.email}`,
+          text: `Tu pedido nº ${response.data.order.numeroPedido}. ha sido recibido.`,
           icon: "success",
-          showConfirmButton: true,
           confirmButtonText: "Aceptar",
-          customClass: {
-            popup: style.customAlert,
-            icon: style.customIconSuc,
-          },
+          customClass: { popup: style.customAlert, icon: style.customIconSuc },
         }).then(() => {
           clearCart();
           navigate("/");
         });
-
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un error al procesar tu pedido.",
-          icon: "error",
-          timer: 2500,
-          showConfirmButton: false,
-          customClass: {
-            popup: style.customAlert,
-            icon: style.customIcon,
-          },
-        });
       }
     } catch (error) {
-    
       Swal.fire({
         title: "Error",
-        text:
-          error.response?.data?.message ||
-          "Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.",
+        text: error.response?.data?.message || "Error al procesar el pedido.",
         icon: "error",
         timer: 3000,
         showConfirmButton: false,
-        customClass: {
-          popup: style.customAlert,
-          icon: style.customIcon,
-        },
+        customClass: { popup: style.customAlert, icon: style.customIcon },
       });
     } finally {
       setLoading(false);
@@ -213,56 +154,42 @@ export default function Cart() {
   const confirmarVaciarCarrito = () => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: "Vas a vaciar el carrito y no podrás deshacer esta acción.",
+      text: "Vas a vaciar el carrito.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, vaciar carrito",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#247504",
       cancelButtonColor: "#B90003",
-      customClass: {
-        popup: style.customAlert,
-        icon: style.customIcon,
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        clearCart();
-        console.log("Carrito vaciado");
-      }
-    });
+      customClass: { popup: style.customAlert, icon: style.customIcon },
+    }).then((r) => r.isConfirmed && clearCart());
   };
 
-  const isKg = (tipoVenta) => {
-    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
-  };
+  const isKg = (tipoVenta) => tipoVenta?.toLowerCase().includes("kilo");
 
   return (
     <div className={style.container}>
       <h2 className={style.title}>Carrito de Compras</h2>
-      {cart.length > 0 && (
-        <div className={style.lineTime}>
-          <div className={`${style.step} ${style.completed}`}>
-            <span className={style.stepNumber}>1</span>
-            <p>Productos</p>
-          </div>
-          <div
-            className={`${style.step} ${
-              direccion.trim() && zonaSeleccionada ? style.completed : ""
-            }`}
-          >
-            <span className={style.stepNumber}>2</span>
-            <p>Dirección</p>
-          </div>
-          <div
-            className={`${style.step} ${
-              step === 2 && metodoPago ? style.completed : ""
-            }`}
-          >
-            <span className={style.stepNumber}>3</span>
-            <p>Método de Pago</p>
-          </div>
-        </div>
-      )}
+  {cart.length > 0 && (
+  <div className={style.lineTime}>
+    <div className={`${style.step} ${style.completed}`}>
+      <span className={style.stepNumber}>1</span>
+      <p>Productos</p>
+    </div>
+    <div className={`${style.step} ${direccion.trim() && zonaSeleccionada ? style.completed : ""}`}>
+      <span className={style.stepNumber}>2</span>
+      <p>Dirección</p>
+    </div>
+    <div className={`${style.step} ${turno && fechaEntrega ? style.completed : ""}`}>
+      <span className={style.stepNumber}>3</span>
+      <p>Entrega</p>
+    </div>
+    <div className={`${style.step} ${metodoPago ? style.completed : ""}`}>
+      <span className={style.stepNumber}>4</span>
+      <p>Método de Pago</p>
+    </div>
+  </div>
+)}
 
       {cart.length === 0 ? (
         <div className={style.emptyCartContainer}>
@@ -289,35 +216,37 @@ export default function Cart() {
             onClick={() => navigate("/")}
             aria-label="Volver a la página principal"
           />
+<div className={style.cartScrollBox}>
+  <ul className={style.cart}>
+    {cart.map((item, index) => {
+      const precioFinal = item.precioConDescuento ?? item.precio;
+      return (
+        <li key={item._id || index} className={style.cartItem}>
+          <img
+            src={`/${item.imagen}`}
+            alt={item.nombre}
+            className={style.miniImage}
+          />
+          <p>{item.nombre}</p>
+          <p>
+            {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+          </p>
+          <p className={style.priceTotal}>
+            ${(precioFinal * item.quantity).toFixed(2)}
+          </p>
+          <button
+            onClick={() => removeFromCart(item._id)}
+            className={style.btnDelete}
+            aria-label={`Eliminar ${item.nombre} del carrito`}
+          >
+            <IoTrashOutline />
+          </button>
+        </li>
+      );
+    })}
+  </ul>
+</div>
 
-          <ul className={style.cart}>
-            {cart.map((item, index) => {
-              const precioFinal = item.precioConDescuento ?? item.precio;
-              return (
-                <li key={item._id || index} className={style.cartItem}>
-                  <img
-                    src={`/${item.imagen}`}
-                    alt={item.nombre}
-                    className={style.miniImage}
-                  />
-                  <p>{item.nombre}</p>
-                  <p>
-                    {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
-                  </p>
-                  <p className={style.priceTotal}>
-                    ${(precioFinal * item.quantity).toFixed(2)}
-                  </p>
-                  <button
-                    onClick={() => removeFromCart(item._id)}
-                    className={style.btnDelete}
-                    aria-label={`Eliminar ${item.nombre} del carrito`}
-                  >
-                    <IoTrashOutline />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
 
           <hr />
           
@@ -390,8 +319,7 @@ export default function Cart() {
 <div className={style.bloqueEntrega}>
   <h4 className={style.tituloBloqueEntrega}>📦 Día y horario de entrega</h4>
 
- <div className={style.inputEnvio}>
-  <p>Horario de entrega:</p>
+  <div className={style.inputEnvio}>
   <div className={style.opcionHorario}>
     <span>Tarde: 15:00 a 20:00</span>
     <input
@@ -450,7 +378,7 @@ export default function Cart() {
           )}
 
           <p className={style.fullTotal}>
-            Total Final: ${totalFinal.toFixed(2)}
+            Total del pago: ${totalFinal.toFixed(2)}
           </p>
 
           {step === 2 && (

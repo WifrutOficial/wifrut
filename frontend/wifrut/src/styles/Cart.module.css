@@ -190,9 +190,7 @@ padding: 5px 5px;
   transition: transform 0.3s ease;
 }
 
-.title:hover {
-  transform: scale(1.08);
-}
+
 .containerCart {
   background-color: #d4d4d415;
   backdrop-filter: blur(20px);
@@ -203,39 +201,72 @@ padding: 5px 5px;
   flex-direction: column;
   width: min(100%, 800px);
   min-width: 345px;
-
   position: relative;
+
+  /* 🔒 Fijamos altura máxima y que no crezca más */
+  max-height: 90vh;
+  overflow: hidden;
 }
+/* Firefox */
+.cartStepContent,
+.cart {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent; /* <== acá el fondo es transparente */
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.cartStepContent::-webkit-scrollbar,
+.cart::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cartStepContent::-webkit-scrollbar-thumb,
+.cart::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4); /* barrita visible */
+  border-radius: 10px;
+}
+
+.cartStepContent::-webkit-scrollbar-track,
+.cart::-webkit-scrollbar-track {
+  background: transparent; /* ⛔ sin fondo visible */
+}
+
 
 .cart {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  padding: 30px;
-  flex: 1;
-  max-height: 300px;
+  gap: 10px;
+  max-height: 200px; /* para 3 ítems visibles */
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
+  padding-right: 8px;
 }
 
 .cartItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 12px;
   color: #000;
-  font-size: 12px;
-  font-weight: 200;
+  font-size: 14px;
+  font-weight: 400;
   width: 100%;
-  flex: 1;
+  padding: 2px 0;
+}
+
+.cartItem img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .cartItem p {
   flex: 1;
   font-weight: 600;
+  margin: 0;
 }
+
+
 
 .total {
   display: flex;
@@ -605,3 +636,13 @@ hr {
   font-weight: 600;   /* Opcional: más grueso */
   color: #000;        /* Asegura que sea negro y no gris */
 }
+.title {
+  font-weight: 900;         /* más grueso */
+  font-size: 32px;          /* un poco más grande si querés que impacte más */
+  text-align: center;
+  color: #000;              /* negro real, no verde (#005234) */
+  letter-spacing: 1px;      /* un poco menos para mejor legibilidad */
+  transition: transform 0.3s ease;
+  text-shadow: 0 0 0.5px #00000050; /* mejora contraste sin ensuciar */
+}
+
