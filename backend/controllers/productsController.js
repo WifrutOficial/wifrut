@@ -1,4 +1,5 @@
 import XLSX from "xlsx";
+import iconv from "iconv-lite"; // ✅ nuevo import
 import { Product } from "../models/products.js";
 
 export const uploadExcel = async (req, res) => {
@@ -7,9 +8,9 @@ export const uploadExcel = async (req, res) => {
       return res.status(400).json({ message: "No se ha subido ningún archivo" });
     }
 
-
-    const workbook = XLSX.read(req.file.buffer, { type: "buffer", codepage: 65001 });
-
+    // ✅ Decodificamos correctamente el buffer a UTF-8
+    const decodedBuffer = iconv.decode(req.file.buffer, "utf8");
+    const workbook = XLSX.read(decodedBuffer, { type: "string" });
 
     if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
       return res.status(400).json({ message: "El archivo de Excel está vacío o no tiene hojas." });
@@ -28,7 +29,6 @@ export const uploadExcel = async (req, res) => {
       const cleanedProduct = {};
       for (const key in product) {
         if (key && !key.startsWith("__") && product[key] !== null && product[key] !== "") {
-
           const cleanedKey = key.trim().toLowerCase();
           const cleanedValue = typeof product[key] === "string" ? product[key].trim() : product[key];
           cleanedProduct[cleanedKey] = cleanedValue;
@@ -37,27 +37,26 @@ export const uploadExcel = async (req, res) => {
       return cleanedProduct;
     }).filter(p => p.nombre);
 
-
     const bulkOps = cleanProducts.map((product) => {
       const updateFields = { ...product };
-      
-    if (product.tipoventa) {
-      const tipoVentaRecibido = String(product.tipoventa).toLowerCase().trim();
 
-      if (tipoVentaRecibido.includes("kilo")) {
+      if (product.tipoventa) {
+        const tipoVentaRecibido = String(product.tipoventa).toLowerCase().trim();
+
+        if (tipoVentaRecibido.includes("kilo")) {
           updateFields.tipoVenta = "kilo";
-      } else if (tipoVentaRecibido.includes("unidad")) {
+        } else if (tipoVentaRecibido.includes("unidad")) {
           updateFields.tipoVenta = "unidad";
-      } else if (tipoVentaRecibido.includes("litro")) {
+        } else if (tipoVentaRecibido.includes("litro")) {
           updateFields.tipoVenta = "litro";
-      } else {
+        } else {
           console.warn(`ADVERTENCIA: tipoVenta no reconocido ('${product.tipoventa}') para '${product.nombre}'. Se asignará 'unidad' por defecto.`);
           updateFields.tipoVenta = "unidad";
-      }
+        }
       } else {
-          updateFields.tipoVenta = "unidad";
+        updateFields.tipoVenta = "unidad";
       }
-      
+
       let precio = Number(product.precio);
       if (isNaN(precio)) {
         console.warn(`ADVERTENCIA: Precio inválido ('${product.precio}') para el producto '${product.nombre}'. Se establecerá en 0.`);
@@ -73,7 +72,6 @@ export const uploadExcel = async (req, res) => {
       } else {
         updateFields.precioConDescuento = precio;
       }
-
 
       if (product.kilominimo !== undefined) {
         const kiloMin = Number(product.kilominimo);
@@ -97,14 +95,12 @@ export const uploadExcel = async (req, res) => {
       await Product.bulkWrite(bulkOps);
     }
 
-
     const productNamesFromExcel = new Set(cleanProducts.map(p => p.nombre));
     const productsToDelete = await Product.find({ nombre: { $nin: [...productNamesFromExcel] } }, '_id');
 
     if (productsToDelete.length > 0) {
       const idsToDelete = productsToDelete.map(p => p._id);
       await Product.deleteMany({ _id: { $in: idsToDelete } });
-
     }
 
     res.status(200).json({
@@ -113,10 +109,10 @@ export const uploadExcel = async (req, res) => {
       eliminados: productsToDelete.length,
     });
   } catch (error) {
-
-
     if (error.name === 'CastError') {
-      return res.status(400).json({ message: `Error de tipo de dato en el archivo. Revisa que las columnas como 'precio' y 'descuento' solo contengan números. Detalle: ${error.message}` });
+      return res.status(400).json({
+        message: `Error de tipo de dato en el archivo. Revisa que las columnas como 'precio' y 'descuento' solo contengan números. Detalle: ${error.message}`
+      });
     }
     res.status(500).json({ message: "Error interno al procesar el archivo" });
   }
@@ -127,7 +123,6 @@ export const getProducts = async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);
   } catch (error) {
-
     res.status(500).json({ message: "Error al obtener los productos" });
   }
 };
