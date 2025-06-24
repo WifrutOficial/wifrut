@@ -167,3 +167,28 @@ export const getUserOrders = async (req, res) => {
     res.status(500).json({ message: "Error al obtener pedidos" });
   }
 };
+export const actualizarEstadoPedido = async (req, res) => {
+  try {
+    const { id, nuevoEstado } = req.body;
+
+    const estadosValidos = ["pendiente", "procesando", "enviado", "entregado"];
+    if (!estadosValidos.includes(nuevoEstado)) {
+      return res.status(400).json({ error: "Estado no válido." });
+    }
+
+    const pedidoActualizado = await Order.findByIdAndUpdate(
+      id,
+      { status: nuevoEstado },
+      { new: true }
+    );
+
+    if (!pedidoActualizado) {
+      return res.status(404).json({ error: "Pedido no encontrado." });
+    }
+
+    res.json(pedidoActualizado);
+  } catch (error) {
+    console.error("Error al actualizar estado:", error);
+    res.status(500).json({ error: "Error del servidor." });
+  }
+};

@@ -32,10 +32,11 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: String,
-    enum: ["pendiente", "procesando", "enviado", "entregado"],
-    default: "pendiente",
-  },
+  type: String,
+  enum: ["pendiente", "procesando", "enviado", "entregado"],
+  default: "pendiente",
+},
+
   paymentStatus: {
     type: String,
     enum: ["aprobado", "pendiente", "fallido"],
@@ -49,13 +50,12 @@ const orderSchema = new mongoose.Schema({
     required: true,
     unique: true, 
   },
- turno: {
+  turno: {
   type: String,
   enum: ["mañana", "tarde"],
   default: "mañana",
   
 },
-
   createdAt: {
     type: Date,
     default: Date.now,

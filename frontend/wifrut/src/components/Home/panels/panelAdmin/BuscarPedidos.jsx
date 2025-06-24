@@ -8,10 +8,7 @@ function BuscarPedidos() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
-  const isKg = (tipoVenta) => {
-    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
-  };
+  const isKg = (tipoVenta) => tipoVenta && tipoVenta.toLowerCase().includes("kilo");
 
   const fetchOrdersByDate = async () => {
     if (!date) return alert("Selecciona una fecha");
@@ -19,9 +16,7 @@ function BuscarPedidos() {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/whatsapp/ordersByDate?date=${date}`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       setOrders(response.data);
     } catch (error) {
@@ -31,6 +26,24 @@ function BuscarPedidos() {
       setLoading(false);
     }
   };
+
+const cambiarEstadoPedido = async (id, nuevoEstado) => {
+  try {
+    console.log("🔄 Llamando a la API con:", { id, nuevoEstado });
+
+    const response = await axios.put(
+      `${import.meta.env.VITE_API_URL}/api/order/estado`,
+      { id, nuevoEstado },
+      { withCredentials: true }
+    );
+
+    console.log("✅ Respuesta del backend:", response.data);
+    fetchOrdersByDate();
+  } catch (error) {
+    console.error("❌ Error:", error.response?.data || error.message);
+  }
+};
+
 
   const resumenProductos = {};
   let totalDelDia = 0;
@@ -42,10 +55,22 @@ function BuscarPedidos() {
       const nombre = item.nombre || "desconocido";
       const tipo = isKg(item.tipoVenta) ? "kg" : "u.";
       const key = `${nombre}__${tipo}`;
-
       resumenProductos[key] = (resumenProductos[key] || 0) + item.cantidad;
     });
   });
+
+  const estadoLegible = {
+    pendiente: "Pendiente",
+    procesando: "Recibido",
+    enviado: "En viaje",
+    entregado: "Entregado",
+  };
+
+  const estadoOpciones = [
+    { label: "Recibido", value: "procesando" },
+    { label: "En viaje", value: "enviado" },
+    { label: "Entregado", value: "entregado" },
+  ];
 
   return (
     <div>
@@ -77,7 +102,6 @@ function BuscarPedidos() {
                 turno,
               } = order;
               const phone = order?.userId?.telefono || "No disponible";
-              const isSelected = selectedOrder?._id === order._id;
 
               return (
                 <div
@@ -87,31 +111,29 @@ function BuscarPedidos() {
                 >
                   <div className={style.infoPedido}>
                     <div className={style.info1}>
-                      <p>
-                        <span>Total:</span> ${total.toFixed(2)}
-                      </p>
-                      <p>
-                        <span>Dirección:</span> {direccion}
-                      </p>
-                      <p>
-                        <span>Pago:</span> {metodoPago}
-                      </p>
-                      <p>
-                        <span>Turno:</span> {turno}
-                      </p>
+                      <p><span>Total:</span> ${total.toFixed(2)}</p>
+                      <p><span>Dirección:</span> {direccion}</p>
+                      <p><span>Pago:</span> {metodoPago}</p>
+                      <p><span>Turno:</span> {turno}</p>
                     </div>
                     <div className={style.info1}>
-                      <p>
-                        <span>Estado:</span> {status}
-                      </p>
-                      <p>
-                        <span>Fecha:</span>{" "}
-                        {new Date(createdAt).toLocaleDateString()}
-                      </p>
-                      <p>
-                        <span>Teléfono:</span> {phone}
-                      </p>
+                      <p><span>Estado:</span> {estadoLegible[status]}</p>
+                      <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
+                      <p><span>Teléfono:</span> {phone}</p>
                     </div>
+                  </div>
+
+                  <div className={style.botonesEstado}>
+                    {estadoOpciones.map((opcion) => (
+                      <button
+                        key={opcion.value}
+                        onClick={() => cambiarEstadoPedido(order._id, opcion.value)}
+                        disabled={status === opcion.value}
+                        className={status === opcion.value ? style.botonActivo : ""}
+                      >
+                        {opcion.label}
+                      </button>
+                    ))}
                   </div>
 
                   <div className={style.productosPedido}>
@@ -141,16 +163,12 @@ function BuscarPedidos() {
               return (
                 <div key={key} className={style.itemResumen}>
                   <span className={style.name}>{nombre}:</span>
-                  <p>
-                    {cantidad} {tipo}
-                  </p>
+                  <p>{cantidad} {tipo}</p>
                 </div>
               );
             })}
             <div className={style.itemResumen}>
-              <span>
-                <strong>Total vendido:</strong>
-              </span>
+              <span><strong>Total vendido:</strong></span>
               <span className={style.total}>${totalDelDia.toFixed(2)}</span>
             </div>
           </div>

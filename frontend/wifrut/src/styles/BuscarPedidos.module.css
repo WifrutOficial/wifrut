@@ -200,3 +200,31 @@
     margin: auto  20px ;
   }
 }
+
+
+.botonesEstado {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.botonesEstado button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ddd;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.botonesEstado button:hover {
+  background-color: #bbb;
+}
+
+.botonActivo {
+  background-color: #4caf50 !important;
+  color: white !important;
+  cursor: default;
+}
