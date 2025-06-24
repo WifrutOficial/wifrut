@@ -62,6 +62,7 @@ export const postProduct = async (req, res) => {
           productId: product._id,
           nombre: product.nombre,
           cantidad: item.cantidad,
+          tipoVenta: item.tipoVenta,
           precio,
         };
       })
