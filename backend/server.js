@@ -66,7 +66,7 @@ app.use("/api/geocode", geocodingRoutes);
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-// Iniciar servidor
+//Iniciar servidor
 //const PORT = process.env.PORT || 3000;
 //app.listen(PORT, () => {
 //console.log(`Servidor corriendo en el puerto ${PORT}`);
