@@ -1,17 +1,15 @@
 {
   "schemaVersion": 2,
   "dockerfileLines": [
-    "FROM node:20-alpine",
-    "RUN mkdir -p /usr/src/app/frontend/wifrut",
-    "WORKDIR /usr/src/app/frontend/wifrut",
-    "COPY frontend/wifrut/package.json frontend/wifrut/package-lock.json* ./",
-    "RUN npm install --prefer-offline && npm cache clean --force",
-    "COPY frontend/wifrut/ /usr/src/app/frontend/wifrut/",
-    "ENV NODE_ENV production",
-    "ENV NODE_OPTIONS=--max-old-space-size=768",
+    "FROM node:18-alpine as build",
+    "WORKDIR /app",
+    "COPY frontend/wifrut/package.json frontend/wifrut/package-lock.json ./",
+    "RUN npm install",
+    "COPY frontend/wifrut ./",
     "RUN npm run build",
-    "ENV PORT 4173",
-    "EXPOSE 4173",
-    "CMD [ \"npm\", \"run\", \"preview\", \"--\", \"--host\" ]"
+    "FROM nginx:alpine",
+    "COPY --from=build /app/dist /usr/share/nginx/html",
+    "EXPOSE 80",
+    "CMD [\"nginx\", \"-g\", \"daemon off;\"]"
   ]
 }
