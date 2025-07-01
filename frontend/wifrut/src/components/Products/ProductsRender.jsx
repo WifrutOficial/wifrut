@@ -174,12 +174,18 @@ const handleQuantityChange = (productId, tipoVenta, action, kiloMinimo) => {
   const productsWithoutDiscount = filteredProducts.filter((p) => !p.descuento);
 
   const categories = {};
-  productsWithoutDiscount.forEach((product) => {
-    const cat = product.categoria || "Otro";
-    if (!categories[cat]) categories[cat] = [];
-    categories[cat].push(product);
-  });
+productsWithoutDiscount.forEach((product) => {
+  const cat = product.categoria || "Otro";
+  if (!categories[cat]) categories[cat] = [];
+  categories[cat].push(product);
+});
 
+// Ordenar productos por nombre dentro de cada categoría
+Object.keys(categories).forEach((cat) => {
+  categories[cat].sort((a, b) =>
+    a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" })
+  );
+});
   if (loading) {
     return (
       <div className={style.loadingBtn}>

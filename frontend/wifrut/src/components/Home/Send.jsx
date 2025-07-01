@@ -41,20 +41,20 @@ function Send() {
               {" "}
               ZONA 1 NEUQUÉN - CENTENARIO: <p className={style.price}>
                 {" "}
-                $2000
+                $3500
               </p>{" "}
             </strong>
           </li>
           <li>
             🟠{" "}
             <strong className={style.strong}>
-              ZONA 2 NEUQUÉN - CENTENARIO: <p className={style.price}> $3500</p>{" "}
+              ZONA 2 NEUQUÉN - CENTENARIO: <p className={style.price}> $4500</p>{" "}
             </strong>
           </li>
           <li>
             🔵{" "}
             <strong className={style.strong}>
-              ZONA 3 NEUQUÉN: <p className={style.price}> $4500</p>
+              ZONA 3 NEUQUÉN: <p className={style.price}> $5500</p>
             </strong>
           </li>
           <li>
