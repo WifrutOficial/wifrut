@@ -36,98 +36,98 @@ function CartPreview() {
     };
   }, [open]);
 
-  if (!open) {
-    return (
-      <div className={style.miniTab} onClick={handleOpen}>
-        🛒
-      </div>
-    );
-  }
-
-  const isKg = (tipoVenta) => {
-    return tipoVenta && tipoVenta.toLowerCase().includes("kilo");
-  };
+  const isKg = (tipoVenta) =>
+    tipoVenta && tipoVenta.toLowerCase().includes("kilo");
 
   return (
     <>
-      {open ? (
-        <div ref={cartRef} className={style.cartPreview}>
-          <div className={style.titleAndClose}>
-            <h3>Carrito</h3>
-            <IoMdClose onClick={handleClose} />
-          </div>
-          <div className={style.Container}>
-            {cart.length === 0 ? (
-              <div className={style.emptyCartContainer}>
-                <TiShoppingCart
-                  className={`${style.emptyCartIcon} ${style.animatedIcon}`}
-                />
-                <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
-                <p className={style.emptyCartSub}>
-                  ¡Es el momento perfecto para llenarlo con algo especial!
-                </p>
-                <button
-                  className={style.shopButton}
-                  onClick={() => setOpen(false)}
-                >
-                  <div
+      {open && (
+        <div className={style.cartPreviewWrapper}>
+          <div ref={cartRef} className={style.cartPreview}>
+            <div className={style.titleAndClose}>
+              <h3>Carrito</h3>
+              <IoMdClose onClick={handleClose} />
+            </div>
+
+            <div className={style.Container}>
+              {cart.length === 0 ? (
+                <div className={style.emptyCartContainer}>
+                  <TiShoppingCart
+                    className={`${style.emptyCartIcon} ${style.animatedIcon}`}
+                  />
+                  <h2 className={style.emptyCart}>Tu carrito está vacío</h2>
+                  <p className={style.emptyCartSub}>
+                    ¡Es el momento perfecto para llenarlo con algo especial!
+                  </p>
+                  <button
+                    className={style.shopButton}
+                    onClick={() => setOpen(false)}
+                  >
+                    <div
+                      onClick={() => {
+                        const el = document.getElementById("ofertas");
+                        if (el) {
+                          const y =
+                            el.getBoundingClientRect().top +
+                            window.pageYOffset -
+                            200;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                        }
+                      }}
+                    >
+                      ← Empezar a comprar
+                    </div>
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <ul>
+                    {cart.map((item, index) => (
+                      <li key={index} className={style.cartItem}>
+                        <img
+                          src={`/${item.imagen}`}
+                          alt={item.nombre}
+                          className={style.miniImage}
+                        />
+                        <p>{item.nombre}</p>
+                        <p>
+                          {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
+                        </p>
+                        <p>
+                          $
+                          {(
+                            (item.precioConDescuento ?? item.precio) *
+                            item.quantity
+                          ).toFixed(2)}
+                        </p>
+                        <button
+                          className={style.btnDelete}
+                          onClick={() => removeFromCart(item._id)}
+                          title="Eliminar producto"
+                        >
+                          <IoTrashOutline />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={style.total}>Total: ${total.toFixed(2)}</p>
+                  <button
+                    className={style.btn}
                     onClick={() => {
-                      const el = document.getElementById("ofertas");
-                      if (el) {
-                        const y =
-                          el.getBoundingClientRect().top +
-                          window.pageYOffset -
-                          200;
-                        window.scrollTo({ top: y, behavior: "smooth" });
-                      }
+                      setOpen(false);
+                      navigate("/cart");
                     }}
                   >
-                    {" "}
-                    ← Empezar a comprar
-                  </div>
-                </button>
-              </div>
-            ) : (
-              <>
-                <ul>
-                  {cart.map((item, index) => (
-                    <li key={index} className={style.cartItem}>
-                      <img
-                        src={`/${item.imagen}`}
-                        alt={item.nombre}
-                        className={style.miniImage}
-                      />
-                      <p>{item.nombre}</p>
-
-                      <p>
-                        {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
-                      </p>
-                      <p>
-                        $
-                        {(
-                          (item.precioConDescuento ?? item.precio) *
-                          item.quantity
-                        ).toFixed(2)}
-                      </p>
-                      <button
-                        className={style.btnDelete}
-                        onClick={() => removeFromCart(item._id)}
-                        title="Eliminar producto"
-                      >
-                        <IoTrashOutline />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <p className={style.total}>Total: ${total.toFixed(2)}</p>
-                <button className={style.btn} onClick={() => navigate("/cart")}>
-                  Terminar Compra
-                </button>
-              </>
-            )}
+                    Terminar Compra
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      ) : (
+      )}
+
+      {!open && (
         <div className={style.miniTab} onClick={handleOpen}>
           🛒
         </div>
