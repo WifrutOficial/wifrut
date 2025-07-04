@@ -167,29 +167,53 @@ export default function Cart() {
 
   const isKg = (tipoVenta) => tipoVenta?.toLowerCase().includes("kilo");
 
-  return (
-    <div className={style.container}>
-      <h2 className={style.title}>Carrito de Compras</h2>
-  {cart.length > 0 && (
-  <div className={style.lineTime}>
-    <div className={`${style.step} ${style.completed}`}>
-      <span className={style.stepNumber}>1</span>
-      <p>Productos</p>
-    </div>
-    <div className={`${style.step} ${direccion.trim() && zonaSeleccionada ? style.completed : ""}`}>
-      <span className={style.stepNumber}>2</span>
-      <p>Dirección</p>
-    </div>
-    <div className={`${style.step} ${turno && fechaEntrega ? style.completed : ""}`}>
-      <span className={style.stepNumber}>3</span>
-      <p>Entrega</p>
-    </div>
-    <div className={`${style.step} ${metodoPago ? style.completed : ""}`}>
-      <span className={style.stepNumber}>4</span>
-      <p>Método de Pago</p>
-    </div>
-  </div>
-)}
+return (
+  <div className={style.container}>
+    <h2 className={style.title}>Carrito de Compras</h2>
+
+    {cart.length > 0 && (
+      <div className={style.progressContainer}>
+        <div className={style.progressLine}></div>
+
+        {[1, 2, 3, 4].map((n) => {
+          let isCompleted = false;
+          let isActive = false;
+
+switch (n) {
+  case 1:
+    isCompleted = cart.length > 0;
+    isActive = step === 1;
+    break;
+  case 2:
+    isCompleted = direccion.trim() && zonaSeleccionada;
+    isActive = step === 2;
+    break;
+  case 3:
+    isCompleted = turno && fechaEntrega;
+    isActive = step === 3;
+    break;
+  case 4:
+    isCompleted = metodoPago;
+    isActive = step === 4;
+    break;
+}
+
+          const label = ["Productos", "Dirección", "Entrega", "Pago"][n - 1];
+
+          return (
+            <div
+              key={n}
+              className={`${style.progressStep} ${isCompleted ? style.completed : ""} ${
+                isActive ? style.active : ""
+              }`}
+            >
+              <div className={style.progressCircle}>{n}</div>
+              <div className={style.progressLabel}>{label}</div>
+            </div>
+          );
+        })}
+      </div>
+    )}
 
       {cart.length === 0 ? (
         <div className={style.emptyCartContainer}>
@@ -247,8 +271,6 @@ export default function Cart() {
   </ul>
 </div>
 
-
-          <hr />
           
           <div className={style.total}>
             {total >= 80000 && (
@@ -265,106 +287,93 @@ export default function Cart() {
             </p>
           </div>
 
-          <div className={style.envio}>
-            <div className={style.Envio}>
-                <div className={style.inputEnvio}>
-                    <p>Dirección completa de envío:</p>
-                    <input
-                      type="text"
-                      placeholder="Ej: Av. Argentina 123, Piso 4, Dpto B"
-                      value={direccion}
-                      onChange={(e) => setDireccion(e.target.value)}
-                      aria-label="Dirección de envío"
-                    />
-                </div>
+{/* Dirección */}
+<div className={style.filaForm}>
+  <label className={style.labelForm}>📍 Dirección completa de envío:</label>
+  <input
+    className={style.inputField}
+    type="text"
+    placeholder="Ej: Av. Argentina 123, Piso 4, Dpto B"
+    value={direccion}
+    onChange={(e) => setDireccion(e.target.value)}
+  />
+</div>
 
-                <div className={style.inputEnvio}>
-                  <p>Selecciona tu zona de envío:</p>
-                  <select   className={style.zonaSelect} 
-                    value={zonaSeleccionada}
-                    onChange={(e) => {
-                      const nombreZonaSeleccionada = e.target.value;
-                      const zona = zonasEnvio.find(z => z.nombre === nombreZonaSeleccionada);
-                      if (zona) {
-                        setZonaSeleccionada(zona.nombre);
-                        setCostoEnvio(zona.precio);
-                      } else {
-                        setZonaSeleccionada("");
-                        setCostoEnvio(0);
-                      }
-                    }}
-                    aria-label="Seleccionar zona de envío"
-                  >
-                    <option value="">-- Elige tu zona --</option>
-                    {zonasEnvio.map((zona, index) => (
-                      <option key={`${zona.nombre}-${index}`} value={zona.nombre}>
-                        {zona.nombre} - ${zona.precio}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+{/* Zona */}
+<div className={style.filaForm}>
+  <label className={style.labelForm}>🗺️ Seleccioná tu zona de envío:</label>
+  <div className={style.selectConLink}>
+    <select
+      className={style.inputField}
+      value={zonaSeleccionada}
+      onChange={(e) => {
+        const nombreZonaSeleccionada = e.target.value;
+        const zona = zonasEnvio.find(z => z.nombre === nombreZonaSeleccionada);
+        if (zona) {
+          setZonaSeleccionada(zona.nombre);
+          setCostoEnvio(zona.precio);
+        } else {
+          setZonaSeleccionada("");
+          setCostoEnvio(0);
+        }
+      }}
+    >
+      <option value="">-- Elige tu zona --</option>
+      {zonasEnvio.map((zona, index) => (
+        <option key={`${zona.nombre}-${index}`} value={zona.nombre}>
+          {`${zona.nombre} - $${zona.precio}`}
+        </option>
+      ))}
+    </select>
+    <span
+      className={style.mapaLink}
+      onClick={() => navigate("/send")}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && navigate("/send")}
+    >
+      Consultá nuestro <strong>Mapa de Envíos</strong>
+    </span>
+  </div>
+</div>
 
-                <div className={style.containerEnvio}>
-                  <p className={style.infoEnvio}>
-                    ¿No sabes cuál es tu zona? Consulta nuestro
-                    <span
-                      className={style.spanm}
-                      onClick={() => navigate("/send")}
-                      role="button"
-                    >
-                      &nbsp;Mapa de Envíos
-                    </span>
-                  </p>
-                </div>
-<div className={style.bloqueEntrega}>
-  <h4 className={style.tituloBloqueEntrega}>📦 Día y horario de entrega</h4>
-
-  <div className={style.inputEnvio}>
-  <div className={style.opcionHorario}>
-    <span>Tarde: 15:00 a 20:00</span>
+{/* Horario */}
+<div className={style.filaForm}>
+  <label className={style.labelForm}>📦 Día y horario de entrega:</label>
+  <div className={style.horario}>
+    <span className={style.horarioTexto}>Tarde: 15:00 a 20:00</span>
     <input
       type="radio"
-      id="tarde"
       name="turno"
       value="tarde"
       checked={turno === "tarde"}
       onChange={handleChange}
+      required
     />
   </div>
 </div>
 
-
-  {/* Día de entrega */}
-  <div className={style.inputEnvio}>
-    <p className={style.labelEntrega}>📅 Elegí el día de entrega</p>
-    {diasDisponibles.length > 0 ? (
-      <select
-        className={style.zonaSelect}
-        value={fechaEntrega}
-        onChange={(e) => setFechaEntrega(e.target.value)}
-      >
-        <option value="">-- Seleccioná un día --</option>
-        {diasDisponibles.map((fecha) => (
-          <option key={fecha} value={fecha}>
-            {new Date(fecha + "T00:00:00").toLocaleDateString("es-AR", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-            })}
-          </option>
-        ))}
-      </select>
-    ) : (
-      <p style={{ color: "red", fontSize: "0.95rem" }}>
-        No hay días disponibles para entrega en este momento.
-      </p>
-    )}
-  </div>
+{/* Día */}
+<div className={style.filaForm}>
+  <label className={style.labelForm}>📅 Elegí el día de entrega:</label>
+  <select
+    className={style.inputField}
+    value={fechaEntrega}
+    onChange={(e) => setFechaEntrega(e.target.value)}
+  >
+    <option value="">-- Seleccioná un día --</option>
+    {diasDisponibles.map((fecha) => (
+      <option key={fecha} value={fecha}>
+        {new Date(fecha + 'T00:00:00').toLocaleDateString('es-AR', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+        })}
+      </option>
+    ))}
+  </select>
 </div>
 
-
-            </div>
-          </div>
 
           {step === 1 && (
             <div className={style.btnContainer}>

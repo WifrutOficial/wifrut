@@ -1,8 +1,154 @@
+/* ---------- TÍTULOS ---------- */
+.title {
+  font-size: 34px;
+  font-weight: 900;
+  text-align: center;
+  color: #000000;
+  margin: 30px auto 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  border-bottom: 3px solid #000000;
+  padding-bottom: 8px;
+  display: block;
+  width: fit-content;
+}
+
+.titlePago {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  margin: 30px auto 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.subTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  margin: 20px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.emptyCart {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Paso a paso visual */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.stepNumber {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #000;
+  background: linear-gradient(135deg, #fcd13d, #ff9f00);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid #005234;
+  transition: transform 0.3s ease;
+}
+
+.completed .stepNumber {
+  background-color: #247504;
+  color: #fff;
+  border: 2px solid #000;
+}
+
+.stepNumber:hover {
+  transform: scale(1.1);
+}
+
+.step p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Línea de tiempo embellecida */
+.lineTime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  border: 2px dashed #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  width: min(100%, 800px);
+  min-width: 345px;
+  padding: 15px;
+  color: #000;
+}
+
+/* Tarjeta del carrito más estética */
+.containerCart {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 20px 25px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 800px);
+  min-width: 320px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dcdcdc;
+  gap: 20px;
+}
+
+/* Botones de acción */
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.btnContainer button,
+.shopButton,
+.btnEnvio,
+.registerBtn {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 15px;
+  background-color: #005234;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnContainer button:hover,
+.shopButton:hover,
+.btnEnvio:hover,
+.registerBtn:hover {
+  background-color: #247504;
+  transform: scale(1.03);
+}
+
 .zonaDetectada {
   font-size: 10px;
   margin: 20px 20px;
-  color: #333;
-  background-color: #e7f7ec;
+  color: #000;
+  background-color: #f8f8f8;
   border-left: 4px solid #4caf50;
   padding: 6px 12px;
   border-radius: 5px;
@@ -13,7 +159,7 @@
   background-color: #005234;
   color: white;
   border: none;
-padding: 5px 5px;
+  padding: 5px 5px;
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
@@ -21,7 +167,7 @@ padding: 5px 5px;
 }
 
 .registerBtn:disabled {
-   background-color: #247504;
+  background-color: #247504;
   cursor: not-allowed;
 }
 
@@ -82,68 +228,88 @@ padding: 5px 5px;
 
 .shopButton {
   background-color: #247504;
-  color: #fff;
-  padding: 10px 30px;
   border: none;
-  border-radius: 13px;
+  color: white;
+  padding: 12px 28px;
   font-size: 16px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .shopButton:hover {
-  background-color: #138496;
+  background-color: #1a5c04;
 }
 
 @keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-20px);
-  }
-  60% {
-    transform: translateY(-10px);
-  }
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
 .customAlert {
   font-size: 10px;
+  background-color: #ffffff;
+  backdrop-filter: none;
+  border-radius: 15px;
+  border: 1px solid #d4d4d4d6;
+  color: #000;
 }
 
 .customIcon {
   font-size: 8px !important;
   width: 30px !important;
   height: 30px !important;
+  background-color: #b90003;
+  text-align: center;
 }
-.inputEnvio select {
+/* --- Campo de dirección, zona y fecha compactos y alineados --- */
+.inputEnvio {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
   width: 100%;
-  padding: 0px;
- padding-left: 10px;
-  height: 30px;
-  background-color: #d4d4d415;
-  backdrop-filter: blur(20px);
-  border-radius: 0px;
-  border: 1px solid #00000023;
-  font-size: 12px;
-  outline: none;
-  transition: border-color 0.2s ease;
-
 }
+
+.inputEnvio label,
+.inputEnvio h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  min-width: 220px;
+  margin: 0;
+}
+
+.inputEnvio input,
+.inputEnvio select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 280px;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.inputEnvio input:focus,
+.inputEnvio select:focus {
+  border-color: #247504;
+  box-shadow: 0 0 0 2px rgba(36, 117, 4, 0.1);
+}
+
 
 .Envio {
   display: flex;
@@ -154,67 +320,32 @@ padding: 5px 5px;
   color: #000;
   gap: 10px;
 }
-.mañanaTardeContainer{
+
+.mañanaTardeContainer {
   display: flex;
   gap: 20px;
 }
-.inputEnvio {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-.inputEnvio input {
-  background: none;
-  border: none;
-  border-bottom: 1px dotted #00000023;
-  color: #000;
-}
 
 .container {
   background-image: url("/backG.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed; /* <- esto es clave */
   display: flex;
   justify-content: center;
   flex-direction: column;
   min-height: 100vh;
 }
-.title {
-  font-weight: 800;
-  font-size: 30px;
-  text-align: center;
-  color: #005234;
-  letter-spacing: 2px;
-  transition: transform 0.3s ease;
-}
 
 
-.containerCart {
-  background-color: #d4d4d415;
-  backdrop-filter: blur(20px);
-  border-radius: 15px;
-  border: 1px solid #00000023;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-  width: min(100%, 800px);
-  min-width: 345px;
-  position: relative;
 
-  /* 🔒 Fijamos altura máxima y que no crezca más */
-  max-height: 90vh;
-  overflow: hidden;
-}
-/* Firefox */
-.cartStepContent,
-.cart {
+.cartStepContent, .cart {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.4) transparent; /* <== acá el fondo es transparente */
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent;
 }
 
-/* WebKit (Chrome, Edge, Safari) */
 .cartStepContent::-webkit-scrollbar,
 .cart::-webkit-scrollbar {
   width: 6px;
@@ -222,65 +353,62 @@ padding: 5px 5px;
 
 .cartStepContent::-webkit-scrollbar-thumb,
 .cart::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.4); /* barrita visible */
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
 }
 
 .cartStepContent::-webkit-scrollbar-track,
 .cart::-webkit-scrollbar-track {
-  background: transparent; /* ⛔ sin fondo visible */
+  background: transparent;
 }
 
 
-.cart {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 200px; /* para 3 ítems visibles */
-  overflow-y: auto;
-  padding-right: 8px;
-}
 
 .cartItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: #000;
-  font-size: 14px;
-  font-weight: 400;
-  width: 100%;
-  padding: 2px 0;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  padding: 10px 15px;
+  transition: background-color 0.2s ease;
+}
+
+.cartItem:hover {
+  background-color: #f0f0f0;
 }
 
 .cartItem img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .cartItem p {
   flex: 1;
   font-weight: 600;
   margin: 0;
+  font-size: 14px;
 }
 
-
-
 .total {
+  font-weight: bold;
   display: flex;
   justify-content: flex-end;
   padding: 10px 40px;
   color: #000;
   gap: 20px;
   font-size: 12px;
-text-align: center;
-}
-.containerDescuento{
   text-align: center;
-  font-size:14px ;
 }
+
+.containerDescuento {
+  text-align: center;
+  font-size: 14px;
+}
+
 hr {
   margin: 0 40px;
 }
@@ -288,21 +416,26 @@ hr {
 .btnEnvio {
   border-radius: 13px;
   padding: 5px 10px;
-  background: none;
   background-color: #00ad3a;
   border: none;
-  color: #ffff;
+  color: #fff;
   box-shadow: inset 0 4px 4px #00000050;
   cursor: pointer;
   font-size: 12px;
   font-weight: 300;
 }
-
 .fullTotal {
-  color: #000;
-  font-size: 32px;
-  text-align: end;
-  padding: 0 40px;
+  color: #000000;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.priceTotal {
+  font-size: 18px;
+  font-weight: 600;
+  color: #005234;
 }
 
 .titlePago {
@@ -314,7 +447,7 @@ hr {
 .containerPago {
   display: flex;
   justify-content: center;
-  align-items: center ;
+  align-items: center;
   color: #000;
   padding-left: 40px;
   gap: 40px;
@@ -328,63 +461,41 @@ hr {
   gap: 5px;
 }
 
-.btnContainer {
-  display: flex;
-  justify-content: center;
-  padding: 20px 20px;
-  gap: 20px;
-}
-.btnContainer button {
-  background: none;
-  border: none;
-  background-color: #247504;
-  padding: 5px 10px;
-  cursor: pointer;
-  color: #fff;
-  border-radius: 10px;
-  width: 200px;
-}
 
 .btnDelete {
-  background: transparent;
+  background-color: #ff4d4f;
   border: none;
-  color: #005234;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btnDelete:hover {
+  background-color: #d9363e;
 }
 
 .cantidades p {
   background-color: #b90003;
   border-radius: 13px;
   padding: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   width: 100px;
 }
+
 .container .arrow {
   width: 30px;
   height: 30px;
   color: #000;
-
   margin-left: 10px;
   margin-top: 8px;
   cursor: pointer;
-}
-
-.customAlert {
-  background-color: #d4d4d415;
-  backdrop-filter: blur(20px);
-  border-radius: 15px;
-  border: 1px solid #d4d4d4d6;
-  color: #000;
-}
-
-.customIcon {
-  font-size: 10px;
-  background-color: #b90003;
-  text-align: center;
 }
 
 .step {
@@ -421,9 +532,10 @@ hr {
   justify-content: center;
   align-items: center;
   gap: 30px;
-  backdrop-filter: blur(20px);
+  background-color: #ffffff;
+  backdrop-filter: none;
   border-radius: 15px;
-  border: 1px solid #00000023;
+  border: 1px solid #ccc;
   margin: 0 auto;
   width: min(100%, 800px);
   min-width: 345px;
@@ -462,187 +574,607 @@ hr {
   letter-spacing: 1px;
   padding: 0 20px;
   font-size: 12px;
-  background-color: #00523457;
+  background-color: #ffffff;
 }
-
 
 .zonaSelect {
   width: 100%;
   padding: 10px 0 10px 20px;
   margin-top: 5px;
-  background-color: #333; 
-  color: #000; 
+  background-color: #ffffff;
+  color: #000;
   border: 1px solid #555;
   font-size: 1rem;
-  -webkit-appearance: none; 
-  -moz-appearance: none;
-  appearance: none;
- 
-   border-radius: 0;
+  border-radius: 0;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,...');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px auto;
+}
 
-   background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-   background-repeat: no-repeat;
-   background-position: right 10px top 50%;
-   background-size: 12px auto;
-  
+.zonaSelect option {
+  background-color: #ffffff;
+  color: #000;
+}
+
+
+/* ---------- PROGRESS BAR ---------- */
+.progressContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto 30px;
+  padding: 0 35px; /* esto asegura que el 1 y el 4 estén alejados del borde */
+}
+
+
+.progressLine {
+  position: absolute;
+  top: 18px;
+  left: calc(12.5% + 17.5px);
+  right: calc(12.5% + 17.5px);
+  height: 2px;
+  background-color: #d0d0d0;
+  z-index: 0;
+  border-radius: 1px;
+}
+
+.progressStep {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  flex: 1;
+}
+
+.progressCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 3px solid #ccc;
+  color: #ccc;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.progressStep.active .progressCircle,
+.progressStep.completed .progressCircle {
+  background-color: #247504;
+  border-color: #247504;
+  color: white;
+}
+
+.progressLabel {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #005234;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 
 .zonaSelect option {
-  background-color: #333;
-  color: #fff;
-}
-
-@media (max-width: 768px) {
-  .containerEnvio {
-    font-size: 9px;
-  }
-
-  .fullTotal {
-    font-size: 18px;
-  }
-  .btnContainer {
-    display: flex;
-    justify-content: center;
-    padding: 10px 10px;
-    gap: 20px;
-  }
-  .btnContainer button {
-    width: 150px;
-  }
-  .cart {
-    padding: 10px 25px;
-  }
-
-  .cartItem {
-    gap: 2px;
-  }
-  .Envio {
-    flex-direction: column;
-  }
-
-  .envio {
-    font-size: 13px;
-  }
-
-  .container {
-      padding: 4px;
-    min-height: 100vh;
-  }
-
-  .container .arrow {
-    width: 30px;
-    height: 30px;
-  }
-
-  .stepNumber {
-    width: 25px;
-    height: 25px;
-    font-size: 12px;
-  }
-
-  .step p {
-    font-size: 12px;
-  }
-  .lineTime {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    border: 1px solid #d4d4d4d6;
-    margin: 0 auto;
-    width: min(100%, 800px);
-    min-width: 345px;
-    padding: 10px;
-    color: #000;
-  }
-
-  .containerCart {
-    width: min(100%, 800px);
-    min-width: 345px;
-  }
-
-  .inputEnvio {
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .containerPagoInput {
-    font-size: 13px;
-  }
-  .cart li p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    text-align: center;
-  }
-
-  .zonaDetectada {
-    font-size: 12px;
-    margin: 5px 20px;
-  }
-
-  .emptyCart {
-    font-size: 20px;
-  }
-
-  .emptyCartSub {
-    font-size: 15px;
-  }
-
-  .shopButton {
-    padding: 10px 25px;
-
-    font-size: 12px;
-  }
-
-  .shopButton:hover {
-    background-color: #138496;
-  }
-
-  .envioGratis{
-    font-size: 12px;
-  }
+  background-color: #fff;
+  color: #000;
 }
 
 .opcionHorario {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-top: 8px;
-  font-size: 5rem; /* letras más grandes */
+  gap: 12px;
+  padding-left: 6px;
+  font-size: 15px;
   font-weight: 500;
-  color: #000;
 }
 
-.opcionHorario span {
-  flex: 1; /* ocupa todo el espacio disponible */
-  padding-right: 20px; /* separa el texto del botón */
+/* --- Día y horario de entrega organizado horizontalmente --- */
+.bloqueEntrega {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.bloqueEntrega h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.opcionHorario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .opcionHorario input[type="radio"] {
-  transform: scale(1.3);
-  cursor: pointer;
+  transform: scale(1.2);
+  accent-color: #247504;
 }
-.opcionHorario span {
-  flex: 1;
-  padding-right: 20px;
-  font-size: 1rem;  /* ✅ Aumenta el tamaño del texto */
-  font-weight: 600;   /* Opcional: más grueso */
-  color: #000;        /* Asegura que sea negro y no gris */
-}
-.title {
-  font-weight: 900;         /* más grueso */
-  font-size: 32px;          /* un poco más grande si querés que impacte más */
+.fullTotal {
+  color: #000000;
+  font-size: 24px;
+  font-weight: 800;
   text-align: center;
-  color: #000;              /* negro real, no verde (#005234) */
-  letter-spacing: 1px;      /* un poco menos para mejor legibilidad */
-  transition: transform 0.3s ease;
-  text-shadow: 0 0 0.5px #00000050; /* mejora contraste sin ensuciar */
+  margin-top: 30px;
 }
 
+/* --- Info debajo del selector zona --- */
+.mapaZonasInfo {
+  font-size: 12px;
+  color: #444;
+  text-align: left;
+  padding-left: 10px;
+  margin-top: -4px;
+  margin-bottom: 10px;
+}
+
+.mapaZonasInfo a,
+.spanm {
+  color: #ff810d;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.total span {
+  font-weight: bold;
+}
+/* Agrupar título, horario y radio mejor alineados */
+.filaEntregaCompacta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.filaEntregaCompacta label,
+.filaEntregaCompacta h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Ajustar alineación y tamaño del radio e info horario */
+.opcionHorario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reducir espacio entre bloques */
+.inputEnvio,
+.bloqueEntrega,
+.envioStep {
+  margin-bottom: 8px;
+}
+
+/* Selector de día más compacto */
+.inputEnvio select {
+  max-width: 250px;
+  height: 32px;
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+/* Contenedor general del paso de entrega más compacto */
+.Envio {
+  padding: 10px 20px;
+  gap: 8px;
+}
+
+/* Centrado y alineado para el método de pago */
+.containerPago {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0 0 0;
+}
+
+/* Botones finales más juntos */
+.btnContainer {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.filaEntregaCompacta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.horarioTexto {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.filaEntregaCompacta input[type="radio"] {
+  transform: scale(1.2);
+  accent-color: #247504;
+  cursor: pointer;
+}
+.bloqueEnvio {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-family: "Segoe UI", sans-serif;
+  max-width: 400px;
+}
+
+.subTitle {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+
+.radioEntrega {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.horarioTexto {
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+}
+
+.infoZona {
+  font-size: 13px;
+  margin: -10px 0 15px;
+  color: #555;
+}
+
+.spanm {
+  color: #e76f00;
+  font-weight: 600;
+  cursor: pointer;
+}
+.filaForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Para que se acomode bien en mobile */
+}
+
+.labelForm {
+  width: 240px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+
+.radioEntrega {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mapaZonasInfo {
+  font-size: 13px;
+  margin: -10px 0 20px 242px; /* alineado con inputs */
+  color: #555;
+}
+
+.spanm {
+  color: #e76f00;
+  font-weight: 600;
+  cursor: pointer;
+}
+.filaForm {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.labelForm {
+  font-weight: 600;
+  font-size: 15px;
+  min-width: 240px;
+  color: #333;
+}
+
+.zonaWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inputSelectZonas {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #f2f2f2;
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 240px;
+}
+
+.inputSelectZonas option {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.linkMapa {
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+
+.mapaEnlace {
+  color: #e76f00;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.filaForm {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.labelForm {
+  min-width: 220px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+.inputField {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #000;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  min-width: 260px;
+}
+
+.selectConLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mapaLink {
+  font-size: 13px;
+  color: #e66a00;
+  cursor: pointer;
+}
+
+.horario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.horarioTexto {
+  font-weight: bold;
+  color: #000;
+}
+/* Select visual limpio */
+select.inputField,
+select.inputSelectZonas {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #000;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Opciones estilizadas */
+select.inputField option,
+select.inputSelectZonas option {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Al hacer clic */
+select.inputField:focus,
+select.inputSelectZonas:focus {
+  border-color: #247504;
+  box-shadow: 0 0 0 2px rgba(36, 117, 4, 0.2);
+}
+/* 1. Mostrar el método de pago en fila */
+.containerPago {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; /* ✅ fuerza horizontal */
+  gap: 16px;
+  flex-wrap: nowrap;
+  margin: 0 auto 8px;
+  padding: 0;
+}
+
+.containerPagoInput {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  justify-content: center;
+  min-width: auto;
+  white-space: nowrap;
+}
+
+.containerPagoInput:hover {
+  background-color: #f3fbe9;
+}
+
+.containerPagoInput input[type="radio"] {
+  transform: scale(1.1);
+  margin: 0;
+  cursor: pointer;
+  accent-color: #247504;
+}
+
+.mp, .ft {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.PagoText {
+  font-size: 13px;
+  color: #000;
+  margin: 0;
+}
+
+
+/* 2. Limitar el tamaño total del contenedor */
+.Envio {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+
+/* 3. Reorganizar total del pago más abajo */
+.fullTotal {
+  order: 3;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  margin: 20px auto 10px;
+}
+
+/* 4. Reacomodar botones debajo del total */
+.btnContainer {
+  order: 4;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.titlePago {
+  margin-bottom: 10px;
+}
+
+.PagoText,
+.containerPago {
+  margin-top: 0;
+}
+@media screen and (max-width: 600px) {
+  .inputEnvio,
+  .filaForm,
+  .bloqueEntrega,
+  .filaEntregaCompacta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .labelForm,
+  .inputEnvio label,
+  .inputEnvio h4,
+  .bloqueEntrega h4,
+  .filaEntregaCompacta h4 {
+    min-width: auto;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .inputField,
+  .zonaSelect,
+  .inputSelectZonas {
+    width: 100%;
+  }
+
+  .containerPago {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .containerPagoInput {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .containerPago {
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .containerPagoInput {
+    min-width: auto;
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+  }
+
+  .containerPagoInput img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .PagoText {
+    font-size: 13px;
+  }
+}

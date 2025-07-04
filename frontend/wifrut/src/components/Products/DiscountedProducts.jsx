@@ -27,7 +27,7 @@ function DiscountedProducts({
     return (
       <div>
         <p className={style.offOfertas}>
-          No hay productos con descuento disponibles.
+          No hay ofertas en este momento.
         </p>
       </div>
     );
