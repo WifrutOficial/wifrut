@@ -122,7 +122,7 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
                     </div>
                     <div className={style.info1}>
                       <p><span>Estado:</span> {estadoLegible[status]}</p>
-                      <p><span>Fecha:</span> {new Date(fechaEntrega).toLocaleDateString()}</p>
+                      <p><span>Fecha:</span> {(fechaEntrega)}</p>
                       <p><span>Nombre:</span> {name}</p>
                       <p><span>Teléfono:</span> {phone}</p>
                       <p><span>Email:</span> {email}</p>
