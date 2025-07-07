@@ -127,6 +127,27 @@ export default function Cart() {
         fechaEntrega
       );
       if (response?.status === 201) {
+        const orderId = response.data.order._id;
+        if (metodoPago === "Mercado Pago") {
+          // Solicitar preferencia de Mercado Pago
+          const prefRes = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              body: JSON.stringify({ orderId }),
+            }
+          );
+          const prefData = await prefRes.json();
+          if (prefData.init_point) {
+            window.location.href = prefData.init_point; // Redirige a Mercado Pago
+            return;
+          } else {
+            throw new Error("No se pudo obtener el link de pago de Mercado Pago.");
+          }
+        }
+        // Efectivo: flujo normal
         Swal.fire({
           title: "¡Gracias por elegir Wifrut!",
           text: `Tu pedido nº ${response.data.order.numeroPedido}. ha sido recibido.`,
@@ -141,7 +162,7 @@ export default function Cart() {
     } catch (error) {
       Swal.fire({
         title: "Error",
-        text: error.response?.data?.message || "Error al procesar el pedido.",
+        text: error.response?.data?.message || error.message || "Error al procesar el pedido.",
         icon: "error",
         timer: 3000,
         showConfirmButton: false,
