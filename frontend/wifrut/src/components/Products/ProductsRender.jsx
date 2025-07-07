@@ -1,12 +1,13 @@
-import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import Swal from "sweetalert2";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useSearch } from "../../context/SearchContext";
-import DiscountedProducts from "./DiscountedProducts";
-import { IoIosArrowForward } from "react-icons/io";
-import Swal from "sweetalert2";
 import style from "../../styles/Products.module.css";
+import formatNumber from "../../utils/formatNumber";
+import DiscountedProducts from "./DiscountedProducts";
 
 function ProductsRender() {
   const redondear = (valor) => Math.round(valor * 100) / 100;
@@ -251,7 +252,7 @@ Object.keys(categories).forEach((cat) => {
                       <img className={style.img} src={`/${imagen}`} alt={nombre} />
 
                       <p className={style.priceUnit}>
-                        Precio: ${precio} {isKg(tipoVenta) ? "kg" : "unidad"}
+                        Precio: ${formatNumber(precio)} {isKg(tipoVenta) ? "kg" : "unidad"}
                       </p>
 
                       <p className={style.productName}>{nombre}</p>
@@ -288,7 +289,7 @@ Object.keys(categories).forEach((cat) => {
                           </div>
 
                           <p className={style.total}>
-                            Total: ${((quantities[_id] || 0) * precio).toFixed(2)}
+                            Total: ${formatNumber((quantities[_id] || 0) * precio)}
                           </p>
 
                           <button

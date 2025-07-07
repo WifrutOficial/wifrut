@@ -1,6 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
 import style from "../../../../styles/BuscarPedidos.module.css";
-import axios from "axios";
+import formatNumber from "../../../../utils/formatNumber";
 
 function BuscarPedidos() {
   const [date, setDate] = useState("");
@@ -53,7 +54,7 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
 
     order.items.forEach((item) => {
       const nombre = item.nombre || "desconocido";
-      const tipo = isKg(item.tipoVenta) ? "kg" : "u.";
+      const tipo = isKg(item?.productId?.tipoVenta) ? "kg" : "u.";
       const key = `${nombre}__${tipo}`;
       resumenProductos[key] = (resumenProductos[key] || 0) + item.cantidad;
     });
@@ -97,11 +98,14 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
                 direccion,
                 metodoPago,
                 status,
-                createdAt,
+                fechaEntrega,
                 items,
                 turno,
               } = order;
-              const phone = order?.userId?.telefono || "No disponible";
+                          
+              const phone = order?.userId?.phone || "No disponible";
+              const email = order?.userId?.email || "No disponible";
+              const name = order?.userId?.nombre || "No disponible";
 
               return (
                 <div
@@ -111,15 +115,17 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
                 >
                   <div className={style.infoPedido}>
                     <div className={style.info1}>
-                      <p><span>Total:</span> ${total.toFixed(2)}</p>
+                      <p><span>Total:</span> ${formatNumber(total)}</p>
                       <p><span>Dirección:</span> {direccion}</p>
                       <p><span>Pago:</span> {metodoPago}</p>
                       <p><span>Turno:</span> {turno}</p>
                     </div>
                     <div className={style.info1}>
                       <p><span>Estado:</span> {estadoLegible[status]}</p>
-                      <p><span>Fecha:</span> {new Date(createdAt).toLocaleDateString()}</p>
+                      <p><span>Fecha:</span> {new Date(fechaEntrega).toLocaleDateString()}</p>
+                      <p><span>Nombre:</span> {name}</p>
                       <p><span>Teléfono:</span> {phone}</p>
+                      <p><span>Email:</span> {email}</p>
                     </div>
                   </div>
 
@@ -142,7 +148,7 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
                       {items.map((item, index) => (
                         <li key={index}>
                           {item.nombre || "desconocido"}: {item.cantidad}{" "}
-                          {isKg(item.tipoVenta) ? "kg" : "u."}
+                          {isKg(item.productId.tipoVenta) ? "kg" : "u."}
                         </li>
                       ))}
                     </ul>
@@ -169,7 +175,7 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
             })}
             <div className={style.itemResumen}>
               <span><strong>Total vendido:</strong></span>
-              <span className={style.total}>${totalDelDia.toFixed(2)}</span>
+              <span className={style.total}>${formatNumber(totalDelDia)}</span>
             </div>
           </div>
         )}

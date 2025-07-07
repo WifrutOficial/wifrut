@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
-import { useAuth } from "./AuthContext";
 import axios from "axios";
-import style from "../styles/Cart.module.css";
+import { createContext, useContext, useState } from "react";
 import Swal from "sweetalert2";
+import style from "../styles/Cart.module.css";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
@@ -99,7 +99,8 @@ export const CartProvider = ({ children }) => {
     metodoPago,
     totalFinal,
     costoEnvio,
-    turno
+    turno,
+    fechaEntrega
   ) => {
     console.log("Turno:", turno);
     console.log("Cart para enviar:", cart);
@@ -141,6 +142,7 @@ export const CartProvider = ({ children }) => {
             productId: item._id,
             nombre: item.nombre,
             cantidad: item.quantity,
+            tipoVenta: item.tipoVenta,
             precio: item.precioConDescuento ?? item.precio,
           })),
           total: totalFinal,
@@ -148,10 +150,11 @@ export const CartProvider = ({ children }) => {
           direccion,
           metodoPago,
           turno,
+          fechaEntrega,
         },
         {
           withCredentials: true,
-          headers
+          headers,
         }
       );
 

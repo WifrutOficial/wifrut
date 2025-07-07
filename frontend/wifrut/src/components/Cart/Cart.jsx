@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { useCart } from "../../context/CartContext";
-import style from "../../styles/Cart.module.css";
-import { IoTrashOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { IoIosArrowDropleft } from "react-icons/io";
-import Swal from "sweetalert2";
-import zonasGeo from "../../data/envios.json";
+import { IoTrashOutline } from "react-icons/io5";
 import { TiShoppingCart } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
+import zonasGeo from "../../data/envios.json";
+import style from "../../styles/Cart.module.css";
+import formatNumber from "../../utils/formatNumber";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -256,7 +257,7 @@ switch (n) {
             {item.quantity} {isKg(item.tipoVenta) ? "kg" : "u."}
           </p>
           <p className={style.priceTotal}>
-            ${(precioFinal * item.quantity).toFixed(2)}
+            ${formatNumber(precioFinal * item.quantity)}
           </p>
           <button
             onClick={() => removeFromCart(item._id)}
@@ -282,8 +283,8 @@ switch (n) {
             <p>
               Total productos: $
               {metodoPago === "Efectivo"
-                ? (total * 0.9).toFixed(2)
-                : total.toFixed(2)}
+                ? formatNumber(total * 0.9)
+                : formatNumber(total)}
             </p>
           </div>
 
@@ -387,7 +388,7 @@ switch (n) {
           )}
 
           <p className={style.fullTotal}>
-            Total del pago: ${totalFinal.toFixed(2)}
+            Total del pago: ${formatNumber(totalFinal)}
           </p>
 
           {step === 2 && (

@@ -1,24 +1,20 @@
-import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { IoSearch, IoMenu } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useRef, useState } from "react";
+import { BiSolidCategory, BiSolidOffer } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
-import { useSearch } from "../../context/SearchContext";
-import { useCart } from "../../context/CartContext";
-import { IoIosArrowDropup } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa";
-import style from "../../styles/Nav2.module.css";
-import { MdArrowDropDown } from "react-icons/md";
-import { BiSolidOffer } from "react-icons/bi";
-import { IoHome } from "react-icons/io5";
-import { FaUsers } from "react-icons/fa";
-import { BiSolidCategory } from "react-icons/bi";
-import { MdLocalShipping } from "react-icons/md";
+import { FaRegUser, FaUsers } from "react-icons/fa";
+import { IoIosArrowDropup, IoMdClose } from "react-icons/io";
+import { IoHome, IoMenu, IoSearch } from "react-icons/io5";
+import { MdArrowDropDown, MdLocalShipping } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import CartPreview from "../../components/Cart/CartPreview";
+import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
+import { useSearch } from "../../context/SearchContext";
+import style from "../../styles/Nav2.module.css";
 
 import { IoIosArrowDown } from "react-icons/io";
+import formatNumber from "../../utils/formatNumber";
 
 function Nav2({ hideSearchAndCart = false }) {
   const menuRef = useRef(null);
@@ -306,7 +302,7 @@ function Nav2({ hideSearchAndCart = false }) {
               <div className={style.CartNumber}>
                 <p>{totalProductos}</p>
               </div>
-              <p className={style.totalNumber}>${total.toFixed(2)}</p>
+              <p className={style.totalNumber}>${formatNumber(total)}</p>
             </div>
             <IoMenu onClick={toggleMenu} className={style.btnMenu} />
           </div>

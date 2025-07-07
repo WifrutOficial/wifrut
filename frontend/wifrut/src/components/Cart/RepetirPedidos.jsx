@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import style from "../../styles/RepetirPedido.module.css";
-import { IoIosArrowDropleft } from "react-icons/io";
+import formatNumber from "../../utils/formatNumber";
 
 const estadoLegible = {
   pendiente: { texto: "Pendiente", color: "#d9d9d9", icono: "⏳" },
@@ -132,7 +132,7 @@ function RepetirPedidos() {
                     <div className={style.detalleProducto}>
                       <p><strong>{item.nombre}</strong></p>
                       <p>{qty} {item.tipoVenta}</p>
-                      <p>${(Number(item.precio) * qty).toFixed(2)}</p>
+                      <p>${formatNumber(Number(item.precio) * qty)}</p>
                     </div>
                   </div>
                 );
@@ -140,7 +140,7 @@ function RepetirPedidos() {
             </div>
 
             <p className={style.totalPedido}>
-              <strong>Total del pedido:</strong> ${Number(pedido.total).toFixed(2)}
+              <strong>Total del pedido:</strong> ${formatNumber(Number(pedido.total))}
             </p>
 
             <div className={style.footerPedido}>

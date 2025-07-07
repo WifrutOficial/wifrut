@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useCart } from "../../context/CartContext";
-import style from "../../styles/CartPrewie.module.css";
+import { useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoTrashOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import style from "../../styles/CartPrewie.module.css";
+import formatNumber from "../../utils/formatNumber";
 
 function CartPreview() {
   const { cart, removeFromCart } = useCart();
@@ -95,10 +96,11 @@ function CartPreview() {
                         </p>
                         <p>
                           $
-                          {(
-                            (item.precioConDescuento ?? item.precio) *
-                            item.quantity
-                          ).toFixed(2)}
+                          {
+                            formatNumber(
+                              (item.precioConDescuento ?? item.precio) * item.quantity
+                            )
+                          }
                         </p>
                         <button
                           className={style.btnDelete}
@@ -110,7 +112,7 @@ function CartPreview() {
                       </li>
                     ))}
                   </ul>
-                  <p className={style.total}>Total: ${total.toFixed(2)}</p>
+                  <p className={style.total}>Total: ${formatNumber(total)}</p>
                   <button
                     className={style.btn}
                     onClick={() => {

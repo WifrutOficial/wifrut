@@ -1,6 +1,7 @@
 // src/components/DiscountedProducts.js
 import { IoIosArrowForward } from "react-icons/io";
 import style from "../../styles/Products.module.css";
+import formatNumber from "../../utils/formatNumber";
 
 function DiscountedProducts({
   products,
@@ -89,7 +90,7 @@ function DiscountedProducts({
                   </div>
 
                   <p className={style.priceUnit}>
-                    Precio: ${precioConDescuento?.toFixed(2) || "0.00"}{" "}
+                    Precio: ${formatNumber(precioConDescuento) || "0,00"}{" "}
                     {isKg(tipoVenta) ? "kg" : "unidad"}
                   </p>
 
@@ -123,7 +124,7 @@ function DiscountedProducts({
 
                   <p className={style.total}>
                     Total: $
-                    {(roundedQuantity * (precioConDescuento || 0)).toFixed(2)}
+                    {formatNumber(roundedQuantity * (precioConDescuento || 0))}
                   </p>
 
                   <button
