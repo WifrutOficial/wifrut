@@ -55,8 +55,11 @@ const orderSchema = new mongoose.Schema({
   type: String,
   enum: ["mañana", "tarde"],
   default: "mañana",
-  
 },
+  fechaEntrega: {
+    type: Date,
+    default: Date.now,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

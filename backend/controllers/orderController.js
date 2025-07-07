@@ -1,30 +1,31 @@
+import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 import { Order } from "../models/order.js";
 import { Product } from "../models/products.js";
 import Register from "../models/register.js";
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
 dotenv.config();
+
+
+export default function formatNumber(numero) {
+  return new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(numero);
+}
 
 
 const generarNumeroDePedido = async () => {
   const hoy = new Date();
   const fechaStr = hoy.toISOString().slice(0, 10).replace(/-/g, "");
 
-
-  const pedidosHoy = await Order.countDocuments({
-    createdAt: {
-      $gte: new Date(hoy.setHours(0, 0, 0, 0)),
-      $lte: new Date(hoy.setHours(23, 59, 59, 999)),
-    },
-  });
-
-  const numeroSecuencia = String(pedidosHoy + 1).padStart(3, "0");
-  return `${fechaStr}-${numeroSecuencia}`;
+  const hash =
+    Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+  return `${fechaStr}-${hash}`;
 };
 
 export const postProduct = async (req, res) => {
   try {
-    const { items, total, direccion, metodoPago, costoEnvio, turno } = req.body;
+    const { items, total, direccion, metodoPago, costoEnvio, turno, fechaEntrega } = req.body;
     const userId = req.user?.userId;
 
     if (!items || items.length === 0) {
@@ -79,6 +80,7 @@ export const postProduct = async (req, res) => {
       numeroPedido,
       costoEnvio,
       turno,
+      fechaEntrega: fechaEntrega ? new Date(fechaEntrega) : undefined
     });
 
     await newOrder.save();
@@ -117,9 +119,13 @@ export const sendOrderConfirmation = async (destinatarioEmail, orderData) => {
     },
   });
 
+  const isKg = (tipoVenta) => {    
+    return tipoVenta?.toLowerCase().includes("kilo");
+  };
+
   const productosHTML = orderData.items
     .map(
-      (item) => `<li>${item.cantidad} x ${item.nombre} - $${item.precio}</li>`
+      (item) => `<li>${item.nombre} ${item.cantidad} ${isKg(item.tipoVenta) ? "Kg" : "u."}  - $${formatNumber(item.precio)}</li>`
     )
     .join("");
 
@@ -128,7 +134,7 @@ const contenidoHTML = `
   <p><strong>Número de pedido:</strong> ${orderData.numeroPedido}</p>
   <p>Resumen del pedido:</p>
   <ul>${productosHTML}</ul>
-  <p><strong>Total:</strong> $${orderData.total}</p>
+  <p><strong>Total:</strong> $${formatNumber(orderData.total)}</p>
   <p>*Info: El total incluye el costo de envío y refleja automáticamente cualquier descuento aplicado si se abona en efectivo.</p>
   <p><strong>Dirección de entrega:</strong> ${orderData.direccion}</p>
   <p><strong>Fecha de entrega:</strong> ${orderData.fechaEntrega}</p>

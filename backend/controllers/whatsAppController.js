@@ -88,16 +88,28 @@ export const getWhatsAppSend = async (req, res) => {
 export const getOrdersByDateWeb = async (req, res) => {
   try {
     const { date } = req.query;
-    if (!date) return res.status(400).json({ message: "Se requiere una fecha válida" });
+    if (!date)
+      return res.status(400).json({ message: "Se requiere una fecha válida" });
 
-    const startDate = new Date(`${date}T00:00:00.000-03:00`);
-    const endDate = new Date(`${date}T23:59:59.999-03:00`);
+    // Crear objetos Date para el inicio y fin del día
+    const startDate = new Date(date);
+    startDate.setUTCHours(0, 0, 0, 0);
 
+    const endDate = new Date(date);
+    endDate.setUTCHours(23, 59, 59, 999);   
 
-    const orders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
-      .populate('userId', 'telefono')
-      .sort({ createdAt: -1 });
-
+    const orders = await Order.find({
+      fechaEntrega: { $gte: startDate, $lte: endDate },
+    })
+      .populate({
+        path: "userId",
+        select: "nombre email phone", // Campos deseados del cliente
+      })
+      .populate({
+        path: "items.productId",
+        select: "nombre precio categoria tipoVenta", // Info del producto
+      })
+      .sort({ fechaEntrega: -1 });
 
     res.status(200).json(orders);
   } catch (error) {
