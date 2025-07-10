@@ -134,21 +134,18 @@ export default function Cart() {
             `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
             {
               method: "POST",
-                headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json" },
               credentials: "include",
               body: JSON.stringify({ orderId }),
             }
           );
           const prefData = await prefRes.json();
           if (prefData.init_point) {
-            // window.location.href = prefData.init_point; // Redirige a Mercado Pago
-            window.open(prefData.init_point, '_blank');
-          clearCart();
-          navigate("/");
+            window.location.href = prefData.init_point; // Redirige a Mercado Pago
             return;
           } else {
             throw new Error("No se pudo obtener el link de pago de Mercado Pago.");
-            }
+          }
         }
         // Efectivo: flujo normal
         Swal.fire({
