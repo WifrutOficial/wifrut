@@ -7,7 +7,7 @@ import formatNumber from "../../utils/formatNumber";
 
 const estadoLegible = {
   pendiente: { texto: "Pendiente", color: "#d9d9d9", icono: "⏳" },
-  procesando: { texto: "Recibido", color: "#ffe58f", icono: "📦" },
+  procesando: { texto: "Pagado", color: "#ffe58f", icono: "💸" },
   enviado: { texto: "En viaje", color: "#91d5ff", icono: "🚚" },
   entregado: { texto: "Entregado", color: "#95de64", icono: "✅" },
 };

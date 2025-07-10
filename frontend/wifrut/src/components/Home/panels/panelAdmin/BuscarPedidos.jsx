@@ -62,13 +62,13 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
 
   const estadoLegible = {
     pendiente: "Pendiente",
-    procesando: "Recibido",
+    procesando: "Pagado",
     enviado: "En viaje",
     entregado: "Entregado",
   };
 
   const estadoOpciones = [
-    { label: "Recibido", value: "procesando" },
+    { label: "Pagado", value: "procesando" },
     { label: "En viaje", value: "enviado" },
     { label: "Entregado", value: "entregado" },
   ];
@@ -148,7 +148,7 @@ const cambiarEstadoPedido = async (id, nuevoEstado) => {
                       {items.map((item, index) => (
                         <li key={index}>
                           {item.nombre || "desconocido"}: {item.cantidad}{" "}
-                          {isKg(item.productId.tipoVenta) ? "kg" : "u."}
+                          {isKg(item.productId?.tipoVenta) ? "kg" : "u."}
                         </li>
                       ))}
                     </ul>
