@@ -128,7 +128,7 @@ export default function Cart() {
       );
       if (response?.status === 201) {
         const orderId = response.data.order._id;
-        if (metodoPago === "Mercado Pago") {
+        if (metodoPago === "mercadoPago") {
           // Solicitar preferencia de Mercado Pago
           const prefRes = await fetch(
             `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
