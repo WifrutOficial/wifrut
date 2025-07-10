@@ -1,9 +1,12 @@
+import { MercadoPagoConfig, Preference } from "mercadopago";
 import { Order } from "../models/order.js";
 import mongoose from "mongoose";
-import { MercadoPagoConfig, Preference } from "mercadopago"; // ⚠️ Asegurate de tener esto importado
 
 export const createOrderAndPreference = async (req, res) => {
+
+
   const { orderId } = req.body;
+
 
   try {
     if (!mongoose.Types.ObjectId.isValid(orderId)) {
@@ -22,9 +25,11 @@ export const createOrderAndPreference = async (req, res) => {
 
     const access_token = process.env.MP_ACCESS_TOKEN;
 
+
     if (!access_token) {
       return res.status(500).json({ message: "Access token de Mercado Pago no configurado" });
     }
+
 
     const items = [
       {
@@ -34,6 +39,7 @@ export const createOrderAndPreference = async (req, res) => {
         currency_id: "ARS",
       }
     ];
+
 
     const orderDetails = order.items.map(item => ({
       nombre: item.nombre,
@@ -84,36 +90,28 @@ export const createOrderAndPreference = async (req, res) => {
   }
 };
 
+
 export const mercadoPagoWebhook = async (req, res) => {
   try {
     const payment = req.body;
 
+
     const external_reference = payment.external_reference || payment.data?.external_reference;
 
     if (!external_reference) {
+
       return res.status(400).send("external_reference missing");
     }
 
     const paymentStatus = payment.status || payment.data?.status || 'pendiente';
 
-    // 🟢 Cambiamos la lógica para buscar la orden y actualizar también el estado si fue aprobado
-    const order = await Order.findById(external_reference);
-    if (!order) {
-      return res.status(404).send("Order not found");
-    }
-
-    order.paymentStatus = paymentStatus;
-
-    // ✅ Si el pago fue aprobado, actualizamos también el estado del pedido
-    if (paymentStatus === 'approved') {
-      order.estado = 'Confirmado'; // 📝 Usá el estado que manejes en tu panel ('Pagado', 'Entregado', etc.)
-    }
-
-    await order.save();
+    await Order.findByIdAndUpdate(external_reference, { paymentStatus: paymentStatus });
 
     res.status(200).send("OK");
   } catch (error) {
-    console.error("❌ Error en webhook:", error);
+
     res.status(500).send("Error en webhook");
   }
 };
+
+

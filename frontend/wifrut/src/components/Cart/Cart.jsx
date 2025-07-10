@@ -420,8 +420,8 @@ switch (n) {
               <p className={style.titlePago}>Método de pago</p>
               <div className={style.containerPago}>
                 {[
-                  { nombre: "Efectivo", icono: "/efectivo.png" },
-                  { nombre: "Mercado Pago", icono: "/mpicon.png" },
+                  { nombre: "Efectivo", value: "Efectivo", icono: "/efectivo.png" },
+                  { nombre: "mercadoPago", value: "mercadoPago", icono: "/mpicon.png" },
                 ].map(({ nombre, icono }) => (
                   <label key={nombre} className={style.containerPagoInput}>
                     <img
