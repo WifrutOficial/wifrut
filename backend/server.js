@@ -10,10 +10,11 @@ import orderRoutes from "./routes/orderRoutes.js";
 import whatsAppRoutes from "./routes/whatsAppRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/db.js";
-import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
 import geocodingRoutes from "./routes/geocodingRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js";
+
 //import http from "http";
 //import { error } from "console";
 
@@ -60,8 +61,9 @@ app.use("/api/minorista", minoristaRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/whatsapp", whatsAppRoutes);
-app.use("/api/mercadopago", mercadoPagoRoutes);
 app.use("/api/geocode", geocodingRoutes);
+app.use("/api/mercadopago", mercadoPagoRoutes);
+
 
 // Ruta raíz
 app.get("/", (req, res) => res.send("Express on Vercel"));

@@ -128,7 +128,7 @@ export default function Cart() {
       );
       if (response?.status === 201) {
         const orderId = response.data.order._id;
-        if (metodoPago === "Mercado Pago") {
+        if (metodoPago === "mercadoPago") {
           // Solicitar preferencia de Mercado Pago
           const prefRes = await fetch(
             `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
@@ -417,8 +417,8 @@ switch (n) {
               <p className={style.titlePago}>Método de pago</p>
               <div className={style.containerPago}>
                 {[
-                  { nombre: "Efectivo", icono: "/efectivo.png" },
-                  { nombre: "Mercado Pago", icono: "/mpicon.png" },
+                  { nombre: "Efectivo", value: "Efectivo", icono: "/efectivo.png" },
+                  { nombre: "mercadoPago", value: "mercadoPago", icono: "/mpicon.png" },
                 ].map(({ nombre, icono }) => (
                   <label key={nombre} className={style.containerPagoInput}>
                     <img
