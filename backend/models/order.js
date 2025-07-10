@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
   },
   metodoPago: {
     type: String,
-    enum: ["Efectivo", "Mercado Pago"],
+    enum: ["Efectivo"],
     required: true,
   },
   status: {
