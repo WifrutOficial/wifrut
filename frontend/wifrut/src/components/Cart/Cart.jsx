@@ -131,7 +131,7 @@ export default function Cart() {
         if (metodoPago === "Mercado Pago") {
           // Solicitar preferencia de Mercado Pago
           const prefRes = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/mercadopago/preference`,
+            `https://wifrut.vercel.app/api/mercadopago/preference`,
             {
               method: "POST",
                 headers: { "Content-Type": "application/json" },
